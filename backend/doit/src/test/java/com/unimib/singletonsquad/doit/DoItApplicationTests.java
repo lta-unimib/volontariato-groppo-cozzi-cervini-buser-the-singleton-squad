@@ -1,4 +1,4 @@
-package com.unimib.SingletonSquad.DoIT;
+package com.unimib.singletonsquad.doit;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
