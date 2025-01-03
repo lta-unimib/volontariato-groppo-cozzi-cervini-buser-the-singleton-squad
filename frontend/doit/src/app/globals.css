@@ -3,19 +3,98 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Background & Foreground Colors */
+  --background: var(--neutral-color-neutral-1000);
+  --foreground: var(--neutral-color-neutral-100);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Custom Radius Values */
+  --radius-2xs: 12px;
+  --radius-xs: 24px;
+  --radius-s: 36px;
+  --radius-m: 48px;
+  --radius-l: 60px;
+  --radius-xl: 72px;
+  --radius-2xl: 96px;
+  --radius-full: 999px;
+
+  /* Custom Font Sizes */
+  --font-size-3xs: 8px;
+  --font-size-2xs: 10px;
+  --font-size-xs: 12px;
+  --font-size-s: 14px;
+  --font-size-m: 16px;
+  --font-size-l: 20px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 28px;
+  --font-size-3xl: 34px;
+  --font-size-4xl: 40px;
+  --font-size-5xl: 48px;
+  --font-size-6xl: 58px;
+
+  /* Custom Font Weight */
+  --font-weight-regular: 400;
+  --font-weight-black: 900;
+
+  /* Custom Line Heights */
+  --line-height-3xs: 12px;
+  --line-height-2xs: 15px;
+  --line-height-xs: 18px;
+  --line-height-s: 21px;
+  --line-height-m: 24px;
+  --line-height-l: 30px;
+  --line-height-xl: 36px;
+  --line-height-2xl: 42px;
+  --line-height-3xl: 51px;
+  --line-height-4xl: 60px;
+  --line-height-5xl: 72px;
+  --line-height-6xl: 87px;
+
+  /* Color Variables */
+  --green-color-green-200: rgba(31, 193, 107, 1);
+  --green-color-green-100: rgba(132, 235, 180, 1);
+  --green-alpha-color-green-alpha-10: rgba(31, 193, 107, 0.1);
+
+  --yellow-color-yellow-200: rgba(223, 180, 0, 1);
+  --yellow-color-yellow-100: rgba(255, 219, 67, 1);
+  --yellow-alpha-color-yellow-alpha-10: rgba(255, 219, 67, 0.1);
+
+  --red-color-red-200: rgba(208, 4, 22, 1);
+  --red-color-red-100: rgba(251, 55, 72, 1);
+  --red-alpha-color-red-alpha-10: rgba(251, 55, 72, 0.1);
+
+  --neutral-color-neutral-1000: rgba(51, 51, 51, 1);
+  --neutral-color-neutral-900: rgba(74, 74, 74, 1);
+  --neutral-color-neutral-800: rgba(96, 96, 96, 1);
+  --neutral-color-neutral-700: rgba(119, 119, 119, 1);
+  --neutral-color-neutral-600: rgba(142, 142, 142, 1);
+  --neutral-color-neutral-500: rgba(164, 164, 164, 1);
+  --neutral-color-neutral-400: rgba(187, 187, 187, 1);
+  --neutral-color-neutral-300: rgba(210, 210, 210, 1);
+  --neutral-color-neutral-200: rgba(232, 232, 232, 1);
+  --neutral-color-neutral-100: rgba(255, 255, 255, 1);
+  --neutral-alpha-color-neutral-alpha-10: rgba(51, 51, 51, 0.1);
+
+  --secondary-color-secondary-500: rgba(97, 83, 58, 1);
+  --secondary-color-secondary-400: rgba(138, 118, 83, 1);
+  --secondary-color-secondary-300: rgba(171, 151, 114, 1);
+  --secondary-color-secondary-200: rgba(195, 181, 155, 1);
+  --secondary-color-secondary-100: rgba(225, 218, 205, 1);
+  --secondary-alpha-color-secondary-alpha-10: rgba(195, 181, 155, 0.1);
+
+  --primary-color-primary-500: rgba(14, 54, 117, 1);
+  --primary-color-primary-400: rgba(19, 76, 165, 1);
+  --primary-color-primary-300: rgba(25, 98, 212, 1);
+  --primary-color-primary-200: rgba(92, 148, 236, 1);
+  --primary-color-primary-100: rgba(174, 202, 245, 1);
+  --primary-alpha-color-primary-alpha-10: rgba(25, 98, 212, 0.1);
+
+  /* Font Families */
+  --font-family-roboto: 'Roboto', sans-serif;
+  --font-family-roboto-condensed: 'Roboto Condensed', sans-serif;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--primary-color-primary-500);
+  font-family: var(--font-family-roboto), sans-serif;
 }
