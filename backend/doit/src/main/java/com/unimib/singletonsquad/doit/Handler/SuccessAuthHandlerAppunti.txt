@@ -1,0 +1,123 @@
+package com.unimib.andreacozzi.doit.Handler;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
+
+@Component
+public class SuccessAuthHandler implements AuthenticationSuccessHandler {
+
+    // Servizio per ottenere i client OAuth2 autorizzati
+    private final OAuth2AuthorizedClientService authorizedClientService;
+
+    public SuccessAuthHandler(OAuth2AuthorizedClientService authorizedClientService) {
+        this.authorizedClientService = authorizedClientService;
+    }
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
+        // Verifica se l'autenticazione è di tipo OAuth2 (OAuth2AuthenticationToken)
+        if (authentication instanceof OAuth2AuthenticationToken oauth2Authentication) {
+            try {
+                // Principal è l'utente che si è autenticato tramite OAuth2
+                OAuth2User oauth2User = oauth2Authentication.getPrincipal();
+
+                // Log delle informazioni dell'utente per il debug
+                System.out.println("Registration Provider: " + oauth2Authentication.getAuthorizedClientRegistrationId());
+                System.out.println("User SUD: " + oauth2User.getName()); // "sub" dell'utente
+                System.out.println("User infos: " + oauth2User.getAttributes()); // Attributi dell'utente (ad esempio, email, nome)
+                System.out.println("User Authorities: " + oauth2User.getAuthorities()); // Autorità (ruoli) associati all'utente
+                System.out.println("User principal: " + oauth2User); // Principal rappresenta l'utente
+
+                // Ottieni il client autorizzato, che rappresenta il provider OAuth2
+                OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(
+                        oauth2Authentication.getAuthorizedClientRegistrationId(),
+                        oauth2Authentication.getName()
+                );
+                // Stampa i dettagli del client (ad esempio, provider OAuth2)
+                System.out.println("Registration: " + client.getClientRegistration());
+
+                // Ottieni il token di accesso associato al client OAuth2
+                OAuth2AccessToken accessToken = client.getAccessToken();
+
+                // Attributi dell'utente che sono stati recuperati tramite OAuth2
+                Map<String, Object> userAttributes = oauth2User.getAttributes();
+
+                // Se il client e il token di accesso sono validi, logga i dettagli
+                if (client != null && client.getAccessToken() != null) {
+                    System.out.println("Access Token: " + client.getAccessToken().getTokenValue());
+                    System.out.println("Token Expires: " + client.getAccessToken().getExpiresAt()); // Data di scadenza del token
+                } else {
+                    System.out.println("Client or Access Token is null");
+                }
+
+                // Aggiungi l'utente all'autenticazione corrente (può essere usato per sessioni personalizzate)
+                setNewAuthentication(oauth2Authentication, oauth2User);
+
+                // Imposta dettagli aggiuntivi dell'autenticazione, come l'IP remoto e il Session ID
+                this.setAuthAccessToken(request, accessToken);
+
+                // Redirect alla home page o altra pagina di destinazione
+                response.sendRedirect("/home");
+            } catch (Exception e) {
+                // Gestisci errori durante il processo di successo dell'autenticazione
+                System.err.println("Error in authentication success handler: " + e.getMessage());
+                e.printStackTrace();
+                response.sendRedirect("/error");
+            }
+        } else {
+            // Se l'autenticazione non è OAuth2, redirige alla pagina di errore
+            response.sendRedirect("/error");
+        }
+    }
+
+    // Metodo per impostare una nuova autenticazione nel contesto di sicurezza
+    private void setNewAuthentication(OAuth2AuthenticationToken authentication, OAuth2User oauth2User) {
+        // Crea una nuova autenticazione con i dati dell'utente e i suoi ruoli
+        Authentication newAuth = new OAuth2AuthenticationToken(
+                oauth2User, // Informazioni sull'utente (principal)
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")), // Ruoli dell'utente
+                authentication.getAuthorizedClientRegistrationId() // ID del provider OAuth2
+        );
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+        System.out.println("New Authentication: " + newAuth + "\nUserOauth2: " + oauth2User + "\nAuthentication: " + authentication);
+    }
+
+    private void setAuthWebDetails(HttpServletRequest request, OAuth2AuthenticationToken authentication) throws Exception {
+        // Ottieni i dettagli relativi alla richiesta dell'autenticazione (IP, session ID)
+        WebAuthenticationDetails details = (WebAuthenticationDetails) authentication.getDetails();
+        // Imposta l'IP remoto dell'utente nella sessione
+        request.getSession().setAttribute("user_oauth_ip", details.getRemoteAddress());
+        // Imposta l'ID della sessione dell'utente nella sessione
+        request.getSession().setAttribute("user_oauth_auth_session_id", details.getSessionId());
+    }
+
+    // Metodo per gestire l'accesso al token OAuth2 (stampa o salva il token)
+    private void setAuthAccessToken(HttpServletRequest request, OAuth2AccessToken accessToken) {
+        // Log del token di accesso (se necessario per il debug o la gestione del flusso)
+        System.out.println(accessToken.getIssuedAt());
+        System.out.println(accessToken.getExpiresAt());
+        System.out.println(accessToken.getTokenValue());
+        System.out.println(accessToken.getTokenType());
+    }
+
+
+
+}
