@@ -40,6 +40,10 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
 
+      - name: Copy Maven Dependencies
+        working-directory: backend/doit
+        run: mvn dependency:copy-dependencies
+
       - name: Build Backend
         working-directory: backend/doit
         run: mvn -B verify
