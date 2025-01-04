@@ -1,6 +1,8 @@
-const basePath = process.env.GITHUB_PAGES ? `/${process.env.REPOSITORY_NAME}` : '';
+import { useBasePath } from '@/hooks/useBasePath';
 
 export default function Home() {
+    const basePath = useBasePath();
+
     return (
         <div
             className="w-full h-screen bg-cover bg-center"
