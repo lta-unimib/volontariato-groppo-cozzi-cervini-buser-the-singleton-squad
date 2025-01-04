@@ -1,15 +1,14 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { buttonVariants, type ButtonVariantProps } from "@/utils/button"
-import { useAsChild } from "@/hooks/useAsChild"
-
+import { useAsSlot, useAsButton } from "@/hooks/useComponent"
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, ButtonVariantProps {
     asChild?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant, size, asChild = false, ...props }, ref) => {
-        const Comp = useAsChild(asChild)
+        const Comp = asChild ? useAsSlot() : useAsButton()
 
         return (
             <Comp

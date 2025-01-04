@@ -1,7 +1,6 @@
 import { ImageWrapper } from './ImageWrapper';
 import { Button } from "@/components/ui/Button";
-import { MdOutlineAccountCircle } from "react-icons/md";
-import { MdOutlineBusiness } from "react-icons/md";
+import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
 
 export function Hero() {
     return (
