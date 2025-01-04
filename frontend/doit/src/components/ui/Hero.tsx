@@ -1,4 +1,7 @@
 import { ImageWrapper } from './ImageWrapper';
+import { Button } from "@/components/ui/Button";
+import { MdOutlineAccountCircle } from "react-icons/md";
+import { MdOutlineBusiness } from "react-icons/md";
 
 export function Hero() {
     return (
@@ -12,9 +15,19 @@ export function Hero() {
                         height={359}
                     />
                 </div>
-                <p className="text-2xl text-[var(--neutral-color-neutral-1000)]">
+                <p className="text-2xl text-[var(--neutral-color-neutral-1000)] mb-12">
                     Mettiamo in contatto organizzazioni di volontariato e volontari in Lombardia.
                 </p>
+                <div className="flex flex-col items-center gap-2">
+                    <Button variant="default" size="default">
+                        <MdOutlineAccountCircle className="mr-1" />
+                        Volontario
+                    </Button>
+                    <Button variant="secondary" size="default">
+                        <MdOutlineBusiness className="mr-1" />
+                        Organizzazione
+                    </Button>
+                </div>
             </div>
         </div>
     );
