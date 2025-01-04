@@ -12,12 +12,13 @@ export function Hero() {
                         alt="Un'illustrazione che rappresenta il nostro servizio per mettere in contatto volontari e organizzazioni di volontariato"
                         width={336}
                         height={359}
+                        className="w-full max-w-[336px] h-auto"
                     />
                 </div>
                 <p className="text-2xl text-[var(--neutral-color-neutral-1000)] mb-12">
                     Mettiamo in contatto organizzazioni di volontariato e volontari in Lombardia.
                 </p>
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col sm:flex-row sm:gap-4 items-center gap-2">
                     <Button variant="default" size="default">
                         <MdOutlineAccountCircle className="mr-1" />
                         Volontario

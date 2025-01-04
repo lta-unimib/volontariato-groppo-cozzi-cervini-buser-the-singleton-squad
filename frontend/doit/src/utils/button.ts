@@ -9,10 +9,10 @@ const baseStyles =
 export const buttonVariants = cva(baseStyles, {
     variants: {
         variant: {
-            default: "bg-[var(--primary-color-primary-300)] text-[var(--neutral-color-neutral-100)] hover:bg-[var(--primary-color-primary-500)]",
+            default: "bg-[var(--primary-color-primary-400)] text-[var(--neutral-color-neutral-100)] hover:bg-[var(--primary-color-primary-500)]",
             destructive: "bg-[var(--red-color-red-200)] text-[var(--neutral-color-neutral-100)] hover:bg-[var(--red-color-red-100)]",
             outline: "border border-[var(--primary-color-primary-500)] bg-transparent text-[var(--primary-color-primary-500)] hover:bg-[var(--primary-alpha-color-primary-alpha-10)] hover:text-[var(--primary-color-primary-500)]",
-            secondary: "bg-[var(--primary-color-primary-100)] text-[var(--primary-color-primary-500)] hover:bg-[var(--primary-color-primary-200)]",
+            secondary: "bg-[var(--primary-color-primary-200)] text-[var(--neutral-color-neutral-100)] hover:bg-[var(--primary-color-primary-300)]",
             ghost: "hover:bg-[var(--neutral-color-neutral-200)] hover:text-[var(--neutral-color-neutral-900)]",
             link: "text-[var(--primary-color-primary-500)] underline-offset-4 hover:underline",
         },
