@@ -95,6 +95,6 @@
 
 body {
   color: var(--foreground);
-  background: var(--primary-color-primary-500);
+  background: var(--neutral-color-neutral-100);
   font-family: var(--font-family-roboto), sans-serif;
 }
