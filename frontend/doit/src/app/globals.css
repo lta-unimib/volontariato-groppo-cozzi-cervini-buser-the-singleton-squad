@@ -8,46 +8,46 @@
   --foreground: var(--neutral-color-neutral-100);
 
   /* Custom Radius Values */
-  --radius-2xs: 12px;
-  --radius-xs: 24px;
-  --radius-s: 36px;
-  --radius-m: 48px;
-  --radius-l: 60px;
-  --radius-xl: 72px;
-  --radius-2xl: 96px;
-  --radius-full: 999px;
+  --radius-2xs: 0.75rem;  /* 12px */
+  --radius-xs: 1.5rem;  /* 24px */
+  --radius-s: 2rem;  /* 32px */
+  --radius-m: 2.5rem;  /* 40px */
+  --radius-l: 3rem;  /* 48px */
+  --radius-xl: 3.5rem;  /* 56px */
+  --radius-2xl: 4.5rem;  /* 72px */
+  --radius-full: 6.25rem;  /* 100px */
 
-  /* Custom Font Sizes */
-  --font-size-3xs: 8px;
-  --font-size-2xs: 10px;
-  --font-size-xs: 12px;
-  --font-size-s: 14px;
-  --font-size-m: 16px;
-  --font-size-l: 20px;
-  --font-size-xl: 24px;
-  --font-size-2xl: 28px;
-  --font-size-3xl: 34px;
-  --font-size-4xl: 40px;
-  --font-size-5xl: 48px;
-  --font-size-6xl: 58px;
+  /* Custom Font Sizes (converted to rem) */
+  --font-size-3xs: 0.5rem;  /* 8px */
+  --font-size-2xs: 0.625rem;  /* 10px */
+  --font-size-xs: 0.75rem;  /* 12px */
+  --font-size-s: 0.875rem;  /* 14px */
+  --font-size-m: 1rem;  /* 16px */
+  --font-size-l: 1.25rem;  /* 20px */
+  --font-size-xl: 1.5rem;  /* 24px */
+  --font-size-2xl: 1.75rem;  /* 28px */
+  --font-size-3xl: 2rem;  /* 32px */
+  --font-size-4xl: 2.25rem;  /* 36px */
+  --font-size-5xl: 2.75rem;  /* 44px */
+  --font-size-6xl: 3rem;  /* 48px */
 
   /* Custom Font Weight */
   --font-weight-regular: 400;
   --font-weight-black: 900;
 
-  /* Custom Line Heights */
-  --line-height-3xs: 12px;
-  --line-height-2xs: 15px;
-  --line-height-xs: 18px;
-  --line-height-s: 21px;
-  --line-height-m: 24px;
-  --line-height-l: 30px;
-  --line-height-xl: 36px;
-  --line-height-2xl: 42px;
-  --line-height-3xl: 51px;
-  --line-height-4xl: 60px;
-  --line-height-5xl: 72px;
-  --line-height-6xl: 87px;
+  /* Custom Line Heights (converted to rem) */
+  --line-height-3xs: 0.75rem;  /* 12px */
+  --line-height-2xs: 1rem;  /* 16px */
+  --line-height-xs: 1.125rem;  /* 18px */
+  --line-height-s: 1.25rem;  /* 20px */
+  --line-height-m: 1.5rem;  /* 24px */
+  --line-height-l: 1.75rem;  /* 28px */
+  --line-height-xl: 2rem;  /* 32px */
+  --line-height-2xl: 2.25rem;  /* 36px */
+  --line-height-3xl: 2.5rem;  /* 40px */
+  --line-height-4xl: 2.75rem;  /* 44px */
+  --line-height-5xl: 3rem;  /* 48px */
+  --line-height-6xl: 3.5rem;  /* 56px */
 
   /* Color Variables */
   --green-color-green-200: rgba(31, 193, 107, 1);
@@ -97,4 +97,42 @@ body {
   color: var(--foreground);
   background: var(--neutral-color-neutral-100);
   font-family: var(--font-family-roboto), sans-serif;
+  font-size: 1rem; /* default font size */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  body {
+    font-size: var(--font-size-s); /* 0.875rem, 14px for small screens */
+  }
+}
+
+@media (min-width: 640px) {
+  body {
+    font-size: var(--font-size-m); /* 1rem, 16px for medium screens */
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: var(--font-size-l); /* 1.25rem, 20px for larger screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: var(--font-size-xl); /* 1.5rem, 24px for extra large screens */
+  }
+}
+
+@media (min-width: 1280px) {
+  body {
+    font-size: var(--font-size-2xl); /* 1.75rem, 28px for very large screens */
+  }
+}
+
+@media (min-width: 1536px) {
+  body {
+    font-size: var(--font-size-3xl); /* 2rem, 32px for ultra-large screens */
+  }
 }
