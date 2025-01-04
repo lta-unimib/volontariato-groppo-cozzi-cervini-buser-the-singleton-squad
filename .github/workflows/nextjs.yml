@@ -37,13 +37,11 @@ jobs:
           static_site_generator: next
       - name: Install dependencies
         run: npm ci
-      - name: Update next config
-        run: |
-          sed -i "s/{repository-name}/$REPOSITORY_NAME/g" next.config.ts
       - name: Build with Next.js
         run: npx next build
         env:
           GITHUB_PAGES: true
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
