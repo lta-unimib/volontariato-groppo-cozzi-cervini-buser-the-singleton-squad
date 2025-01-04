@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.Service;
 
+import com.unimib.singletonsquad.doit.Exception.InvalidURIException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;

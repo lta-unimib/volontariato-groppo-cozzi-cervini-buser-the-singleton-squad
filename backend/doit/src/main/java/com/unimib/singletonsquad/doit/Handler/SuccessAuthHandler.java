@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.Handler;
 
+import com.unimib.singletonsquad.doit.Exception.InternalSecurityException;
 import com.unimib.singletonsquad.doit.Security.CustomOAuth2User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
