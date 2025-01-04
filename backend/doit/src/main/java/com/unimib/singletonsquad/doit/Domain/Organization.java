@@ -11,7 +11,6 @@ public class Organization {
     private String description;
     private ProfilePicture profilePicture;
     private String websiteUrl;
-    private String logoUrl;
     private Map<SocialNetwork, String> socialNetworks;
 
     private Organization(Builder builder) {
@@ -20,7 +19,6 @@ public class Organization {
         this.description = builder.description;
         this.profilePicture = builder.profilePicture;
         this.websiteUrl = builder.websiteUrl;
-        this.logoUrl = builder.logoUrl;
         this.socialNetworks = new HashMap<>(builder.socialNetworks);
     }
 
@@ -30,7 +28,6 @@ public class Organization {
         private String description;
         private ProfilePicture profilePicture;
         private String websiteUrl;
-        private String logoUrl;
         private Map<SocialNetwork, String> socialNetworks;
 
         public Builder id(String id) {
@@ -55,11 +52,6 @@ public class Organization {
 
         public Builder websiteUrl(String websiteUrl) {
             this.websiteUrl = websiteUrl;
-            return this;
-        }
-
-        public Builder logoUrl(String logoUrl) {
-            this.logoUrl = logoUrl;
             return this;
         }
 
@@ -121,14 +113,6 @@ public class Organization {
 
     public void setWebsiteUrl(String websiteUrl) {
         this.websiteUrl = websiteUrl;
-    }
-
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
     }
 
     public Map<SocialNetwork, String> getSocialNetworks() {
