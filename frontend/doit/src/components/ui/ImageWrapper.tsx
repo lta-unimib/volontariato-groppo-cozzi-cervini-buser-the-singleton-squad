@@ -1,6 +1,6 @@
 "use client";
 
-import Image, {ImageProps} from "next/image";
+import Image, { ImageProps } from "next/image";
 
 interface EnhancedImageProps extends Omit<ImageProps, 'src' | 'alt'> {
     readonly src: string;
@@ -8,9 +8,8 @@ interface EnhancedImageProps extends Omit<ImageProps, 'src' | 'alt'> {
 }
 
 export function ImageWrapper(props: Readonly<EnhancedImageProps>) {
-    const basePath = process.env.GITHUB_PAGES
-        ? '/volontariato-groppo-cozzi-cervini-buser-the-singleton-squad'
-        : '';
+    const repositoryName = 'volontariato-groppo-cozzi-cervini-buser-the-singleton-squad';
+    const basePath = process.env.GITHUB_PAGES ? `/${repositoryName}` : '';
 
     return (
         <Image
