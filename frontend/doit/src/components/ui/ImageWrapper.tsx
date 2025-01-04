@@ -8,8 +8,7 @@ interface EnhancedImageProps extends Omit<ImageProps, 'src' | 'alt'> {
 }
 
 export function ImageWrapper(props: Readonly<EnhancedImageProps>) {
-    const repositoryName = 'volontariato-groppo-cozzi-cervini-buser-the-singleton-squad';
-    const basePath = process.env.GITHUB_PAGES ? `/${repositoryName}` : '';
+    const basePath = process.env.GITHUB_PAGES ? `/${process.env.REPOSITORY_NAME}` : '';
 
     return (
         <Image

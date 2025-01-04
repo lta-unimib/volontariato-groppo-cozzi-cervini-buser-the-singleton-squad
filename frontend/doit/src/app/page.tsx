@@ -1,4 +1,4 @@
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const basePath = process.env.GITHUB_PAGES ? `/${process.env.REPOSITORY_NAME}` : '';
 
 export default function Home() {
     return (
