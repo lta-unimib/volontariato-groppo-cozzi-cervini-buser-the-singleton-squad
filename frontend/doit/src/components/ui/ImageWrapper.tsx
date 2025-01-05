@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { ImageProps } from "next/image";
-import { BASE_PATH } from '@/utils/constants';
+import { useBasePath } from '@/hooks/useBasePath';
 
 interface EnhancedImageProps extends Omit<ImageProps, 'src' | 'alt'> {
     readonly src: string;
@@ -9,18 +9,16 @@ interface EnhancedImageProps extends Omit<ImageProps, 'src' | 'alt'> {
 }
 
 export function ImageWrapper(props: Readonly<EnhancedImageProps>) {
-    const normalizedSrc = props.src.startsWith('/') ? props.src : `/${props.src}`;
-    const fullPath = `${BASE_PATH}${normalizedSrc}`;
+    const basePath = useBasePath();
 
-    if (process.env.NODE_ENV === 'development') {
-        console.log('BASE_PATH:', BASE_PATH);
-        console.log('Full image path:', fullPath);
-    }
+    console.log('Base Path:', basePath);
+    console.log('Image src:', props.src);
+    console.log('Combined Path:', `${basePath}${props.src}`);
 
     return (
         <Image
             {...props}
-            src={fullPath}
+            src={`${basePath}${props.src}`}
             alt={props.alt}
         />
     );

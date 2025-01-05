@@ -1,17 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const GITHUB_PAGES = process.env.GITHUB_PAGES === 'true';
-
 export function useTheme() {
     const [theme, setTheme] = useState("light");
 
     useEffect(() => {
-        if (GITHUB_PAGES) {
-            setTheme("light");
-            return;
-        }
-
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
         const updateTheme = (e: MediaQueryListEvent | MediaQueryList) => {
