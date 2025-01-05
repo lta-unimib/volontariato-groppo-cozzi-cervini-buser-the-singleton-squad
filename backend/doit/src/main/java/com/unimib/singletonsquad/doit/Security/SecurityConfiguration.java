@@ -3,21 +3,14 @@ package com.unimib.singletonsquad.doit.Security;
 import com.unimib.singletonsquad.doit.Handler.FailureAuthHandler;
 import com.unimib.singletonsquad.doit.Handler.SuccessAuthHandler;
 import com.unimib.singletonsquad.doit.Resolver.CustomAuthorizationRequestResolver;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.io.IOException;
 
 @Configuration
 public class SecurityConfiguration {
@@ -65,7 +58,7 @@ public class SecurityConfiguration {
                 )
                 // Gestione delle sessioni
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 // Posizionamento strategico del filtro JWT
                 .addFilterBefore(customBearerTokenFilter, UsernamePasswordAuthenticationFilter.class)

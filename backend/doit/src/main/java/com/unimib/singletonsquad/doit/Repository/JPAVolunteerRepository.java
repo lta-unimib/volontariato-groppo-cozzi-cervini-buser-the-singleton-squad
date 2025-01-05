@@ -5,10 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface JPAVolunteerRepository extends JpaRepository<Volunteer, String>, IVolunteerRepository {
+public interface JPAVolunteerRepository extends JpaRepository<Volunteer, Long>, IVolunteerRepository {
     // JpaRepository methods are automatically inherited:
     // save(), findById(), findAll(), deleteById(), etc.
 
@@ -19,9 +18,6 @@ public interface JPAVolunteerRepository extends JpaRepository<Volunteer, String>
     @Override
     List<Volunteer> findBySurname(String surname);
 
-    @Override
-    Optional<Volunteer> findByContactDetails_Email(String email);
-
-    @Override
-    String isVolunteerExist(String email);
+    // @Override
+    //String isVolunteerExist(String email);
 }

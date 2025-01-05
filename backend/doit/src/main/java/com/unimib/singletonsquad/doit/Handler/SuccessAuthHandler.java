@@ -1,5 +1,8 @@
 package com.unimib.singletonsquad.doit.Handler;
 
+import com.unimib.singletonsquad.doit.Domain.Organization;
+import com.unimib.singletonsquad.doit.Domain.ProfilePicture;
+import com.unimib.singletonsquad.doit.Domain.Volunteer;
 import com.unimib.singletonsquad.doit.Exception.InternalSecurityException;
 import com.unimib.singletonsquad.doit.Security.CustomOAuth2User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -28,10 +32,19 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     private static final String FAILURE_AUTH_URL = "/oauth/google/authentication/error";
 
     private final OAuth2AuthorizedClientService authorizedClientService;
+    private OAuth2User oauth2User;
+    //private final VolunteerRepository; ---> costruttore
+    //private final OrganizationRepository; --> costruttore
 
     public SuccessAuthHandler(OAuth2AuthorizedClientService authorizedClientService) {
         this.authorizedClientService = authorizedClientService;
     }
+
+    /*
+           TODO implementare i servizi di login--> autenticazione nel sistema
+            + quello di registrazione
+
+     */
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -42,7 +55,48 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             System.out.println("DEBUG: Response already committed, skipping further processing.");
             return;
         }
+        //todo: auth esistente, generare una nuova istanza
+        try{
+            String role = this.getRoleRequest(request.getParameter("state"));
+            if(role == null)
+                sendFailureRedirect(request, response, "Invalid or missing state parameter.");
 
+
+            OAuth2AuthenticationToken principal = validateAuthenticationType(authentication);
+            if (principal == null)
+                sendFailureRedirect(request, response, "Unsupported authentication type.");
+
+            this.oauth2User = principal.getPrincipal();
+            OAuth2AuthorizedClient clientProvider = authorizedClientService.loadAuthorizedClient(
+                    principal.getAuthorizedClientRegistrationId(),
+                    principal.getName()
+            );
+
+            if (clientProvider == null || clientProvider.getAccessToken() == null)
+                sendFailureRedirect(request, response, "Client provider or access token not found.");
+
+            //todo controllare che esiste o meno l'email nel database corretto
+            String userOauthEmail = this.oauth2User.getAttribute("email");
+            Long userOauthId = this.checkOauthUserExists(userOauthEmail, role);
+
+          /*  if(userOauthId !=null)
+                //l'utente esiste già nel database
+               // this.authUserOauth(, userOauthId, role);
+            else
+                //l'utente non esiste nel database
+               // this.createNewOauthUser(role);*/
+
+
+        }catch (Exception e){
+
+        }
+
+
+
+
+
+
+        /**
         try {
             // Verifica il parametro "state" e il ruolo
             String role = this.getRoleRequest(request.getParameter("state"));
@@ -85,7 +139,12 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         } catch (Exception e) {
             System.out.println("DEBUG: Error during authentication: " + e.getMessage());
             sendFailureRedirect(request, response, e.getMessage());
-        }
+        }*/
+    }
+
+    private Long checkOauthUserExists(String userOauthEmail, String role) {
+        //todo implementare le due repository per ottenere l'id dello user
+        return 1L;
     }
 
     private OAuth2AuthenticationToken validateAuthenticationType(Authentication authentication) {
@@ -154,11 +213,55 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
                 if (decodedRole.equalsIgnoreCase("volontario") ||
                         decodedRole.equalsIgnoreCase("organizzazione")) {
                     return decodedRole;
-                }
+                    }
             } catch (IllegalArgumentException e) {
                 System.out.println("DEBUG: Invalid Base64 encoding for state parameter.");
             }
         }
         return null;
     }
+
+    //todo nuovi metodi per l'autenticazione
+    private void setOauthUserInfo(OAuth2User user, String role){
+        Map<String, Object> userAttributes = user.getAttributes();
+        if(role.equalsIgnoreCase("volontario"))
+            this.mapToVolunteer(user);
+       // else
+           // this.mapToOrganization(user);
+
+
+    }
+    private Volunteer mapToVolunteer(OAuth2User user){
+        Map<String, Object> userAttributes = user.getAttributes();
+        try {
+            Volunteer volunteer = new Volunteer();
+            ProfilePicture volunteerPicture = new ProfilePicture();
+            volunteer.setName((String) userAttributes.get("given_name"));
+            volunteer.setSurname((String) userAttributes.get("family_name"));
+            //todo le informazioni di contatto
+            volunteer.setEmail((String) userAttributes.get("email"));
+            volunteer.setPhoneNumber((String) userAttributes.get("phone_number"));
+            volunteerPicture.setUrl((String) userAttributes.get("profile_picture"));
+            volunteer.setProfilePicture(volunteerPicture);
+            return volunteer;
+        }catch (Exception e){
+            return null;
+        }
+    }/*
+    private Organization mapToOrganization(OAuth2User user){
+        Map<String, Object> userAttributes = user.getAttributes();
+        try {
+            ProfilePicture organizationPicture = new ProfilePicture();
+            organizationPicture.setUrl((String) userAttributes.get("profile_picture"));
+            Organization organization = new Organization.Builder()
+                    .profilePicture(organizationPicture)
+                    //todo aggiungere Email
+                    .build();
+
+            return organization;
+        }catch (Exception e){
+            return null;
+        }
+    }
+*/
 }

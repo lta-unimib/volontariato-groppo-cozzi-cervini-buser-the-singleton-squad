@@ -7,12 +7,13 @@ import java.util.Optional;
 
 public interface IVolunteerRepository {
     Volunteer save(Volunteer volunteer);
-    Optional<Volunteer> findById(String id);
+    Optional<Volunteer> findById(Long id);
     List<Volunteer> findAll();
-    void deleteById(String id);
-    boolean existsById(String id);
+    void deleteById(Long id);
+    boolean existsById(Long id);
     List<Volunteer> findByName(String name);
     List<Volunteer> findBySurname(String surname);
-    Optional<Volunteer> findByContactDetails_Email(String email);
-    String isVolunteerExist(String email);//returns Volunteer id
+    boolean existsByEmail(String email);//returns Volunteer id
+    Optional<Volunteer> findByEmail(String email);
+
 }
