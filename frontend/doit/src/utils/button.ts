@@ -18,8 +18,8 @@ export const buttonVariants = cva(baseStyles, {
         },
         size: {
             default: "h-12 px-5 py-3 rounded-[var(--radius-full)]",
-            sm: "h-9 rounded-md px-3",
-            lg: "h-14 rounded-md px-8",
+            sm: "h-9 px-3 rounded-[var(--radius-full)]",
+            lg: "h-16 px-10 py-4 rounded-[var(--radius-full)] text-lg",
             icon: "h-12 w-12 rounded-[var(--radius-full)]",
         },
     },
