@@ -1,8 +1,8 @@
 package com.unimib.singletonsquad.doit.Controller;
 
-import com.unimib.singletonsquad.doit.Service.AuthenticationRedirectErrorService;
-import com.unimib.singletonsquad.doit.Service.AuthenticationRedirectService;
-import com.unimib.singletonsquad.doit.Service.AuthenticationRedirectSuccessService;
+import com.unimib.singletonsquad.doit.Service.Authentication.AuthenticationRedirectErrorService;
+import com.unimib.singletonsquad.doit.Service.Authentication.AuthenticationRedirectService;
+import com.unimib.singletonsquad.doit.Service.Authentication.AuthenticationRedirectSuccessService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;

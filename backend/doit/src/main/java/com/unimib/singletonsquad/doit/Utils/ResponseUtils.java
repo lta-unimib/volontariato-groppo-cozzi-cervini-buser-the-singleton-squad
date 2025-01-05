@@ -1,13 +1,17 @@
 package com.unimib.singletonsquad.doit.Utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unimib.singletonsquad.doit.Exception.InternalSecurityException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
 public final class ResponseUtils {
 
-    public ResponseUtils() {}
+    private static final ObjectMapper objectMapper = new ObjectMapper(); // Oggetto ObjectMapper statico
+
+    private ResponseUtils() {}
 
     public static void sendJsonResponse(HttpServletResponse response, int status, Object body) throws IOException {
         response.setStatus(status);
@@ -15,17 +19,46 @@ public final class ResponseUtils {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            if (body instanceof String) {
-                response.getWriter().write((String) body);
-            } else {
-                ObjectMapper objectMapper = new ObjectMapper();
-                response.getWriter().write(objectMapper.writeValueAsString(body));
-            }
+            String jsonResponse = (body instanceof String) ? (String) body : objectMapper.writeValueAsString(body);
+            response.getWriter().write(jsonResponse);
         } catch (Exception e) {
-            e.printStackTrace();
-            String errorJson = "{\"error\": \"" + e.getMessage() + "\"}";
+            String errorJson = createErrorResponse(e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write(errorJson);
+        }
+    }
+
+    private static String createErrorResponse(Exception e) {
+        return "{\"error\": \"" + e.getMessage() + "\"}";
+    }
+
+
+    public static void sendSuccessRedirect(HttpServletRequest request, HttpServletResponse response, String url)
+    {
+        try {
+            if (!response.isCommitted()) {
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                System.out.println("DEBUG: Response already committed, cannot forward to success URL.");
+            }
+        } catch (Exception e) {
+            System.out.println("DEBUG: Error forwarding to success URL: " + e.getMessage());
+            sendFailureRedirect(request, response, "Error forwarding to success page.", url);
+        }
+    }
+
+    public static void sendFailureRedirect(HttpServletRequest request, HttpServletResponse response, String message, String url)
+    {
+        try {
+            if (!response.isCommitted()) {
+                request.setAttribute("errorMessage", message);
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                System.out.println("DEBUG: Response already committed, cannot forward to failure URL.");
+            }
+        } catch (Exception e) {
+            System.out.println("DEBUG: Error forwarding to failure URL: " + e.getMessage());
+            throw new InternalSecurityException(e.getMessage(), request.getRequestURI());
         }
     }
 

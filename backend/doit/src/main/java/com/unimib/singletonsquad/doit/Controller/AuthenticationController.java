@@ -1,5 +1,5 @@
 package com.unimib.singletonsquad.doit.Controller;
-import com.unimib.singletonsquad.doit.Service.AuthenticationService;
+import com.unimib.singletonsquad.doit.Service.Authentication.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;

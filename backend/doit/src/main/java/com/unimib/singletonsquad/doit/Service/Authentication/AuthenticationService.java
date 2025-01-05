@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.Service;
+package com.unimib.singletonsquad.doit.Service.Authentication;
 
 import com.unimib.singletonsquad.doit.Utils.ResponseUtils;
 import jakarta.servlet.http.HttpServletRequest;

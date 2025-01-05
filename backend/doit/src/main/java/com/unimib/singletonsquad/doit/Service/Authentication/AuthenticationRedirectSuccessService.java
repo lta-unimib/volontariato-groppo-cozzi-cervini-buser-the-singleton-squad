@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.Service;
+package com.unimib.singletonsquad.doit.Service.Authentication;
 import com.unimib.singletonsquad.doit.Security.CustomOAuth2User;
 import com.unimib.singletonsquad.doit.Security.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;

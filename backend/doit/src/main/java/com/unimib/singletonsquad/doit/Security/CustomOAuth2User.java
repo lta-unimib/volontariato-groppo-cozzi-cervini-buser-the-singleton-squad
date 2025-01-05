@@ -6,15 +6,16 @@ import java.util.*;
 public class CustomOAuth2User implements OAuth2User {
     private Map<String, Object> attributes;
     private OAuth2User delegate;
-    private UUID userUniqueId;
+    private Long userUniqueId;
     private Collection<GrantedAuthority> authorities;
     private String jwtToken;
 
-    public CustomOAuth2User(OAuth2User delegate, UUID userUniqueId) {
+    public CustomOAuth2User(OAuth2User delegate, Long userUniqueId, String token) {
         this.delegate = delegate;
         this.userUniqueId = userUniqueId;
         this.attributes = delegate.getAttributes();
         this.authorities = (Collection<GrantedAuthority>) this.delegate.getAuthorities();
+        this.jwtToken = token;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class CustomOAuth2User implements OAuth2User {
         return this.delegate.getName();
     }
 
-    public UUID getUserUniqueId() {
+    public Long getUserUniqueId() {
         return this.userUniqueId;
     }
 
