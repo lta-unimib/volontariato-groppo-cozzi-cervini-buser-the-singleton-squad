@@ -11,7 +11,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "volunteers")
 public class Volunteer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -43,7 +42,17 @@ public class Volunteer {
     }
 
     public void setEmail(String email) throws Exception {
+        if(!isValidEmail(email)) {
+            throw new Exception("Invalid email");
+        }
         this.email = email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) throws Exception {
+        if(!isValidItalianNumber(phoneNumber)) {
+            throw new Exception("Invalid phone number");
+        }
+        this.phoneNumber = phoneNumber;
     }
 
     private static boolean isValidEmail(String email) {
