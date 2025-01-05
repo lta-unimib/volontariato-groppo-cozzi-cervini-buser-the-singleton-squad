@@ -9,16 +9,18 @@ interface EnhancedImageProps extends Omit<ImageProps, 'src' | 'alt'> {
 }
 
 export function ImageWrapper(props: Readonly<EnhancedImageProps>) {
-    const basePath = useBasePath();
+    const basePath = useBasePath() || '';
+
+    const srcPath = `${basePath}${props.src}`;
 
     console.log('Base Path:', basePath);
     console.log('Image src:', props.src);
-    console.log('Combined Path:', `${basePath}${props.src}`);
+    console.log('Combined Path:', srcPath);
 
     return (
         <Image
             {...props}
-            src={`${basePath}${props.src}`}
+            src={srcPath}
             alt={props.alt}
         />
     );

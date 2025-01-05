@@ -7,13 +7,14 @@ import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
 
 export function Hero() {
     const theme = useTheme()
+    const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
 
     return (
         <div className="relative flex-grow flex flex-col items-center justify-start md:justify-center px-4 md:px-8">
             <div className="max-w-none w-full text-center md:text-left md:flex md:items-center md:gap-8">
                 <div className="flex justify-center mb-8 md:mb-0 md:w-1/2 md:p-10">
                     <ImageWrapper
-                        src={theme === 'dark' ? '/hero-illustration-dark.svg' : '/hero-illustration-light.svg'}
+                        src={heroIllustrationSrc}
                         alt="Hero illustration"
                         width={600}
                         height={400}
