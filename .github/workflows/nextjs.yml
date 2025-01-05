@@ -60,7 +60,7 @@ jobs:
         run: |
           git config user.name "${{ secrets.USER_NAME }}"
           git config user.email "${{ secrets.USER_EMAIL }}"
-          git remote add fork https://github.com/${{ secrets.USER_NAME }}/${{ github.event.repository.name }}.git
+          git remote add fork https://github.com/dbuser03/${{ github.event.repository.name }}.git
           git fetch --all
           for branch in $(git branch -r | grep -v '\->' | grep -v 'origin/HEAD' | sed 's/origin\///'); do
             git checkout $branch
