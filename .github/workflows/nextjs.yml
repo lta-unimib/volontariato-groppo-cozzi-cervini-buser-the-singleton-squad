@@ -56,18 +56,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Sync with fork
-        run: |
-          cd ..
-          cd ..
-          git config user.name "dbuser03"
-          git config user.email "d.buser@campus.unimib.it"
-          git remote add fork https://github.com/dbuser03/${{ github.event.repository.name }}.git
-          git fetch --all
-          for branch in $(git branch -r | grep -v '\->' | grep -v 'origin/HEAD' | sed 's/origin\///'); do
-            git checkout $branch
-            git merge origin/$branch
-            git push fork $branch
-          done
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
