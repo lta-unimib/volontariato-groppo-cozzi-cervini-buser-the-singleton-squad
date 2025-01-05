@@ -1,5 +1,8 @@
 package com.unimib.singletonsquad.doit.Domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 public class ContactDetails {
     private String email;
     private String phoneNumber;

@@ -1,27 +1,42 @@
 package com.unimib.singletonsquad.doit.Domain;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "volunteers")
 public class Volunteer {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String surname;
+    @Embedded
+    @Column(nullable = false)
     private ContactDetails contactDetails;
+    @OneToOne(cascade = CascadeType.ALL)
     private VolunteerPreferences volunteerPreferences;
+    @OneToOne(cascade = CascadeType.ALL)
     private ProfilePicture profilePicture;
 
-    public Volunteer(String id, String name, String surname, ContactDetails contactDetails) {
+    public Volunteer(int id, String name, String surname, ContactDetails contactDetails) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.contactDetails = contactDetails;
     }
 
-    public String getId() {
+    public Volunteer() {}
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

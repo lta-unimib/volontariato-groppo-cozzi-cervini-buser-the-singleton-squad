@@ -1,8 +1,14 @@
 package com.unimib.singletonsquad.doit.Domain;
 
-import java.util.Objects;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+import java.util.Objects;
+@Entity
+@Table(name = "location")
 public class Location {
+    @Id
     private String id;
     private String region;
     private String city;
@@ -19,6 +25,10 @@ public class Location {
         this.houseNumber = houseNumber;
         this.country = "Italia";
         this.region = "Lombardia";
+    }
+
+    public Location() {
+
     }
 
     public String getId() {
