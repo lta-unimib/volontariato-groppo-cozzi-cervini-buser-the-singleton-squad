@@ -1,7 +1,11 @@
 package com.unimib.singletonsquad.doit.Domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 public class ProfilePicture {
     @Id
@@ -16,23 +20,8 @@ public class ProfilePicture {
         this.url = url;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public ProfilePicture() {
 
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

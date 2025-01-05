@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.Domain;
 
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,12 +10,17 @@ import java.util.Map;
 import java.util.Objects;
 @Setter
 @Getter
+@Entity
 public class Organization {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
+
     private String name;
     private String description;
+    @OneToOne
     private ProfilePicture profilePicture;
-    private String websiteUrl;
+    @ElementCollection
     private Map<SocialNetwork, String> socialNetworks;
     private String email;
     private String phoneNumber;
@@ -24,8 +30,11 @@ public class Organization {
         this.name = builder.name;
         this.description = builder.description;
         this.profilePicture = builder.profilePicture;
-        this.websiteUrl = builder.websiteUrl;
         this.socialNetworks = new HashMap<>(builder.socialNetworks);
+    }
+
+    public Organization() {
+
     }
 
     public static class Builder {
@@ -33,7 +42,6 @@ public class Organization {
         private String name;
         private String description;
         private ProfilePicture profilePicture;
-        private String websiteUrl;
         private Map<SocialNetwork, String> socialNetworks;
 
         public Builder id(String id) {
@@ -56,18 +64,12 @@ public class Organization {
             return this;
         }
 
-        public Builder websiteUrl(String websiteUrl) {
-            this.websiteUrl = websiteUrl;
-            return this;
-        }
-
         public Builder addSocialNetwork(SocialNetwork network, String handle) {
             this.socialNetworks.put(network, handle);
             return this;
         }
 
         public Organization build() {
-            // Validazione
             if (id == null || name == null) {
                 throw new IllegalStateException("Id and name are required");
             }
@@ -79,6 +81,20 @@ public class Organization {
 
             return new Organization(this);
         }
+    }
+
+    public void setEmail(String email) throws Exception{
+        if (email == null) {
+            throw new IllegalArgumentException("Email is not valid");
+        }
+        this.email = email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        if(phoneNumber == null) {
+            throw new IllegalArgumentException("Phone number is not valid");
+        }
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
