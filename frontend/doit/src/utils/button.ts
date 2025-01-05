@@ -4,7 +4,7 @@ const baseStyles =
     "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium " +
     "ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 " +
     "focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none " +
-    "disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
+    "disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 lg:gap-4"
 
 export const buttonVariants = cva(baseStyles, {
     variants: {
@@ -17,10 +17,10 @@ export const buttonVariants = cva(baseStyles, {
             link: "text-[var(--primary-color-primary-500)] underline-offset-4 hover:underline",
         },
         size: {
-            default: "h-12 px-5 py-3 rounded-[var(--radius-full)]",
-            sm: "h-9 px-3 rounded-[var(--radius-full)]",
-            lg: "h-16 px-10 py-4 rounded-[var(--radius-full)] text-lg",
-            icon: "h-12 w-12 rounded-[var(--radius-full)]",
+            default: "h-12 px-5 py-3 rounded-[var(--radius-full)] [&_svg]:size-4",
+            sm: "h-9 px-3 rounded-[var(--radius-full)] [&_svg]:size-3",
+            lg: "h-16 px-10 py-4 rounded-[var(--radius-full)] text-xl [&_svg]:size-6",
+            icon: "h-12 w-12 rounded-[var(--radius-full)] [&_svg]:size-4",
         },
     },
     defaultVariants: {
@@ -28,5 +28,6 @@ export const buttonVariants = cva(baseStyles, {
         size: "default",
     },
 })
+
 
 export type ButtonVariantProps = VariantProps<typeof buttonVariants>
