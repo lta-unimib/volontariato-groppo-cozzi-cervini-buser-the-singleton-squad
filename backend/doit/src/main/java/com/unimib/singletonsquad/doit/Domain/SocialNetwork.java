@@ -21,5 +21,6 @@ public enum SocialNetwork{
             return WEBSITE.name() + website;
         }
     };
+
     public abstract String getCompleteUrl(String identifier);
 }

@@ -1,11 +1,11 @@
 package com.unimib.singletonsquad.doit.Domain;
 
 
+import com.unimib.singletonsquad.doit.Utils.DataValidator;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 @Setter
@@ -25,7 +25,7 @@ public class Organization {
     private Map<SocialNetwork, String> socialNetworks;
     @Column(unique = true, nullable = false)
     private String email;
-    @Column(unique = true, nullable = true)
+    @Column(unique = true)
     private String phoneNumber;
 
     public Organization() {
@@ -33,14 +33,14 @@ public class Organization {
     }
 
     public void setEmail(String email) throws Exception{
-        if (email == null) {
+        if (!DataValidator.isValidEmail(email)) {
             throw new IllegalArgumentException("Email is not valid");
         }
         this.email = email;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if(phoneNumber == null) {
+        if(!DataValidator.isValidItalianNumber(phoneNumber)) {
             throw new IllegalArgumentException("Phone number is not valid");
         }
         this.phoneNumber = phoneNumber;
