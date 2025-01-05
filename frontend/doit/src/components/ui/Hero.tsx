@@ -13,7 +13,7 @@ export function Hero() {
             <div className="max-w-none w-full text-center md:text-left md:flex md:items-center md:gap-8">
                 <div className="flex justify-center mb-8 md:mb-0 md:w-1/2 md:p-10">
                     <ImageWrapper
-                        src={theme === 'dark' ? '/hero-illustration-dark.svg' : '/hero-illustration-light.svg'}
+                        src= "/hero-illustration-dark.svg" //{theme === 'dark' ? '/hero-illustration-dark.svg' : '/hero-illustration-light.svg'}
                         alt="Hero illustration"
                         width={600}
                         height={400}

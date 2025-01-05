@@ -8,7 +8,7 @@ export function Logo() {
     return (
         <div className="flex items-center justify-center">
             <ImageWrapper
-                src={theme === 'dark' ? '/header-logo-dark.svg' : '/header-logo-light.svg'}
+                src="/header-logo-dark.svg" //{theme === 'dark' ? '/header-logo-dark.svg' : '/header-logo-light.svg'}
                 alt="Logo"
                 width={200}
                 height={50}
