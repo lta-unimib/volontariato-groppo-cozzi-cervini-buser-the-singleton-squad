@@ -7,9 +7,6 @@ import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
 
 export function Hero() {
     const theme = useTheme()
-
-    if (!theme) return null;
-
     const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
 
     return (

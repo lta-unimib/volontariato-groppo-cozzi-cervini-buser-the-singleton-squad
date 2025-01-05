@@ -4,10 +4,7 @@ import { ImageWrapper } from '@/components/ui/ImageWrapper';
 
 export function Logo() {
     const theme = useTheme();
-
-    if (!theme) return null;
-
-    const logoSrc = theme === 'dark' ? '/header-logo-dark.svg' : '/header-logo-light.svg';
+    const logoSrc = theme === 'dark' ? "/header-logo-dark.svg" : "/header-logo-light.svg";
 
     return (
         <div className="flex items-center justify-center">
