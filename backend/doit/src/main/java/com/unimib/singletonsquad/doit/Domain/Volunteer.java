@@ -1,98 +1,73 @@
 package com.unimib.singletonsquad.doit.Domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "volunteers")
 public class Volunteer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(unique = true, nullable = false)
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String surname;
-    @Embedded
     @Column(nullable = false)
-    private ContactDetails contactDetails;
+    private String email;
+    @Column(nullable = true)
+    private String phoneNumber;
     @OneToOne(cascade = CascadeType.ALL)
     private VolunteerPreferences volunteerPreferences;
     @OneToOne(cascade = CascadeType.ALL)
     private ProfilePicture profilePicture;
 
-    public Volunteer(int id, String name, String surname, ContactDetails contactDetails) {
+    public Volunteer(Long id, String name, String surname, String email) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.contactDetails = contactDetails;
+        this.email = email;
     }
 
     public Volunteer() {}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public ContactDetails getContactDetails() {
-        return contactDetails;
-    }
-
-    public void setContactDetails(ContactDetails contactDetails) {
-        this.contactDetails = contactDetails;
-    }
-
-    public VolunteerPreferences getVolunteerPreferences() {
-        return volunteerPreferences;
-    }
-
-    public void setVolunteerPreferences(VolunteerPreferences volunteerPreferences) {
-        this.volunteerPreferences = volunteerPreferences;
-    }
-
-    public ProfilePicture getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(ProfilePicture profilePicture) {
-        this.profilePicture = profilePicture;
-    }
 
     public String getProfilePictureURL() {
         return profilePicture.getUrl();
     }
 
+    public void setEmail(String email) throws Exception {
+        this.email = email;
+    }
+
+    private static boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@" +
+                "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[a-z]{2,})$";
+        return email.matches(EMAIL_PATTERN);
+    }
+
+    private static boolean isValidItalianNumber(String numero) {
+        // Pattern for italian numbers +39XXXXXXXXX o XXXXXXXXX
+        //"^\\+39\\d{10}$" prefix needed
+        String pattern = "^(\\+39)?\\d{10}$";
+        return numero.matches(pattern);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Volunteer volunteer)) return false;
-        return Objects.equals(id, volunteer.id) && Objects.equals(name, volunteer.name) && Objects.equals(surname, volunteer.surname) && Objects.equals(contactDetails, volunteer.contactDetails);
+        return Objects.equals(id, volunteer.id) && Objects.equals(name, volunteer.name) && Objects.equals(surname, volunteer.surname) && Objects.equals(email, volunteer.email) && Objects.equals(phoneNumber, volunteer.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, contactDetails);
+        return Objects.hash(id, name, surname, email);
     }
 
     @Override
@@ -101,7 +76,8 @@ public class Volunteer {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", contactDetails=" + contactDetails +
+                ", email='" + email + '\'' +
+                ", phoneNumber=" + phoneNumber +
                 '}';
     }
 }

@@ -14,4 +14,5 @@ public interface IVolunteerRepository {
     List<Volunteer> findByName(String name);
     List<Volunteer> findBySurname(String surname);
     Optional<Volunteer> findByContactDetails_Email(String email);
+    String isVolunteerExist(String email);//returns Volunteer id
 }

@@ -1,10 +1,14 @@
 package com.unimib.singletonsquad.doit.Domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "volunteer_preferences")
 public class VolunteerPreferences {
@@ -16,6 +20,8 @@ public class VolunteerPreferences {
     @OneToOne
     private Location location;
     Collection<VolunteerCategories> volunteerCategories;
+    private String volunteerId;
+
     /*public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -23,30 +29,6 @@ public class VolunteerPreferences {
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }*/
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public Collection<VolunteerCategories> getVolunteerCategories() {
-        return volunteerCategories;
-    }
-
-    public void setVolunteerCategories(Collection<VolunteerCategories> volunteerCategories) {
-        this.volunteerCategories = volunteerCategories;
-    }
 
     public void addNewVolunteerCategories(VolunteerCategories volunteerCategories) {
         this.volunteerCategories.add(volunteerCategories);
@@ -62,11 +44,4 @@ public class VolunteerPreferences {
                 '}';
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
 }

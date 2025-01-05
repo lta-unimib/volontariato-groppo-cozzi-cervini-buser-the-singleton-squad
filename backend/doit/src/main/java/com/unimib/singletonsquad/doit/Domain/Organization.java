@@ -1,10 +1,14 @@
 package com.unimib.singletonsquad.doit.Domain;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
+@Setter
+@Getter
 public class Organization {
     private String id;
     private String name;
@@ -12,6 +16,8 @@ public class Organization {
     private ProfilePicture profilePicture;
     private String websiteUrl;
     private Map<SocialNetwork, String> socialNetworks;
+    private String email;
+    private String phoneNumber;
 
     private Organization(Builder builder) {
         this.id = builder.id;
@@ -73,54 +79,6 @@ public class Organization {
 
             return new Organization(this);
         }
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public ProfilePicture getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(ProfilePicture profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-    public String getWebsiteUrl() {
-        return websiteUrl;
-    }
-
-    public void setWebsiteUrl(String websiteUrl) {
-        this.websiteUrl = websiteUrl;
-    }
-
-    public Map<SocialNetwork, String> getSocialNetworks() {
-        return socialNetworks;
-    }
-
-    public void setSocialNetworks(Map<SocialNetwork, String> socialNetworks) {
-        this.socialNetworks = socialNetworks;
     }
 
     @Override

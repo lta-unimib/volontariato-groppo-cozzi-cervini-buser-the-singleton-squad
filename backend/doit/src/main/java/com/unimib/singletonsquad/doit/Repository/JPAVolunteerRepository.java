@@ -9,10 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface JPAVolunteerRepository extends JpaRepository<Volunteer, String>, IVolunteerRepository {
-    // I metodi di JpaRepository sono ereditati automaticamente:
+    // JpaRepository methods are automatically inherited:
     // save(), findById(), findAll(), deleteById(), etc.
 
-    // Implementazione automatica dei metodi di IVolunteerRepository
+    // Automatic implementation  dei metodi di IVolunteerRepository
     @Override
     List<Volunteer> findByName(String name);
 
@@ -21,4 +21,7 @@ public interface JPAVolunteerRepository extends JpaRepository<Volunteer, String>
 
     @Override
     Optional<Volunteer> findByContactDetails_Email(String email);
+
+    @Override
+    String isVolunteerExist(String email);
 }
