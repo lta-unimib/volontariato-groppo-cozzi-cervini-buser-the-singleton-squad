@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
     private String id;
     @Column(unique = true, nullable = false)
     private String name;
@@ -22,7 +23,9 @@ public class Organization {
     private ProfilePicture profilePicture;
     @ElementCollection
     private Map<SocialNetwork, String> socialNetworks;
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(unique = true, nullable = true)
     private String phoneNumber;
 
     public Organization() {
