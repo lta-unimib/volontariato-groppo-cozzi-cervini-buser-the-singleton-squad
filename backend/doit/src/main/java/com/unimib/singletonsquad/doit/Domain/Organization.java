@@ -15,7 +15,7 @@ public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
-
+    @Column(unique = true, nullable = false)
     private String name;
     private String description;
     @OneToOne
@@ -25,62 +25,8 @@ public class Organization {
     private String email;
     private String phoneNumber;
 
-    private Organization(Builder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
-        this.description = builder.description;
-        this.profilePicture = builder.profilePicture;
-        this.socialNetworks = new HashMap<>(builder.socialNetworks);
-    }
-
     public Organization() {
 
-    }
-
-    public static class Builder {
-        private String id;
-        private String name;
-        private String description;
-        private ProfilePicture profilePicture;
-        private Map<SocialNetwork, String> socialNetworks;
-
-        public Builder id(String id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder description(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public Builder profilePicture(ProfilePicture profilePicture) {
-            this.profilePicture = profilePicture;
-            return this;
-        }
-
-        public Builder addSocialNetwork(SocialNetwork network, String handle) {
-            this.socialNetworks.put(network, handle);
-            return this;
-        }
-
-        public Organization build() {
-            if (id == null || name == null) {
-                throw new IllegalStateException("Id and name are required");
-            }
-
-            // Default values
-            if (socialNetworks == null) {
-                socialNetworks = new HashMap<>();
-            }
-
-            return new Organization(this);
-        }
     }
 
     public void setEmail(String email) throws Exception{
@@ -106,15 +52,5 @@ public class Organization {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
-    }
-
-    public static void main(String[] args) {
-        Organization organization = new Builder()
-                .id("1")
-                .name("Rotaract Abbiategrasso")
-                .description("Associazione di volontariato locale")
-                .build();
-
-        System.out.println(organization.socialNetworks.get(SocialNetwork.INSTAGRAM));
     }
 }
