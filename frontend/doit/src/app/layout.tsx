@@ -2,11 +2,12 @@ import type {Metadata} from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import React from "react";
+import { ThemeProvider } from "@/app/themeProvider";
 
 const roboto = Roboto({
-    variable: "--font-family-roboto",
     subsets: ["latin"],
     weight: ["400", "900"],
+    display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -21,8 +22,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <body className={`${roboto.variable} antialiased`}>
-        {children}
+        <body className={`${roboto.className} antialiased`}>
+        <ThemeProvider>
+            {children}
+        </ThemeProvider>
         </body>
         </html>
     );

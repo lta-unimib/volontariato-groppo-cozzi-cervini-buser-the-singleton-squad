@@ -1,13 +1,17 @@
+"use client";
+import { useTheme } from "@/hooks/useTheme";
 import { ImageWrapper } from '@/components/ui/ImageWrapper';
 
 export function Logo() {
+    const theme = useTheme();
+
     return (
-        <div className="max-w-full h-auto">
+        <div className="flex items-center justify-center">
             <ImageWrapper
-                src="/header-logo.svg"
+                src={theme === 'dark' ? '/header-logo-dark.svg' : '/header-logo-light.svg'}
                 alt="Logo"
-                width={223}
-                height={87}
+                width={200}
+                height={50}
             />
         </div>
     );
