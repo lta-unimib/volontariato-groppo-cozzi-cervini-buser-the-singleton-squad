@@ -18,6 +18,6 @@ public interface JPAVolunteerRepository extends JpaRepository<Volunteer, Long>, 
     @Override
     List<Volunteer> findBySurname(String surname);
 
-    // @Override
-    //String isVolunteerExist(String email);
+    @Override
+    boolean existsByEmail(String email);
 }

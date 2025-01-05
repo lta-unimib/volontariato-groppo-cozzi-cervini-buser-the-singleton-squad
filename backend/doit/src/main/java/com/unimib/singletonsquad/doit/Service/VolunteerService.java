@@ -25,6 +25,4 @@ public class VolunteerService {
     public List<Volunteer> findVolunteersByName(String name) {
         return volunteerRepository.findByName(name); //IVolunteerRepository
     }
-
-
 }
