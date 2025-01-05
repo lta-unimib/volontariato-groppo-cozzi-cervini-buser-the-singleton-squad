@@ -1,21 +1,28 @@
 package com.unimib.singletonsquad.doit.Domain;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+@Entity
+@Table(name = "volunteer_preferences")
 public class VolunteerPreferences {
-    private LocalDateTime dateTime;
+    @Id
+    private int id;
+    @org.springframework.data.annotation.Id
+    //private LocalDateTime dateTime;
     private String duration;
+    @OneToOne
     private Location location;
     Collection<VolunteerCategories> volunteerCategories;
-
-    public LocalDateTime getDateTime() {
+    /*public LocalDateTime getDateTime() {
         return dateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-    }
+    }*/
 
     public String getDuration() {
         return duration;
@@ -48,10 +55,18 @@ public class VolunteerPreferences {
     @Override
     public String toString() {
         return "VolunteerPreferences{" +
-                "dateTime=" + dateTime +
+                //"dateTime=" + dateTime +
                 ", duration='" + duration + '\'' +
                 ", location=" + location +
                 ", volunteerCategories=" + volunteerCategories +
                 '}';
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 }
