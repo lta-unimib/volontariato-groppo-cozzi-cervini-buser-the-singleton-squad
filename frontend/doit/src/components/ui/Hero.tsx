@@ -6,7 +6,7 @@ import { CustomButton } from "@/components/ui/CustomButton";
 import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
 
 export function Hero() {
-    const theme = useTheme()
+    const theme = useTheme() || 'light';
 
     return (
         <div className="relative flex-grow flex flex-col items-center justify-start md:justify-center px-4 md:px-8">
@@ -17,7 +17,6 @@ export function Hero() {
                         alt="Hero illustration"
                         width={600}
                         height={400}
-                        priority
                     />
                 </div>
                 <div className="flex flex-col items-center md:items-start md:w-1/2">
