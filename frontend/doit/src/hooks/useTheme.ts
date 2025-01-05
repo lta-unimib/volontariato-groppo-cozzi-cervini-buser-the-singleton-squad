@@ -12,7 +12,6 @@ export function useTheme() {
             return;
         }
 
-        // Dynamic theme detection for non-GitHub Pages environments
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
         const updateTheme = (e: MediaQueryListEvent | MediaQueryList) => {
