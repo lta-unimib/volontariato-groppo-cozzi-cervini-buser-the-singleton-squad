@@ -13,10 +13,6 @@ export function ImageWrapper(props: Readonly<EnhancedImageProps>) {
 
     const srcPath = `${basePath}${props.src}`;
 
-    console.log('Base Path:', basePath);
-    console.log('Image src:', props.src);
-    console.log('Combined Path:', srcPath);
-
     return (
         <Image
             {...props}
