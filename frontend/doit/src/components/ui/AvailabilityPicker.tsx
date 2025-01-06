@@ -139,7 +139,7 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
             <DialogTitle>Seleziona Disponibilità</DialogTitle>
           </DialogHeader>
 
-          <Tabs value={selectedMode} onValueChange={(value) => handleModeChange(value as AvailabilityMode)} className="w-full">
+          <Tabs value={selectedMode} onValueChange={(value) => handleModeChange(value as AvailabilityMode)} className="w-full mt-4">
             <TabsList className="grid w-full grid-cols-3 rounded-full p-1">
               <TabsTrigger value="daily" className="rounded-full">Daily</TabsTrigger>
               <TabsTrigger value="weekly" className="rounded-full">Weekly</TabsTrigger>
