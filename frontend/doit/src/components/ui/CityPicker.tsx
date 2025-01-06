@@ -166,7 +166,7 @@ export function CityPicker({ onChange }: CityPickerProps) {
                                         key={city}
                                         variant={selectedCity === city ? "secondary" : "ghost"}
                                         className={`w-full justify-start pl-4 text-left font-normal text-sm rounded-full
-                                            ${selectedCity === city ? 'bg-blue-500 text-white hover:bg-blue-500 hover:text-white' : ''}
+                                            ${selectedCity === city ? 'bg-blue-500  hover:bg-blue-500 hover:text-white' : ''}
                                             ${highlightedIndex === index ? 'bg-blue-100 dark:bg-blue-900' : ''}`}
                                         onClick={() => handleCitySelection(city)}
                                         onMouseEnter={() => handleMouseEnter(index)}
