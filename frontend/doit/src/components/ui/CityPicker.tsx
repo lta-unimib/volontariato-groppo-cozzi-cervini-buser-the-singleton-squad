@@ -86,7 +86,7 @@ export function CityPicker({ onChange }: CityPickerProps) {
 
     useEffect(() => {
         scrollHighlightedIntoView();
-    }, [highlightedIndex]);
+    });
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         const maxIndex = filteredCities.length - 1;
