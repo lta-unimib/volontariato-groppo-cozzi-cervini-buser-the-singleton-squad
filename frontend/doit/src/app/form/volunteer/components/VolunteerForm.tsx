@@ -1,10 +1,10 @@
 "use client"
 
-import { DatePickerDialog } from "@/components/ui/date-picker";
-import { Button } from "@/components/ui/button";
-import { CityPicker } from "@/components/ui/city-picker";
+import { DatePickerDialog } from "@/components/ui/DatePicker";
+import { Button } from "@/components/ui/Button";
+import { CityPicker } from "@/components/ui/CityPicker";
 import { Textarea } from "@/components/ui/textarea";
-import {RoundCheckboxSelector} from "@/components/ui/checkbox";
+import {RoundCheckboxSelector} from "@/components/ui/Checkbox";
 import React from "react";
 
 export function VolunteerForm() {
