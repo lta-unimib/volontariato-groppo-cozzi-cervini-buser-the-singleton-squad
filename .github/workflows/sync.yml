@@ -23,11 +23,6 @@ jobs:
           git config user.name "dbuser03"
           git config user.email "d.buser@campus.unimib.it"
 
-      - name: Check Git remote connection
-        run: |
-          git remote -v
-          git fetch fork
-
       - name: Add fork as remote
         run: |
           git remote add fork https://github.com/dbuser03/volontariato-groppo-cozzi-cervini-buser-the-singleton-squad.git
