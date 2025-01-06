@@ -11,13 +11,15 @@ export function Hero() {
     const theme = useTheme();
     const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
 
+    console.log("GITHUB_PAGES value:", GITHUB_PAGES);
+
     return (
         <div className="relative flex-grow flex flex-col items-center justify-start md:justify-center px-4 md:px-8">
             <div className="max-w-none w-full text-center md:text-left md:flex md:items-center md:gap-8">
                 <div className="flex justify-center mb-1 md:mb-0 md:w-1/2 p-6 md:p-10">
                     {GITHUB_PAGES ? (
                         <ImageWrapper
-                            src={heroIllustrationSrc}
+                            src="/hero-illustration-dark.svg"
                             alt="Hero illustration"
                             width={600}
                             height={400}
