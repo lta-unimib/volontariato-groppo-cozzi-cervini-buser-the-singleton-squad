@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useTheme } from "@/hooks/useTheme";
 
 interface ThemeProviderProps {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
