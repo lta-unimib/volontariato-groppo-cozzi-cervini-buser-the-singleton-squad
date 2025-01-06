@@ -1,8 +1,10 @@
 package com.unimib.singletonsquad.doit.Handler;
 
+import com.unimib.singletonsquad.doit.Domain.Organization;
 import com.unimib.singletonsquad.doit.Domain.ProfilePicture;
 import com.unimib.singletonsquad.doit.Domain.Volunteer;
 import com.unimib.singletonsquad.doit.Service.Authentication.AuthenticationUser;
+import com.unimib.singletonsquad.doit.Service.OrganizationService;
 import com.unimib.singletonsquad.doit.Service.VolunteerService;
 import com.unimib.singletonsquad.doit.Utils.ResponseUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,11 +29,13 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     private final OAuth2AuthorizedClientService authorizedClientService;
     private OAuth2User oauth2User;
     private final VolunteerService volunteerService;
+    private final OrganizationService organizationService;
     private final AuthenticationUser authUser;
 
-    public SuccessAuthHandler(OAuth2AuthorizedClientService authorizedClientService, VolunteerService volunteerService, AuthenticationUser authUser) {
+    public SuccessAuthHandler(OAuth2AuthorizedClientService authorizedClientService, VolunteerService volunteerService, OrganizationService organizationService, AuthenticationUser authUser) {
         this.authorizedClientService = authorizedClientService;
         this.volunteerService = volunteerService;
+        this.organizationService = organizationService;
         this.authUser = authUser;
     }
 
@@ -111,9 +115,22 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         System.out.println("DEBUG: Checking if OAuth user exists for email: " + userOauthEmail + " with role: " + role);
         if(role.equalsIgnoreCase("volontario")) {
             return this.getOauth2UserId(userOauthEmail);
+        } else {
+            return this.getOauth2UserId(userOauthEmail);
         }
-        //todo per organizzazione
-        return null;
+    }
+
+    private Long getOauth2UserOrganizationId(String email) {
+        System.out.println("DEBUG: Fetching organization by email: " + email);
+        Optional<Organization> organization = organizationService.findOrganizationByEmail(email);
+        if (organization.isPresent()) {
+            Long organizationID = organization.get().getId();
+            System.out.println("DEBUG: Organization found with ID: " + organizationID);
+            return organizationID;
+        } else {
+            System.out.println("DEBUG: Organization not found.");
+            return null;
+        }
     }
 
     private Long getOauth2UserId(String email) {
@@ -157,7 +174,7 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         if(role.equalsIgnoreCase("volontario")) {
             return registerNewVolunteer(user);
         } else if (role.equalsIgnoreCase("organizzazione")) {
-            return registerNewOrganizzazione(user);
+            return registerNewOrganization(user);
         } else {
             System.out.println("DEBUG: Unsupported role: " + role);
             throw new Exception("Unsupported role: " + role);
@@ -168,9 +185,10 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         System.out.println("DEBUG: Registering new volunteer.");
         Volunteer volunteer = this.mapToVolunteer(user);
         if (volunteer != null) {
-            Volunteer volo = this.volunteerService.save(volunteer);
-            System.out.println("DEBUG: Volunteer registered with ID: " + volo.getId());
-            return volo.getId();
+            Volunteer volunteerRegistered = this.volunteerService.save(volunteer);
+            Long volunteerId = volunteerRegistered.getId();
+            System.out.println("DEBUG: Volunteer registered with ID: " + volunteerId);
+            return volunteerId;
         } else {
             System.out.println("DEBUG: Error mapping OAuth2 user to Volunteer.");
             return null;
@@ -193,9 +211,33 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             return volunteer;
     }
 
-    private Long registerNewOrganizzazione(OAuth2User user){
-        // Logic for registering a new organization
+    private Long registerNewOrganization(OAuth2User user) throws Exception {
+        System.out.println("DEBUG: Registering new organization.");
+        Organization organization = this.mapToOrganization(user);
+        if(organization != null) {
+            Organization registeredOrg = organizationService.save(organization);
+            Long orgId = registeredOrg.getId();
+            System.out.println("DEBUG: Organization registered with ID: " + orgId);
+            return orgId;
+        }
+        System.out.println("DEBUG: Error mapping OAuth2 user to Organization.");
         return null;
+    }
+
+    private Organization mapToOrganization(OAuth2User user) throws Exception {
+        Map<String, Object> userAttributes = user.getAttributes();
+        Organization organization = new Organization();
+        ProfilePicture volunteerPicture = new ProfilePicture();
+
+        organization.setName((String) userAttributes.get("given_name"));
+        organization.setEmail((String) userAttributes.get("email"));
+        volunteerPicture.setUrl((String) userAttributes.get("picture"));
+        //organization.setPhoneNumber((String) userAttributes.get("phoneNumber"));
+        System.out.println("debug: Organization attributes: " + userAttributes);
+        organization.setProfilePicture(volunteerPicture);
+
+        System.out.println("DEBUG: Mapped organization: " + organization);
+        return organization;
     }
 
 }

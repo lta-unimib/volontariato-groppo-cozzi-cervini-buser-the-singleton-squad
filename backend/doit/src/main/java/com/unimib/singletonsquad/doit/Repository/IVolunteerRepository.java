@@ -11,22 +11,6 @@ import java.util.Optional;
 @Repository
 public interface IVolunteerRepository extends JpaRepository<Volunteer, Long> {
 
-    // Metodi standard forniti da JpaRepository
-    @Override
-    Volunteer save(Volunteer volunteer); // Salva un volontario
-
-    @Override
-    Optional<Volunteer> findById(Long id); // Trova un volontario per ID
-
-    @Override
-    List<Volunteer> findAll(); // Trova tutti i volontari
-
-    @Override
-    void deleteById(Long id); // Elimina un volontario per ID
-
-    @Override
-    boolean existsById(Long id); // Verifica se esiste un volontario per ID
-
     // Metodi personalizzati per il nome e il cognome
     List<Volunteer> findByName(String name); // Trova tutti i volontari con un determinato nome
 
