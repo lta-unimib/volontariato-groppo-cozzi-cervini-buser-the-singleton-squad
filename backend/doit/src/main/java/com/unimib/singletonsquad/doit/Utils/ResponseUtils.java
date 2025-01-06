@@ -32,23 +32,35 @@ public final class ResponseUtils {
         return "{\"error\": \"" + e.getMessage() + "\"}";
     }
 
+    public static void sendRedirect(HttpServletResponse response, String url, HttpServletRequest request) {
+        try {
+            if (!response.isCommitted()) {
+                response.sendRedirect(url);
+            } else {
+                System.out.println("DEBUG: Response already committed, cannot redirect to URL.");
+            }
+        } catch (Exception e) {
+            System.out.println("DEBUG: Error redirecting to URL: " + e.getMessage());
+            // Fallback to forward
+            sendForwardRedirect(request, response, url);
+        }
+    }
 
-    public static void sendSuccessRedirect(HttpServletRequest request, HttpServletResponse response, String url)
-    {
+    public static void sendForwardRedirect(HttpServletRequest request, HttpServletResponse response, String url) {
         try {
             if (!response.isCommitted()) {
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
-                System.out.println("DEBUG: Response already committed, cannot forward to success URL.");
+                System.out.println("DEBUG: Response already committed, cannot forward to URL.");
             }
         } catch (Exception e) {
-            System.out.println("DEBUG: Error forwarding to success URL: " + e.getMessage());
-            sendFailureRedirect(request, response, "Error forwarding to success page.", url);
+            System.out.println("DEBUG: Error forwarding to URL: " + e.getMessage());
+            // Handle failure during forward
+            sendFailureRedirect(request, response, "Error forwarding to URL.", url);
         }
     }
 
-    public static void sendFailureRedirect(HttpServletRequest request, HttpServletResponse response, String message, String url)
-    {
+    public static void sendFailureRedirect(HttpServletRequest request, HttpServletResponse response, String message, String url) {
         try {
             if (!response.isCommitted()) {
                 request.setAttribute("errorMessage", message);
@@ -61,6 +73,4 @@ public final class ResponseUtils {
             throw new InternalSecurityException(e.getMessage(), request.getRequestURI());
         }
     }
-
-
 }

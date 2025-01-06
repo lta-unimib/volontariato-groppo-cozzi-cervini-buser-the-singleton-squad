@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 // Configurazione delle autorizzazioni
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/authentication/**", "/oauth/**").permitAll()
+                        .requestMatchers("/authentication/**", "/oauth/**", "/login/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Configurazione OAuth2

@@ -95,7 +95,7 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             }
 
             //todo aggiungere nella sessione/funzione apposita il token JWT per restituirlo
-            ResponseUtils.sendSuccessRedirect(request, response, SUCCESS_AUTH_URL);
+            ResponseUtils.sendRedirect(response, SUCCESS_AUTH_URL, request);
 
         } catch (Exception e) {
             System.out.println("DEBUG: Error during authentication: " + e.getMessage());
