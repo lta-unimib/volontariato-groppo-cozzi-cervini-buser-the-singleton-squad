@@ -91,7 +91,17 @@ export function VolunteerForm() {
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={
+                    ((availability === null) ||
+                        (city === "") ||
+                        (checkboxValues.length === 0) ||
+                        (description === "") ||
+                        (description.length === 0) ||
+                        (description.trim().length === 0))
+                    }>
                     Submit
                 </Button>
             </form>
