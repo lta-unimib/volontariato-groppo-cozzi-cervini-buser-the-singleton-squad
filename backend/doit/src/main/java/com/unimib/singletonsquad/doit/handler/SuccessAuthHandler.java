@@ -196,7 +196,7 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     private Organization mapToOrganization(OAuth2User user) throws Exception {
         Organization organization = new Organization();
         Map<String, Object> userAttributes = user.getAttributes();
-        organization.setName((String) userAttributes.get("given_name") + "'s organization");
+        organization.setName((String) userAttributes.get("given_name") + "'s organization"+userAttributes.get("sub"));
         organization.setPhoneNumber((String) userAttributes.get("phoneNumber"));
         organization.setEmail((String) userAttributes.get("email"));
 
