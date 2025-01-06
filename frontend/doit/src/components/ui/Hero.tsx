@@ -6,6 +6,7 @@ import { ImageWrapper } from './ImageWrapper';
 import { CustomButton } from "@/components/ui/CustomButton";
 import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
 import { GITHUB_PAGES } from "@/utils/constants";
+import Link from "next/link";  // Importing Link from next
 
 export function Hero() {
     const theme = useTheme();
@@ -36,38 +37,46 @@ export function Hero() {
                         Mettiamo in contatto organizzazioni di volontariato e volontari in Lombardia.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-2 items-center sm:gap-2 md:gap-4 lg:gap-6 md:items-start">
-                        <CustomButton
-                            variant="default"
-                            size="default"
-                            className="lg:hidden"
-                        >
-                            <MdOutlineAccountCircle />
-                            Volontario
-                        </CustomButton>
-                        <CustomButton
-                            variant="default"
-                            size="lg"
-                            className="hidden lg:inline-flex"
-                        >
-                            <MdOutlineAccountCircle />
-                            Volontario
-                        </CustomButton>
-                        <CustomButton
-                            variant="secondary"
-                            size="default"
-                            className="lg:hidden"
-                        >
-                            <MdOutlineBusiness />
-                            Organizzazione
-                        </CustomButton>
-                        <CustomButton
-                            variant="secondary"
-                            size="lg"
-                            className="hidden lg:inline-flex"
-                        >
-                            <MdOutlineBusiness />
-                            Organizzazione
-                        </CustomButton>
+                        <Link href="/form/volunteer">
+                            <CustomButton
+                                variant="default"
+                                size="default"
+                                className="lg:hidden"
+                            >
+                                <MdOutlineAccountCircle />
+                                Volontario
+                            </CustomButton>
+                        </Link>
+                        <Link href="/form/volunteer">
+                            <CustomButton
+                                variant="default"
+                                size="lg"
+                                className="hidden lg:inline-flex"
+                            >
+                                <MdOutlineAccountCircle />
+                                Volontario
+                            </CustomButton>
+                        </Link>
+                        <Link href="/form/volunteer">
+                            <CustomButton
+                                variant="secondary"
+                                size="default"
+                                className="lg:hidden"
+                            >
+                                <MdOutlineBusiness />
+                                Organizzazione
+                            </CustomButton>
+                        </Link>
+                        <Link href="/form/volunteer">
+                            <CustomButton
+                                variant="secondary"
+                                size="lg"
+                                className="hidden lg:inline-flex"
+                            >
+                                <MdOutlineBusiness />
+                                Organizzazione
+                            </CustomButton>
+                        </Link>
                     </div>
                 </div>
             </div>
