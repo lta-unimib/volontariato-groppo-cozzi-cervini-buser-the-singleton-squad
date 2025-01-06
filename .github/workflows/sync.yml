@@ -1,31 +1,35 @@
-name: Sync Fork with Latest Changes
+name: Sync to Personal Fork
+
 on:
   push:
     branches:
       - develop
       - main
       - feature/authentication/frontend
-  workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Sync with fork
+
+      - name: Set up Git configuration
         run: |
           git config user.name "dbuser03"
           git config user.email "d.buser@campus.unimib.it"
-          git remote add fork https://github.com/dbuser03/${{ github.event.repository.name }}.git
-          git fetch --all
-          
-          for branch in $(git branch -r | grep -v '\->' | grep -v 'origin/HEAD' | sed 's/origin\///'); do
-            if [ "$branch" != "origin/$branch" ]; then
-              git checkout -B $branch origin/$branch
-              git merge --no-ff origin/$branch || echo "Merge conflict in branch $branch"
-              git push fork $branch
-            fi
+
+      - name: Add fork as remote
+        run: |
+          git remote add fork https://github.com/dbuser03/volontariato-groppo-cozzi-cervini-buser-the-singleton-squad.git
+          git fetch fork
+
+      - name: Push specified branches to fork
+        run: |
+          for branch in develop main feature/authentication/frontend; do
+            git push --force fork origin/$branch:refs/heads/$branch
           done
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
