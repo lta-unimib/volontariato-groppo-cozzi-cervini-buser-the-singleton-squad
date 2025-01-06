@@ -1,16 +1,25 @@
-"use client"
+"use client";
 
 import { useTheme } from "@/hooks/useTheme";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ImageWrapper } from './ImageWrapper';
-import { CustomButton } from "@/components/ui/CustomButton";
+import { Button } from "@/components/ui/Button";
 import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
 import { GITHUB_PAGES } from "@/utils/constants";
-import Link from "next/link";  // Importing Link from next
 
 export function Hero() {
     const theme = useTheme();
+    const router = useRouter();
     const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
+
+    const handleVolunteerClick = () => {
+        router.push("/form/volunteer");
+    };
+
+    const handleOrganizationClick = () => {
+        router.push("/form/organization");
+    };
 
     return (
         <div className="relative flex-grow flex flex-col items-center justify-start md:justify-center px-4 md:px-8">
@@ -37,46 +46,42 @@ export function Hero() {
                         Mettiamo in contatto organizzazioni di volontariato e volontari in Lombardia.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-2 items-center sm:gap-2 md:gap-4 lg:gap-6 md:items-start">
-                        <Link href="/form/volunteer">
-                            <CustomButton
-                                variant="default"
-                                size="default"
-                                className="lg:hidden"
-                            >
-                                <MdOutlineAccountCircle />
-                                Volontario
-                            </CustomButton>
-                        </Link>
-                        <Link href="/form/volunteer">
-                            <CustomButton
-                                variant="default"
-                                size="lg"
-                                className="hidden lg:inline-flex"
-                            >
-                                <MdOutlineAccountCircle />
-                                Volontario
-                            </CustomButton>
-                        </Link>
-                        <Link href="/form/volunteer">
-                            <CustomButton
-                                variant="secondary"
-                                size="default"
-                                className="lg:hidden"
-                            >
-                                <MdOutlineBusiness />
-                                Organizzazione
-                            </CustomButton>
-                        </Link>
-                        <Link href="/form/volunteer">
-                            <CustomButton
-                                variant="secondary"
-                                size="lg"
-                                className="hidden lg:inline-flex"
-                            >
-                                <MdOutlineBusiness />
-                                Organizzazione
-                            </CustomButton>
-                        </Link>
+                        <Button
+                            variant="default"
+                            size="default"
+                            className="lg:hidden"
+                            onClick={handleVolunteerClick}
+                        >
+                            <MdOutlineAccountCircle />
+                            Volontario
+                        </Button>
+                        <Button
+                            variant="default"
+                            size="lg"
+                            className="hidden lg:inline-flex"
+                            onClick={handleVolunteerClick}
+                        >
+                            <MdOutlineAccountCircle />
+                            Volontario
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            size="default"
+                            className="lg:hidden"
+                            onClick={handleOrganizationClick}
+                        >
+                            <MdOutlineBusiness />
+                            Organizzazione
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            size="lg"
+                            className="hidden lg:inline-flex"
+                            onClick={handleOrganizationClick}
+                        >
+                            <MdOutlineBusiness />
+                            Organizzazione
+                        </Button>
                     </div>
                 </div>
             </div>

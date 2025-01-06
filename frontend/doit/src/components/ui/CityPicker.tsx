@@ -89,7 +89,7 @@ export function CityPicker() {
                                         key={city}
                                         variant={selectedCity === city ? "secondary" : "ghost"}
                                         className={`w-full justify-start pl-4 text-left font-normal text-sm rounded-full
-                                            ${selectedCity === city ? 'bg-blue-500 text-white' : ''}`}
+        ${selectedCity === city ? 'bg-blue-500 text-white hover:bg-blue-500 hover:text-white' : ''}`}
                                         onClick={() => handleCitySelection(city)}
                                     >
                                         {city}

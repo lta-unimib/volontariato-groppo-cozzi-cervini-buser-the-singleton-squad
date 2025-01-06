@@ -34,7 +34,7 @@ export function VolunteerForm() {
                         className="rounded-2xl min-h-[100px]"
                     />
                 </div>
-                <Button type="submit" className="w-full rounded-full">Submit</Button>
+                <Button type="submit" className="w-full">Submit</Button>
             </form>
         </div>
     );
