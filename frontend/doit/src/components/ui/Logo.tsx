@@ -14,7 +14,7 @@ export function Logo() {
         <div className="flex items-center justify-center">
             {GITHUB_PAGES ? (
                 <ImageWrapper
-                    src="/header-logo-dark.svg"
+                    src="/header-logo-light.svg"
                     alt="Logo"
                     width={200}
                     height={50}

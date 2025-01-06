@@ -19,7 +19,7 @@ export function Hero() {
                 <div className="flex justify-center mb-1 md:mb-0 md:w-1/2 p-6 md:p-10">
                     {GITHUB_PAGES ? (
                         <ImageWrapper
-                            src="/hero-illustration-dark.svg"
+                            src="/hero-illustration-light.svg"
                             alt="Hero illustration"
                             width={600}
                             height={400}
