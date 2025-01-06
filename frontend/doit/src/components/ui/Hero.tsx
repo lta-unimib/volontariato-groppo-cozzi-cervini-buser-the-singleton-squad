@@ -1,24 +1,35 @@
 "use client"
 
 import { useTheme } from "@/hooks/useTheme";
+import Image from "next/image";
 import { ImageWrapper } from './ImageWrapper';
 import { CustomButton } from "@/components/ui/CustomButton";
 import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
+import { GITHUB_PAGES } from "@/utils/constants";
 
 export function Hero() {
-    const theme = useTheme()
+    const theme = useTheme();
     const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
 
     return (
         <div className="relative flex-grow flex flex-col items-center justify-start md:justify-center px-4 md:px-8">
             <div className="max-w-none w-full text-center md:text-left md:flex md:items-center md:gap-8">
-                <div className="flex justify-center mb-8 md:mb-0 md:w-1/2 md:p-10">
-                    <ImageWrapper
-                        src={heroIllustrationSrc}
-                        alt="Hero illustration"
-                        width={600}
-                        height={400}
-                    />
+                <div className="flex justify-center mb-1 md:mb-0 md:w-1/2 p-6 md:p-10">
+                    {GITHUB_PAGES ? (
+                        <ImageWrapper
+                            src={heroIllustrationSrc}
+                            alt="Hero illustration"
+                            width={600}
+                            height={400}
+                        />
+                    ) : (
+                        <Image
+                            src={heroIllustrationSrc}
+                            alt="Hero illustration"
+                            width={600}
+                            height={400}
+                        />
+                    )}
                 </div>
                 <div className="flex flex-col items-center md:items-start md:w-1/2">
                     <p className={`text-2xl md:text-4xl ${theme === "dark" ? "text-white" : "text-[var(--neutral-color-neutral-1000)]"} mb-8 md:mb-12`}>
