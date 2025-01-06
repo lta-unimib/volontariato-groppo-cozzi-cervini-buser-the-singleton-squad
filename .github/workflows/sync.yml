@@ -25,11 +25,9 @@ jobs:
           git remote add fork https://github.com/dbuser03/volontariato-groppo-cozzi-cervini-buser-the-singleton-squad.git
           git fetch fork
 
-      - name: Push specified branches to fork
+      - name: Force push changes to fork
         run: |
-          for branch in develop main feature/authentication/frontend; do
-            git push --force fork origin/$branch:refs/heads/$branch
-          done
+          git push --force fork ${{ github.ref }}:refs/heads/${{ github.ref_name }}
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
