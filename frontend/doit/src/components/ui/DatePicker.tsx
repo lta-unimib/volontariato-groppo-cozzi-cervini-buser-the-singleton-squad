@@ -2,8 +2,8 @@
 import * as React from "react"
 import { format } from "date-fns"
 import { CalendarIcon } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { Button } from "@/components/ui/Button"
+import { Calendar } from "@/components/ui/Calendar"
 import {
     Dialog,
     DialogContent,
@@ -11,14 +11,14 @@ import {
     DialogHeader,
     DialogTitle,
     DialogFooter,
-} from "@/components/ui/dialog"
+} from "@/components/ui/Dialog"
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/Select"
 
 export function DatePickerDialog({ onSaveAction }: { onSaveAction: (date: Date) => void }) {
     const [date, setDate] = React.useState<Date | undefined>(undefined)

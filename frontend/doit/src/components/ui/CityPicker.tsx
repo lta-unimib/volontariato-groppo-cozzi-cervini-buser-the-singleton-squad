@@ -1,8 +1,8 @@
 import React, { useState, useEffect, KeyboardEvent, ChangeEvent } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { ScrollArea } from "@/components/ui/ScrollArea";
+import { Button } from "@/components/ui/Button";
 
 interface CityData {
     nome: string;

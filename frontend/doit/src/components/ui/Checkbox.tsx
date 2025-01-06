@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { Card, CardContent } from "@/components/ui/Card"
+import { Label } from "@/components/ui/Label"
+import { ScrollArea } from "@/components/ui/ScrollArea"
 
 export function RoundCheckboxSelector() {
     const [selectedOptions, setSelectedOptions] = useState<string[]>([])
