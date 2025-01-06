@@ -40,6 +40,10 @@ public class Organization {
     }
 
     public void setPhoneNumber(String phoneNumber) {
+        if(phoneNumber == null) {
+            this.phoneNumber = null;
+            return;
+        }
         if(!DataValidator.isValidItalianNumber(phoneNumber)) {
             throw new IllegalArgumentException("Phone number is not valid");
         }
