@@ -3,7 +3,7 @@
 import { DatePickerDialog } from "@/components/ui/DatePicker";
 import { Button } from "@/components/ui/Button";
 import { CityPicker } from "@/components/ui/CityPicker";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@/components/ui/Textarea";
 import {RoundCheckboxSelector} from "@/components/ui/Checkbox";
 import React from "react";
 
