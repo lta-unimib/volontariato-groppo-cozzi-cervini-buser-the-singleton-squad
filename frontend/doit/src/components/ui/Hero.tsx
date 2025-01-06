@@ -11,8 +11,6 @@ export function Hero() {
     const theme = useTheme();
     const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
 
-    console.log("GITHUB_PAGES value:", GITHUB_PAGES);
-
     return (
         <div className="relative flex-grow flex flex-col items-center justify-start md:justify-center px-4 md:px-8">
             <div className="max-w-none w-full text-center md:text-left md:flex md:items-center md:gap-8">

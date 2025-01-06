@@ -8,8 +8,6 @@ export function Logo() {
     const theme = useTheme();
     const logoSrc = theme === "dark" ? "/header-logo-dark.svg" : "/header-logo-light.svg";
 
-    console.log("GITHUB_PAGES value:", GITHUB_PAGES);
-
     return (
         <div className="flex items-center justify-center">
             {GITHUB_PAGES ? (
