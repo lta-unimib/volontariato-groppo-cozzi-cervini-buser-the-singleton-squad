@@ -1,22 +1,27 @@
-import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/Card"
-import { Label } from "@/components/ui/Label"
-import { ScrollArea } from "@/components/ui/ScrollArea"
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/Card";
+import { Label } from "@/components/ui/Label";
+import { ScrollArea } from "@/components/ui/ScrollArea";
 
-export function RoundCheckboxSelector() {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+interface RoundCheckboxSelectorProps {
+    onChange: (selectedValues: string[]) => void;
+}
+
+export function RoundCheckboxSelector({ onChange }: RoundCheckboxSelectorProps) {
+    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
     const options = Array.from({ length: 100 }, (_, i) => ({
         id: `option${i + 1}`,
         label: `Option ${i + 1}`
-    }))
+    }));
 
     const handleCheckboxChange = (optionId: string) => {
-        setSelectedOptions((prevSelected) =>
-            prevSelected.includes(optionId)
-                ? prevSelected.filter((id) => id !== optionId)
-                : [...prevSelected, optionId]
-        )
-    }
+        const updatedSelected = selectedOptions.includes(optionId)
+            ? selectedOptions.filter((id) => id !== optionId)
+            : [...selectedOptions, optionId];
+
+        setSelectedOptions(updatedSelected);
+        onChange(updatedSelected); // Pass selected options to parent
+    };
 
     return (
         <Card className="w-full rounded-[24px]">
@@ -47,5 +52,5 @@ export function RoundCheckboxSelector() {
                 </ScrollArea>
             </CardContent>
         </Card>
-    )
+    );
 }

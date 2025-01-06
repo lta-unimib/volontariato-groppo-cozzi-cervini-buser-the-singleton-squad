@@ -1,4 +1,4 @@
-import React, { useState, useEffect, KeyboardEvent, ChangeEvent } from "react";
+import React, { useState, useEffect, KeyboardEvent, ChangeEvent, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { ScrollArea } from "@/components/ui/ScrollArea";
@@ -8,11 +8,18 @@ interface CityData {
     nome: string;
 }
 
-export function CityPicker() {
+interface CityPickerProps {
+    onChange: (selectedCity: string) => void;
+}
+
+export function CityPicker({ onChange }: CityPickerProps) {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [selectedCity, setSelectedCity] = useState<string>("");
     const [cities, setCities] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+    const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         let isMounted = true;
@@ -59,38 +66,110 @@ export function CityPicker() {
     const handleCitySelection = (city: string) => {
         setSelectedCity(city);
         setSearchQuery(city);
+        setHighlightedIndex(-1);
+        onChange(city); // Pass selected city to parent
+        inputRef.current?.focus();
     };
 
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && filteredCities.length === 1) {
-            handleCitySelection(filteredCities[0]);
+    const scrollHighlightedIntoView = () => {
+        if (highlightedIndex >= 0 && scrollAreaRef.current) {
+            const buttons = scrollAreaRef.current.getElementsByTagName('button');
+            const highlightedButton = buttons[highlightedIndex];
+            if (highlightedButton) {
+                highlightedButton.scrollIntoView({
+                    block: 'nearest',
+                    behavior: 'smooth'
+                });
+            }
         }
+    };
+
+    useEffect(() => {
+        scrollHighlightedIntoView();
+    }, [highlightedIndex]);
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        const maxIndex = filteredCities.length - 1;
+
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                setHighlightedIndex(prev => Math.min(prev + 1, maxIndex));
+                break;
+
+            case 'ArrowUp':
+                e.preventDefault();
+                setHighlightedIndex(prev => Math.max(prev - 1, 0));
+                break;
+
+            case 'Enter':
+                e.preventDefault();
+                if (highlightedIndex >= 0 && highlightedIndex <= maxIndex) {
+                    handleCitySelection(filteredCities[highlightedIndex]);
+                } else if (filteredCities.length === 1) {
+                    handleCitySelection(filteredCities[0]);
+                }
+                break;
+
+            case 'Escape':
+                e.preventDefault();
+                setSearchQuery("");
+                setSelectedCity("");
+                setHighlightedIndex(-1);
+                break;
+
+            case 'Tab':
+                if (highlightedIndex >= 0) {
+                    e.preventDefault();
+                    handleCitySelection(filteredCities[highlightedIndex]);
+                }
+                break;
+        }
+    };
+
+    const handleMouseEnter = (index: number) => {
+        if (index >= 0 && index < filteredCities.length) {
+            setHighlightedIndex(index);
+        }
+    };
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        setSearchQuery(newValue);
+        if (newValue !== selectedCity) {
+            setSelectedCity("");
+        }
+        setHighlightedIndex(-1);
     };
 
     return (
         <Card className="w-full rounded-[24px]">
             <CardContent className="p-4 space-y-4">
                 <Input
+                    ref={inputRef}
                     placeholder="Cerca città..."
                     className="w-full px-4 text-sm rounded-full"
                     type="search"
                     value={searchQuery}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                    onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
+                    autoComplete="off"
                 />
                 <div className="p-4 rounded-2xl border">
                     <ScrollArea className="h-32">
-                        <div className="space-y-1 pr-4">
+                        <div className="space-y-1 pr-4" ref={scrollAreaRef}>
                             {error ? (
                                 <p className="text-center text-red-500">{error}</p>
                             ) : filteredCities.length > 0 ? (
-                                filteredCities.map((city) => (
+                                filteredCities.map((city, index) => (
                                     <Button
                                         key={city}
                                         variant={selectedCity === city ? "secondary" : "ghost"}
                                         className={`w-full justify-start pl-4 text-left font-normal text-sm rounded-full
-        ${selectedCity === city ? 'bg-blue-500 text-white hover:bg-blue-500 hover:text-white' : ''}`}
+                                            ${selectedCity === city ? 'bg-blue-500 text-white hover:bg-blue-500 hover:text-white' : ''}
+                                            ${highlightedIndex === index ? 'bg-blue-100 dark:bg-blue-900' : ''}`}
                                         onClick={() => handleCitySelection(city)}
+                                        onMouseEnter={() => handleMouseEnter(index)}
                                     >
                                         {city}
                                     </Button>
@@ -107,3 +186,5 @@ export function CityPicker() {
         </Card>
     );
 }
+
+export default CityPicker;

@@ -100,13 +100,13 @@ export function DatePickerDialog({ onSaveAction }: { onSaveAction: (date: Date) 
             <DialogTrigger asChild>
                 <Button
                     variant={"outline"}
-                    className={`w-full justify-start text-left font-normal rounded-full ${date ? 'text-white': 'text-gray-400'}`}
+                    className={`w-full justify-start text-left font-normal rounded-full ${date ? 'text-foreground' : 'text-muted-foreground'}`}
                     onClick={() => setIsOpen(true)}
                 >
                     <CalendarIcon className="mr-2 h-5 w-5" />
-                    <span className={date ? 'text-white' : 'text-gray-400'}>
-        {date ? format(date, "dd/MM/yyyy") : "Seleziona la data di nascita"}
-    </span>
+                    <span>
+    {date ? format(date, "dd/MM/yyyy") : "Seleziona la data di nascita"}
+  </span>
                 </Button>
             </DialogTrigger>
 
