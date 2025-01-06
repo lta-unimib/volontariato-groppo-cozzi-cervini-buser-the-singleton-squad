@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.Service;
+package com.unimib.singletonsquad.doit.Service.Database;
 
 import com.unimib.singletonsquad.doit.Domain.Volunteer;
 import com.unimib.singletonsquad.doit.Repository.IVolunteerRepository;

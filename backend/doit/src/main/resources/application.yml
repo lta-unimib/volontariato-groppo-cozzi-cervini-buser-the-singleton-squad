@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/appdb
-    username: admin
-    password: password
+    url: jdbc:postgresql://ep-delicate-silence-a9nepk6u.gwc.azure.neon.tech/appdb?sslmode=require
+    username: appdb_owner
+    password: E19GHblZDxKi
     driver-class-name: org.postgresql.Driver
 
   jpa:

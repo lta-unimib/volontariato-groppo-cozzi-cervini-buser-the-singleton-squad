@@ -28,6 +28,7 @@ public class AuthFilter extends OncePerRequestFilter{
         try {
             String path = request.getRequestURI();
             if (path.startsWith("/authentication/") || path.startsWith("/oauth/")) {
+                //todo capire perchè /error mi da errore
                 filterChain.doFilter(request, response);
                 return;
             }

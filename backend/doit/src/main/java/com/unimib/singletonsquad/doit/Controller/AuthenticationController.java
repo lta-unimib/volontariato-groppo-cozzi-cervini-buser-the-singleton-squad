@@ -1,5 +1,5 @@
 package com.unimib.singletonsquad.doit.Controller;
-import com.unimib.singletonsquad.doit.Service.Authentication.AuthenticationService;
+import com.unimib.singletonsquad.doit.Service.Authentication.AuthenticationControllerService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthenticationController {
 
     private static final String AUTH_REDIRECT = "redirect:/oauth2/authorization/google";
-    private final AuthenticationService authenticationService;
+    private final AuthenticationControllerService authenticationControllerService;
 
-    public AuthenticationController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
+    public AuthenticationController(AuthenticationControllerService authenticationControllerService) {
+        this.authenticationControllerService = authenticationControllerService;
     }
 
 
     @GetMapping("/")
     public String authentication(@PathVariable String role, HttpServletRequest request, HttpServletResponse response) {
         try {
-            return this.authenticationService.authenticate(request, response, role, AUTH_REDIRECT);
+            return this.authenticationControllerService.authenticate(request, response, role, AUTH_REDIRECT);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return null;

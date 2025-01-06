@@ -13,11 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class AuthenticationUser {
+public class AuthenticationUserService {
 
     private final JWTUtils jwtUtils;
 
-    public AuthenticationUser(JWTUtils jwtUtils) {
+    public AuthenticationUserService(JWTUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
     }
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class AuthenticationService {
+public class AuthenticationControllerService {
 
 
     public String authenticate(HttpServletRequest req, HttpServletResponse res, String role, String authLink) throws IOException {

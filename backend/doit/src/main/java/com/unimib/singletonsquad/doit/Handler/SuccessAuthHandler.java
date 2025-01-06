@@ -3,9 +3,9 @@ package com.unimib.singletonsquad.doit.Handler;
 import com.unimib.singletonsquad.doit.Domain.Organization;
 import com.unimib.singletonsquad.doit.Domain.ProfilePicture;
 import com.unimib.singletonsquad.doit.Domain.Volunteer;
-import com.unimib.singletonsquad.doit.Service.Authentication.AuthenticationUser;
-import com.unimib.singletonsquad.doit.Service.OrganizationService;
-import com.unimib.singletonsquad.doit.Service.VolunteerService;
+import com.unimib.singletonsquad.doit.Service.Authentication.AuthenticationUserService;
+import com.unimib.singletonsquad.doit.Service.Database.OrganizationService;
+import com.unimib.singletonsquad.doit.Service.Database.VolunteerService;
 import com.unimib.singletonsquad.doit.Utils.ResponseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,14 +29,14 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     private final OAuth2AuthorizedClientService authorizedClientService;
     private OAuth2User oauth2User;
     private final VolunteerService volunteerService;
+    private final AuthenticationUserService authUser;
     private final OrganizationService organizationService;
-    private final AuthenticationUser authUser;
 
-    public SuccessAuthHandler(OAuth2AuthorizedClientService authorizedClientService, VolunteerService volunteerService, OrganizationService organizationService, AuthenticationUser authUser) {
+    public SuccessAuthHandler(OAuth2AuthorizedClientService authorizedClientService, VolunteerService volunteerService, AuthenticationUserService authUser, OrganizationService organizationService) {
         this.authorizedClientService = authorizedClientService;
         this.volunteerService = volunteerService;
-        this.organizationService = organizationService;
         this.authUser = authUser;
+        this.organizationService = organizationService;
     }
 
     @Override
@@ -90,13 +90,11 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
                 System.out.println("DEBUG: User exists in database, userId: " + userOauthId);
                 this.authUserOauth(userOauthId, role, principal);
             } else {
-                // Nuovo utente
-                System.out.println("DEBUG: User does not exist, registering new user.");
                 Long userId = this.registerNewRecord(this.oauth2User, role);
                 this.authUserOauth(userId, role, principal);
             }
 
-            //todo aggiungere nella sessione il token JWT per restituirlo
+            //todo aggiungere nella sessione/funzione apposita il token JWT per restituirlo
             ResponseUtils.sendSuccessRedirect(request, response, SUCCESS_AUTH_URL);
 
         } catch (Exception e) {
@@ -112,41 +110,25 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     }
 
     private Long checkOauthUserExists(String userOauthEmail, String role) {
-        System.out.println("DEBUG: Checking if OAuth user exists for email: " + userOauthEmail + " with role: " + role);
-        if(role.equalsIgnoreCase("volontario")) {
-            return this.getOauth2UserId(userOauthEmail);
-        } else {
-            return this.getOauth2UserId(userOauthEmail);
-        }
+        return this.getOauth2UserId(userOauthEmail, role);
+
     }
 
-    private Long getOauth2UserOrganizationId(String email) {
-        System.out.println("DEBUG: Fetching organization by email: " + email);
-        Optional<Organization> organization = organizationService.findOrganizationByEmail(email);
-        if (organization.isPresent()) {
-            Long organizationID = organization.get().getId();
-            System.out.println("DEBUG: Organization found with ID: " + organizationID);
-            return organizationID;
-        } else {
-            System.out.println("DEBUG: Organization not found.");
-            return null;
-        }
-    }
+    private Long getOauth2UserId(String email, String role) {
+        switch (role.toLowerCase()){
+            case "volontario":
+                Optional<Volunteer> volo = this.volunteerService.findVolunteerByEmail(email);
+                return volo.isPresent() ? volo.get().getId() : null;
 
-    private Long getOauth2UserId(String email) {
-        System.out.println("DEBUG: Fetching volunteer by email: " + email);
-        Optional<Volunteer> volo = this.volunteerService.findVolunteerByEmail(email);
-        if (volo.isPresent()) {
-            System.out.println("DEBUG: Volunteer found with ID: " + volo.get().getId());
-            return volo.get().getId();
-        } else {
-            System.out.println("DEBUG: Volunteer not found.");
-            return null;
+            case "organizzazione":
+                Optional<Organization> org = this.organizationService.findOrganizationByEmail(email);
+                return org.isPresent() ? org.get().getId() : null;
+            default:
+                throw new IllegalArgumentException("Invalid role: " + role);
         }
     }
 
     private OAuth2AuthenticationToken validateAuthenticationType(Authentication authentication) {
-        System.out.println("DEBUG: Validating authentication type.");
         return (authentication instanceof OAuth2AuthenticationToken) ? (OAuth2AuthenticationToken) authentication : null;
     }
 
@@ -170,74 +152,57 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     }
 
     private Long registerNewRecord(OAuth2User user, String role) throws Exception {
-        System.out.println("DEBUG: Registering new record for user with role: " + role);
-        if(role.equalsIgnoreCase("volontario")) {
-            return registerNewVolunteer(user);
-        } else if (role.equalsIgnoreCase("organizzazione")) {
-            return registerNewOrganization(user);
-        } else {
-            System.out.println("DEBUG: Unsupported role: " + role);
-            throw new Exception("Unsupported role: " + role);
-        }
+        return switch (role.toLowerCase()) {
+            case "volontario" -> registerNewVolunteer(user);
+            case "organizzazione" -> registerNewOrganizzazione(user);
+            default ->  throw new IllegalArgumentException("registerNewRecord=> Unsupported role: " + role);
+        };
     }
 
+
     private Long registerNewVolunteer(OAuth2User user) throws Exception {
-        System.out.println("DEBUG: Registering new volunteer.");
         Volunteer volunteer = this.mapToVolunteer(user);
-        if (volunteer != null) {
-            Volunteer volunteerRegistered = this.volunteerService.save(volunteer);
-            Long volunteerId = volunteerRegistered.getId();
-            System.out.println("DEBUG: Volunteer registered with ID: " + volunteerId);
-            return volunteerId;
-        } else {
-            System.out.println("DEBUG: Error mapping OAuth2 user to Volunteer.");
-            return null;
-        }
+        if (volunteer != null)
+            return this.volunteerService.save(volunteer).getId();
+        else
+            throw new Exception("Error mapping OAuth2 user to Volunteer.");
+
     }
 
     private Volunteer mapToVolunteer(OAuth2User user) throws Exception {
         Map<String, Object> userAttributes = user.getAttributes();
-            Volunteer volunteer = new Volunteer();
-            ProfilePicture volunteerPicture = new ProfilePicture();
-            volunteer.setName((String) userAttributes.get("given_name"));
-            volunteer.setSurname((String) userAttributes.get("family_name"));
-            volunteer.setEmail((String) userAttributes.get("email"));
-            volunteerPicture.setUrl((String) userAttributes.get("picture"));
-            volunteer.setPhoneNumber((String) userAttributes.get("phoneNumber"));
-            System.out.println("debug: Volunteer attributes: " + userAttributes);
-            volunteer.setProfilePicture(volunteerPicture);
 
-            System.out.println("DEBUG: Mapped volunteer: " + volunteer);
-            return volunteer;
+        Volunteer volunteer = new Volunteer();
+        ProfilePicture profilePicture = new ProfilePicture();
+
+        volunteer.setName((String) userAttributes.get("given_name"));
+        volunteer.setSurname((String) userAttributes.get("family_name"));
+        volunteer.setEmail((String) userAttributes.get("email"));
+        profilePicture.setUrl((String) userAttributes.get("picture"));
+        volunteer.setPhoneNumber((String) userAttributes.get("phoneNumber"));
+        volunteer.setProfilePicture(profilePicture);
+
+        return volunteer;
     }
 
-    private Long registerNewOrganization(OAuth2User user) throws Exception {
-        System.out.println("DEBUG: Registering new organization.");
+    private Long registerNewOrganizzazione(OAuth2User user) throws Exception {
         Organization organization = this.mapToOrganization(user);
-        if(organization != null) {
-            Organization registeredOrg = organizationService.save(organization);
-            Long orgId = registeredOrg.getId();
-            System.out.println("DEBUG: Organization registered with ID: " + orgId);
-            return orgId;
-        }
-        System.out.println("DEBUG: Error mapping OAuth2 user to Organization.");
-        return null;
+        if (organization != null)
+            return this.organizationService.save(organization).getId();
+        else
+            throw new Exception("Error mapping OAuth2 user to Organization.");
     }
 
     private Organization mapToOrganization(OAuth2User user) throws Exception {
-        Map<String, Object> userAttributes = user.getAttributes();
         Organization organization = new Organization();
-        ProfilePicture volunteerPicture = new ProfilePicture();
-
-        organization.setName((String) userAttributes.get("given_name"));
+        Map<String, Object> userAttributes = user.getAttributes();
+        organization.setPhoneNumber((String) userAttributes.get("phoneNumber"));
         organization.setEmail((String) userAttributes.get("email"));
-        volunteerPicture.setUrl((String) userAttributes.get("picture"));
-        //organization.setPhoneNumber((String) userAttributes.get("phoneNumber"));
-        System.out.println("debug: Organization attributes: " + userAttributes);
-        organization.setProfilePicture(volunteerPicture);
 
-        System.out.println("DEBUG: Mapped organization: " + organization);
         return organization;
     }
+
+
+
 
 }
