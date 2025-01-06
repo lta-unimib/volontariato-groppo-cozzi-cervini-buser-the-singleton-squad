@@ -10,7 +10,7 @@ import { CalendarIcon } from "lucide-react";
 
 type AvailabilityMode = 'daily' | 'weekly' | 'monthly';
 
-interface AvailabilityData {
+export interface AvailabilityData {
   mode: AvailabilityMode;
   data: string[] | DateRange;
 }

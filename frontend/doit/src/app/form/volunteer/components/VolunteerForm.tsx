@@ -6,17 +6,24 @@ import { CityPicker } from "@/components/ui/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import React from "react";
-import AvailabilityDialog from "@/components/ui/AvailabilityPicker";
+import AvailabilityDialog, { AvailabilityData as DialogAvailabilityData } from "@/components/ui/AvailabilityPicker";
+
+// Use the imported type for the form data
+interface FormData {
+    availability: DialogAvailabilityData | null;
+    city: string;
+    preferences: string[];
+    description: string;
+}
 
 export function VolunteerForm() {
-    const [availability, setAvailability] = useState(null);
+    const [availability, setAvailability] = useState<DialogAvailabilityData | null>(null);
     const [city, setCity] = useState("");
     const [checkboxValues, setCheckboxValues] = useState<string[]>([]);
     const [description, setDescription] = useState("");
-
     const [availabilityDialogOpen, setAvailabilityDialogOpen] = useState(false);
 
-    const handleSaveAvailability = (data: any) => {
+    const handleSaveAvailability = (data: DialogAvailabilityData) => {
         setAvailability(data);
         setAvailabilityDialogOpen(false);
     };
@@ -29,10 +36,10 @@ export function VolunteerForm() {
         setCheckboxValues(selectedValues);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const formData = {
+        const formData: FormData = {
             availability,
             city,
             preferences: checkboxValues,
@@ -41,12 +48,23 @@ export function VolunteerForm() {
 
         console.log("Form Data:", JSON.stringify(formData, null, 2));
 
-        // Puoi inviare i dati ad un'API qui:
-        // fetch("/api/submit", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(formData),
-        // });
+        try {
+            // Uncomment and modify this section when ready to submit to an API
+            // const response = await fetch("/api/submit", {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify(formData),
+            // });
+            //
+            // if (!response.ok) {
+            //     throw new Error('Failed to submit form');
+            // }
+            //
+            // const result = await response.json();
+            // console.log('Success:', result);
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
     };
 
     return (
