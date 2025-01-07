@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { ScrollArea } from "@/components/ui/ScrollArea";
-import { Calendar } from "@/components/ui/Calendar";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
+import { Calendar } from "@/app/form/volunteer/components/Calendar";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/app/form/volunteer/components/Tabs";
 import { cn } from "@/lib/utils";
 import { DateRange } from "react-day-picker";
-import { CalendarIcon } from "lucide-react";
+import { MdCalendarMonth } from "react-icons/md";
 
 type AvailabilityMode = 'daily' | 'weekly' | 'monthly';
 
@@ -129,7 +129,7 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
                       : "text-muted-foreground"
               )}
           >
-            <CalendarIcon className="mr-2 h-5 w-5" />
+            <MdCalendarMonth className="mr-2 h-5 w-5" />
             {getDisplayText()}
           </Button>
         </DialogTrigger>
@@ -147,7 +147,7 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
             </TabsList>
 
             <TabsContent value="daily" className="mt-4">
-              <ScrollArea className="h-[348px] w-full rounded-lg border">
+              <ScrollArea className="h-[348px] w-full rounded-2xl border">
                 <div className="grid grid-cols-3 gap-2 p-4">
                   {timeSlots.map((time) => (
                       <Button
@@ -167,7 +167,7 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
             </TabsContent>
 
             <TabsContent value="weekly" className="mt-4">
-              <div className="h-[348px] w-full rounded-lg border flex flex-col gap-2 p-4">
+              <div className="h-[348px] w-full rounded-2xl border flex flex-col gap-2 p-4">
                 {weekDays.map((day) => (
                     <Button
                         key={day}
@@ -183,7 +183,7 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
 
 
             <TabsContent value="monthly" className="mt-4">
-              <div className="flex justify-center h-[348px] w-full rounded-lg border p-4">
+              <div className="flex justify-center h-[348px] w-full rounded-2xl border p-4">
                 <Calendar
                     mode="range"
                     selected={selectedDateRange}

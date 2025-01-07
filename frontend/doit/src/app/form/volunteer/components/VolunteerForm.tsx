@@ -1,110 +1,69 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
 import { CityPicker } from "@/components/ui/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import React from "react";
-import AvailabilityDialog, { AvailabilityData as DialogAvailabilityData } from "@/components/ui/AvailabilityPicker";
-
-// Use the imported type for the form data
-interface FormData {
-    availability: DialogAvailabilityData | null;
-    city: string;
-    preferences: string[];
-    description: string;
-}
+import AvailabilityDialog from "@/app/form/volunteer/components/AvailabilityPicker";
+import { MdOutlineAccountCircle } from "react-icons/md";
+import {BaseForm} from "@/components/ui/BaseForm";
+import { IconInput } from "@/components/ui/FormFields";
+import {VolunteerFormData} from "@/types/formTypes";
 
 export function VolunteerForm() {
-    const [availability, setAvailability] = useState<DialogAvailabilityData | null>(null);
-    const [city, setCity] = useState("");
-    const [checkboxValues, setCheckboxValues] = useState<string[]>([]);
-    const [description, setDescription] = useState("");
+    const [formData, setFormData] = useState<VolunteerFormData>({
+        fullName: "",
+        availability: null,
+        city: "",
+        preferences: [],
+        description: "",
+    });
     const [availabilityDialogOpen, setAvailabilityDialogOpen] = useState(false);
-
-    const handleSaveAvailability = (data: DialogAvailabilityData) => {
-        setAvailability(data);
-        setAvailabilityDialogOpen(false);
-    };
-
-    const handleCityChange = (selectedCity: string) => {
-        setCity(selectedCity);
-    };
-
-    const handleCheckboxChange = (selectedValues: string[]) => {
-        setCheckboxValues(selectedValues);
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const formData: FormData = {
-            availability,
-            city,
-            preferences: checkboxValues,
-            description,
-        };
-
-        console.log("Form Data:", JSON.stringify(formData, null, 2));
-
         try {
-            // Uncomment and modify this section when ready to submit to an API
-            // const response = await fetch("/api/submit", {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify(formData),
-            // });
-            //
-            // if (!response.ok) {
-            //     throw new Error('Failed to submit form');
-            // }
-            //
-            // const result = await response.json();
-            // console.log('Success:', result);
+            // API implementation
+            console.log("Form Data:", JSON.stringify(formData, null, 2));
         } catch (error) {
-            console.error('Error submitting form:', error);
+            console.error('Error:', error);
         }
     };
 
+    const isValid = () => {
+        return formData.availability !== null &&
+            formData.city !== "" &&
+            formData.preferences.length > 0 &&
+            formData.description.trim().length > 0;
+    };
+
     return (
-        <div className="w-full mx-auto p-6 sm:p-8 md:p-10">
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="w-full">
-                    <AvailabilityDialog
-                        open={availabilityDialogOpen}
-                        onOpenChange={setAvailabilityDialogOpen}
-                        onSaveAction={handleSaveAvailability}
-                    />
-                </div>
-                <div className="w-full">
-                    <CityPicker onChange={handleCityChange} />
-                </div>
-                <div className="w-full">
-                    <RoundCheckboxSelector onChange={handleCheckboxChange} />
-                </div>
-                <div className="w-full">
-                    <Textarea
-                        placeholder="Descrizione dell'utente"
-                        className="rounded-2xl min-h-[100px]"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                </div>
-                <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={
-                    ((availability === null) ||
-                        (city === "") ||
-                        (checkboxValues.length === 0) ||
-                        (description === "") ||
-                        (description.length === 0) ||
-                        (description.trim().length === 0))
-                    }>
-                    Submit
-                </Button>
-            </form>
-        </div>
+        <BaseForm onSubmit={handleSubmit} isValid={isValid()}>
+            <IconInput
+                value={formData.fullName}
+                onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                placeholder="Nome Completo"
+                icon={<MdOutlineAccountCircle />}
+            />
+            <AvailabilityDialog
+                open={availabilityDialogOpen}
+                onOpenChange={setAvailabilityDialogOpen}
+                onSaveAction={(availability) => setFormData({...formData, availability})}
+            />
+            <CityPicker
+                value={formData.city}
+                onChange={(city) => setFormData({...formData, city})}
+            />
+            <RoundCheckboxSelector
+                onChange={(preferences) => setFormData({...formData, preferences})}
+            />
+            <Textarea
+                placeholder="Descrizione dell'utente"
+                className="rounded-2xl min-h-[100px]"
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+            />
+        </BaseForm>
     );
 }

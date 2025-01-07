@@ -6,16 +6,19 @@ import { Button } from "@/components/ui/Button";
 
 interface CityData {
     nome: string;
+    cap: string;
 }
 
 interface CityPickerProps {
-    onChange: (selectedCity: string) => void;
+    value: string;
+    onChange: (selectedCity: string, selectedCap?: string) => void;
+    showCap?: boolean;
 }
 
-export function CityPicker({ onChange }: CityPickerProps) {
+export function CityPicker({ value, onChange, showCap = false }: CityPickerProps) {
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [selectedCity, setSelectedCity] = useState<string>("");
-    const [cities, setCities] = useState<string[]>([]);
+    const [selectedCity, setSelectedCity] = useState<string>(value);
+    const [cities, setCities] = useState<CityData[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
     const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -34,8 +37,7 @@ export function CityPicker({ onChange }: CityPickerProps) {
                 }
                 const data: CityData[] = await response.json();
                 if (!isMounted) return;
-                const nomi: string[] = data.map((item: CityData) => item.nome);
-                setCities(nomi);
+                setCities(data);
             } catch (err) {
                 if (!isMounted) return;
                 const errorMessage = err instanceof Error
@@ -60,14 +62,14 @@ export function CityPicker({ onChange }: CityPickerProps) {
     }, []);
 
     const filteredCities = cities.filter((city) =>
-        city.toLowerCase().includes(searchQuery.toLowerCase())
+        city.nome.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleCitySelection = (city: string) => {
-        setSelectedCity(city);
-        setSearchQuery(city);
+    const handleCitySelection = (city: CityData) => {
+        setSelectedCity(city.nome);
+        setSearchQuery(city.nome);
         setHighlightedIndex(-1);
-        onChange(city); // Pass selected city to parent
+        onChange(city.nome, showCap ? city.cap : undefined);
         inputRef.current?.focus();
     };
 
@@ -128,9 +130,13 @@ export function CityPicker({ onChange }: CityPickerProps) {
     };
 
     const handleMouseEnter = (index: number) => {
-        if (index >= 0 && index < filteredCities.length) {
+        if (index >= 0 && index < filteredCities.length && filteredCities[index].nome !== selectedCity) {
             setHighlightedIndex(index);
         }
+    };
+
+    const handleMouseLeave = () => {
+        setHighlightedIndex(-1);
     };
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -159,19 +165,20 @@ export function CityPicker({ onChange }: CityPickerProps) {
                     <ScrollArea className="h-32">
                         <div className="space-y-1 pr-4" ref={scrollAreaRef}>
                             {error ? (
-                                <p className="text-center text-red-500">{error}</p>
+                                <p className="text-center text-destructive">{error}</p>
                             ) : filteredCities.length > 0 ? (
                                 filteredCities.map((city, index) => (
                                     <Button
-                                        key={city}
-                                        variant={selectedCity === city ? "secondary" : "ghost"}
+                                        key={city.nome}
+                                        variant={selectedCity === city.nome ? "secondary" : "ghost"}
                                         className={`w-full justify-start pl-4 text-left font-normal text-sm rounded-full
-                                            ${selectedCity === city ? 'bg-blue-500  hover:bg-blue-500 hover:text-white' : ''}
-                                            ${highlightedIndex === index ? 'bg-blue-100 dark:bg-blue-900' : ''}`}
+                                            ${selectedCity === city.nome ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground' : ''}
+                                            ${highlightedIndex === index ? 'bg-secondary dark:bg-accent' : ''}`}
                                         onClick={() => handleCitySelection(city)}
                                         onMouseEnter={() => handleMouseEnter(index)}
+                                        onMouseLeave={handleMouseLeave}
                                     >
-                                        {city}
+                                        {city.nome}
                                     </Button>
                                 ))
                             ) : (
@@ -186,5 +193,3 @@ export function CityPicker({ onChange }: CityPickerProps) {
         </Card>
     );
 }
-
-export default CityPicker;

@@ -3,7 +3,7 @@ import * as React from "react"
 import { format } from "date-fns"
 import { CalendarIcon } from 'lucide-react'
 import { Button } from "@/components/ui/Button"
-import { Calendar } from "@/components/ui/Calendar"
+import { Calendar } from "@/app/form/volunteer/components/Calendar"
 import {
     Dialog,
     DialogContent,
@@ -18,7 +18,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/Select"
+} from "@/app/form/volunteer/components/Select"
 
 export function DatePickerDialog({ onSaveAction }: { onSaveAction: (date: Date) => void }) {
     const [date, setDate] = React.useState<Date | undefined>(undefined)
