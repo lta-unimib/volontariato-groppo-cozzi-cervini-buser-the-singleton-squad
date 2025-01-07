@@ -34,7 +34,7 @@ interface AddressFields {
     city?: string;
     region?: string;
     postalCode?: string;
-    country?: string; // Aggiunto il campo country
+    country?: string; // Added country field
 }
 
 export function createAddressSchema(address: AddressFields) {
@@ -112,7 +112,7 @@ export default function AddressDialog(
     const [city, setCity] = useState(address.city || "");
     const [region, setRegion] = useState(address.region || "");
     const [postalCode, setPostalCode] = useState(address.postalCode || "");
-    const [country, setCountry] = useState(address.country || ""); // Stato aggiunto
+    const [country, setCountry] = useState(address.country || ""); // Added country
     const [errorMap, setErrorMap] = useState<Record<string, string>>({});
 
     const addressSchema = createAddressSchema({
@@ -121,12 +121,17 @@ export default function AddressDialog(
         city,
         region,
         postalCode,
-        country, // Aggiunto al controllo della validazione
+        country, // Added country for validation
     });
 
-    /**
-     * Update and format the address string with the given components
-     */
+    // Function to update address components as an array
+    function handleAddressChange() {
+        const addressArray = [address1, address2, city, region, postalCode, country];
+        console.log("Indirizzo come array:", addressArray); // Log for debugging
+        return addressArray;
+    }
+
+    // Function to update and format the address string
     function updateAndFormatAddress(
         addressString: string,
         addressComponents: {
@@ -135,7 +140,7 @@ export default function AddressDialog(
             locality: string;
             region: string;
             "postal-code": string;
-            country: string; // Aggiunto country alla formattazione
+            country: string;
         },
     ) {
         let updatedAddressString = addressString;
@@ -169,6 +174,7 @@ export default function AddressDialog(
         return updatedAddressString;
     }
 
+    // Handle form submission and validation
     const handleSave = (e: FormEvent) => {
         e.preventDefault();
         try {
@@ -178,7 +184,7 @@ export default function AddressDialog(
                 city,
                 region,
                 postalCode,
-                country, // Aggiunto country al salvataggio
+                country, // Added country validation
             });
         } catch (error) {
             const zodError = error as ZodError;
@@ -190,7 +196,7 @@ export default function AddressDialog(
                 city: errorMap.city?.[0] ?? "",
                 region: errorMap.region?.[0] ?? "",
                 postalCode: errorMap.postalCode?.[0] ?? "",
-                country: errorMap.country?.[0] ?? "", // Aggiunto errore per country
+                country: errorMap.country?.[0] ?? "", // Added country error handling
             });
 
             return;
@@ -202,7 +208,7 @@ export default function AddressDialog(
             address1 !== address.address1 ||
             city !== address.city ||
             region !== address.region ||
-            country !== address.country // Aggiunto country al controllo
+            country !== address.country // Added country change check
         ) {
             const newFormattedAddress = updateAndFormatAddress(adrAddress, {
                 "street-address": address1,
@@ -233,7 +239,7 @@ export default function AddressDialog(
         setPostalCode(address.postalCode || "");
         setCity(address.city || "");
         setRegion(address.region || "");
-        setCountry(address.country || ""); // Aggiunto country al reset
+        setCountry(address.country || ""); // Added country reset
 
         if (!open) {
             setErrorMap({});
@@ -259,8 +265,10 @@ export default function AddressDialog(
                                 <Label htmlFor="address1">Indirizzo 1</Label>
                                 <Input
                                     value={address1}
-                                    onChange={(e) => setAddress1(e.currentTarget.value)}
-                                    disabled={false}
+                                    onChange={(e) => {
+                                        setAddress1(e.currentTarget.value);
+                                        handleAddressChange();
+                                    }}
                                     id="address1"
                                     name="address1"
                                     placeholder="Indirizzo 1"
@@ -278,13 +286,15 @@ export default function AddressDialog(
                                 <Label htmlFor="address2">
                                     Indirizzo 2{" "}
                                     <span className="text-xs text-secondary-foreground">
-										(Opzionale)
-									</span>
+                                        (Opzionale)
+                                    </span>
                                 </Label>
                                 <Input
                                     value={address2}
-                                    onChange={(e) => setAddress2(e.currentTarget.value)}
-                                    disabled={false}
+                                    onChange={(e) => {
+                                        setAddress2(e.currentTarget.value);
+                                        handleAddressChange();
+                                    }}
                                     id="address2"
                                     name="address2"
                                     placeholder="Indirizzo 2"
@@ -296,8 +306,10 @@ export default function AddressDialog(
                                     <Label htmlFor="city">Città</Label>
                                     <Input
                                         value={city}
-                                        onChange={(e) => setCity(e.currentTarget.value)}
-                                        disabled={false}
+                                        onChange={(e) => {
+                                            setCity(e.currentTarget.value);
+                                            handleAddressChange();
+                                        }}
                                         id="city"
                                         name="city"
                                         placeholder="Città"
@@ -314,8 +326,10 @@ export default function AddressDialog(
                                     <Label htmlFor="region">Regione</Label>
                                     <Input
                                         value={region}
-                                        onChange={(e) => setRegion(e.currentTarget.value)}
-                                        disabled={false}
+                                        onChange={(e) => {
+                                            setRegion(e.currentTarget.value);
+                                            handleAddressChange();
+                                        }}
                                         id="region"
                                         name="region"
                                         placeholder="Regione"
@@ -335,8 +349,10 @@ export default function AddressDialog(
                                     <Label htmlFor="postalCode">Codice postale</Label>
                                     <Input
                                         value={postalCode}
-                                        onChange={(e) => setPostalCode(e.currentTarget.value)}
-                                        disabled={false} // Permetti sempre la modifica
+                                        onChange={(e) => {
+                                            setPostalCode(e.currentTarget.value);
+                                            handleAddressChange();
+                                        }}
                                         id="postalCode"
                                         name="postalCode"
                                         placeholder="Codice postale"
@@ -353,7 +369,10 @@ export default function AddressDialog(
                                     <Label htmlFor="country">Paese</Label>
                                     <Input
                                         value={country}
-                                        onChange={(e) => setCountry(e.currentTarget.value)}
+                                        onChange={(e) => {
+                                            setCountry(e.currentTarget.value);
+                                            handleAddressChange();
+                                        }}
                                         id="country"
                                         name="country"
                                         placeholder="Paese"
