@@ -12,7 +12,7 @@ import java.util.Objects;
 @Table(name = "volunteers")
 public class Volunteer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true, nullable = false)
     private Long id;
     @Column(nullable = false)
@@ -27,6 +27,8 @@ public class Volunteer {
     private VolunteerPreferences volunteerPreferences;
     @OneToOne(cascade = CascadeType.ALL)
     private ProfilePicture profilePicture;
+    @Column(nullable = true)
+    private String description;
 
     public Volunteer(Long id, String name, String surname, String email) {
         this.id = id;

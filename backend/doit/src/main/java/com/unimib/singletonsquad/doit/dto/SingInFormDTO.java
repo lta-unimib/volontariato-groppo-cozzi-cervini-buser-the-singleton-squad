@@ -1,4 +1,5 @@
 package com.unimib.singletonsquad.doit.dto;
 
-public abstract class SignInFormDTO {
+public abstract class SingInFormDTO {
+
 }

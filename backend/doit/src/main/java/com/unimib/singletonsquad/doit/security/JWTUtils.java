@@ -2,10 +2,14 @@ package com.unimib.singletonsquad.doit.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -103,36 +107,31 @@ public class JWTUtils {
         return generateToken(username);
     }
 
-    /**
-     * Estrae il nome utente (subject) dal token.
-     */
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    /**
-     * Estrae la data di scadenza dal token.
-     */
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    /**
-     * Estrae un claim generico dal token utilizzando un resolver.
-     */
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    /**
-     * Estrae tutti i claims da un token.
-     */
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+    public Authentication getAuthentication(String token) {
+        // Estrarre le informazioni utente dal token e creare un'Authentication
+        String username = extractUsername(token); // Metodo per estrarre lo username
+        return new UsernamePasswordAuthenticationToken(
+                username, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
+        );
     }
 }

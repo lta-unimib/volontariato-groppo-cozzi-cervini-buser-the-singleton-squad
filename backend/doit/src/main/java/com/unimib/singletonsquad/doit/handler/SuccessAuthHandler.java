@@ -171,7 +171,6 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
     private Volunteer mapToVolunteer(OAuth2User user) throws Exception {
         Map<String, Object> userAttributes = user.getAttributes();
-
         Volunteer volunteer = new Volunteer();
         ProfilePicture profilePicture = new ProfilePicture();
 

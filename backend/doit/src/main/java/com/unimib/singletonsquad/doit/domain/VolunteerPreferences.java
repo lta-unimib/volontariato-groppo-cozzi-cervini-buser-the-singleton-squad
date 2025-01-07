@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collection;
+import java.util.List;
 
 @Setter
 @Getter
@@ -12,22 +12,17 @@ import java.util.Collection;
 @Table(name = "volunteer_preferences")
 public class VolunteerPreferences {
     @Id
-    private int id;
-    @org.springframework.data.annotation.Id
-    //private LocalDateTime dateTime;
-    private String duration;
-    @OneToOne
-    private Location location;
-    Collection<VolunteerCategories> volunteerCategories;
-    private String volunteerId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String city;
 
-    /*public LocalDateTime getDateTime() {
-        return dateTime;
-    }
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<VolunteerCategories> volunteerCategories;
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }*/
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "availability_id") // La colonna di join che riferisce la tabella availability
+    private Availability availability;
 
     public void addNewVolunteerCategories(VolunteerCategories volunteerCategories) {
         this.volunteerCategories.add(volunteerCategories);
@@ -36,11 +31,8 @@ public class VolunteerPreferences {
     @Override
     public String toString() {
         return "VolunteerPreferences{" +
-                //"dateTime=" + dateTime +
-                ", duration='" + duration + '\'' +
-                ", location=" + location +
+                "city='" + city + '\'' +
                 ", volunteerCategories=" + volunteerCategories +
                 '}';
     }
-
 }

@@ -12,6 +12,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class VolunteerService {
+    @Autowired
     private final IVolunteerRepository volunteerRepository;
 
     @Autowired
@@ -19,16 +20,9 @@ public class VolunteerService {
         this.volunteerRepository = volunteerRepository;
     }
 
-    public Volunteer createVolunteer(Volunteer volunteer) {
-        return volunteerRepository.save(volunteer);  //JpaRepository
-    }
 
-    public List<Volunteer> findVolunteersByName(String name) {
-        return volunteerRepository.findByName(name); //IVolunteerRepository
-    }
-
-    public Optional<Volunteer> findVolunteerById(int id) {
-        return volunteerRepository.findById((long) id);
+    public Optional<Volunteer> findVolunteerById(long id) {
+        return volunteerRepository.findById(id);
     }
 
     public Optional<Volunteer> findVolunteerByEmail(String email) {

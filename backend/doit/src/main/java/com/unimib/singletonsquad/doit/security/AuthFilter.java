@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.util.List;
@@ -55,7 +56,7 @@ public class AuthFilter extends OncePerRequestFilter{
 
                 if(this.jwtUtils.verifyToken(token) && !this.jwtUtils.isExpired(token)){
                     System.out.println("token valid");
-                    return;
+                    SecurityContextHolder.getContext().setAuthentication(jwtUtils.getAuthentication(token));
                 }
             }
             filterChain.doFilter(request, response);

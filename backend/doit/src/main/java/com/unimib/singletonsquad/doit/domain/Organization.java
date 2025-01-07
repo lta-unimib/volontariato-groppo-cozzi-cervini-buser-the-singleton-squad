@@ -1,23 +1,31 @@
 package com.unimib.singletonsquad.doit.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unimib.singletonsquad.doit.utils.DataValidator;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Map;
 import java.util.Objects;
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Organization {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
+
     @Column(unique = true, nullable = false)
+    @JsonProperty("organizationName")
     private String name;
+    @Column(unique = false, nullable = true)
     private String description;
     @OneToOne(cascade = CascadeType.ALL)
     private ProfilePicture profilePicture;
@@ -25,12 +33,21 @@ public class Organization {
     private Map<SocialNetwork, String> socialNetworks;
     @Column(unique = true, nullable = false)
     private String email;
-    @Column(unique = true)
+    @Column(unique = true, nullable = true)
     private String phoneNumber;
 
-    public Organization() {
+    //todo preferenze??
+    private String VATNumber;
+    private String weSite;
 
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonProperty("address")
+    private OrganizationAddress organizationAddress;
+
+
+
+
+
 
     public void setEmail(String email) throws Exception{
         if (!DataValidator.isValidEmail(email)) {

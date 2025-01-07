@@ -1,10 +1,28 @@
 package com.unimib.singletonsquad.doit.dto;
 
-import com.unimib.singletonsquad.doit.dto.availability.AvailabilityDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unimib.singletonsquad.doit.domain.Availability;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
-public class SignInFormVolunteerDTO {
-    private AvailabilityDTO availability;
+import java.io.Serializable;
+import java.util.List;
+
+@Component
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class SignInFormVolunteerDTO extends SingInFormDTO {
+    @JsonProperty("id")
+    private Long id;
+    @JsonProperty("availability")
+    private Availability availability;
+    @JsonProperty("city")
     private String city;
-    private String[] preferences;
+    @JsonProperty("preferences")
+    private List<String> preferences;
+    @JsonProperty("description")
     private String description;
 }
