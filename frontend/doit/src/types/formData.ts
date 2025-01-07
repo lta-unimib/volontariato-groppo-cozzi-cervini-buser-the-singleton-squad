@@ -1,4 +1,4 @@
-import { AvailabilityData as DialogAvailabilityData } from "@/app/form/volunteer/components/AvailabilityPicker";
+import {AvailabilityData} from "@/types/availabilityData";
 
 export interface BaseFormData {
     city: string;
@@ -14,13 +14,5 @@ export interface OrganizationFormData extends BaseFormData {
 
 export interface VolunteerFormData extends BaseFormData {
     fullName: string;
-    availability: DialogAvailabilityData | null;
-}
-
-export interface AddressData {
-    street: string;
-    number: string;
-    city: string;
-    postalCode: string;
-    additionalInfo?: string;
+    availability: AvailabilityData | null;
 }

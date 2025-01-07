@@ -1,62 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { ScrollArea } from "@/components/ui/ScrollArea";
-import { Calendar } from "@/app/form/volunteer/components/Calendar";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/app/form/volunteer/components/Tabs";
+import { Calendar } from "@/components/ui/Calendar";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { cn } from "@/lib/utils";
-import { DateRange } from "react-day-picker";
 import { MdCalendarMonth } from "react-icons/md";
+import { useAvailabilityDialog } from '@/app/form/volunteer/hooks/useAvailabilityDialog';
+import { timeSlots, weekDays, getDisplayText } from '@/app/form/volunteer/utils/formUtils';
+import { isTimeInRange, isAvailabilityValid } from '@/app/form/volunteer/utils/formValidation';
+import { AvailabilityMode, AvailabilityDialogProps } from "@/types/availabilityData";
+import { DateRange } from "react-day-picker";
 
-type AvailabilityMode = 'daily' | 'weekly' | 'monthly';
+export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAction }) => {
+  const {
+    open,
+    setOpen,
+    selectedMode,
+    selectedTimeRange,
+    selectedWeekDays,
+    selectedDateRange,
+    setSelectedTimeRange,
+    setSelectedWeekDays,
+    setSelectedDateRange,
+    handleModeChange,
+    handleSave,
+    handleCancel
+  } = useAvailabilityDialog(onSaveAction);
 
-export interface AvailabilityData {
-  mode: AvailabilityMode;
-  data: string[] | DateRange;
-}
-
-interface AvailabilityDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSaveAction: (data: AvailabilityData) => void;
-}
-
-
-const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
-                                                                 onSaveAction
-                                                               }) => {
-  const [open, setOpen] = useState(false);
-  const [selectedMode, setSelectedMode] = useState<AvailabilityMode>('daily');
-  const [selectedTimeRange, setSelectedTimeRange] = useState<string[]>([]);
-  const [selectedWeekDays, setSelectedWeekDays] = useState<string[]>([]);
-  const [selectedDateRange, setSelectedDateRange] = useState<DateRange | undefined>({
-    from: undefined,
-    to: undefined
-  });
-
-  const timeSlots: string[] = Array.from({ length: 24 }, (_, i) =>
-      `${i.toString().padStart(2, '0')}:00`
-  );
-
-  const weekDays: string[] = [
-    'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì',
-    'Venerdì', 'Sabato', 'Domenica'
-  ];
-
-  const getDisplayText = (): string => {
-    if (selectedMode === 'daily' && selectedTimeRange.length === 2) {
-      return `Daily: ${selectedTimeRange[0]} - ${selectedTimeRange[1]}`;
-    }
-    if (selectedMode === 'weekly' && selectedWeekDays.length > 0) {
-      return `Weekly: ${selectedWeekDays.length} giorni selezionati`;
-    }
-    if (selectedMode === 'monthly' && selectedDateRange?.from && selectedDateRange?.to) {
-      return `Monthly: ${selectedDateRange.from.toLocaleDateString()} - ${selectedDateRange.to.toLocaleDateString()}`;
-    }
-    return "Seleziona disponibilità";
-  };
-
-  const handleTimeSelect = (time: string): void => {
+  const handleTimeSelect = (time: string) => {
     if (selectedTimeRange.length === 2) {
       setSelectedTimeRange([time]);
     } else if (selectedTimeRange.length === 1) {
@@ -72,49 +44,12 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
     }
   };
 
-  const handleWeekDaySelect = (day: string): void => {
+  const handleWeekDaySelect = (day: string) => {
     setSelectedWeekDays(prev =>
         prev.includes(day)
             ? prev.filter(d => d !== day)
             : [...prev, day]
     );
-  };
-
-  const isTimeInRange = (time: string): boolean => {
-    if (selectedTimeRange.length !== 2) return false;
-    const [start, end] = selectedTimeRange;
-    return time >= start && time <= end;
-  };
-
-  const handleModeChange = (mode: AvailabilityMode): void => {
-    setSelectedMode(mode);
-    setSelectedTimeRange([]);
-    setSelectedWeekDays([]);
-    setSelectedDateRange({ from: undefined, to: undefined });
-  };
-
-  const handleSave = (): void => {
-    const isValid =
-        (selectedMode === 'daily' && selectedTimeRange.length === 2) ||
-        (selectedMode === 'weekly' && selectedWeekDays.length > 0) ||
-        (selectedMode === 'monthly' && selectedDateRange?.from && selectedDateRange?.to);
-
-    if (isValid) {
-      onSaveAction({
-        mode: selectedMode,
-        data: selectedMode === 'daily' ? selectedTimeRange :
-            selectedMode === 'weekly' ? selectedWeekDays :
-                selectedDateRange as DateRange
-      });
-      setOpen(false);
-    }
-  };
-
-  const handleCancel = (): void => {
-    setSelectedTimeRange([]);
-    setSelectedWeekDays([]);
-    setSelectedDateRange({ from: undefined, to: undefined });
-    setOpen(false);
   };
 
   return (
@@ -124,13 +59,13 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
               variant="outline"
               className={cn(
                   "w-full justify-start text-left font-normal rounded-full",
-                  (selectedTimeRange.length === 2 || selectedWeekDays.length > 0 || (selectedDateRange?.from && selectedDateRange?.to))
+                  isAvailabilityValid(selectedMode, selectedTimeRange, selectedWeekDays, selectedDateRange)
                       ? "text-foreground"
                       : "text-muted-foreground"
               )}
           >
             <MdCalendarMonth className="mr-2 h-5 w-5" />
-            {getDisplayText()}
+            {getDisplayText(selectedMode, selectedTimeRange, selectedWeekDays, selectedDateRange)}
           </Button>
         </DialogTrigger>
 
@@ -152,7 +87,7 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
                   {timeSlots.map((time) => (
                       <Button
                           key={time}
-                          variant={isTimeInRange(time) ? "default" : "outline"}
+                          variant={isTimeInRange(time, selectedTimeRange) ? "default" : "outline"}
                           onClick={() => handleTimeSelect(time)}
                           className={cn(
                               "rounded-full w-full",
@@ -187,7 +122,11 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
                 <Calendar
                     mode="range"
                     selected={selectedDateRange}
-                    onSelect={(range: DateRange | undefined) => setSelectedDateRange(range)}
+                    onSelect={(range: DateRange | undefined) => {
+                      if (range) {
+                        setSelectedDateRange(range);
+                      }
+                    }}
                     className="rounded-md"
                     showOutsideDays={false}
                 />
@@ -219,5 +158,3 @@ const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
       </Dialog>
   );
 };
-
-export default AvailabilityDialog;

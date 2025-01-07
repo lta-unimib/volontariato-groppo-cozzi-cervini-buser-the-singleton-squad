@@ -28,7 +28,7 @@
     --chart-2: 173 58% 39%; /* #2DD4BF */
     --chart-3: 197 37% 24%; /* #0F766E */
     --chart-4: 43 74% 66%; /* #FCD34D */
-    --chart-5: 27 87% 67%; /* #F97316 */
+    --chart-5: 27 87% 67%; /* #F97316 */ --sidebar-background: 0 0% 98%; --sidebar-foreground: 240 5.3% 26.1%; --sidebar-primary: 240 5.9% 10%; --sidebar-primary-foreground: 0 0% 98%; --sidebar-accent: 240 4.8% 95.9%; --sidebar-accent-foreground: 240 5.9% 10%; --sidebar-border: 220 13% 91%; --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -66,5 +66,14 @@
 
   body {
     @apply antialiased bg-background text-foreground;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

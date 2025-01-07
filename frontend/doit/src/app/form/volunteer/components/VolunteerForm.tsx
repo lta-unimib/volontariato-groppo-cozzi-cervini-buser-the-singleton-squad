@@ -1,60 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import React from "react";
 import { CityPicker } from "@/components/ui/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
-import React from "react";
-import AvailabilityDialog from "@/app/form/volunteer/components/AvailabilityPicker";
-import {BaseForm} from "@/components/ui/BaseForm";
-import {VolunteerFormData} from "@/types/formTypes";
+import { BaseForm } from "@/components/ui/BaseForm";
+import { useFormData } from '@/app/form/volunteer/hooks/useFormData';
+import { useFormSubmission } from '@/app/form/volunteer/hooks/useFormSubmission';
+import { isFormValid } from '@/app/form/volunteer/utils/formValidation';
+import { AvailabilityDialog } from '@/app/form/volunteer/components/AvailabilityPicker';
 
 export function VolunteerForm() {
-    const [formData, setFormData] = useState<VolunteerFormData>({
-        fullName: "",
-        availability: null,
-        city: "",
-        preferences: [],
-        description: "",
-    });
-    const [availabilityDialogOpen, setAvailabilityDialogOpen] = useState(false);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            // API implementation
-            console.log("Form Data:", JSON.stringify(formData, null, 2));
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    const isValid = () => {
-        return formData.availability !== null &&
-            formData.city !== "" &&
-            formData.preferences.length > 0 &&
-            formData.description.trim().length > 0;
-    };
+    const { formData, updateField } = useFormData();
+    const { handleSubmit } = useFormSubmission(formData);
 
     return (
-        <BaseForm onSubmit={handleSubmit} isValid={isValid()}>
+        <BaseForm
+            onSubmitAction={handleSubmit}
+            isValid={isFormValid(formData)}
+            redirectTo="../../../dashboard/volunteer"
+        >
             <AvailabilityDialog
-                open={availabilityDialogOpen}
-                onOpenChange={setAvailabilityDialogOpen}
-                onSaveAction={(availability) => setFormData({...formData, availability})}
+                onSaveAction={(availability) => updateField('availability', availability)}
             />
             <CityPicker
                 value={formData.city}
-                onChange={(city) => setFormData({...formData, city})}
+                onChange={(city) => updateField('city', city)}
             />
             <RoundCheckboxSelector
-                onChange={(preferences) => setFormData({...formData, preferences})}
+                onChange={(preferences) => updateField('preferences', preferences)}
             />
             <Textarea
                 placeholder="Descrizione dell'utente"
                 className="rounded-2xl min-h-[100px]"
                 value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                onChange={(e) => updateField('description', e.target.value)}
             />
         </BaseForm>
     );

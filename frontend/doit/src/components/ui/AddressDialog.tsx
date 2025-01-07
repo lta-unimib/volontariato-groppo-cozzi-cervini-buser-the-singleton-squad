@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/Input";
 import { CityPicker } from './CityPicker';
 import { MdHome } from "react-icons/md";
 import { cn } from "@/lib/utils";
-import { AddressData } from '@/types/formTypes';
+import { AddressData } from '@/types/addressData';
 
 interface AddressDialogProps {
     onSaveAction: (data: AddressData) => void;

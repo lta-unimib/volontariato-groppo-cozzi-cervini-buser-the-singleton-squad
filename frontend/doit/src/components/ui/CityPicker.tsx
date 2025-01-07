@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect, KeyboardEvent, ChangeEvent, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
