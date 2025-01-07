@@ -65,7 +65,10 @@ export function CityPicker({ value, onChange, showCap = false }: CityPickerProps
         city.nome.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleCitySelection = (city: CityData) => {
+    const handleCitySelection = (city: CityData, e?: React.MouseEvent) => {
+        e?.preventDefault();
+        e?.stopPropagation();
+
         setSelectedCity(city.nome);
         setSearchQuery(city.nome);
         setHighlightedIndex(-1);
@@ -170,11 +173,12 @@ export function CityPicker({ value, onChange, showCap = false }: CityPickerProps
                                 filteredCities.map((city, index) => (
                                     <Button
                                         key={city.nome}
+                                        type="button"
                                         variant={selectedCity === city.nome ? "secondary" : "ghost"}
                                         className={`w-full justify-start pl-4 text-left font-normal text-sm rounded-full
                                             ${selectedCity === city.nome ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground' : ''}
                                             ${highlightedIndex === index ? 'bg-secondary dark:bg-accent' : ''}`}
-                                        onClick={() => handleCitySelection(city)}
+                                        onClick={(e) => handleCitySelection(city, e)}
                                         onMouseEnter={() => handleMouseEnter(index)}
                                         onMouseLeave={handleMouseLeave}
                                     >

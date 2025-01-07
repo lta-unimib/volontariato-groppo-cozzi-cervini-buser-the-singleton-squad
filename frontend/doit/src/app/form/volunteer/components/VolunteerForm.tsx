@@ -6,9 +6,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import React from "react";
 import AvailabilityDialog from "@/app/form/volunteer/components/AvailabilityPicker";
-import { MdOutlineAccountCircle } from "react-icons/md";
 import {BaseForm} from "@/components/ui/BaseForm";
-import { IconInput } from "@/components/ui/FormFields";
 import {VolunteerFormData} from "@/types/formTypes";
 
 export function VolunteerForm() {
@@ -40,12 +38,6 @@ export function VolunteerForm() {
 
     return (
         <BaseForm onSubmit={handleSubmit} isValid={isValid()}>
-            <IconInput
-                value={formData.fullName}
-                onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                placeholder="Nome Completo"
-                icon={<MdOutlineAccountCircle />}
-            />
             <AvailabilityDialog
                 open={availabilityDialogOpen}
                 onOpenChange={setAvailabilityDialogOpen}

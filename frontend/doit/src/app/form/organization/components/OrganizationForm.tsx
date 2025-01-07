@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CityPicker } from "@/components/ui/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
@@ -22,17 +22,33 @@ export function OrganizationForm() {
         webSite: "",
     });
 
+    const [validationState, setValidationState] = useState({
+        isVATValid: true,
+        isWebsiteValid: true
+    });
+
+    const [focusState, setFocusState] = useState({
+        VATNumberFocused: false,
+        webSiteFocused: false,
+    });
+
+    useEffect(() => {
+        setValidationState({
+            isVATValid: !formData.VATNumber || validateVATNumber(formData.VATNumber),
+            isWebsiteValid: !formData.webSite || validateWebSite(formData.webSite)
+        });
+    }, [formData.VATNumber, formData.webSite]);
+
+    const handleFocus = (field: string) => {
+        setFocusState((prev) => ({ ...prev, [`${field}Focused`]: true }));
+    };
+
+    const handleBlur = (field: string) => {
+        setFocusState((prev) => ({ ...prev, [`${field}Focused`]: false }));
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (formData.VATNumber && !validateVATNumber(formData.VATNumber)) {
-            console.error("Invalid VAT Number");
-            return;
-        }
-        if (formData.webSite && !validateWebSite(formData.webSite)) {
-            console.error("Invalid Website URL");
-            return;
-        }
-
         try {
             console.log("Form Data:", JSON.stringify(formData, null, 2));
         } catch (error) {
@@ -41,11 +57,17 @@ export function OrganizationForm() {
     };
 
     const isValid = (): boolean => {
-        return Boolean(
+        const hasRequiredFields = Boolean(
             formData.organizationName &&
             formData.preferences.length > 0 &&
             formData.description.trim().length > 0
         );
+
+        const optionalFieldsValid =
+            validationState.isVATValid &&
+            validationState.isWebsiteValid;
+
+        return hasRequiredFields && optionalFieldsValid;
     };
 
     return (
@@ -73,12 +95,20 @@ export function OrganizationForm() {
                 <Input
                     placeholder="Partita IVA (opzionale)"
                     className="rounded-3xl pl-4 w-full md:w-1/2"
+                    isInvalid={!validationState.isVATValid}
+                    isFocused={focusState.VATNumberFocused}
+                    onFocus={() => handleFocus("VATNumber")}
+                    onBlur={() => handleBlur("VATNumber")}
                     onChange={(e) => setFormData({...formData, VATNumber: e.target.value})}
                     value={formData.VATNumber}
                 />
                 <Input
                     placeholder="Sito Web (opzionale)"
                     className="rounded-3xl pl-4 w-full md:w-1/2"
+                    isInvalid={!validationState.isWebsiteValid}
+                    isFocused={focusState.webSiteFocused}
+                    onFocus={() => handleFocus("webSite")}
+                    onBlur={() => handleBlur("webSite")}
                     onChange={(e) => setFormData({...formData, webSite: e.target.value})}
                     value={formData.webSite}
                 />
