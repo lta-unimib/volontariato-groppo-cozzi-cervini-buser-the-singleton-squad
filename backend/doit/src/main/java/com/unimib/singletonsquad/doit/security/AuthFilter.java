@@ -44,7 +44,7 @@ public class AuthFilter extends OncePerRequestFilter{
         try {
 
             String authHeader = request.getHeader("Authorization");
-            if(publicPath == false){
+            if(!publicPath){
                 if (authHeader == null || !authHeader.startsWith("Bearer ") )
                     throw new AuthException("Needed to be authorized", request.getRequestURI());
 

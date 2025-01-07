@@ -1,34 +1,38 @@
 package com.unimib.singletonsquad.doit.controller;
 
 
-import com.unimib.singletonsquad.doit.dto.FormRegistrazioneOrganizzazioneDto;
-import com.unimib.singletonsquad.doit.dto.FormRegistrazioneVolontarioDto;
+import com.unimib.singletonsquad.doit.dto.SignInFormOrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.SignInFormVolunteerDTO;
 import com.unimib.singletonsquad.doit.service.register.RegisterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/registrazione/")
+@RequestMapping("/registrazione/{role}")
 public class RegisterController {
-
-
     private RegisterService registerService;
+    /*@Autowired
+    RegisterController(RegisterService registerService) {
+        this.registerService = registerService;
+    }*/
 
-
-    @PostMapping("/volontario")
+    //@PostMapping("/volontario")
     public ResponseEntity<String> registrazioneVolontario(@PathVariable String role,
-                                        @RequestBody FormRegistrazioneVolontarioDto volontarioDto) {
+                                        @RequestBody SignInFormVolunteerDTO volunteerDTO) {
         try{
-            //this.registerService = new RegisterVolunteerService
+            System.out.println("CONTROLLER REGISTRAZIONE DENTRO");
+            System.out.println(volunteerDTO);
             return ResponseEntity.ok("Registrazione voltario");
         }catch(Exception e){
+            System.out.println("CONTROLLER REGISTRAZIONE FUORI");
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/organizzazione")
     public ResponseEntity<String> registrazioneOrganizzazione(@PathVariable String role,
-                                                          @RequestBody FormRegistrazioneOrganizzazioneDto organizzazioneDto) {
+                                                          @RequestBody SignInFormOrganizationDTO organizationDTO) {
         try{
             //this.registerService = new RegisterOrganizationService
             return ResponseEntity.ok("Registrazione voltario");

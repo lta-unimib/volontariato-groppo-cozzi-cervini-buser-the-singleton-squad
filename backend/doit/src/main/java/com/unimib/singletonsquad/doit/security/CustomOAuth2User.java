@@ -16,6 +16,7 @@ public class CustomOAuth2User implements OAuth2User {
         this.attributes = delegate.getAttributes();
         this.authorities = (Collection<GrantedAuthority>) this.delegate.getAuthorities();
         this.jwtToken = token;
+        System.out.println("CustomOAuth2User::" + this.jwtToken);
     }
 
     @Override
