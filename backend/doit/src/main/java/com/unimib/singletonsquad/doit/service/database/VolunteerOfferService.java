@@ -17,9 +17,9 @@ public class VolunteerOfferService {
     @Autowired
     private OrganizationService organizationService;
 
-    public VolunteerOffer saveVolunteerOffer(VolunteerOfferDTO volunteerOfferDTO) {
+    public VolunteerOffer save(VolunteerOfferDTO volunteerOfferDTO) {
         VolunteerOffer volunteerOffer = new VolunteerOffer();
-        volunteerOffer.setCompetenceDescription(new StringBuilder(volunteerOfferDTO.getVolunteerDescription()));
+        volunteerOffer.setCompetenceDescription(volunteerOfferDTO.getVolunteerDescription());
         volunteerOffer.setVolunteer(volunteerService.findVolunteerById(volunteerOfferDTO.getVolunteerId()).get());
         volunteerOffer.setOrganization(organizationService.findOrganizationById(volunteerOfferDTO.getOrganizationId()).get());
         return volunteerOfferRepository.save(volunteerOffer);

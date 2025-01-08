@@ -17,7 +17,7 @@ public class VolunteerOffer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
-    private StringBuilder competenceDescription;
+    private String competenceDescription;
     @ManyToOne
     private VolunteerPreferences volunteerPreferences;
     @OneToOne
