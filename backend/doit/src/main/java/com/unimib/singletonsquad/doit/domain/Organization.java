@@ -45,11 +45,6 @@ public class Organization {
     @JsonProperty("address")
     private OrganizationAddress organizationAddress;
 
-
-
-
-
-
     public void setEmail(String email) throws Exception{
         if (!DataValidator.isValidEmail(email)) {
             throw new IllegalArgumentException("Email is not valid");
