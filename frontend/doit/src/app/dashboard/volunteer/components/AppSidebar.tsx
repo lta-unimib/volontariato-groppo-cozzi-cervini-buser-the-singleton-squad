@@ -7,7 +7,9 @@ import {
     SidebarGroupContent,
     SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem } from "@/components/ui/Sidebar";
+    SidebarMenuItem
+} from "@/components/ui/Sidebar";
+import type { ComponentProps } from "react";
 import React from "react";
 
 interface MenuItem {
@@ -16,15 +18,26 @@ interface MenuItem {
     icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
-interface LayoutProps {
+type SidebarProps = ComponentProps<typeof Sidebar>;
+
+type AppSidebarProps = {
     menuItems: MenuItem[];
+    header: string;
+    side?: SidebarProps["side"];
+    variant?: SidebarProps["variant"];
+    collapsible?: SidebarProps["collapsible"];
 }
 
-export function AppSidebar({ menuItems }: LayoutProps) {
+export function AppSidebar({
+                               menuItems,
+                               side,
+                               variant,
+                               collapsible,
+                           }: AppSidebarProps) {
     return (
-        <Sidebar>
+        <Sidebar side={side} variant = {variant} collapsible={collapsible}>
             <SidebarContent>
-                <SidebarGroup>
+            <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {menuItems.map((item) => (

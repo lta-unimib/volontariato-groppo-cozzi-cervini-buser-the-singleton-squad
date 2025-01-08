@@ -1,8 +1,9 @@
 "use client"
 
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/Sidebar";
 import React from "react";
-import {AppSidebar} from "@/app/dashboard/volunteer/components/AppSidebar";
+import { SidebarProvider, SidebarTrigger, Sidebar } from "@/components/ui/Sidebar";
+import { AppSidebar } from "@/app/dashboard/volunteer/components/AppSidebar";
+import type { ComponentProps } from "react";
 
 interface MenuItem {
     readonly title: string;
@@ -10,18 +11,36 @@ interface MenuItem {
     readonly icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
+type SidebarProps = ComponentProps<typeof Sidebar>;
+
 interface LayoutProps {
     menuItems: MenuItem[];
     header: string;
+    side?: SidebarProps["side"];
+    variant?: SidebarProps["variant"];
+    collapsible?: SidebarProps["collapsible"];
     children: React.ReactNode;
 }
 
-export default function SidebarLayout({ menuItems, children }: LayoutProps) {
+export default function SidebarLayout({
+                                          menuItems,
+                                          header,
+                                          side,
+                                          variant,
+                                          collapsible,
+                                          children
+                                      }: LayoutProps) {
     return (
         <SidebarProvider>
-            <AppSidebar menuItems={menuItems} />
-            <main>
-                <SidebarTrigger />
+            <AppSidebar
+                menuItems={menuItems}
+                header={header}
+                side={side}
+                variant={variant}
+                collapsible={collapsible}
+            />
+            <main className="relative">
+                <SidebarTrigger/>
                 {children}
             </main>
         </SidebarProvider>
