@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { VolunteerFormData } from '@/types/formData';
 
 const initialFormData: VolunteerFormData = {
-    fullName: "",
     availability: null,
     city: "",
     preferences: [],
