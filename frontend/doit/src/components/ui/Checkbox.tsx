@@ -6,11 +6,12 @@ import { Label } from "@/components/ui/Label";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 
 interface RoundCheckboxSelectorProps {
-    onChangeAction: (selectedValues: string[]) => void; // Renamed to onChangeAction
+    onChangeAction: (selectedValues: string[]) => void;
 }
 
 export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorProps) {
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
     const options = Array.from({ length: 100 }, (_, i) => ({
         id: `option${i + 1}`,
         label: `Option ${i + 1}`
@@ -22,7 +23,7 @@ export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorP
             : [...selectedOptions, optionId];
 
         setSelectedOptions(updatedSelected);
-        onChangeAction(updatedSelected); // Pass selected options to parent
+        onChangeAction(updatedSelected);
     };
 
     return (
@@ -38,12 +39,15 @@ export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorP
                                     checked={selectedOptions.includes(option.id)}
                                     onChange={() => handleCheckboxChange(option.id)}
                                     className="hidden peer"
+                                    aria-label={option.label} // Adds accessible label for the checkbox
                                 />
                                 <label
                                     htmlFor={option.id}
                                     className="relative w-4 h-4 rounded-full border border-gray-200 hover:border-gray-300 transition-colors peer-checked:border-primary flex items-center justify-center cursor-pointer"
                                 >
-                                    <div className={`w-2 h-2 rounded-full transition-colors ${selectedOptions.includes(option.id) ? 'bg-primary' : 'bg-transparent'}`}></div>
+                                    <div
+                                        className={`w-2 h-2 rounded-full transition-colors ${selectedOptions.includes(option.id) ? 'bg-primary' : 'bg-transparent'}`}
+                                    ></div>
                                 </label>
                                 <Label htmlFor={option.id} className="cursor-pointer text-sm font-normal">
                                     {option.label}

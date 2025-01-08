@@ -37,7 +37,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
         setAddress(prev => ({
             ...prev,
             city: selectedCity,
-            postalCode: selectedCap || prev.postalCode
+            postalCode: selectedCap ?? prev.postalCode
         }));
     };
 
@@ -123,7 +123,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
                         <Input
                             id="additionalInfo"
                             name="additionalInfo"
-                            value={address.additionalInfo || ''}
+                            value={address.additionalInfo ?? ''}
                             onChange={handleInputChange}
                             className="w-full rounded-full"
                             placeholder="Interno/Campanello (opzionale)"

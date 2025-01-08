@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 
 interface BaseFormProps {
-    onSubmitAction: (e: React.FormEvent) => Promise<void>; // Renamed prop
-    isValid: boolean;
-    children: ReactNode;
-    redirectTo?: string;
+    readonly onSubmitAction: (e: React.FormEvent) => Promise<void>;
+    readonly isValid: boolean;
+    readonly children: ReactNode;
+    readonly redirectTo?: string;
 }
 
 export function BaseForm({ onSubmitAction, isValid, children, redirectTo }: BaseFormProps) {

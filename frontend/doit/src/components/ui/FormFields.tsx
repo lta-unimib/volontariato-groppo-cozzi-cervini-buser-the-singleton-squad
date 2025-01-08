@@ -2,10 +2,10 @@ import { Input } from "@/components/ui/Input";
 import React, {ReactNode} from "react";
 
 interface IconInputProps {
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeholder: string;
-    icon: ReactNode;
+    readonly value: string;
+    readonly onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    readonly placeholder: string;
+    readonly icon: ReactNode;
 }
 
 export function IconInput({ value, onChange, placeholder, icon }: IconInputProps) {

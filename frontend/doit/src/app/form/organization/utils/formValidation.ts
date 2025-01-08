@@ -1,6 +1,10 @@
 export const validateVATNumber = (vat: string): boolean => {
-    const vatRegex = /^(AT|BE|BG|CY|CZ|DE|DK|EE|EL|ES|FI|FR|HR|HU|IE|IT|LT|LU|LV|MT|NL|PL|PT|RO|SE|SI|SK|GB|GR)[0-9]{8,12}$/;
-    return vatRegex.test(vat);
+    const vatPatterns = [
+        /^(AT|BE|BG|CY|CZ|DE|DK|EE|ES|FI|FR)\d{8,12}$/,
+        /^(HR|HU|IE|IT|LT|LU|LV|MT|NL|PL|PT)\d{8,12}$/,
+        /^(RO|SE|SI|SK)\d{8,12}$/
+    ];
+    return vatPatterns.some(pattern => pattern.test(vat));
 };
 
 export const validateWebSite = (website: string): boolean => {

@@ -26,12 +26,21 @@ export const useAvailabilityDialog = (onSave: (data: AvailabilityData) => void) 
     };
 
     const handleSave = () => {
+        let selectedData;
+
+        if (selectedMode === 'daily') {
+            selectedData = selectedTimeRange;
+        } else if (selectedMode === 'weekly') {
+            selectedData = selectedWeekDays;
+        } else {
+            selectedData = selectedDateRange;
+        }
+
         const data = {
             mode: selectedMode,
-            data: selectedMode === 'daily' ? selectedTimeRange :
-                selectedMode === 'weekly' ? selectedWeekDays :
-                    selectedDateRange
+            data: selectedData
         };
+
         onSave(data);
         setOpen(false);
     };

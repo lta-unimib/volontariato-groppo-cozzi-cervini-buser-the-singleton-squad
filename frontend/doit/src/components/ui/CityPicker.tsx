@@ -12,9 +12,9 @@ interface CityData {
 }
 
 interface CityPickerProps {
-    value: string;
-    onChangeAction: (selectedCity: string, selectedCap?: string) => void;
-    showCap?: boolean;
+    readonly value: string;
+    readonly onChangeAction: (selectedCity: string, selectedCap?: string) => void;
+    readonly showCap?: boolean;
 }
 
 export function CityPicker({ value, onChangeAction, showCap = false }: CityPickerProps) {
@@ -32,13 +32,18 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
         const fetchCities = async () => {
             try {
                 const response = await fetch(`https://axqvoqvbfjpaamphztgd.functions.supabase.co/comuni/lombardia`);
+
                 if (!isMounted) return;
+
                 if (!response.ok) {
                     setError(`HTTP error! status: ${response.status}`);
                     return;
                 }
+
                 const data: CityData[] = await response.json();
+
                 if (!isMounted) return;
+
                 setCities(data);
             } catch (err) {
                 if (!isMounted) return;
@@ -70,7 +75,6 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
     const handleCitySelection = (city: CityData, e?: React.MouseEvent) => {
         e?.preventDefault();
         e?.stopPropagation();
-
         setSelectedCity(city.nome);
         setSearchQuery(city.nome);
         setHighlightedIndex(-1);
@@ -82,6 +86,7 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
         if (highlightedIndex >= 0 && scrollAreaRef.current) {
             const buttons = scrollAreaRef.current.getElementsByTagName('button');
             const highlightedButton = buttons[highlightedIndex];
+
             if (highlightedButton) {
                 highlightedButton.scrollIntoView({
                     block: 'nearest',
@@ -97,18 +102,15 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         const maxIndex = filteredCities.length - 1;
-
         switch (e.key) {
             case 'ArrowDown':
                 e.preventDefault();
                 setHighlightedIndex(prev => Math.min(prev + 1, maxIndex));
                 break;
-
             case 'ArrowUp':
                 e.preventDefault();
                 setHighlightedIndex(prev => Math.max(prev - 1, 0));
                 break;
-
             case 'Enter':
                 e.preventDefault();
                 if (highlightedIndex >= 0 && highlightedIndex <= maxIndex) {
@@ -117,14 +119,12 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
                     handleCitySelection(filteredCities[0]);
                 }
                 break;
-
             case 'Escape':
                 e.preventDefault();
                 setSearchQuery("");
                 setSelectedCity("");
                 setHighlightedIndex(-1);
                 break;
-
             case 'Tab':
                 if (highlightedIndex >= 0) {
                     e.preventDefault();
@@ -153,6 +153,29 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
         setHighlightedIndex(-1);
     };
 
+    let content;
+    if (error) {
+        content = <p className="text-center text-destructive">{error}</p>;
+    } else if (filteredCities.length > 0) {
+        content = filteredCities.map((city, index) => (
+            <Button
+                key={city.nome}
+                type="button"
+                variant={selectedCity === city.nome ? "secondary" : "ghost"}
+                className={`w-full justify-start pl-4 text-left font-normal text-sm rounded-full
+                    ${selectedCity === city.nome ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground' : ''}
+                    ${highlightedIndex === index ? 'bg-secondary dark:bg-accent' : ''}`}
+                onClick={(e) => handleCitySelection(city, e)}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
+            >
+                {city.nome}
+            </Button>
+        ));
+    } else {
+        content = <p className="text-center text-muted-foreground py-4 text-sm">Nessuna città trovata</p>;
+    }
+
     return (
         <Card className="w-full rounded-[24px]">
             <CardContent className="p-4 space-y-4">
@@ -169,29 +192,7 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
                 <div className="p-4 rounded-2xl border">
                     <ScrollArea className="h-32">
                         <div className="space-y-1 pr-4" ref={scrollAreaRef}>
-                            {error ? (
-                                <p className="text-center text-destructive">{error}</p>
-                            ) : filteredCities.length > 0 ? (
-                                filteredCities.map((city, index) => (
-                                    <Button
-                                        key={city.nome}
-                                        type="button"
-                                        variant={selectedCity === city.nome ? "secondary" : "ghost"}
-                                        className={`w-full justify-start pl-4 text-left font-normal text-sm rounded-full
-                                            ${selectedCity === city.nome ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground' : ''}
-                                            ${highlightedIndex === index ? 'bg-secondary dark:bg-accent' : ''}`}
-                                        onClick={(e) => handleCitySelection(city, e)}
-                                        onMouseEnter={() => handleMouseEnter(index)}
-                                        onMouseLeave={handleMouseLeave}
-                                    >
-                                        {city.nome}
-                                    </Button>
-                                ))
-                            ) : (
-                                <p className="text-center text-muted-foreground py-4 text-sm">
-                                    Nessuna città trovata
-                                </p>
-                            )}
+                            {content}
                         </div>
                     </ScrollArea>
                 </div>
