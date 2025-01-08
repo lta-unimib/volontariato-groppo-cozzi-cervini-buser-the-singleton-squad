@@ -11,6 +11,6 @@ import java.io.IOException;
 public class FailureAuthHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        response.sendRedirect("http://localhost:8080/oauth/google/authentication/failure");
+        response.sendRedirect("/oauth/google/authentication/failure");
     }
 }
