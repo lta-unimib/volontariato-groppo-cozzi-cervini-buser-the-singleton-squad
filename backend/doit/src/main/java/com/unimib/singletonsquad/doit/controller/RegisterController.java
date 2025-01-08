@@ -9,7 +9,6 @@ import com.unimib.singletonsquad.doit.service.database.VolunteerPreferencesServi
 import com.unimib.singletonsquad.doit.service.database.VolunteerService;
 import com.unimib.singletonsquad.doit.service.register.RegisterOrganizationService;
 import com.unimib.singletonsquad.doit.service.register.RegisterService;
-import com.unimib.singletonsquad.doit.service.register.RegisterVolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;

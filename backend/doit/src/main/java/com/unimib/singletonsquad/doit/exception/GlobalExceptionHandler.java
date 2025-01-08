@@ -69,25 +69,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Gestisce gli errori di validazione
 
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex,
-            HttpHeaders headers,
-            HttpStatus status,
-            WebRequest request) {
-
-        String errorDetails = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.joining(", "));
-
-        ExceptionResponse exceptionResponse = new ExceptionResponse(
-                new Date(),
-                "Validation Failed",
-                errorDetails,
-                HttpStatus.BAD_REQUEST.value()
-        );
-
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-    }
 }

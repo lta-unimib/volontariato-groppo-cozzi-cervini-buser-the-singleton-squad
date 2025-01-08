@@ -11,10 +11,7 @@ import com.unimib.singletonsquad.doit.repository.IVolunteerRepository;
 import com.unimib.singletonsquad.doit.service.database.AvailabilityService;
 import com.unimib.singletonsquad.doit.service.database.VolunteerPreferencesService;
 import com.unimib.singletonsquad.doit.service.database.VolunteerService;
-import jakarta.transaction.Transactional;
-import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
