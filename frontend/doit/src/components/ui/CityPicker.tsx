@@ -7,8 +7,8 @@ import { ScrollArea } from "@/components/ui/ScrollArea";
 import { Button } from "@/components/ui/Button";
 
 interface CityData {
-    nome: string;
-    cap: string;
+    readonly nome: string;
+    readonly cap: string;
 }
 
 interface CityPickerProps {

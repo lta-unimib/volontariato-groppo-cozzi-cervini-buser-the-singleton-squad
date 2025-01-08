@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/Label";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 
 interface RoundCheckboxSelectorProps {
-    onChangeAction: (selectedValues: string[]) => void;
+    readonly onChangeAction: (selectedValues: string[]) => void;
 }
 
 export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorProps) {
@@ -39,7 +39,7 @@ export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorP
                                     checked={selectedOptions.includes(option.id)}
                                     onChange={() => handleCheckboxChange(option.id)}
                                     className="hidden peer"
-                                    aria-label={option.label} // Adds accessible label for the checkbox
+                                    aria-label={option.label}
                                 />
                                 <label
                                     htmlFor={option.id}
