@@ -32,7 +32,5 @@ public interface IVolunteerRepository extends JpaRepository<Volunteer, Long> {
 
     List<Volunteer> findByIdBetween(Long startId, Long endId); // Trova tutti i volontari con ID compreso tra due valori
 
-    boolean existsByIdLessThan(Long id); // Verifica se esiste un volontario con ID inferiore a un determinato valore
-
-
+    boolean existsByIdLessThan(Long id);// Verifica se esiste un volontario con ID inferiore a un determinato valore
 }
