@@ -20,7 +20,7 @@ public class VolunteerRequestService {
         VolunteerRequest volunteerRequestEntity = new VolunteerRequest();
         volunteerRequestEntity.setDetailedDescription(volunteerRequest.getDetailedDescription());
         volunteerRequestEntity.setTitle(volunteerRequest.getTitle());
-        
+
         return repository.save(volunteerRequestEntity);
     }
 

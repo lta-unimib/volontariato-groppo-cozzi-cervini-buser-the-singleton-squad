@@ -1,0 +1,27 @@
+package com.unimib.singletonsquad.doit.domain;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@Entity
+@ToString
+@NoArgsConstructor
+@Table(name = "volunteer_offers")
+public class VolunteerOffer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private Long id;
+    private StringBuilder competenceDescription;
+    @ManyToOne
+    private VolunteerPreferences volunteerPreferences;
+    @OneToOne
+    private Organization organization;
+    @OneToOne
+    private Volunteer volunteer;
+}
