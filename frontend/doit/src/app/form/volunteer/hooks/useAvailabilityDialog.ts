@@ -33,7 +33,8 @@ export const useAvailabilityDialog = (onSave: (data: AvailabilityData) => void) 
         } else if (selectedMode === 'weekly') {
             selectedData = selectedWeekDays;
         } else {
-            selectedData = selectedDateRange;
+            const { from, to } = selectedDateRange;
+            selectedData = [from?.toISOString().substring(0, 10) || null, to?.toISOString().substring(0, 10) || null];
         }
 
         const data = {
