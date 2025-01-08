@@ -2,6 +2,7 @@ import { useState } from "react";
 import { OrganizationFormData } from "@/types/formData";
 
 const initialFormData: OrganizationFormData = {
+    id: "",
     organizationName: "",
     city: "",
     preferences: [],

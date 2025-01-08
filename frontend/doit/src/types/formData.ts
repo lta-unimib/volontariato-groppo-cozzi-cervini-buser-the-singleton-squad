@@ -1,6 +1,7 @@
 import {AvailabilityData} from "@/types/availabilityData";
 
 export interface BaseFormData {
+    id: string;
     city: string;
     preferences: string[];
     description: string;
