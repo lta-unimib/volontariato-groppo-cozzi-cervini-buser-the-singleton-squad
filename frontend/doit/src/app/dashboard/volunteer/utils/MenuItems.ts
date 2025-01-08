@@ -1,12 +1,11 @@
-// MenuItems.ts
 "use client";
 
-import { Inbox} from "lucide-react";
-import { CiViewList } from "react-icons/ci";
-import { CgProfile } from "react-icons/cg";
+import { MdOutlineInbox } from "react-icons/md";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
+import { MdOutlineAccountCircle } from "react-icons/md";
 
 export const menuItems = [
-    { title: "Opportunità", url: "#", icon: CiViewList },
-    { title: "Messaggi", url: "#", icon: Inbox },
-    { title: "Profilo", url: "#", icon: CgProfile }
+    { title: "Opportunità", url: "#", icon: MdOutlineDashboardCustomize },
+    { title: "Messaggi", url: "#", icon: MdOutlineInbox },
+    { title: "Profilo", url: "#", icon: MdOutlineAccountCircle },
 ];

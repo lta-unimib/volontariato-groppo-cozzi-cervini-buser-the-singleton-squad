@@ -18,13 +18,14 @@ export function VolunteerForm() {
         <BaseForm
             onSubmitAction={handleSubmit}
             isValid={isFormValid(formData)}
+            redirectTo={"../../../dashboard/volunteer"}
         >
             <AvailabilityDialog
                 onSaveAction={(availability) => updateField('availability', availability)}
             />
             <CityPicker
                 value={formData.city}
-                onChangeAction={(selectedCity) => updateField("city", selectedCity)} // Removed selectedCap if not used
+                onChangeAction={(selectedCity) => updateField("city", selectedCity)}
             />
             <RoundCheckboxSelector
                 onChangeAction={(preferences: string[]) => updateField('preferences', preferences)}

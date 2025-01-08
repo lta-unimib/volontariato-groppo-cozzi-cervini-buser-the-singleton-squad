@@ -5,7 +5,6 @@ import {
     SidebarContent,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem } from "@/components/ui/Sidebar";
@@ -19,15 +18,13 @@ interface MenuItem {
 
 interface LayoutProps {
     menuItems: MenuItem[];
-    header: string;
 }
 
-export function AppSidebar({ menuItems, header }: LayoutProps) {
+export function AppSidebar({ menuItems }: LayoutProps) {
     return (
         <Sidebar>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>{header}</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {menuItems.map((item) => (

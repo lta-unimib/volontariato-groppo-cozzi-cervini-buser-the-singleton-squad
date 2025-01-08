@@ -2,11 +2,15 @@
 
 import {menuItems} from "@/app/dashboard/volunteer/utils/MenuItems";
 import SidebarLayout from "@/app/dashboard/volunteer/components/SidebarLayout";
+import {Page} from "@/components/layout/Page";
 
 export default function Home() {
     return (
-        <SidebarLayout menuItems={menuItems} header="Volontario">
-            <div></div>
-        </SidebarLayout>
+        <Page>
+            <SidebarLayout menuItems={menuItems} header={""}>
+                <div></div>
+            </SidebarLayout>
+        </Page>
+
     );
 }

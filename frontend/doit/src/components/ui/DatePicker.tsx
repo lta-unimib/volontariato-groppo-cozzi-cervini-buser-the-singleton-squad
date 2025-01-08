@@ -4,7 +4,7 @@ import { CalendarIcon } from 'lucide-react';
 import { Button } from "@/components/ui/Button";
 import { Calendar } from "@/components/ui/Calendar";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/Dialog";
-import DateSelector from "./DateSelector"; // Import the DateSelector component
+import DateSelector from "./DateSelector";
 
 export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (date: Date) => void }) {
     const [date, setDate] = React.useState<Date | undefined>(undefined);
