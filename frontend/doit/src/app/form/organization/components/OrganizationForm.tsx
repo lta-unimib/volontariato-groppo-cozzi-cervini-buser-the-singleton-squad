@@ -20,7 +20,7 @@ export function OrganizationForm() {
     const { handleSubmit } = useFormSubmission(formData);
 
     return (
-        <BaseForm onSubmit={handleSubmit} isValid={isValid()}>
+        <BaseForm onSubmitAction={handleSubmit} isValid={isValid()}> {/* Change to onSubmitAction */}
             <IconInput
                 value={formData.organizationName}
                 onChange={(e) => updateField("organizationName", e.target.value)}
@@ -29,10 +29,10 @@ export function OrganizationForm() {
             />
             <CityPicker
                 value={formData.city}
-                onChange={(city) => updateField("city", city)}
+                onChangeAction={(city: string) => updateField("city", city)}
             />
             <RoundCheckboxSelector
-                onChange={(preferences) => updateField("preferences", preferences)}
+                onChangeAction={(preferences: string[]) => updateField("preferences", preferences)}
             />
             <Textarea
                 placeholder="Descrizione dell'organizzazione"

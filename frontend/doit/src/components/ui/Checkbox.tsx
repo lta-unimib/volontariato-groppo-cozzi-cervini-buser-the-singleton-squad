@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -6,10 +6,10 @@ import { Label } from "@/components/ui/Label";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 
 interface RoundCheckboxSelectorProps {
-    onChange: (selectedValues: string[]) => void;
+    onChangeAction: (selectedValues: string[]) => void; // Renamed to onChangeAction
 }
 
-export function RoundCheckboxSelector({ onChange }: RoundCheckboxSelectorProps) {
+export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorProps) {
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
     const options = Array.from({ length: 100 }, (_, i) => ({
         id: `option${i + 1}`,
@@ -22,7 +22,7 @@ export function RoundCheckboxSelector({ onChange }: RoundCheckboxSelectorProps) 
             : [...selectedOptions, optionId];
 
         setSelectedOptions(updatedSelected);
-        onChange(updatedSelected); // Pass selected options to parent
+        onChangeAction(updatedSelected); // Pass selected options to parent
     };
 
     return (

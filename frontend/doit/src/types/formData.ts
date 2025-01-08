@@ -13,6 +13,5 @@ export interface OrganizationFormData extends BaseFormData {
 }
 
 export interface VolunteerFormData extends BaseFormData {
-    fullName: string;
     availability: AvailabilityData | null;
 }

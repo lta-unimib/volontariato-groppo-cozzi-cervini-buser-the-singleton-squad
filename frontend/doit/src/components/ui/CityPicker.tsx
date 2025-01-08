@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect, KeyboardEvent, ChangeEvent, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -13,11 +13,11 @@ interface CityData {
 
 interface CityPickerProps {
     value: string;
-    onChange: (selectedCity: string, selectedCap?: string) => void;
+    onChangeAction: (selectedCity: string, selectedCap?: string) => void;
     showCap?: boolean;
 }
 
-export function CityPicker({ value, onChange, showCap = false }: CityPickerProps) {
+export function CityPicker({ value, onChangeAction, showCap = false }: CityPickerProps) {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [selectedCity, setSelectedCity] = useState<string>(value);
     const [cities, setCities] = useState<CityData[]>([]);
@@ -74,7 +74,7 @@ export function CityPicker({ value, onChange, showCap = false }: CityPickerProps
         setSelectedCity(city.nome);
         setSearchQuery(city.nome);
         setHighlightedIndex(-1);
-        onChange(city.nome, showCap ? city.cap : undefined);
+        onChangeAction(city.nome, showCap ? city.cap : undefined);
         inputRef.current?.focus();
     };
 

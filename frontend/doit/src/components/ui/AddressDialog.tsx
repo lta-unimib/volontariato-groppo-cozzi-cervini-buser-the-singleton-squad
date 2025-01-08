@@ -105,7 +105,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
                     <div className="grid grid-cols-1 items-center gap-4">
                         <CityPicker
                             value={address.city}
-                            onChange={handleCityChange}
+                            onChangeAction={handleCityChange}
                             showCap={true}
                         />
                     </div>
