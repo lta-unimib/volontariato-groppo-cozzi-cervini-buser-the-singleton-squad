@@ -11,14 +11,13 @@ import { IconInput } from "@/components/ui/FormFields";
 import { useFormData } from "@/app/form/organization/hooks/useFormData";
 import { useFormValidation } from "@/app/form/organization/hooks/useFormValidation";
 import { useFormFocus } from "@/app/form/organization/hooks/useFormFocus";
-import { useFormSubmission } from "@/app/form/organization/hooks/useFormSubmission";
+import { useFormSubmission } from "@/hooks/useFormSubmission";
 
 export function OrganizationForm() {
     const { formData, updateField } = useFormData();
     const { validationState, isValid } = useFormValidation(formData);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
-    const { handleSubmit } = useFormSubmission(formData);
-
+    const { handleSubmit } = useFormSubmission(formData, "organization");
     return (
         <BaseForm
             onSubmitAction={handleSubmit}

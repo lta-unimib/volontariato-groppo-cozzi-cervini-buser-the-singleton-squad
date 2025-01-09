@@ -2,11 +2,10 @@
 
 import { useTheme } from "@/hooks/useTheme";
 import Image from "next/image";
-import Link from "next/link";
 import { ImageWrapper } from './ImageWrapper';
 import { Button } from "@/components/ui/Button";
 import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
-import { GITHUB_PAGES } from "@/utils/constants";
+import { GITHUB_PAGES, API_BASE_LINK } from "@/utils/constants";
 
 export function Hero() {
     const theme = useTheme();
@@ -38,7 +37,7 @@ export function Hero() {
                         Mettiamo in contatto organizzazioni di volontariato e volontari in Lombardia.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 items-center sm:gap-2 md:gap-4 lg:gap-6 md:items-start">
-                        <Link href="/form/volunteer" className="w-full sm:w-auto">
+                        <a href={`${API_BASE_LINK}/authentication/volunteer/`} className="w-full sm:w-auto">
                             <Button
                                 variant="default"
                                 size="default"
@@ -55,8 +54,8 @@ export function Hero() {
                                 <MdOutlineAccountCircle className="mr-2"/>
                                 Volontario
                             </Button>
-                        </Link>
-                        <Link href="http://ec2-3-64-126-237.eu-central-1.compute.amazonaws.com:8080/authentication/organization/" className="w-full sm:w-auto">
+                        </a>
+                        <a href={`${API_BASE_LINK}/authentication/organization/`} className="w-full sm:w-auto">
                             <Button
                                 variant="secondary"
                                 size="default"
@@ -73,7 +72,7 @@ export function Hero() {
                                 <MdOutlineBusiness className="mr-2"/>
                                 Organizzazione
                             </Button>
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </div>

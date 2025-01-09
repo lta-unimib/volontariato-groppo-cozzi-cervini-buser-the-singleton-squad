@@ -6,13 +6,13 @@ import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { BaseForm } from "@/components/ui/BaseForm";
 import { useFormData } from '@/app/form/volunteer/hooks/useFormData';
-import { useFormSubmission } from '@/app/form/volunteer/hooks/useFormSubmission';
+import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { isFormValid } from '@/app/form/volunteer/utils/formValidation';
 import { AvailabilityDialog } from '@/app/form/volunteer/components/AvailabilityPicker';
 
 export function VolunteerForm() {
     const { formData, updateField } = useFormData();
-    const { handleSubmit } = useFormSubmission(formData);
+    const { handleSubmit } = useFormSubmission(formData, "volunteer");
 
     return (
         <BaseForm

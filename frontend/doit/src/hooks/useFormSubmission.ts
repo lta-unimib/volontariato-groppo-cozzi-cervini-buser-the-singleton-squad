@@ -1,7 +1,11 @@
-import { OrganizationFormData } from "@/types/formData";
+import { VolunteerFormData, OrganizationFormData } from "@/types/formData";
 import React, { useEffect, useState } from "react";
+import { API_BASE_LINK } from "@/utils/constants";
 
-export const useFormSubmission = (formData: OrganizationFormData) => {
+type FormType = "volunteer" | "organization";
+type FormData = VolunteerFormData | OrganizationFormData;
+
+export const useFormSubmission = (formData: FormData, formType: FormType) => {
     const [userId, setUserId] = useState<string>('');
     const [authToken, setAuthToken] = useState<string>('');
 
@@ -25,7 +29,9 @@ export const useFormSubmission = (formData: OrganizationFormData) => {
         try {
             console.log("Form Data:", JSON.stringify(completeFormData, null, 2));
 
-            const response = await fetch('https://ec2-3-64-126-237.eu-central-1.compute.amazonaws.com:8080/register/organization/', {
+            const endpoint = `${API_BASE_LINK}/register/${formType}/`;
+
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
