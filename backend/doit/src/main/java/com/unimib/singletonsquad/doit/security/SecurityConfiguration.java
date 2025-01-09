@@ -14,7 +14,10 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequest
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -34,14 +37,15 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://example.com")); // Domini autorizzati
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Metodi HTTP consentiti
+        configuration.setAllowedHeaders(List.of("*")); // Header consentiti
+        configuration.setAllowCredentials(true); // Permetti credenziali (es. cookie, header Authorization)
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        //config.setAllowCredentials(true); // Permetti credenziali (cookie, header di autorizzazione, ecc.)
-        config.addAllowedOrigin("*");     // Permetti tutte le origini (limitare per maggiore sicurezza)
-        config.addAllowedMethod("*");     // Permetti tutti i metodi HTTP
-        config.addAllowedHeader("*");     // Permetti tutti gli header
-        source.registerCorsConfiguration("/**", config); // Applica questa configurazione globalmente
+        source.registerCorsConfiguration("/**", configuration); // Applica la configurazione a tutti gli endpoint
         return source;
     }
 
