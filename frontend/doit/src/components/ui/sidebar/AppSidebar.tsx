@@ -35,19 +35,20 @@ export function AppSidebar({
                                collapsible,
                            }: AppSidebarProps) {
     return (
-        <Sidebar side={side} variant = {variant} collapsible={collapsible}>
+        <Sidebar side={side} variant={variant} collapsible={collapsible}>
             <SidebarContent>
-            <SidebarGroup>
+                <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {menuItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className="flex items-center gap-3">
+                                        <a href={item.url} className="flex flex-col items-center md:flex-row md:gap-3">
                                             <item.icon className="w-5 h-5" />
-                                            <span>{item.title}</span>
+                                            <span className="hidden md:inline">{item.title}</span>
                                         </a>
                                     </SidebarMenuButton>
+                                    <span className="mb-6 py-1 text-xs md:hidden">{item.title}</span>
                                 </SidebarMenuItem>
                             ))}
                         </SidebarMenu>

@@ -1,6 +1,6 @@
 "use client";
 
-import {menuItems} from "@/app/dashboard/volunteer/utils/MenuItems";
+import {menuItems} from "@/app/dashboard/volunteer/utils/menuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import {Page} from "@/components/layout/Page";
 
