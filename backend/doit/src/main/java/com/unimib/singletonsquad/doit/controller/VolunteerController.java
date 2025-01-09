@@ -28,10 +28,9 @@ public class VolunteerController {
             String token = request.getSession().getAttribute("token").toString();
             String id = this.jwtUtils.extractUsername(token);
             System.out.println(id);
-            //String role = request.getSession().getAttribute("role").toString();
-            //System.out.println(role);
-            //System.out.println(id);
-            if(true) {
+            String role = this.jwtUtils.extractClaimByName(token, "role").toString();
+            System.out.println(role);
+            if(role.equals("volontario")) {
                 return ResponseEntity.ok(volunteerService.isRegistered(Long.parseLong(id)));
             }else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
