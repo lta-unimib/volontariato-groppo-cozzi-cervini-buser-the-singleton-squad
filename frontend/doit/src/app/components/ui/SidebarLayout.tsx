@@ -2,7 +2,7 @@
 
 import React from "react";
 import { SidebarProvider, SidebarTrigger, Sidebar } from "@/components/ui/Sidebar";
-import { AppSidebar } from "@/app/dashboard/volunteer/components/AppSidebar";
+import { AppSidebar } from "@/app/components/ui/AppSidebar";
 import type { ComponentProps } from "react";
 
 interface MenuItem {
