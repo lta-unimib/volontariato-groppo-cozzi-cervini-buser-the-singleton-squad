@@ -12,6 +12,7 @@ public final class ResponseUtils {
     private static final ObjectMapper objectMapper = new ObjectMapper(); // Oggetto ObjectMapper statico
 
     private ResponseUtils() {}
+    public static String frontendUrlBase = "http://localhost:3000";
 
     public static void sendJsonResponse(HttpServletResponse response, int status, Object body) throws IOException {
         response.setStatus(status);

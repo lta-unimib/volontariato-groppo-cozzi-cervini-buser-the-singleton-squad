@@ -29,24 +29,18 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
     private static final String SUCCESS_AUTH_URL = "/oauth/google/authentication/success";
     private static final String FAILURE_AUTH_URL = "/oauth/google/authentication/error";
+    private final String frontendUrlBase = "http://localhost:3000"; // URL del frontend
 
     private OAuth2User oauth2User;
-    private final String frontendUrlBase = "http://localhost:3000";
 
     @Autowired
-    private  OAuth2AuthorizedClientService authorizedClientService;
+    private OAuth2AuthorizedClientService authorizedClientService;
     @Autowired
-    private  VolunteerService volunteerService;
+    private VolunteerService volunteerService;
     @Autowired
     private AuthenticationUserService authUser;
     @Autowired
     private OrganizationService organizationService;
-
-
-
-    public SuccessAuthHandler(AuthenticationUserService authUser) {
-        this.authUser = authUser;
-    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -59,17 +53,19 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         }
 
         try {
+            // Recupero del ruolo dal parametro "state"
             String role = this.getRoleRequest(request.getParameter("state"));
-            if(role==null)
+            if (role == null) {
                 ResponseUtils.sendFailureRedirect(request, response, "role not valid", this.generateUrlError());
-
+                return;
+            }
 
             OAuth2AuthenticationToken principal = validateAuthenticationType(authentication);
             if (principal == null) {
-                ResponseUtils.sendFailureRedirect(request, response,
-                        "Unsupported authentication type.", this.generateUrlError());
+                ResponseUtils.sendFailureRedirect(request, response, "Unsupported authentication type.", this.generateUrlError());
                 return;
             }
+
             this.oauth2User = principal.getPrincipal();
             OAuth2AuthorizedClient clientProvider = authorizedClientService.loadAuthorizedClient(
                     principal.getAuthorizedClientRegistrationId(),
@@ -77,16 +73,14 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             );
 
             if (clientProvider == null || clientProvider.getAccessToken() == null) {
-                ResponseUtils.sendFailureRedirect(request, response,
-                        "Client provider or access token not found.", this.generateUrlError());
+                ResponseUtils.sendFailureRedirect(request, response, "Client provider or access token not found.", this.generateUrlError());
                 return;
             }
-
 
             String userOauthEmail = this.oauth2User.getAttribute("email");
             Long userOauthId = this.checkOauthUserExists(userOauthEmail, role);
             boolean existsAlready = false;
-            if(userOauthId != null) {
+            if (userOauthId != null) {
                 this.authUserOauth(userOauthId, role, principal);
                 existsAlready = true;
             } else {
@@ -94,34 +88,37 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
                 this.authUserOauth(userId, role, principal);
             }
 
+            // Redirect dopo il successo
             this.createResponseSuccessRedirect(request, response, existsAlready, role);
-            //todo aggiungere nella sessione/funzione apposita il token JWT per restituirlo
-
 
         } catch (Exception e) {
             System.out.println("DEBUG: Error during authentication: " + e.getMessage());
             e.printStackTrace();
-            ResponseUtils.sendFailureRedirect(request, response, e.getMessage(), this.generateUrlError());
+            // Gestione errore con redirect
+            if (!response.isCommitted()) {
+                ResponseUtils.sendFailureRedirect(request, response, e.getMessage(), this.generateUrlError());
+            }
         }
     }
 
     private void createResponseSuccessRedirect(HttpServletRequest request,
                                                HttpServletResponse response,
                                                boolean existsAlready,
-                                               String role
-    ) {
-        String next = frontendUrlBase+this.getNextUrl(existsAlready, role);
-        String url = SUCCESS_AUTH_URL+"?exists="+existsAlready+"&next="+URLEncoder.encode(next);
+                                               String role) throws UnsupportedEncodingException {
+        String next = frontendUrlBase + this.getNextUrl(existsAlready, role);
+        String url = SUCCESS_AUTH_URL + "?exists=" + existsAlready + "&next=" + URLEncoder.encode(next, "UTF-8");
         ResponseUtils.sendRedirect(response, url, request);
     }
+
     private String getNextUrl(boolean existsAlready, String role) {
-        if(existsAlready)
+        if (existsAlready) {
             return "/home";
-        else{
-            if(role.equalsIgnoreCase("volunteer"))
+        } else {
+            if (role.equalsIgnoreCase("volunteer")) {
                 return "/form/volunteer";
-            else
+            } else {
                 return "/form/organization";
+            }
         }
     }
 
@@ -134,7 +131,7 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     }
 
     private Long getOauth2UserId(String email, String role) {
-        switch (role.toLowerCase()){
+        switch (role.toLowerCase()) {
             case "volunteer":
                 Optional<Volunteer> volo = this.volunteerService.findVolunteerByEmail(email);
                 return volo.isPresent() ? volo.get().getId() : null;
@@ -162,28 +159,30 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
                     return decodedRole;
                 }
             } catch (IllegalArgumentException e) {
-               throw new IllegalArgumentException("Invalid role: " + encodedState);
+                throw new IllegalArgumentException("Invalid role: " + encodedState);
             }
         }
         return null;
     }
 
     private Long registerNewRecord(OAuth2User user, String role) throws Exception {
-        return switch (role.toLowerCase()) {
-            case "volunteer" -> registerNewVolunteer(user);
-            case "organization" -> registerNewOrganizzazione(user);
-            default ->  throw new IllegalArgumentException("registerNewRecord=> Unsupported role: " + role);
-        };
+        switch (role.toLowerCase()) {
+            case "volunteer":
+                return registerNewVolunteer(user);
+            case "organization":
+                return registerNewOrganizzazione(user);
+            default:
+                throw new IllegalArgumentException("registerNewRecord=> Unsupported role: " + role);
+        }
     }
-
 
     private Long registerNewVolunteer(OAuth2User user) throws Exception {
         Volunteer volunteer = this.mapToVolunteer(user);
-        if (volunteer != null)
+        if (volunteer != null) {
             return this.volunteerService.save(volunteer).getId();
-        else
+        } else {
             throw new Exception("Error mapping OAuth2 user to Volunteer.");
-
+        }
     }
 
     private Volunteer mapToVolunteer(OAuth2User user) throws Exception {
@@ -203,22 +202,23 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
     private Long registerNewOrganizzazione(OAuth2User user) throws Exception {
         Organization organization = this.mapToOrganization(user);
-        if (organization != null)
+        if (organization != null) {
             return this.organizationService.save(organization).getId();
-        else
+        } else {
             throw new Exception("Error mapping OAuth2 user to Organization.");
+        }
     }
 
     private Organization mapToOrganization(OAuth2User user) throws Exception {
         Organization organization = new Organization();
         Map<String, Object> userAttributes = user.getAttributes();
-        organization.setName(userAttributes.get("given_name") + "'s organization"+userAttributes.get("sub"));
+        organization.setName(userAttributes.get("given_name") + "'s organization" + userAttributes.get("sub"));
         organization.setPhoneNumber((String) userAttributes.get("phoneNumber"));
         organization.setEmail((String) userAttributes.get("email"));
         return organization;
     }
 
     private String generateUrlError() throws UnsupportedEncodingException {
-        return  FAILURE_AUTH_URL+"?exists=false&next="+URLEncoder.encode(this.frontendUrlBase+"/error","UTF-8");
+        return FAILURE_AUTH_URL + "?exists=false&next=" + URLEncoder.encode(this.frontendUrlBase + "/error", "UTF-8");
     }
 }
