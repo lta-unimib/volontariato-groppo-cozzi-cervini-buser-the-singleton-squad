@@ -2,20 +2,115 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Base colors */
+    --background: 0 0% 100%;        /* #FFFFFF */
+    --foreground: 222.2 84% 4.9%;   /* #0F1729 */
+
+    /* Card and popover */
+    --card: 0 0% 100%;              /* #FFFFFF */
+    --card-foreground: 222.2 84% 4.9%; /* #0F1729 */
+    --popover: 0 0% 100%;           /* #FFFFFF */
+    --popover-foreground: 222.2 84% 4.9%; /* #0F1729 */
+
+    /* Primary colors - Blue theme */
+    --primary: 221.2 83.2% 53.3%;   /* #3B82F6 */
+    --primary-foreground: 210 40% 98%; /* #F8FAFC */
+
+    /* Secondary colors */
+    --secondary: 210 40% 96.1%;     /* #F1F5F9 */
+    --secondary-foreground: 222.2 47.4% 11.2%; /* #1E293B */
+
+    /* UI elements */
+    --muted: 210 40% 96.1%;         /* #F1F5F9 */
+    --muted-foreground: 215.4 16.3% 46.9%; /* #64748B */
+    --accent: 210 40% 96.1%;        /* #F1F5F9 */
+    --accent-foreground: 222.2 47.4% 11.2%; /* #1E293B */
+    --destructive: 0 84.2% 60.2%;   /* #EF4444 */
+    --destructive-foreground: 210 40% 98%; /* #F8FAFC */
+
+    /* Borders and inputs */
+    --border: 214.3 31.8% 91.4%;    /* #E2E8F0 */
+    --input: 214.3 31.8% 91.4%;     /* #E2E8F0 */
+    --ring: 221.2 83.2% 53.3%;      /* #3B82F6 */
+    --radius: 0.5rem;
+
+    /* Chart colors */
+    --chart-1: 12 76% 61%;          /* #F87171 */
+    --chart-2: 173 58% 39%;         /* #2DD4BF */
+    --chart-3: 197 37% 24%;         /* #0F766E */
+    --chart-4: 43 74% 66%;          /* #FCD34D */
+    --chart-5: 27 87% 67%;          /* #F97316 */
+
+    /* Navbar/Sidebar - Blue theme */
+    --sidebar-background: 217 33% 97%;  /* #F4F7FB */
+    --sidebar-foreground: 221 39% 11%;  /* #1A2942 */
+    --sidebar-primary: 221 83% 53%;     /* #3B82F6 */
+    --sidebar-primary-foreground: 0 0% 100%; /* #FFFFFF */
+    --sidebar-accent: 217 33% 95%;      /* #EDF2F7 */
+    --sidebar-accent-foreground: 221 39% 11%; /* #1A2942 */
+    --sidebar-border: 216 34% 89%;      /* #D1DBE8 */
+    --sidebar-ring: 221 83% 53%;        /* #3B82F6 */
+  }
+
+  .dark {
+    /* Base colors */
+    --background: 222.2 84% 4.9%;    /* #0F1729 */
+    --foreground: 210 40% 98%;       /* #F8FAFC */
+
+    /* Card and popover */
+    --card: 222.2 84% 4.9%;         /* #0F1729 */
+    --card-foreground: 210 40% 98%;  /* #F8FAFC */
+    --popover: 222.2 84% 4.9%;      /* #0F1729 */
+    --popover-foreground: 210 40% 98%; /* #F8FAFC */
+
+    /* Primary colors - Blue theme */
+    --primary: 217.2 91.2% 59.8%;   /* #3B82F6 */
+    --primary-foreground: 222.2 47.4% 11.2%; /* #1E293B */
+
+    /* Secondary colors */
+    --secondary: 217.2 32.6% 17.5%; /* #1E293B */
+    --secondary-foreground: 210 40% 98%; /* #F8FAFC */
+
+    /* UI elements */
+    --muted: 217.2 32.6% 17.5%;    /* #1E293B */
+    --muted-foreground: 215 20.2% 65.1%; /* #94A3B8 */
+    --accent: 217.2 32.6% 17.5%;   /* #1E293B */
+    --accent-foreground: 210 40% 98%; /* #F8FAFC */
+    --destructive: 0 62.8% 30.6%;  /* #7F1D1D */
+    --destructive-foreground: 210 40% 98%; /* #F8FAFC */
+
+    /* Borders and inputs */
+    --border: 217.2 32.6% 17.5%;   /* #1E293B */
+    --input: 217.2 32.6% 17.5%;    /* #1E293B */
+    --ring: 224.3 76.3% 48%;       /* #4F46E5 */
+
+    /* Chart colors */
+    --chart-1: 220 70% 50%;        /* #3B82F6 */
+    --chart-2: 160 60% 45%;        /* #10B981 */
+    --chart-3: 30 80% 55%;         /* #F59E0B */
+    --chart-4: 280 65% 60%;        /* #8B5CF6 */
+    --chart-5: 340 75% 55%;        /* #EC4899 */
+
+    /* Navbar/Sidebar - Dark Blue theme */
+    --sidebar-background: 222 47% 11%;   /* #1E293B */
+    --sidebar-foreground: 217 33% 97%;   /* #F4F7FB */
+    --sidebar-primary: 221 83% 53%;      /* #3B82F6 */
+    --sidebar-primary-foreground: 0 0% 100%; /* #FFFFFF */
+    --sidebar-accent: 223 47% 14%;       /* #253449 */
+    --sidebar-accent-foreground: 217 33% 97%; /* #F4F7FB */
+    --sidebar-border: 222 47% 14%;       /* #253449 */
+    --sidebar-ring: 221 83% 53%;         /* #3B82F6 */
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply antialiased bg-background text-foreground;
+  }
 }
