@@ -6,6 +6,7 @@ import com.unimib.singletonsquad.doit.domain.Volunteer;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
 import com.unimib.singletonsquad.doit.service.database.VolunteerService;
+import com.unimib.singletonsquad.doit.utils.FrontendUrls;
 import com.unimib.singletonsquad.doit.utils.ResponseUtils;
 import com.unimib.singletonsquad.doit.utils.UserVerify;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,8 +30,6 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
     private static final String SUCCESS_AUTH_URL = "/oauth/google/authentication/success";
     private static final String FAILURE_AUTH_URL = "/oauth/google/authentication/error";
-    private final String frontendUrlBase = "http://localhost:3000"; // URL del frontend
-
     private OAuth2User oauth2User;
 
     @Autowired
@@ -73,7 +72,8 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             );
 
             if (clientProvider == null || clientProvider.getAccessToken() == null) {
-                ResponseUtils.sendFailureRedirect(request, response, "Client provider or access token not found.", this.generateUrlError());
+                ResponseUtils.sendFailureRedirect(request, response,
+                        "Client provider or access token not found.", this.generateUrlError());
                 return;
             }
 
@@ -94,7 +94,6 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         } catch (Exception e) {
             System.out.println("DEBUG: Error during authentication: " + e.getMessage());
             e.printStackTrace();
-            // Gestione errore con redirect
             if (!response.isCommitted()) {
                 ResponseUtils.sendFailureRedirect(request, response, e.getMessage(), this.generateUrlError());
             }
@@ -105,21 +104,17 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
                                                HttpServletResponse response,
                                                boolean existsAlready,
                                                String role) throws UnsupportedEncodingException {
-        String next = frontendUrlBase + this.getNextUrl(existsAlready, role);
+
+        String next = this.getNextUrl(existsAlready, role);
         String url = SUCCESS_AUTH_URL + "?exists=" + existsAlready + "&next=" + URLEncoder.encode(next, "UTF-8");
         ResponseUtils.sendRedirect(response, url, request);
     }
 
     private String getNextUrl(boolean existsAlready, String role) {
-        if (existsAlready) {
-            return "/home";
-        } else {
-            if (role.equalsIgnoreCase("volunteer")) {
-                return "/form/volunteer";
-            } else {
-                return "/form/organization";
-            }
-        }
+        if (existsAlready)
+            return FrontendUrls.SUCCESS_AUTH.getUrl()+"/"+role;
+        else
+            return FrontendUrls.FORM_URL.getUrl()+"/"+role;
     }
 
     private void authUserOauth(Long userOauthId, String role, OAuth2AuthenticationToken principal) {
@@ -205,7 +200,7 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         if (organization != null) {
             return this.organizationService.save(organization).getId();
         } else {
-            throw new Exception("Error mapping OAuth2 user to Organization.");
+            throw new IllegalArgumentException("Error mapping OAuth2 user to Organization.");
         }
     }
 
@@ -219,6 +214,6 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     }
 
     private String generateUrlError() throws UnsupportedEncodingException {
-        return FAILURE_AUTH_URL + "?exists=false&next=" + URLEncoder.encode(this.frontendUrlBase + "/error", "UTF-8");
+        return FAILURE_AUTH_URL + "?exists=false&next=" + URLEncoder.encode(ResponseUtils.frontendUrlBase + "/error", "UTF-8");
     }
 }
