@@ -24,19 +24,18 @@ public class VolunteerRequest {
     private String title;
     private String detailedDescription;
     private int capacity;
-    /*
-    @OneToOne
-    private Location location;
-    private VolunteeringType volunteeringType;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Location location;
+    private String volunteerType;
     @Embedded
     private LocalDateTime startDateTime;
     @Embedded
     private LocalDateTime endDateTime;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Organization organization;
     @ElementCollection
-    private List<String> volunteerCategories;*/
+    private List<String> volunteerCategories;
 
     public VolunteerRequest() {}
 
@@ -46,5 +45,22 @@ public class VolunteerRequest {
         } else {
             this.capacity = capacity;
         }
+    }
+
+    public boolean hasCategory(String category) {
+        return volunteerCategories.contains(category);
+    }
+
+    public String getCity() {
+        return location.getCity();
+    }
+
+    public boolean hasCategories(List<String> categories) {
+        for(String category : categories) {
+            if(volunteerCategories.contains(category)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
