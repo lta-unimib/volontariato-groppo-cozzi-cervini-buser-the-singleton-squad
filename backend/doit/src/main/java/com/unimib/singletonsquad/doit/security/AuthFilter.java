@@ -80,6 +80,7 @@ public class AuthFilter extends OncePerRequestFilter {
         if (jwtUtils.isExpired(token)) {
             throw new AuthException("Token has expired", request.getRequestURI());
         }
+        request.getSession().setAttribute("token", token);
     }
 
     private void setAuthentication(String token) {

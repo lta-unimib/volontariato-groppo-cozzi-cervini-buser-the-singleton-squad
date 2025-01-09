@@ -9,8 +9,9 @@ import java.net.URLDecoder;
 
 @Service
 public class AuthenticationRedirectErrorService extends AuthenticationRedirectService {
+
     @Override
-    protected String doOperation(HttpServletRequest request, HttpServletResponse response, Model model) {
+    protected String doOperation(HttpServletRequest request, HttpServletResponse response, Model model, boolean exits, String next) {
         try{
             String error = URLDecoder.decode(request.getParameter("message"), "UTF-8");
             model.addAttribute("error", error);

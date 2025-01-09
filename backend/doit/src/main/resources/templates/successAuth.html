@@ -85,16 +85,18 @@
 <body>
 <div class="container">
     <h1>Done IT</h1>
-
+    <h1 th:text="${userId}"></h1>
     <div class="info">
         <span th:text="${token}"></span>
+
     </div>
 
     <div class="loader"></div>
     <p class="status">Reindirizzamento...</p>
 
-    <form action="http://localhost:3000/home" method="post" id="form-auth">
+    <form th:action="${actionUrl}" method="post" id="form-auth">
         <input type="hidden" th:value="${token}" name="authToken"/>
+        <input type="hidden" th:value="${userId}" name="userId">
         <button type="submit" id="manual-submit" class="manual-button">
             Clicca qui per continuare
         </button>

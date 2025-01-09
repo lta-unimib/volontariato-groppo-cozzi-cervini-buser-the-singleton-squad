@@ -1,6 +1,5 @@
-package com.unimib.singletonsquad.doit.controller;
+package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
-import com.unimib.singletonsquad.doit.domain.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.service.database.VolunteerRequestService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,6 @@
 package com.unimib.singletonsquad.doit.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +11,7 @@ import java.util.Objects;
 @Table(name = "location")
 public class Location {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String region;
     private String city;
@@ -20,6 +19,7 @@ public class Location {
     private String postalCode;
     private String country;
     private String houseNumber;
+    private String phoneNumber;
 
     public Location(String id, String city, String streetAddress, String postalCode, String houseNumber) {
         this.id = id;

@@ -134,4 +134,8 @@ public class JWTUtils {
                 username, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }
+    public Object extractClaimByName(String token, String claimName) {
+        Claims claims = extractAllClaims(token);
+        return claims.get(claimName);
+    }
 }

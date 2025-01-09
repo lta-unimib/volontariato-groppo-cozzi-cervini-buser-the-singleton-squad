@@ -9,6 +9,7 @@ import com.unimib.singletonsquad.doit.service.database.VolunteerService;
 import com.unimib.singletonsquad.doit.utils.ResponseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.*;
 
 @Component
@@ -26,17 +28,20 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     private static final String SUCCESS_AUTH_URL = "/oauth/google/authentication/success";
     private static final String FAILURE_AUTH_URL = "/oauth/google/authentication/error";
 
-    private final OAuth2AuthorizedClientService authorizedClientService;
     private OAuth2User oauth2User;
-    private final VolunteerService volunteerService;
-    private final AuthenticationUserService authUser;
-    private final OrganizationService organizationService;
+    private final String frontendUrlBase = "http://localhost:3000";
 
-    public SuccessAuthHandler(OAuth2AuthorizedClientService authorizedClientService, VolunteerService volunteerService, AuthenticationUserService authUser, OrganizationService organizationService) {
-        this.authorizedClientService = authorizedClientService;
-        this.volunteerService = volunteerService;
+    @Autowired
+    private  OAuth2AuthorizedClientService authorizedClientService;
+    @Autowired
+    private  VolunteerService volunteerService;
+    @Autowired
+    private AuthenticationUserService authUser;
+    @Autowired
+    private OrganizationService organizationService;
+
+    public SuccessAuthHandler(AuthenticationUserService authUser) {
         this.authUser = authUser;
-        this.organizationService = organizationService;
     }
 
     @Override
@@ -84,23 +89,45 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
             String userOauthEmail = this.oauth2User.getAttribute("email");
             Long userOauthId = this.checkOauthUserExists(userOauthEmail, role);
-
+            boolean existsAlready = false;
             if(userOauthId != null) {
                 // l'utente esiste già nel database
                 System.out.println("DEBUG: User exists in database, userId: " + userOauthId);
                 this.authUserOauth(userOauthId, role, principal);
+                existsAlready = true;
             } else {
                 Long userId = this.registerNewRecord(this.oauth2User, role);
                 this.authUserOauth(userId, role, principal);
             }
 
+            this.createResponseSuccessRedirect(request, response, existsAlready, role);
             //todo aggiungere nella sessione/funzione apposita il token JWT per restituirlo
-            ResponseUtils.sendRedirect(response, SUCCESS_AUTH_URL, request);
+
 
         } catch (Exception e) {
             System.out.println("DEBUG: Error during authentication: " + e.getMessage());
             e.printStackTrace();  // Aggiungi la stampa dello stack trace per ottenere più dettagli
             ResponseUtils.sendFailureRedirect(request, response, e.getMessage(), FAILURE_AUTH_URL);
+        }
+    }
+
+    private void createResponseSuccessRedirect(HttpServletRequest request,
+                                               HttpServletResponse response,
+                                               boolean existsAlready,
+                                               String role
+    ) {
+        String next = frontendUrlBase+this.getNextUrl(existsAlready, role);
+        String url = SUCCESS_AUTH_URL+"?exists="+existsAlready+"&next="+URLEncoder.encode(next);
+        ResponseUtils.sendRedirect(response, url, request);
+    }
+    private String getNextUrl(boolean existsAlready, String role) {
+        if(existsAlready)
+            return "/home";
+        else{
+            if(role.equalsIgnoreCase("volontario"))
+                return "/form/volunteer";
+            else
+                return "form/organization";
         }
     }
 
