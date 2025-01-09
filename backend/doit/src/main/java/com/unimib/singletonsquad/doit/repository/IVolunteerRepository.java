@@ -10,7 +10,6 @@ import java.util.Optional;
 @Primary
 @Repository
 public interface IVolunteerRepository extends JpaRepository<Volunteer, Long> {
-
     // Metodi personalizzati per il nome e il cognome
     List<Volunteer> findByName(String name); // Trova tutti i volontari con un determinato nome
 

@@ -30,6 +30,8 @@ public class Volunteer {
     private ProfilePicture profilePicture;
     @Column(nullable = true)
     private String description;
+    @Column(nullable = false)
+    private boolean registered;
 
     public Volunteer(Long id, String name, String surname, String email) {
         this.id = id;

@@ -30,5 +30,12 @@ public class VolunteerService {
         return volunteerRepository.save(volunteer);
     }
 
-
+    public boolean isRegistered(Long volunteerId) {
+        Optional<Volunteer> volunteerOptional = volunteerRepository.findById(volunteerId);
+        if(volunteerOptional.isPresent()) {
+            return volunteerOptional.get().isRegistered();
+        } else {
+          return false;
+        }
+    }
 }
