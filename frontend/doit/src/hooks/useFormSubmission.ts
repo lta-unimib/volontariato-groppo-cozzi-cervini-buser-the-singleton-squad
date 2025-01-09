@@ -24,12 +24,13 @@ export const useFormSubmission = (formData: FormData, formType: FormType) => {
         const completeFormData = {
             ...formData,
             id: userId,
+            token: authToken
         };
 
         try {
             console.log("Form Data:", JSON.stringify(completeFormData, null, 2));
 
-            const endpoint = `${API_BASE_LINK}/register/${formType}/`;
+            const endpoint = `${API_BASE_LINK}/register/${formType}`;
 
             const response = await fetch(endpoint, {
                 method: 'POST',
