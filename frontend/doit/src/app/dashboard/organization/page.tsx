@@ -1,7 +1,7 @@
 "use client";
 
 import {menuItems} from "@/app/dashboard/organization/util/MenuItems";
-import SidebarLayout from "@/app/components/ui/SidebarLayout";
+import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import {Page} from "@/components/layout/Page";
 
 export default function Home() {

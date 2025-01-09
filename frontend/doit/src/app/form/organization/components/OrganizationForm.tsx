@@ -20,7 +20,11 @@ export function OrganizationForm() {
     const { handleSubmit } = useFormSubmission(formData);
 
     return (
-        <BaseForm onSubmitAction={handleSubmit} isValid={isValid()}>
+        <BaseForm
+            onSubmitAction={handleSubmit}
+            isValid={isValid()}
+            redirectTo={"../../../dashboard/organization"}
+        >
             <IconInput
                 value={formData.organizationName}
                 onChange={(e) => updateField("organizationName", e.target.value)}

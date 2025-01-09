@@ -8,7 +8,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem
-} from "@/components/ui/Sidebar";
+} from "@/components/ui/sidebar/Sidebar";
 import type { ComponentProps } from "react";
 import React from "react";
 
