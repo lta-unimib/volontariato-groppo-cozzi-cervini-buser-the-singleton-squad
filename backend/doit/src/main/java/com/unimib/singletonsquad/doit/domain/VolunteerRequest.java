@@ -1,13 +1,11 @@
 package com.unimib.singletonsquad.doit.domain;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -24,14 +22,12 @@ public class VolunteerRequest {
     private String title;
     private String detailedDescription;
     private int capacity;
-
     @OneToOne(cascade = CascadeType.ALL)
     private Location location;
     private String volunteerType;
-    @Embedded
-    private LocalDateTime startDateTime;
-    @Embedded
-    private LocalDateTime endDateTime;
+    private String startDateTime;
+    private String endDateTime;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Organization organization;
     @ElementCollection
