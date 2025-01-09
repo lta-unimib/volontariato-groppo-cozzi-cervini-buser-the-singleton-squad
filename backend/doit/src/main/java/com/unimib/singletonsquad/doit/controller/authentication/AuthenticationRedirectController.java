@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.URLDecoder;
+
 @Controller
 @RequestMapping("/oauth/google/authentication")
 public class AuthenticationRedirectController {
@@ -41,7 +43,12 @@ public class AuthenticationRedirectController {
         return this.authenticationRedirectErrorService.handleRedirect(request, response, model, next, exits);
     }
     @GetMapping("/failure")
-    public String failure(HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String failure(HttpServletRequest request,
+                          HttpServletResponse response,
+                          Model model,
+                          @RequestParam  String next,
+                          @RequestParam  Boolean exists) {
+        model.addAttribute("next", URLDecoder.decode(next));
         return "failureAuth";
     }
 }

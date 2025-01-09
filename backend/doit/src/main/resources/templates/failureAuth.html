@@ -93,8 +93,9 @@
 
   <div class="loader"></div>
   <p class="status">Reindirizzamento...</p>
+  <p th:text="${next}"></p>
 
-  <form action="http://localhost:3000/failureAuth" method="post" id="form-error">
+  <form th:action="${next}" method="post" id="form-error">
     <input type="hidden" name="errorMessage" value="Autenticazione fallita"/>
     <button type="submit" id="manual-submit" class="manual-button">
       Clicca qui per continuare

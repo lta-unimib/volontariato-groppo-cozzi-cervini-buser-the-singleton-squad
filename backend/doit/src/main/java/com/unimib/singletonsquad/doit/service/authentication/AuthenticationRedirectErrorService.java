@@ -13,12 +13,15 @@ public class AuthenticationRedirectErrorService extends AuthenticationRedirectSe
     @Override
     protected String doOperation(HttpServletRequest request, HttpServletResponse response, Model model, boolean exits, String next) {
         try{
+            System.out.println(next);
             String error = URLDecoder.decode(request.getParameter("message"), "UTF-8");
             model.addAttribute("error", error);
+            model.addAttribute("next", URLDecoder.decode(next, "UTF-8"));
             return "errorAuth";
         }catch(UnsupportedEncodingException e){
             e.printStackTrace();
             model.addAttribute("error", e.getMessage());
+            model.addAttribute("next", null);
             return "errorAuth";
         }
     }
