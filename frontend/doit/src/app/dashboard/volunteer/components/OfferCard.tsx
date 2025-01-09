@@ -1,5 +1,5 @@
 import { Page } from '@/components/layout/Page';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
 import React from "react";
 
 interface LayoutProps {
@@ -19,7 +19,7 @@ export default function OfferCard({
                                   }: LayoutProps) {
     return (
         <Page>
-            <Card className="flex items-stretch gap-4">
+            <Card className="flex items-stretch gap-4 rounded-2xl">
                 <div className="flex-1">
                     <CardHeader>
                         <CardDescription>{organization}</CardDescription>

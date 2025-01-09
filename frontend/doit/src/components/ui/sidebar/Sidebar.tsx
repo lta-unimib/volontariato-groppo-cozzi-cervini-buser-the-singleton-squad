@@ -253,7 +253,7 @@ const SidebarTrigger = React.forwardRef<
 >(({ className, onClick, ...props }, ref) => {
     const { toggleSidebar, isMobile } = useSidebar()
 
-    if (isMobile) return null; // Don't render the trigger button on mobile
+    if (isMobile) return null;
 
     return (
         <Button

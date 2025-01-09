@@ -1,26 +1,25 @@
 "use client";
 
 import { MdOutlineInbox } from "react-icons/md";
-import { MdAssignmentAdd } from "react-icons/md";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { MdOutlineAccountCircle } from "react-icons/md";
 
-export const menuItems = [
+export const volunteerMenuItems = [
     {
-        title: "Offerte volontariato",
-        url: "#",
-        icon: MdAssignmentAdd,
+        title: "Opportunità",
+        url: "/dashboard/volunteer",
+        icon: MdOutlineDashboardCustomize,
         className: "md:inline hidden"
     },
     {
         title: "Messaggi",
-        url: "#",
+        url: "/message/volunteer",
         icon: MdOutlineInbox,
         className: "md:inline hidden"
-
     },
     {
         title: "Profilo",
-        url: "#",
+        url: "/profile/volunteer",
         icon: MdOutlineAccountCircle,
         className: "md:inline hidden"
     },

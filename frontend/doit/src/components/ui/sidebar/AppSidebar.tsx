@@ -10,7 +10,7 @@ import {
     SidebarMenuItem
 } from "@/components/ui/sidebar/Sidebar";
 import type { ComponentProps } from "react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 interface MenuItem {
     title: string;
@@ -34,6 +34,16 @@ export function AppSidebar({
                                variant,
                                collapsible,
                            }: AppSidebarProps) {
+    const [activeItem, setActiveItem] = useState<string>('');
+
+    useEffect(() => {
+        const currentPath = window.location.pathname;
+        const currentItem = menuItems.find(item => item.url === currentPath);
+        if (currentItem) {
+            setActiveItem(currentItem.url);
+        }
+    }, [menuItems]);
+
     return (
         <Sidebar side={side} variant={variant} collapsible={collapsible}>
             <SidebarContent>
@@ -42,8 +52,15 @@ export function AppSidebar({
                         <SidebarMenu>
                             {menuItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <a href={item.url} className="flex flex-col items-center md:flex-row md:gap-3">
+                                    <SidebarMenuButton
+                                        asChild
+                                        isActive={activeItem === item.url}
+                                    >
+                                        <a
+                                            href={item.url}
+                                            className="flex flex-col items-center md:flex-row md:gap-3"
+                                            onClick={() => setActiveItem(item.url)}
+                                        >
                                             <item.icon className="w-5 h-5" />
                                             <span className="hidden md:inline">{item.title}</span>
                                         </a>
