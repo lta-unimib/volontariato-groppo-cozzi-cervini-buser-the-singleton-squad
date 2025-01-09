@@ -41,7 +41,7 @@ public class AuthFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws IOException {
         String path = request.getRequestURI();
-
+        System.out.println("Debug: "+path);
         try {
             if (!isPublicPath(path)) {
                 authenticateRequest(request);
@@ -64,6 +64,7 @@ public class AuthFilter extends OncePerRequestFilter {
     private String extractAuthHeader(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("No Bearer token found in request");
             throw new AuthException("Invalid or missing authorization header", request.getRequestURI());
         }
         return authHeader;
@@ -80,6 +81,7 @@ public class AuthFilter extends OncePerRequestFilter {
         if (jwtUtils.isExpired(token)) {
             throw new AuthException("Token has expired", request.getRequestURI());
         }
+        System.out.println("Token: "+token);
         request.getSession().setAttribute("token", token);
     }
 
