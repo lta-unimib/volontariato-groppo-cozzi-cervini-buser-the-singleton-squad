@@ -16,9 +16,9 @@ public class VolunteerRequestController {
     @Autowired
     private VolunteerRequestService volunteerRequestService;
 
-    @Autowired
-    @Qualifier("")
-    private RequestHandlerService requestHandlerService;
+    //@Autowired
+    //@Qualifier("")
+    //private RequestHandlerService requestHandlerService;
 
     @PostMapping("/nuova")
     public ResponseEntity<String> createVolunteerRequest(@RequestBody VolunteerRequestDTO volunteerRequestDTO) {
@@ -27,16 +27,13 @@ public class VolunteerRequestController {
         return ResponseEntity.ok().body("VolunteerRequest created successfully");
     }
 
-
+    /*
     @GetMapping("/ottieni")
     public ResponseEntity<List<VolunteerRequestDTO>> getVolunteerRequestsParam(@RequestParam String city,
                                                                           @RequestParam String startDate,
                                                                           @RequestParam String endDate,
                                                                           @RequestParam String categories)
     {
-
-
-
         return null;
     }
 
@@ -50,11 +47,11 @@ public class VolunteerRequestController {
             classe che contiene tutte le richieste di volontariato, tipo catalogo
             CONTROLLER --> SERVICE --> REPOSITORY --> SERVICE, elabora e le riordina, --> CONTROLLER --> RISPOSTA
         */
-
+    /*
 
         return null;
     }
-
+/*
 
     @DeleteMapping("/delete/{id_richiesta}")
     public ResponseEntity<String> deleteVolunteerRequest(@PathVariable Long id_richiesta) {
@@ -67,9 +64,5 @@ public class VolunteerRequestController {
                                                          @RequestBody VolunteerRequestDTO requestDTO) {
         return null;
     }
-
-
-
-
-
+    */
 }
