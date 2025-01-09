@@ -107,7 +107,9 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         } catch (Exception e) {
             System.out.println("DEBUG: Error during authentication: " + e.getMessage());
             e.printStackTrace();  // Aggiungi la stampa dello stack trace per ottenere più dettagli
-            ResponseUtils.sendFailureRedirect(request, response, e.getMessage(), FAILURE_AUTH_URL);
+            String url = FAILURE_AUTH_URL+"?exists=false&next="+URLEncoder.encode("http://localhost:3000/error","UTF-8");
+            System.out.println("DEBUG: URL: " + url);
+            ResponseUtils.sendFailureRedirect(request, response, e.getMessage(), url);
         }
     }
 
@@ -127,7 +129,7 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             if(role.equalsIgnoreCase("volontario"))
                 return "/form/volunteer";
             else
-                return "form/organization";
+                return "/form/organization";
         }
     }
 

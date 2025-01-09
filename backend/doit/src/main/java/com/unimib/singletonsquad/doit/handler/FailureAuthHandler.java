@@ -6,11 +6,13 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 @Component
 public class FailureAuthHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        response.sendRedirect("/oauth/google/authentication/failure");
+        String url = "/oauth/google/authentication/failure?exists=false&next="+ URLEncoder.encode("http://localhost:3000/error", "UTF-8");
+        response.sendRedirect(url);
     }
 }
