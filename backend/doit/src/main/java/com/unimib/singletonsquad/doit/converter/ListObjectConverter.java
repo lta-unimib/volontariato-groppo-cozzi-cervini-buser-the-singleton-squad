@@ -7,7 +7,7 @@ import jakarta.persistence.Converter;
 
 import java.util.List;
 
-@Converter // Usa questa annotazione per far riconoscere la classe come convertitore JPA
+@Converter
 public class ListObjectConverter implements AttributeConverter<List<Object>, String> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -15,7 +15,7 @@ public class ListObjectConverter implements AttributeConverter<List<Object>, Str
     @Override
     public String convertToDatabaseColumn(List<Object> attribute) {
         try {
-            return objectMapper.writeValueAsString(attribute); // Serializza la lista in formato JSON
+            return objectMapper.writeValueAsString(attribute);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Errore durante la serializzazione della lista", e);
         }
@@ -24,7 +24,7 @@ public class ListObjectConverter implements AttributeConverter<List<Object>, Str
     @Override
     public List<Object> convertToEntityAttribute(String dbData) {
         try {
-            return objectMapper.readValue(dbData, List.class); // Deserializza da JSON
+            return objectMapper.readValue(dbData, List.class); 
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Errore durante la deserializzazione della lista", e);
         }

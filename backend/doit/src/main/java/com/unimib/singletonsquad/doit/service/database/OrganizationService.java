@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.service.database;
 
 import com.unimib.singletonsquad.doit.domain.Organization;
+import com.unimib.singletonsquad.doit.domain.Volunteer;
 import com.unimib.singletonsquad.doit.repository.IOrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,9 @@ public class OrganizationService {
 
     public Optional<Organization> findOrganizationByEmail(String email) {
         return organizationRepository.findByEmail(email);
+    }
+    public boolean isRegistered(Long volunteerId) {
+        Optional<Organization> organization = organizationRepository.findById(volunteerId);
+        return (organization.isPresent()) ? organization.get().isRegistered() : false;
     }
 }

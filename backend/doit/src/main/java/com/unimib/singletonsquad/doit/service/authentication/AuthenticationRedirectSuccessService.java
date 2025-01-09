@@ -3,6 +3,7 @@ import com.unimib.singletonsquad.doit.security.CustomOAuth2User;
 import com.unimib.singletonsquad.doit.security.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -14,13 +15,9 @@ import java.util.Map;
 @Service
 public class AuthenticationRedirectSuccessService extends AuthenticationRedirectService {
 
-
+    @Autowired
     private JWTUtils jwtUtils;
     private String userRole = null;
-
-    public AuthenticationRedirectSuccessService() {
-        this.jwtUtils = new JWTUtils();
-    }
 
     @Override
     protected String doOperation(HttpServletRequest request, HttpServletResponse response, Model model, boolean exists, String next) {
@@ -42,7 +39,7 @@ public class AuthenticationRedirectSuccessService extends AuthenticationRedirect
         Long principalId = ((CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserUniqueId();
         String token = this.jwtUtils.generateToken(userInfo, principalId.toString());
         user.setJwtToken(token);
-        String redirectUrl = (role.equalsIgnoreCase("volontario")) ? "volunteer" : "organization";
+        String redirectUrl = (role.equalsIgnoreCase("volunteer")) ? "volunteer" : "organization";
         return new String[]{token, principalId.toString(), role, redirectUrl};
     }
 }

@@ -1,11 +1,8 @@
 package com.unimib.singletonsquad.doit.controller;
 
-import com.unimib.singletonsquad.doit.dto.SignInFormVolunteerDTO;
 import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.database.VolunteerService;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/volontario")
+@RequestMapping("/volunteer")
 public class VolunteerController {
 
     @Autowired
@@ -21,10 +18,9 @@ public class VolunteerController {
     @Autowired
     private JWTUtils jwtUtils;
 
-    @GetMapping("/registrato")
+    @GetMapping("/registered")
     public ResponseEntity<Boolean> isRegistered(HttpServletRequest request) {
         try {
-            System.out.println("isRegistered");
             String token = request.getSession().getAttribute("token").toString();
             String id = this.jwtUtils.extractUsername(token);
             System.out.println(id);

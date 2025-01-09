@@ -19,7 +19,7 @@ public class AuthenticationControllerService {
     }
 
     private boolean checkRole(String role){
-        return (role.equalsIgnoreCase("volontario") || role.equalsIgnoreCase("organizzazione"));
+        return (role.equalsIgnoreCase("volunteer") || role.equalsIgnoreCase("organization"));
     }
 
 

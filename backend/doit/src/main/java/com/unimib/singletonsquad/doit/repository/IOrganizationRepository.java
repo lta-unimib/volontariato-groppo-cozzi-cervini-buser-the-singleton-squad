@@ -16,4 +16,5 @@ public interface IOrganizationRepository {
     boolean existsById(Long id);
     boolean existsByEmail(String email);
     Optional<Organization> findByEmail(String email);
+
 }

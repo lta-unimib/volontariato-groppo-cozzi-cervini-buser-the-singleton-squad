@@ -39,8 +39,8 @@ public class AuthenticationRedirectController {
     public String error(HttpServletRequest request,
                         HttpServletResponse response, Model model,
                         @RequestParam  String next,
-                        @RequestParam  Boolean exits) {
-        return this.authenticationRedirectErrorService.handleRedirect(request, response, model, next, exits);
+                        @RequestParam  Boolean exists) {
+        return this.authenticationRedirectErrorService.handleRedirect(request, response, model, next, exists);
     }
     @GetMapping("/failure")
     public String failure(HttpServletRequest request,

@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unimib.singletonsquad.doit.dto.LocationDTO;
 import com.unimib.singletonsquad.doit.utils.DataValidator;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +35,8 @@ public class Organization {
     private String email;
     @Column(unique = true, nullable = true)
     private String phoneNumber;
+
+    private boolean isRegistered;
 
     //todo preferenze??
     private String VATNumber;

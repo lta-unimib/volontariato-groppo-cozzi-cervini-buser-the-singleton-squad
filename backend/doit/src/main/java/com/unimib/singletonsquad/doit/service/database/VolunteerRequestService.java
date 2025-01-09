@@ -1,6 +1,5 @@
 package com.unimib.singletonsquad.doit.service.database;
 
-import com.unimib.singletonsquad.doit.domain.Organization;
 import com.unimib.singletonsquad.doit.domain.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.repository.IVolunteerRequestRepository;

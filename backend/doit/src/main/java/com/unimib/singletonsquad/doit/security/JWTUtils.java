@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,38 +25,23 @@ public class JWTUtils {
 
     private final long refreshExpiration = 360000000;
 
-    /**
-     * Ottieni la chiave di firma a partire dalla chiave segreta.
-     */
     private SecretKey getSigningKey() {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    /**
-     * Genera un token JWT con il solo nome utente come soggetto.
-     */
     public String generateToken(String username) {
         return generateToken(new HashMap<>(), username);
     }
 
-    /**
-     * Genera un token JWT con claims aggiuntivi e il nome utente.
-     */
     public String generateToken(Map<String, Object> extraClaims, String username) {
         return buildToken(extraClaims, username, jwtExpiration);
     }
 
-    /**
-     * Genera un token di refresh.
-     */
     public String generateRefreshToken(String username) {
         return buildToken(new HashMap<>(), username, refreshExpiration);
     }
 
-    /**
-     * Metodo interno per costruire un token con claims, username e durata.
-     */
     private String buildToken(Map<String, Object> extraClaims, String username, long expiration) {
         return Jwts.builder()
                 .setClaims(extraClaims)
@@ -66,9 +52,6 @@ public class JWTUtils {
                 .compact();
     }
 
-    /**
-     * Verifica se un token è valido.
-     */
     public boolean verifyToken(String token) {
         try {
             Jwts.parserBuilder()
@@ -83,9 +66,6 @@ public class JWTUtils {
         }
     }
 
-    /**
-     * Controlla se il token è scaduto.
-     */
     public boolean isExpired(String token) {
         try {
             return extractExpiration(token).before(new Date());
@@ -95,9 +75,6 @@ public class JWTUtils {
         }
     }
 
-    /**
-     * Rigenera un nuovo token se il vecchio token è valido e non scaduto.
-     */
     public String refreshToken(String token) {
         if (!verifyToken(token) || isExpired(token)) {
             throw new JwtException("Token non valido o scaduto");
@@ -138,4 +115,12 @@ public class JWTUtils {
         Claims claims = extractAllClaims(token);
         return claims.get(claimName);
     }
+
+    public String getTokenFromRequest(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Bearer "))
+            return null;
+        return header.substring(7);
+    }
+
 }

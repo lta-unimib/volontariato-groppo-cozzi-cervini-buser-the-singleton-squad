@@ -20,7 +20,7 @@ class VolunteerTest {
     }
 
     @Test
-    void setPhoneNumber() {
+    void setPhoneNumber() throws Exception {
         String validPhoneNumber = "+391234567890";
         volunteer.setPhoneNumber(validPhoneNumber);
         assertEquals(validPhoneNumber, volunteer.getPhoneNumber());
