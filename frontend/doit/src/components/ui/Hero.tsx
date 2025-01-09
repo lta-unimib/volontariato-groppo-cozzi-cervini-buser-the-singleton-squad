@@ -29,6 +29,7 @@ export function Hero() {
                             alt="Hero illustration"
                             width={600}
                             height={400}
+                            priority
                         />
                     )}
                 </div>
@@ -43,7 +44,7 @@ export function Hero() {
                                 size="default"
                                 className="w-full lg:hidden"
                             >
-                                <MdOutlineAccountCircle />
+                                <MdOutlineAccountCircle className="mr-2"/>
                                 Volontario
                             </Button>
                             <Button
@@ -51,17 +52,17 @@ export function Hero() {
                                 size="lg"
                                 className="w-full hidden lg:inline-flex"
                             >
-                                <MdOutlineAccountCircle />
+                                <MdOutlineAccountCircle className="mr-2"/>
                                 Volontario
                             </Button>
                         </Link>
-                        <Link href="/form/organization" className="w-full sm:w-auto">
+                        <Link href="http://ec2-3-64-126-237.eu-central-1.compute.amazonaws.com:8080/authentication/organization/" className="w-full sm:w-auto">
                             <Button
                                 variant="secondary"
                                 size="default"
                                 className="w-full lg:hidden"
                             >
-                                <MdOutlineBusiness />
+                                <MdOutlineBusiness className="mr-2"/>
                                 Organizzazione
                             </Button>
                             <Button
@@ -69,7 +70,7 @@ export function Hero() {
                                 size="lg"
                                 className="w-full hidden lg:inline-flex"
                             >
-                                <MdOutlineBusiness />
+                                <MdOutlineBusiness className="mr-2"/>
                                 Organizzazione
                             </Button>
                         </Link>
