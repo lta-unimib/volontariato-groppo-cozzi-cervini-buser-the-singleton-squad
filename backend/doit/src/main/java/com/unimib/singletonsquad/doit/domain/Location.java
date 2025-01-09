@@ -12,16 +12,15 @@ import java.util.Objects;
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String region;
     private String city;
     private String streetAddress;
     private String postalCode;
     private String country;
     private String houseNumber;
-    private String phoneNumber;
 
-    public Location(String id, String city, String streetAddress, String postalCode, String houseNumber) {
+    public Location(Long id, String city, String streetAddress, String postalCode, String houseNumber) {
         this.id = id;
         this.city = city;
         this.streetAddress = streetAddress;

@@ -4,10 +4,7 @@ package com.unimib.singletonsquad.doit.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unimib.singletonsquad.doit.utils.DataValidator;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Map;
 import java.util.Objects;
@@ -16,6 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "organization")
 public class Organization {
     @Id
@@ -43,7 +41,7 @@ public class Organization {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JsonProperty("address")
-    private OrganizationAddress organizationAddress;
+    private Location organizationAddress;
 
     public void setEmail(String email) throws Exception{
         if (!DataValidator.isValidEmail(email)) {

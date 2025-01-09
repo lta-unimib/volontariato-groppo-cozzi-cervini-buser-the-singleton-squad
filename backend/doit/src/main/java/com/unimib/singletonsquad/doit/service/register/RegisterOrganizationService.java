@@ -1,16 +1,14 @@
 package com.unimib.singletonsquad.doit.service.register;
 
 import com.unimib.singletonsquad.doit.domain.*;
+import com.unimib.singletonsquad.doit.dto.LocationDTO;
 import com.unimib.singletonsquad.doit.dto.SignInFormOrganizationDTO;
-import com.unimib.singletonsquad.doit.dto.SignInFormVolunteerDTO;
 import com.unimib.singletonsquad.doit.dto.SingInFormDTO;
 import com.unimib.singletonsquad.doit.exception.ResourceNotFoundException;
-import com.unimib.singletonsquad.doit.repository.IOrganizationRepository;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Optional;
 
 
@@ -24,31 +22,14 @@ public class RegisterOrganizationService extends RegisterService {
     @Override
     protected void checkUserForm(SingInFormDTO form) throws Exception {
         System.out.println("checkUserForm Organization");
-        if(form instanceof SignInFormOrganizationDTO){
-            SignInFormOrganizationDTO signInFormOrganizationDTO = (SignInFormOrganizationDTO) form;
+        if(form instanceof SignInFormOrganizationDTO signInFormOrganizationDTO){
             try{
                 Optional<Organization> org = this.organizationService.findOrganizationById(signInFormOrganizationDTO.getId());
-                if(!org.isPresent())
+                if(org.isEmpty())
                     throw new ResourceNotFoundException("org id not found", "ok");
 
                 Organization organizationSaved = this.addOrganizationInfo(signInFormOrganizationDTO, org.get());
                 this.organizationService.save(organizationSaved);
-
-                /*
-                Availability availability = this.createVolunteerAva(signInFormVolunteerDTO);
-                this.availabilityService.save(availability);
-
-                System.out.println("debug:" +vol.get());
-
-                VolunteerPreferences preferences = this.createVolunteerPreferences(signInFormVolunteerDTO, availability);
-                vol.get().setVolunteerPreferences(preferences);
-                this.volunteerPreferencesService.save(preferences);
-                //System.out.println(preferences.getAvailability());
-                vol.get().setDescription(signInFormVolunteerDTO.getDescription());
-                this.volunteerService.save(vol.get());
-                 */
-
-
             }catch (Exception e){
                 throw new Exception(e.getMessage());
             }
@@ -71,7 +52,7 @@ public class RegisterOrganizationService extends RegisterService {
     }
 
     private Organization addOrganizationInfo(SignInFormOrganizationDTO form, Organization organization) {
-        OrganizationAddress address = addOrganizationAddress(form);
+        Location address = addOrganizationAddress(form);
         organization.setDescription(form.getDescription());
         organization.setName(form.getName());
         organization.setPhoneNumber(null);
@@ -81,11 +62,12 @@ public class RegisterOrganizationService extends RegisterService {
         organization.setOrganizationAddress(address);
         return organization;
     }
-    private OrganizationAddress addOrganizationAddress(SignInFormOrganizationDTO form) {
-        OrganizationAddress address = new OrganizationAddress();
-        address.setCAP(form.getAddress().getPostalCode());
-        address.setCountry(form.getAddress().getCountry());
-        address.setCity(form.getAddress().getCity());
+    private Location addOrganizationAddress(SignInFormOrganizationDTO form) {
+        Location address = new Location();
+        LocationDTO locationDTO = form.getAddress();
+        address.setPostalCode(locationDTO.getPostalCode());
+        address.setCountry(locationDTO.getCountry());
+        address.setCity(locationDTO.getCity());
         return address;
     }
 }
