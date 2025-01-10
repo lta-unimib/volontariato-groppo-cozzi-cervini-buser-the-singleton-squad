@@ -20,7 +20,7 @@ export function OfferForm() {
         <BaseForm
             onSubmitAction={handleSubmit}
             isValid={isFormValid(formData)}
-            redirectTo={"../../../dashboard/volunteer"}
+            redirectTo={"../../../dashboard/organization"}
         >
             <DatePickerDialog
                 onSaveAction={(date) => updateField('date', date.toDateString())}
