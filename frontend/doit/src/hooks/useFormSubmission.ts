@@ -1,9 +1,9 @@
-import { VolunteerFormData, OrganizationFormData } from "@/types/formData";
+import {VolunteerFormData, OrganizationFormData, OfferFormData} from "@/types/formData";
 import React, { useEffect, useState } from "react";
 import { API_BASE_LINK } from "@/utils/constants";
 
-type FormType = "volunteer" | "organization";
-type FormData = VolunteerFormData | OrganizationFormData;
+type FormType = "volunteer" | "organization" | "offer";
+type FormData = VolunteerFormData | OrganizationFormData | OfferFormData;
 
 export const useFormSubmission = (formData: FormData, formType: FormType) => {
     const [userId, setUserId] = useState<string>('');
