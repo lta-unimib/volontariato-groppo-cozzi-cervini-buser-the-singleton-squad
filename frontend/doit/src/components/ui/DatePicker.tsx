@@ -32,7 +32,7 @@ export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (dat
                     onClick={() => setIsOpen(true)}
                 >
                     <CalendarIcon className="mr-2 h-5 w-5" />
-                    <span>{date ? format(date, "dd/MM/yyyy") : "Seleziona la data di nascita"}</span>
+                    <span>{date ? format(date, "dd/MM/yyyy") : "Seleziona la data"}</span>
                 </Button>
             </DialogTrigger>
 
