@@ -1,11 +1,10 @@
 package com.unimib.singletonsquad.doit.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unimib.singletonsquad.doit.domain.Availability;
+import com.unimib.singletonsquad.doit.domain.common.Availability;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Component

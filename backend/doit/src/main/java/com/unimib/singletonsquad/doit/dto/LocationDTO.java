@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class LocationDTO {
+public class    LocationDTO {
     @JsonProperty("Indirizzo Completo")
     private String address;
     @JsonProperty("Città")

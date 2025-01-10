@@ -11,7 +11,7 @@ public class AuthenticationControllerService {
 
     public String authenticate(HttpServletRequest req, String role, String authLink) throws IllegalArgumentException {
         if(!this.checkRole(role))
-            return  FrontendUrls.ERROR_URL.getUrl()+"/?message=invalid_role";
+            return  FrontendUrls.BASE.getUrl()+"/?message=invalid_role";
         req.getSession().setAttribute("role", role);
         return authLink;
     }

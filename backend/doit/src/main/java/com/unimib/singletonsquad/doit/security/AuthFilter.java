@@ -1,15 +1,15 @@
 package com.unimib.singletonsquad.doit.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unimib.singletonsquad.doit.exception.AuthException;
-import com.unimib.singletonsquad.doit.exception.ExceptionResponse;
+import com.unimib.singletonsquad.doit.exception.auth.AuthException;
+import com.unimib.singletonsquad.doit.exception.utils.ExceptionResponse;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.util.List;
 import java.io.IOException;
 import java.util.Arrays;
@@ -22,7 +22,6 @@ public class AuthFilter extends OncePerRequestFilter {
 
     private static final List<String> PUBLIC_PATHS = Arrays.asList(
             "/oauth/google/authentication/success",
-            "/oauth/google/authentication/error",
             "/oauth/google/authentication/failure",
             "/login/oauth2/google",
             "/login/oauth2/code/google",
@@ -41,12 +40,16 @@ public class AuthFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws IOException {
         String path = request.getRequestURI();
-        System.out.println("Debug: "+path);
+
         try {
-            if (!isPublicPath(path)) {
+            boolean isPublic = isPublicPath(path);
+
+            if (!isPublic) {
                 authenticateRequest(request);
             }
+
             filterChain.doFilter(request, response);
+
         } catch (AuthException ex) {
             handleAuthenticationError(response, ex, path);
         } catch (Exception ex) {
@@ -63,8 +66,8 @@ public class AuthFilter extends OncePerRequestFilter {
 
     private String extractAuthHeader(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("No Bearer token found in request");
             throw new AuthException("Invalid or missing authorization header", request.getRequestURI());
         }
         return authHeader;
@@ -75,13 +78,18 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     private void validateToken(String token, HttpServletRequest request) {
-        if (!jwtUtils.verifyToken(token)) {
+        boolean isValidSignature = jwtUtils.verifyToken(token);
+
+        if (!isValidSignature) {
             throw new AuthException("Invalid token signature", request.getRequestURI());
         }
-        if (jwtUtils.isExpired(token)) {
+
+        boolean isExpired = jwtUtils.isExpired(token);
+
+        if (isExpired) {
             throw new AuthException("Token has expired", request.getRequestURI());
         }
-        System.out.println("Token: "+token);
+
         request.getSession().setAttribute("token", token);
     }
 

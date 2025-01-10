@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unimib.singletonsquad.doit.exception.AuthException;
+import com.unimib.singletonsquad.doit.exception.auth.AuthException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

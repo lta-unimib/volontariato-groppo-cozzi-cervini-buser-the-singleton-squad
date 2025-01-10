@@ -9,7 +9,6 @@ public abstract class RequestHandlerService {
 
         return null;
     }
-
     private boolean checkSender(String roleRequest, String roleDesired) {
         return (roleRequest.equalsIgnoreCase(roleDesired));
     }

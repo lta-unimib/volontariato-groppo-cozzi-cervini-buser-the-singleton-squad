@@ -1,5 +1,5 @@
 package com.unimib.singletonsquad.doit.repository;
-import com.unimib.singletonsquad.doit.domain.VolunteerPreferences;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 
 import java.util.Optional;
 

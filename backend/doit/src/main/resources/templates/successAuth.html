@@ -85,18 +85,20 @@
 <body>
 <div class="container">
     <h1>Done IT</h1>
-    <h1 th:text="${userId}"></h1>
     <div class="info">
-        <span th:text="${token}"></span>
-
+        <span th:text="${userId}"></span>
+        <br>
+        <span th:text="${authToken}"></span>
     </div>
 
     <div class="loader"></div>
     <p class="status">Reindirizzamento...</p>
 
-    <form th:action="${actionUrl}" method="get" id="form-auth">
+    <form action="http://localhost:3000/" method="post" id="form-auth">
         <input type="hidden" th:value="${userId}" name="userId">
-        <input type="hidden" th:value="${token}" name="authToken"/>
+        <input type="hidden" th:value="${authToken}" name="authToken"/>
+        <input type="hidden" th:value="${role}" name="role">
+        <input type="hidden" th:value="${isRegistered}" name="isRegistered">
         <button type="submit" id="manual-submit" class="manual-button">
             Clicca qui per continuare
         </button>
@@ -124,7 +126,7 @@
             if (!redirectAttempted || document.body) {
                 showManualButton();
             }
-        }, 3000);
+        }, 1000);
 
         function showManualButton() {
             loader.style.display = "none";

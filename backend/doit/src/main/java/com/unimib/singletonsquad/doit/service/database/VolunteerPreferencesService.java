@@ -1,6 +1,6 @@
 package com.unimib.singletonsquad.doit.service.database;
 
-import com.unimib.singletonsquad.doit.domain.VolunteerPreferences;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.repository.IVolunteerPreferencesRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,13 +1,13 @@
 package com.unimib.singletonsquad.doit.handler;
 
-import com.unimib.singletonsquad.doit.domain.Organization;
-import com.unimib.singletonsquad.doit.domain.ProfilePicture;
-import com.unimib.singletonsquad.doit.domain.Volunteer;
+import com.unimib.singletonsquad.doit.domain.organization.Organization;
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
+import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
 import com.unimib.singletonsquad.doit.service.database.VolunteerService;
-import com.unimib.singletonsquad.doit.utils.FrontendUrls;
-import com.unimib.singletonsquad.doit.utils.ResponseUtils;
+import com.unimib.singletonsquad.doit.utils.response.ResponseUtils;
 import com.unimib.singletonsquad.doit.utils.UserVerify;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,17 +19,14 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 
 @Component
 public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
     private static final String SUCCESS_AUTH_URL = "/oauth/google/authentication/success";
-    private static final String FAILURE_AUTH_URL = "/oauth/google/authentication/error";
+    private static final String FAILURE_AUTH_URL = "/oauth/google/authentication/failure";
     private OAuth2User oauth2User;
 
     @Autowired
@@ -40,6 +37,10 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     private AuthenticationUserService authUser;
     @Autowired
     private OrganizationService organizationService;
+    @Autowired
+    private OrganizationMapper organizationMapper;
+    @Autowired
+    private VolunteerMapper volunteerMapper;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -47,74 +48,68 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws UnsupportedEncodingException {
 
         if (response.isCommitted()) {
-            System.out.println("DEBUG: Response already committed, skipping further processing.");
             return;
         }
 
         try {
-            // Recupero del ruolo dal parametro "state"
-            String role = this.getRoleRequest(request.getParameter("state"));
+            String stateParam = request.getParameter("state");
+            System.out.println("[DEBUG] State parameter received: " + stateParam);
+
+            String role = this.getRoleRequest(stateParam);
+
             if (role == null) {
-                ResponseUtils.sendFailureRedirect(request, response, "role not valid", this.generateUrlError());
+                this.createResponseFailure(response, request, "role not valid");
                 return;
             }
 
             OAuth2AuthenticationToken principal = validateAuthenticationType(authentication);
+
             if (principal == null) {
-                ResponseUtils.sendFailureRedirect(request, response, "Unsupported authentication type.", this.generateUrlError());
+                this.createResponseFailure(response, request, "principal not valid");
                 return;
             }
 
             this.oauth2User = principal.getPrincipal();
+
             OAuth2AuthorizedClient clientProvider = authorizedClientService.loadAuthorizedClient(
                     principal.getAuthorizedClientRegistrationId(),
                     principal.getName()
             );
-
-            if (clientProvider == null || clientProvider.getAccessToken() == null) {
-                ResponseUtils.sendFailureRedirect(request, response,
-                        "Client provider or access token not found.", this.generateUrlError());
+            if (clientProvider == null || clientProvider.getAccessToken() == null) {;
+                this.createResponseFailure(response, request, "client_provider null");
                 return;
             }
 
             String userOauthEmail = this.oauth2User.getAttribute("email");
+
             Long userOauthId = this.checkOauthUserExists(userOauthEmail, role);
+
             boolean existsAlready = false;
             if (userOauthId != null) {
                 this.authUserOauth(userOauthId, role, principal);
                 existsAlready = true;
             } else {
-                Long userId = this.registerNewRecord(this.oauth2User, role);
-                this.authUserOauth(userId, role, principal);
+                userOauthId = this.registerNewRecord(this.oauth2User, role);
+                request.getSession().setAttribute("user_id", userOauthId);
+                this.authUserOauth(userOauthId, role, principal);
             }
 
-            // Redirect dopo il successo
-            this.createResponseSuccessRedirect(request, response, existsAlready, role);
+            this.createResponseSuccessRedirect(request, response, String.valueOf(existsAlready), role);
 
         } catch (Exception e) {
-            System.out.println("DEBUG: Error during authentication: " + e.getMessage());
             e.printStackTrace();
             if (!response.isCommitted()) {
-                ResponseUtils.sendFailureRedirect(request, response, e.getMessage(), this.generateUrlError());
+                this.createResponseFailure(response, request, e.getMessage());
             }
         }
     }
 
     private void createResponseSuccessRedirect(HttpServletRequest request,
                                                HttpServletResponse response,
-                                               boolean existsAlready,
+                                               String existsAlready,
                                                String role) throws UnsupportedEncodingException {
-
-        String next = this.getNextUrl(existsAlready, role);
-        String url = SUCCESS_AUTH_URL + "?exists=" + existsAlready + "&next=" + URLEncoder.encode(next, "UTF-8");
+        String url = SUCCESS_AUTH_URL+"?role="+role+"&isRegistered="+existsAlready;
         ResponseUtils.sendRedirect(response, url, request);
-    }
-
-    private String getNextUrl(boolean existsAlready, String role) {
-        if (existsAlready)
-            return FrontendUrls.SUCCESS_AUTH.getUrl()+"/"+role;
-        else
-            return FrontendUrls.FORM_URL.getUrl()+"/"+role;
     }
 
     private void authUserOauth(Long userOauthId, String role, OAuth2AuthenticationToken principal) {
@@ -172,48 +167,27 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     }
 
     private Long registerNewVolunteer(OAuth2User user) throws Exception {
-        Volunteer volunteer = this.mapToVolunteer(user);
+        Volunteer volunteer = this.volunteerMapper.mapToVolunteer(user.getAttributes());
         if (volunteer != null) {
-            return this.volunteerService.save(volunteer).getId();
+            Long id = this.volunteerService.save(volunteer).getId();
+            return id;
         } else {
             throw new Exception("Error mapping OAuth2 user to Volunteer.");
         }
     }
 
-    private Volunteer mapToVolunteer(OAuth2User user) throws Exception {
-        Map<String, Object> userAttributes = user.getAttributes();
-        Volunteer volunteer = new Volunteer();
-        ProfilePicture profilePicture = new ProfilePicture();
-
-        volunteer.setName((String) userAttributes.get("given_name"));
-        volunteer.setSurname((String) userAttributes.get("family_name"));
-        volunteer.setEmail((String) userAttributes.get("email"));
-        profilePicture.setUrl((String) userAttributes.get("picture"));
-        volunteer.setPhoneNumber((String) userAttributes.get("phoneNumber"));
-        volunteer.setProfilePicture(profilePicture);
-
-        return volunteer;
-    }
-
     private Long registerNewOrganizzazione(OAuth2User user) throws Exception {
-        Organization organization = this.mapToOrganization(user);
+        Organization organization = this.organizationMapper.mapToOrganization(user.getAttributes());
         if (organization != null) {
-            return this.organizationService.save(organization).getId();
+            Long id = this.organizationService.save(organization).getId();
+            return id;
         } else {
             throw new IllegalArgumentException("Error mapping OAuth2 user to Organization.");
         }
     }
 
-    private Organization mapToOrganization(OAuth2User user) throws Exception {
-        Organization organization = new Organization();
-        Map<String, Object> userAttributes = user.getAttributes();
-        organization.setName(userAttributes.get("given_name") + "'s organization" + userAttributes.get("sub"));
-        organization.setPhoneNumber((String) userAttributes.get("phoneNumber"));
-        organization.setEmail((String) userAttributes.get("email"));
-        return organization;
-    }
-
-    private String generateUrlError() throws UnsupportedEncodingException {
-        return FAILURE_AUTH_URL + "?exists=false&next=" + URLEncoder.encode(ResponseUtils.frontendUrlBase + "/error", "UTF-8");
+    private void createResponseFailure(HttpServletResponse response, HttpServletRequest request, String message){
+        String url = FAILURE_AUTH_URL +"?message="+message;
+        ResponseUtils.sendRedirect(response, url, request);
     }
 }

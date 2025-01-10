@@ -95,7 +95,7 @@
   <p class="status">Reindirizzamento...</p>
   <p th:text="${next}"></p>
 
-  <form th:action="${next}" method="post" id="form-error">
+  <form action="http://localhost:3000/" method="post" id="form-error">
     <input type="hidden" name="errorMessage" value="Autenticazione fallita"/>
     <button type="submit" id="manual-submit" class="manual-button">
       Clicca qui per continuare

@@ -11,8 +11,10 @@ import java.net.URLEncoder;
 @Component
 public class FailureAuthHandler implements AuthenticationFailureHandler {
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        String url = "/oauth/google/authentication/failure?exists=false&next="+ URLEncoder.encode("http://localhost:3000/error", "UTF-8");
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+                                        AuthenticationException exception) throws IOException {
+        String url = String.format("/oauth/google/authentication/failure?message=%s",
+                "erroreAuthenticazione");
         response.sendRedirect(url);
     }
 }

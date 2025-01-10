@@ -1,8 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
-import com.nimbusds.jose.proc.SecurityContext;
 import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
-import com.unimib.singletonsquad.doit.exception.ExceptionResponse;
+import com.unimib.singletonsquad.doit.exception.utils.ExceptionResponse;
 import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.database.VolunteerOfferService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +27,7 @@ public class VolunteerOfferController {
             this.volunteerOfferService.save(volunteerOfferDTO);
             return ResponseEntity.ok().body("VolunteerOffer created successfully");
         }catch(Exception e){
-            ExceptionResponse response = new ExceptionResponse(new Date(),
+                ExceptionResponse response = new ExceptionResponse(new Date(),
                     e.getMessage(), "not able to create a new offer", 500);
             return ResponseEntity.badRequest().body(response);
         }

@@ -1,6 +1,6 @@
 package com.unimib.singletonsquad.doit.service.database;
 
-import com.unimib.singletonsquad.doit.domain.VolunteerOffer;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
 import com.unimib.singletonsquad.doit.repository.IVolunteerOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;

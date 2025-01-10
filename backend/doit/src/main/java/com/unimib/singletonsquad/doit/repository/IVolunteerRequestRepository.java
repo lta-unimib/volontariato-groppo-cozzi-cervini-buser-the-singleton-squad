@@ -1,6 +1,6 @@
 package com.unimib.singletonsquad.doit.repository;
 
-import com.unimib.singletonsquad.doit.domain.VolunteerRequest;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 
 import java.util.Optional;
 

@@ -1,45 +1,36 @@
 package com.unimib.singletonsquad.doit.service.authentication;
-import com.unimib.singletonsquad.doit.security.CustomOAuth2User;
+
 import com.unimib.singletonsquad.doit.security.JWTUtils;
+import io.jsonwebtoken.Jwt;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-
 @Service
-public class AuthenticationRedirectSuccessService extends AuthenticationRedirectService {
+public class AuthenticationRedirectSuccessService {
 
     @Autowired
     private JWTUtils jwtUtils;
-    private String userRole = null;
 
-    @Override
-    protected String doOperation(HttpServletRequest request, HttpServletResponse response, Model model, boolean exists, String next) {
-        System.out.println(next);
-        System.out.println(URLDecoder.decode(next));
-        String[] attributes = this.setUserJwtToken(request);
-        model.addAttribute("token", attributes[0]);
-        model.addAttribute("userId", attributes[1]);
-        model.addAttribute("role", attributes[2]);
-        model.addAttribute("actionUrl", URLDecoder.decode(next));
-        return "successAuth";
-    }
+    public void handle(String role, String isRegistered, HttpServletRequest request, Model model) {
+        // Codifica dei parametri
+        String encodedRole = URLEncoder.encode(role, StandardCharsets.UTF_8);
+        String encodedIsRegistered = URLEncoder.encode(isRegistered.toString(), StandardCharsets.UTF_8);
 
-    private String[] setUserJwtToken(HttpServletRequest request) {
-        CustomOAuth2User user = (CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Map<String, Object> userInfo = new HashMap<>();
-        String role = request.getSession().getAttribute("role").toString();
-        userInfo.put("role", role);
-        Long principalId = ((CustomOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserUniqueId();
-        String token = this.jwtUtils.generateToken(userInfo, principalId.toString());
-        user.setJwtToken(token);
-        String redirectUrl = (role.equalsIgnoreCase("volunteer")) ? "volunteer" : "organization";
-        return new String[]{token, principalId.toString(), role, redirectUrl};
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
+        String userId = request.getSession().getAttribute("user_id").toString();
+        String token = this.jwtUtils.generateToken(claims, userId);
+        model
+                .addAttribute("isRegistered", encodedIsRegistered)
+                .addAttribute("authToken", token)
+                .addAttribute("userId", userId)
+                .addAttribute("role", encodedRole);
     }
 }

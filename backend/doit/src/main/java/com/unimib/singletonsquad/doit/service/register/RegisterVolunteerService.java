@@ -1,12 +1,11 @@
 package com.unimib.singletonsquad.doit.service.register;
 
-import com.unimib.singletonsquad.doit.domain.Volunteer;
-import com.unimib.singletonsquad.doit.domain.VolunteerPreferences;
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.dto.SignInFormVolunteerDTO;
 import com.unimib.singletonsquad.doit.dto.SingInFormDTO;
-import com.unimib.singletonsquad.doit.exception.ResourceNotFoundException;
+import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundException;
 import com.unimib.singletonsquad.doit.mappers.VolunteerPreferencesMapper;
-import com.unimib.singletonsquad.doit.repository.IVolunteerRepository;
 import com.unimib.singletonsquad.doit.service.database.AvailabilityService;
 import com.unimib.singletonsquad.doit.service.database.VolunteerPreferencesService;
 import com.unimib.singletonsquad.doit.service.database.VolunteerService;
@@ -20,8 +19,6 @@ public class RegisterVolunteerService  extends RegisterService {
     @Autowired
     private  VolunteerService volunteerService;
     @Autowired
-    private  IVolunteerRepository volunteerRepository;
-    @Autowired
     private VolunteerPreferencesService volunteerPreferencesService;
     @Autowired
     private AvailabilityService availabilityService;
@@ -29,7 +26,6 @@ public class RegisterVolunteerService  extends RegisterService {
     @Override
     protected void checkUserForm(SingInFormDTO form) throws Exception {
         SignInFormVolunteerDTO volunteerFormDTO;
-        System.out.println(form.getClass());
         try{
             if(form instanceof SignInFormVolunteerDTO) {
                 volunteerFormDTO = (SignInFormVolunteerDTO) form;

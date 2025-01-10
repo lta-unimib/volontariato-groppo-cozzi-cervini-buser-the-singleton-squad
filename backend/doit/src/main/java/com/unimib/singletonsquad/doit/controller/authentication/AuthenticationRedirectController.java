@@ -1,8 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
-
-import com.unimib.singletonsquad.doit.service.authentication.AuthenticationRedirectService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.unimib.singletonsquad.doit.service.authentication.AuthenticationRedirectSuccessService;
+import jakarta.servlet.http.HttpServletRequest;;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.net.URLDecoder;
 
 @Controller
 @RequestMapping("/oauth/google/authentication")
@@ -18,37 +15,18 @@ public class AuthenticationRedirectController {
 
     //Template method
     @Autowired
-    private AuthenticationRedirectService authenticationRedirectSuccessService;
-    @Autowired
-    private AuthenticationRedirectService authenticationRedirectErrorService;
-
-
+    private AuthenticationRedirectSuccessService authenticationRedirectSuccessService;
 
     @GetMapping("/success")
-        public String success(HttpServletRequest request,
-                              HttpServletResponse response,
-                              Model model,
-                              @RequestParam  String next,
-                              @RequestParam  Boolean exists) {
-        System.out.println(next);
-        System.out.println(exists);
-        return this.authenticationRedirectSuccessService.handleRedirect(request, response, model, next, exists);
-    }
-
-    @GetMapping("/error")
-    public String error(HttpServletRequest request,
-                        HttpServletResponse response, Model model,
-                        @RequestParam  String next,
-                        @RequestParam  Boolean exists) {
-        return this.authenticationRedirectErrorService.handleRedirect(request, response, model, next, exists);
+    public String success(@RequestParam String role, @RequestParam String isRegistered,
+                                    HttpServletRequest request, Model model){
+        this.authenticationRedirectSuccessService.handle(role, isRegistered, request, model);
+        return "successAuth";
     }
     @GetMapping("/failure")
-    public String failure(HttpServletRequest request,
-                          HttpServletResponse response,
-                          Model model,
-                          @RequestParam  String next,
-                          @RequestParam  Boolean exists) {
-        model.addAttribute("next", URLDecoder.decode(next));
+    public String failure(@RequestParam String message, Model model){
+        model.addAttribute("message", message);
         return "failureAuth";
     }
+
 }

@@ -1,10 +1,14 @@
 package com.unimib.singletonsquad.doit.mappers;
 
-import com.unimib.singletonsquad.doit.domain.Location;
-import com.unimib.singletonsquad.doit.domain.Organization;
+import com.unimib.singletonsquad.doit.domain.common.Location;
+import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.dto.LocationDTO;
 import com.unimib.singletonsquad.doit.dto.SignInFormOrganizationDTO;
+import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
+@Component
 public class OrganizationMapper {
 
     public static Organization organizationInfo(SignInFormOrganizationDTO signInFormOrganizationDTO, Organization organization) {
@@ -26,4 +30,13 @@ public class OrganizationMapper {
 
         return address;
     }
+    public Organization mapToOrganization( Map<String, Object> userAttributes) throws Exception {
+        Organization organization = new Organization();
+        organization.setName(userAttributes.get("given_name") + "'s organization" + userAttributes.get("sub"));
+        organization.setPhoneNumber((String) userAttributes.get("phoneNumber"));
+        organization.setEmail((String) userAttributes.get("email"));
+        return organization;
+    }
+
+
 }

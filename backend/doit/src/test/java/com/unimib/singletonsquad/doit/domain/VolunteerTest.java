@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain;
 
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,10 +1,9 @@
 package com.unimib.singletonsquad.doit.service.register;
 
-import com.unimib.singletonsquad.doit.domain.*;
-import com.unimib.singletonsquad.doit.dto.LocationDTO;
+import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.dto.SignInFormOrganizationDTO;
 import com.unimib.singletonsquad.doit.dto.SingInFormDTO;
-import com.unimib.singletonsquad.doit.exception.ResourceNotFoundException;
+import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
