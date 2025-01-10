@@ -12,10 +12,13 @@ interface RoundCheckboxSelectorProps {
 export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorProps) {
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
-    const options = Array.from({ length: 100 }, (_, i) => ({
-        id: `option${i + 1}`,
-        label: `Option ${i + 1}`
-    }));
+    const options = [
+        { id: "supporto_anziani", label: "Supporto Anziani" },
+        { id: "supporto_bambini", label: "Supporto Bambini" },
+        { id: "supporto_disabili", label: "Supporto Disabili" },
+        { id: "ripetizioni", label: "Ripetizioni" },
+        { id: "caritas", label: "Caritas" },
+    ];
 
     const handleCheckboxChange = (optionId: string) => {
         const updatedSelected = selectedOptions.includes(optionId)

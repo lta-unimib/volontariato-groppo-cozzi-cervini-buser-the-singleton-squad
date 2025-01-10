@@ -24,7 +24,6 @@ export const useFormSubmission = (formData: FormData, formType: FormType) => {
         const completeFormData = {
             ...formData,
             id: userId,
-            token: authToken
         };
 
         try {

@@ -5,7 +5,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 
-import { useIsMobile } from "@/hooks/UseMobile"
+import { useIsMobile } from "@/hooks/useMobile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
