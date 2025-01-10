@@ -45,7 +45,7 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
-                                        Authentication authentication) throws UnsupportedEncodingException {
+                                        Authentication authentication){
 
         if (response.isCommitted()) {
             return;
@@ -53,9 +53,11 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
         try {
             String stateParam = request.getParameter("state");
-            System.out.println("[DEBUG] State parameter received: " + stateParam);
 
-            String role = this.getRoleRequest(stateParam);
+            Map<String, String> stateParams = parseState(stateParam);
+
+            String role = stateParams.get("role");
+            String uuid = stateParams.get("uuid");
 
             if (role == null) {
                 this.createResponseFailure(response, request, "role not valid");
@@ -63,14 +65,12 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             }
 
             OAuth2AuthenticationToken principal = validateAuthenticationType(authentication);
-
             if (principal == null) {
                 this.createResponseFailure(response, request, "principal not valid");
                 return;
             }
 
             this.oauth2User = principal.getPrincipal();
-
             OAuth2AuthorizedClient clientProvider = authorizedClientService.loadAuthorizedClient(
                     principal.getAuthorizedClientRegistrationId(),
                     principal.getName()
@@ -81,20 +81,20 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             }
 
             String userOauthEmail = this.oauth2User.getAttribute("email");
-
             Long userOauthId = this.checkOauthUserExists(userOauthEmail, role);
 
-            boolean existsAlready = false;
             if (userOauthId != null) {
                 this.authUserOauth(userOauthId, role, principal);
-                existsAlready = true;
             } else {
                 userOauthId = this.registerNewRecord(this.oauth2User, role);
                 request.getSession().setAttribute("user_id", userOauthId);
                 this.authUserOauth(userOauthId, role, principal);
             }
+            Boolean isRegistered = this.getIsRegisterUser(userOauthId, role);
+            if(isRegistered == null)
+                this.createResponseFailure(response, request, "user params not valid");
 
-            this.createResponseSuccessRedirect(request, response, String.valueOf(existsAlready), role);
+            this.createResponseSuccessRedirect(request, response, String.valueOf(isRegistered), role);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,11 +104,27 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         }
     }
 
+    private Boolean getIsRegisterUser(Long userOauthId, String role) {
+        switch (role.toLowerCase()){
+            case "volunteer":
+                Optional<Volunteer> volunteer = this.volunteerService.findVolunteerById(userOauthId);
+                return (volunteer.isPresent()) ? volunteer.get().isRegistered() : null;
+
+            case "organization":
+                Optional<Organization> organization = this.organizationService.findOrganizationById(userOauthId);
+                return (organization.isPresent()) ? organization.get().isRegistered() : null;
+
+            default:
+                return null;
+        }
+
+    }
     private void createResponseSuccessRedirect(HttpServletRequest request,
                                                HttpServletResponse response,
                                                String existsAlready,
-                                               String role) throws UnsupportedEncodingException {
-        String url = SUCCESS_AUTH_URL+"?role="+role+"&isRegistered="+existsAlready;
+                                               String role) {
+
+        String url = String.format(SUCCESS_AUTH_URL+"?role=%s&isRegistered=%s", role, existsAlready);
         ResponseUtils.sendRedirect(response, url, request);
     }
 
@@ -138,22 +154,47 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
         return (authentication instanceof OAuth2AuthenticationToken) ? (OAuth2AuthenticationToken) authentication : null;
     }
 
-    private String getRoleRequest(String encodedState) {
-        if (encodedState != null && encodedState.startsWith("role=")) {
-            try {
-                String encodedRole = encodedState.substring(5);
-                byte[] decodedBytes = Base64.getDecoder().decode(encodedRole);
-                String decodedRole = new String(decodedBytes);
+    private Map<String, String> parseState(String encodedState) {
+        Map<String, String> result = new HashMap<>();
 
-                if (UserVerify.checkUserRole(decodedRole)) {
-                    return decodedRole;
+        if (encodedState != null) {
+            try {
+                // Assumi che lo state abbia il formato "state=role=...&uuid=..."
+                String[] stateParts = encodedState.split("&");
+
+                for (String part : stateParts) {
+                    String[] keyValue = part.split("=", 2);
+                    if (keyValue.length == 2) {
+                        result.put(keyValue[0], keyValue[1]);
+                    }
                 }
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid role: " + encodedState);
+
+                // Decodifica il ruolo se esiste
+                if (result.containsKey("role")) {
+                    String encodedRole = result.get("role");
+                    byte[] decodedBytes = Base64.getDecoder().decode(encodedRole);
+                    String decodedRole = new String(decodedBytes);
+
+                    if (UserVerify.checkUserRole(decodedRole)) {
+                        result.put("role", decodedRole);
+                    } else {
+                        throw new IllegalArgumentException("Invalid role detected");
+                    }
+                }
+
+                // Assicura che `uuid` sia presente
+                if (!result.containsKey("uuid")) {
+                    throw new IllegalArgumentException("UUID is missing in state");
+                }
+
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Invalid state format: " + encodedState, e);
             }
         }
-        return null;
+
+        return result;
     }
+
 
     private Long registerNewRecord(OAuth2User user, String role) throws Exception {
         switch (role.toLowerCase()) {
@@ -168,22 +209,19 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
     private Long registerNewVolunteer(OAuth2User user) throws Exception {
         Volunteer volunteer = this.volunteerMapper.mapToVolunteer(user.getAttributes());
-        if (volunteer != null) {
-            Long id = this.volunteerService.save(volunteer).getId();
-            return id;
-        } else {
+        if (volunteer != null)
+            return this.volunteerService.save(volunteer).getId();
+        else
             throw new Exception("Error mapping OAuth2 user to Volunteer.");
-        }
     }
 
     private Long registerNewOrganizzazione(OAuth2User user) throws Exception {
         Organization organization = this.organizationMapper.mapToOrganization(user.getAttributes());
-        if (organization != null) {
-            Long id = this.organizationService.save(organization).getId();
-            return id;
-        } else {
+        if (organization != null)
+            return this.organizationService.save(organization).getId();
+        else
             throw new IllegalArgumentException("Error mapping OAuth2 user to Organization.");
-        }
+
     }
 
     private void createResponseFailure(HttpServletResponse response, HttpServletRequest request, String message){

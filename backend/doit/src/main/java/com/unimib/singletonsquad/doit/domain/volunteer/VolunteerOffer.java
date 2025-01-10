@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
+import com.unimib.singletonsquad.doit.domain.common.VolunteerRequestStatus;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,4 +26,8 @@ public class VolunteerOffer {
     private Organization organization;
     @OneToOne
     private Volunteer volunteer;
+
+    @Enumerated(EnumType.STRING)
+    private VolunteerRequestStatus volunteerRequestStatus;
+
 }
