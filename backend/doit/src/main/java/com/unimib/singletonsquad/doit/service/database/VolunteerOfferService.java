@@ -20,8 +20,13 @@ public class VolunteerOfferService {
     public VolunteerOffer save(VolunteerOfferDTO volunteerOfferDTO) {
         VolunteerOffer volunteerOffer = new VolunteerOffer();
         volunteerOffer.setCompetenceDescription(volunteerOfferDTO.getVolunteerDescription());
-        volunteerOffer.setVolunteer(volunteerService.findVolunteerById(volunteerOfferDTO.getVolunteerId()).get());
-        volunteerOffer.setOrganization(organizationService.findOrganizationById(volunteerOfferDTO.getOrganizationId()).get());
+        if(volunteerService.findVolunteerById(volunteerOfferDTO.getVolunteerId()).isPresent()){
+            volunteerOffer.setVolunteer(volunteerService.findVolunteerById(volunteerOfferDTO.getVolunteerId()).get());
+        }
+        if(organizationService.findOrganizationById(volunteerOfferDTO.getOrganizationId()).isPresent()) {
+            volunteerOffer.setOrganization(organizationService.findOrganizationById(volunteerOfferDTO.getOrganizationId()).get());
+        }
+
         return volunteerOfferRepository.save(volunteerOffer);
     }
 }
