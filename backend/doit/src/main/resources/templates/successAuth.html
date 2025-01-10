@@ -111,26 +111,38 @@
         const manualButton = document.getElementById("manual-submit");
         const loader = document.querySelector(".loader");
         const status = document.querySelector(".status");
+        const deepLinkUrl = "myapp://auth";
         let redirectAttempted = false;
 
+        // Tenta il deep link
         setTimeout(() => {
+            try {
+                window.location.href = deepLinkUrl;
+                redirectAttempted = true;
+            } catch (error) {
+                fallbackToForm();
+            }
+        }, 800);
+
+        // Fallback al modulo di reindirizzamento
+        setTimeout(() => {
+            if (!redirectAttempted) {
+                fallbackToForm();
+            }
+        }, 1500);
+
+        function fallbackToForm() {
             try {
                 form.submit();
                 redirectAttempted = true;
             } catch (error) {
                 showManualButton();
             }
-        }, 800);
-
-        setTimeout(() => {
-            if (!redirectAttempted || document.body) {
-                showManualButton();
-            }
-        }, 1000);
+        }
 
         function showManualButton() {
             loader.style.display = "none";
-            status.textContent = "Il reindirizzamento automatico non è riuscito";
+            status.textContent = "Il reindirizzamento automatico non Ã¨ riuscito";
             manualButton.style.display = "inline-block";
         }
     });

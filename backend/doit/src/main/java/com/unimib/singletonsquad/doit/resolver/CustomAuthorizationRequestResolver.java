@@ -33,15 +33,25 @@ public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRe
         if (authorizationRequest == null) {
             return null;
         }
-
         String role = (String) request.getSession().getAttribute("role");
         if (role == null) {
             role = "default";
         }
-        String encodedString = Base64.getEncoder().encodeToString(role.getBytes());
-        String customState = "role=" + encodedString;
+        String uuid = (String) request.getSession().getAttribute("uuid");
+        if (uuid == null) {
+                uuid = "default-uuid"; // Valore di default se il UUID non è presente
+        }
+
+// Codifica entrambi i parametri in Base64
+        String encodedRole = Base64.getEncoder().encodeToString(role.getBytes());
+        String encodedUuid = Base64.getEncoder().encodeToString(uuid.getBytes());
+
+// Concatenazione dei parametri nello stato
+        String customState = "role=" + encodedRole + "&uuid=" + encodedUuid;
+
         return OAuth2AuthorizationRequest.from(authorizationRequest)
-                .state(customState)
-                .build();
+                    .state(customState)
+                    .build();
+        }
     }
-}
+
