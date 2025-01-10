@@ -19,4 +19,5 @@ public class AuthenticationResult {
     @Enumerated(EnumType.STRING)
     private VolunteerRequestStatus status;
     boolean isRegistered;//false default;
+    String token;
 }
