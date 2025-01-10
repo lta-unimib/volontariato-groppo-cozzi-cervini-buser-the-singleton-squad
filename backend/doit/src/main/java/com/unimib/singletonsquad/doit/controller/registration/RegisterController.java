@@ -1,6 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.registration;
 
-/*
+
 import com.unimib.singletonsquad.doit.dto.SignInFormOrganizationDTO;
 import com.unimib.singletonsquad.doit.dto.SignInFormVolunteerDTO;
 import com.unimib.singletonsquad.doit.service.register.RegisterService;
@@ -24,26 +24,26 @@ public class RegisterController {
 
 
     @PostMapping("/volunteer")
-    public ResponseEntity<ResponseMessage> registrazioneVolontario(@RequestBody SignInFormVolunteerDTO volunteerDTO) {
+    public ResponseEntity<ResponseMessage> registerVolunteer(@RequestBody SignInFormVolunteerDTO volunteerDTO) {
         try{
             this.registerVolunteerService.saveUser(volunteerDTO);
-           // ResponseMessage responseMessage = new ResponseMessage("Volunteer correctly registered");
+            ResponseMessage responseMessage = new ResponseMessage.Builder("Volunteer correctly registered").build();
             return ResponseEntity.ok(responseMessage);
         }catch(Exception e){
-            ResponseMessage responseMessage = new ResponseMessage(e.getMessage());
+            ResponseMessage responseMessage = new ResponseMessage.Builder(e.getMessage()).build();
             return ResponseEntity.badRequest().body(responseMessage);
         }
     }
 
     @PostMapping("/organization")
-    public ResponseEntity<ResponseMessage> registrazioneOrganizzazione(@RequestBody SignInFormOrganizationDTO organizationDTO) {
+    public ResponseEntity<ResponseMessage> registerOrganization(@RequestBody SignInFormOrganizationDTO organizationDTO) {
         try{
             this.registerOrganizationService.saveUser(organizationDTO);
-            ResponseMessage responseMessage = new ResponseMessage("Organization correctly registered");
+            ResponseMessage responseMessage = new ResponseMessage.Builder("Organization correctly registered").build();
             return ResponseEntity.ok(responseMessage);
         }catch(Exception e){
-            ResponseMessage responseMessage = new ResponseMessage(e.getMessage());
+            ResponseMessage responseMessage = new ResponseMessage.Builder(e.getMessage()).build();
             return ResponseEntity.badRequest().body(responseMessage);
         }
     }
-}*/
+}
