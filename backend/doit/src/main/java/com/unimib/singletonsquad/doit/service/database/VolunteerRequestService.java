@@ -36,15 +36,6 @@ public class VolunteerRequestService {
         return null;
     }
 
-    boolean[] mathigVolunteercategories(List<VolunteerRequest> volunteerRequests, List<String> categories) {
-        boolean[] mathigVolunteercategories = new boolean[volunteerRequests.size()];
-        for (int i = 0; i < volunteerRequests.size(); i++) {
-            mathigVolunteercategories[i] = volunteerRequests.get(i).hasCategories(categories);
-        }
-
-        return mathigVolunteercategories;
-    }
-
     public double[] distances(List<VolunteerRequest> volunteerRequests, String city) {
         double[] distances = new double[volunteerRequests.size()];
         for (int i = 0; i < volunteerRequests.size(); i++) {

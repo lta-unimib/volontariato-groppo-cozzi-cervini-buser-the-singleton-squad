@@ -15,10 +15,10 @@ public class OrganizationMapper {
         organization.setDescription(signInFormOrganizationDTO.getDescription());
         organization.setName(signInFormOrganizationDTO.getName());
         organization.setPhoneNumber(null);
-        organization.setSocialNetworks(null);
         organization.setVATNumber(signInFormOrganizationDTO.getVATNumber());
         organization.setWeSite(signInFormOrganizationDTO.getWebsite());
         organization.setOrganizationAddress(toLocation(signInFormOrganizationDTO.getAddress()));
+        organization.setCategories(signInFormOrganizationDTO.getCategories());
         return organization;
     }
 
@@ -27,7 +27,6 @@ public class OrganizationMapper {
         address.setPostalCode(locationDTO.getPostalCode());
         address.setCountry(locationDTO.getCountry());
         address.setCity(locationDTO.getCity());
-
         return address;
     }
     public Organization mapToOrganization( Map<String, Object> userAttributes) throws Exception {
@@ -37,6 +36,4 @@ public class OrganizationMapper {
         organization.setEmail((String) userAttributes.get("email"));
         return organization;
     }
-
-
 }

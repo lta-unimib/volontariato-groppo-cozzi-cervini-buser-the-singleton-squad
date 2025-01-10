@@ -5,6 +5,7 @@ import com.unimib.singletonsquad.doit.dto.SignInFormOrganizationDTO;
 import com.unimib.singletonsquad.doit.dto.SingInFormDTO;
 import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
+import com.unimib.singletonsquad.doit.service.database.OrgCategoryService;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,8 @@ public class RegisterOrganizationService extends RegisterService {
 
     @Autowired
     private OrganizationService organizationService;
-
+    @Autowired
+    private OrgCategoryService orgCategoryService;
 
     @Override
     protected void checkUserForm(SingInFormDTO form) throws Exception {
@@ -29,6 +31,8 @@ public class RegisterOrganizationService extends RegisterService {
                 if(org.isEmpty())
                     throw new ResourceNotFoundException("org id not found", "ok");
                 Organization organization = OrganizationMapper.organizationInfo(signInFormDTO, org.get());
+                System.out.println(organization);
+                orgCategoryService.addOrgCategories(organization.getCategories());
                 this.organizationService.save(organization);
             }catch (Exception e){
                 throw new Exception(e.getMessage());
@@ -41,8 +45,6 @@ public class RegisterOrganizationService extends RegisterService {
     protected void authenticateUser(SingInFormDTO form) {
 
     }
-
-
 
     @Override
     protected void sanitizeUserInputs(SingInFormDTO form) {

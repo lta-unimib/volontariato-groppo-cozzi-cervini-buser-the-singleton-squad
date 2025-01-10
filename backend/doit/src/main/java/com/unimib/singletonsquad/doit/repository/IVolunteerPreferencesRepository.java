@@ -7,4 +7,5 @@ public interface IVolunteerPreferencesRepository {
     VolunteerPreferences save(VolunteerPreferences volunteerPreferences);
     Optional<VolunteerPreferences> findById(Long id);
     boolean existsById(Long id);
+    void removeVolunteerPreferencesById(Long id);
 }

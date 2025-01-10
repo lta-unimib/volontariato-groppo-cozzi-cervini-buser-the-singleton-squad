@@ -22,12 +22,9 @@ public class VolunteerPreferencesService {
         return this.volunteerPreferencesRepository.findById(id);
     }
 
-    /*
-    public void updatePreferences(VolunteerPreferences preferences) {
 
+    public void updatePreferences(VolunteerPreferences preferences, Long id) {
+        volunteerPreferencesRepository.removeVolunteerPreferencesById(id);
+        volunteerPreferencesRepository.save(preferences);
     }
-
-    public VolunteerPreferences save(VolunteerPreferences preferences) {
-        this.volunteerPreferencesRepository.save(preferences);
-    }*/
 }
