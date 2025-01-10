@@ -18,5 +18,5 @@ public class AuthenticationResult {
     private String userdId;//Id utente db
     @Enumerated(EnumType.STRING)
     private VolunteerRequestStatus status;
-
+    boolean isRegistered;//false default;
 }

@@ -5,6 +5,8 @@ import com.unimib.singletonsquad.doit.repository.JPAAuthenticationResultReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthenticationResultService {
     @Autowired
@@ -12,5 +14,9 @@ public class AuthenticationResultService {
 
     public void save(AuthenticationResult authenticationResult) {
         repository.save(authenticationResult);
+    }
+
+    public Optional<AuthenticationResult> findByLoginId(String id) {
+        return repository.findByLoginId(id);
     }
 }
