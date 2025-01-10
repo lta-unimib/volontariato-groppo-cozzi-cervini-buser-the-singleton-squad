@@ -18,11 +18,11 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationControllerService authenticationControllerService;
 
-    @GetMapping("/")
+    @GetMapping("/{uuid}")
     public RedirectView authentication(@PathVariable String role,
-                                       @RequestParam String uuid,
+                                       @PathVariable String uuid,
                                        HttpServletRequest request) {
-            String redirect= this.authenticationControllerService.authenticate(request, role, AUTH_REDIRECT);
+            String redirect= this.authenticationControllerService.authenticate(request, role, uuid,AUTH_REDIRECT);
             return new RedirectView(redirect);
     }
 }

@@ -2,12 +2,14 @@ package com.unimib.singletonsquad.doit.service.authentication;
 
 import com.unimib.singletonsquad.doit.domain.AuthenticationResult;
 import com.unimib.singletonsquad.doit.repository.JPAAuthenticationResultRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class AuthenticationResultService {
     @Autowired
     JPAAuthenticationResultRepository repository;

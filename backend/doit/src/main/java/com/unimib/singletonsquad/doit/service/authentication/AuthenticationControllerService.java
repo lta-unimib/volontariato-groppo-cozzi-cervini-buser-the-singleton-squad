@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.service.authentication;
 
 import com.unimib.singletonsquad.doit.domain.AuthenticationResult;
+import com.unimib.singletonsquad.doit.domain.common.AuthenticationStatus;
 import com.unimib.singletonsquad.doit.domain.common.VolunteerRequestStatus;
 import com.unimib.singletonsquad.doit.utils.FrontendUrls;
 import com.unimib.singletonsquad.doit.utils.UserVerify;
@@ -14,7 +15,9 @@ public class AuthenticationControllerService {
     @Autowired
     private AuthenticationResultService authenticationResultService;
 
-    public String authenticate(HttpServletRequest req, String role, String uuid , String authLink) throws IllegalArgumentException {
+    public String authenticate(HttpServletRequest req, String role,
+                               String uuid , String authLink)
+            throws IllegalArgumentException {
         if(!this.checkRole(role))
             return  FrontendUrls.BASE.getUrl()+"/?message=invalid_role";
         req.getSession().setAttribute("role", role);
@@ -23,7 +26,10 @@ public class AuthenticationControllerService {
         //todo inserire che il UUID nel database
         AuthenticationResult authenticationResult = new AuthenticationResult();
         authenticationResult.setLoginId(uuid);
-        authenticationResult.setStatus(VolunteerRequestStatus.PENDING);
+        authenticationResult.setRole(role);
+        authenticationResult.setToken(null);
+        authenticationResult.setId(null);
+        authenticationResult.setStatus(AuthenticationStatus.PENDING);
         this.authenticationResultService.save(authenticationResult);
 
         return authLink;

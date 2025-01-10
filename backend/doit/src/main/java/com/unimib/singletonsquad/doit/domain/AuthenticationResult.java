@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.domain;
 
 import com.nimbusds.jose.shaded.gson.JsonObject;
+import com.unimib.singletonsquad.doit.domain.common.AuthenticationStatus;
 import com.unimib.singletonsquad.doit.domain.common.VolunteerRequestStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class AuthenticationResult {
     private String role;
     private String userdId;//Id utente db
     @Enumerated(EnumType.STRING)
-    private VolunteerRequestStatus status;
+    private AuthenticationStatus status;
     boolean isRegistered;//false default;
     String token;
 }

@@ -17,10 +17,16 @@ public class AuthenticationRedirectController {
     @Autowired
     private AuthenticationRedirectSuccessService authenticationRedirectSuccessService;
 
+
+
     @GetMapping("/success")
     public String success(@RequestParam String role, @RequestParam String isRegistered,
+                                    @RequestParam String uuid,
                                     HttpServletRequest request, Model model){
-        this.authenticationRedirectSuccessService.handle(role, isRegistered, request, model);
+        System.out.println("ook ok ok ok ok ");
+
+        this.authenticationRedirectSuccessService.handle(role, isRegistered, request,model, uuid);
+
         return "successAuth";
     }
     @GetMapping("/failure")

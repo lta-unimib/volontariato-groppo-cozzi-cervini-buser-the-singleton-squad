@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.*;
 
 @Component
@@ -57,7 +58,10 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             Map<String, String> stateParams = parseState(stateParam);
 
             String role = stateParams.get("role");
-            String uuid = stateParams.get("uuid");
+            String uuid = new String(Base64.getDecoder().decode(stateParams.get("uuid")));
+
+            System.out.println("debug: role => " + role);
+            System.out.println("debug: uuid => " + uuid);
 
             if (role == null) {
                 this.createResponseFailure(response, request, "role not valid");
@@ -94,7 +98,7 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
             if(isRegistered == null)
                 this.createResponseFailure(response, request, "user params not valid");
 
-            this.createResponseSuccessRedirect(request, response, String.valueOf(isRegistered), role);
+            this.createResponseSuccessRedirect(request, response, String.valueOf(isRegistered), uuid,role);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,9 +126,10 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
     private void createResponseSuccessRedirect(HttpServletRequest request,
                                                HttpServletResponse response,
                                                String existsAlready,
+                                               String uuid,
                                                String role) {
 
-        String url = String.format(SUCCESS_AUTH_URL+"?role=%s&isRegistered=%s", role, existsAlready);
+        String url = String.format(SUCCESS_AUTH_URL+"?role=%s&isRegistered=%s&uuid=%s", role, existsAlready, uuid);
         ResponseUtils.sendRedirect(response, url, request);
     }
 
@@ -186,6 +191,7 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
                 if (!result.containsKey("uuid")) {
                     throw new IllegalArgumentException("UUID is missing in state");
                 }
+
 
             } catch (Exception e) {
                 throw new IllegalArgumentException("Invalid state format: " + encodedState, e);
