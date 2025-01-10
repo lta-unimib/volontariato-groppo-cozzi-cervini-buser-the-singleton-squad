@@ -5,7 +5,6 @@ import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import {Page} from "@/components/layout/Page";
 import {MdOutlineAdd} from "react-icons/md";
 import {Button} from "@/components/ui/Button";
-import {Hero} from "@/components/ui/Hero";
 import {useRouter} from "next/navigation";
 
 export default function Home() {
@@ -18,7 +17,7 @@ export default function Home() {
                     variant="default"
                     className="fixed bottom-4 right-4 z-50 p-4 rounded-full h-20 w-20"
                     size="icon"
-                    onClick={event => router.push("../offer")}
+                    onClick={() => router.push("../offer")}
                 >
                     <MdOutlineAdd/>
                 </Button>
