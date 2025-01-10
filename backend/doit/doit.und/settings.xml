@@ -31,18 +31,36 @@
                       <dir
                         name="authentication"/>
                       <dir
-                        name="register"/>
+                        name="registration"/>
                       <dir
                         name="richiesteVolontario"/>
                     </dir>
                     <dir
                       name="converter"/>
                     <dir
-                      name="domain"/>
+                      name="domain">
+                      <dir
+                        name="common"/>
+                      <dir
+                        name="organization"/>
+                      <dir
+                        name="volunteer"/>
+                    </dir>
                     <dir
                       name="dto"/>
                     <dir
-                      name="exception"/>
+                      name="exception">
+                      <dir
+                        name="auth"/>
+                      <dir
+                        name="resource"/>
+                      <dir
+                        name="security"/>
+                      <dir
+                        name="utils"/>
+                      <dir
+                        name="validation"/>
+                    </dir>
                     <dir
                       name="handler"/>
                     <dir
@@ -65,7 +83,10 @@
                         name="request"/>
                     </dir>
                     <dir
-                      name="utils"/>
+                      name="utils">
+                      <dir
+                        name="response"/>
+                    </dir>
                   </dir>
                 </dir>
               </dir>
