@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrgCategoryService {
@@ -34,5 +35,9 @@ public class OrgCategoryService {
 
     public List<OrgCategory> getAllCategories() {
         return repository.findAll();
+    }
+
+    public List<String> getAllOrgCategories() {
+        return repository.findAll().stream().map(OrgCategory::getName).collect(Collectors.toList());
     }
 }

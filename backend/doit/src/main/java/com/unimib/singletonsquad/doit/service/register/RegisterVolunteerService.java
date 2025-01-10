@@ -45,7 +45,7 @@ public class RegisterVolunteerService  extends RegisterService {
                 Volunteer volunteer = vol.get();
 
                 VolunteerPreferences preferences = VolunteerPreferencesMapper.toVolunteerPreferences(volunteerFormDTO);
-                preferences.setCategories(createVolunteerCategoriesList(volunteerFormDTO.getPreferences()));
+                preferences.setCategories(volunteerFormDTO.getPreferences());
                 availabilityService.save(preferences.getAvailability());
                 volunteer.setVolunteerPreferences(preferences);
                 this.volunteerPreferencesService.updatePreferences(preferences, volunteer.getId());
@@ -55,12 +55,6 @@ public class RegisterVolunteerService  extends RegisterService {
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
-    }
-
-    private List<String> createVolunteerCategoriesList(List<String> volunteerList) {
-        List<String> categoriesList = new ArrayList<>();
-        //TODO
-        return categoriesList;
     }
 
     @Override

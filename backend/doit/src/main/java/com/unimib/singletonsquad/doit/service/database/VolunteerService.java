@@ -31,10 +31,6 @@ public class VolunteerService {
 
     public boolean isRegistered(Long volunteerId) {
         Optional<Volunteer> volunteerOptional = volunteerRepository.findById(volunteerId);
-        if(volunteerOptional.isPresent()) {
-            return volunteerOptional.get().isRegistered();
-        } else {
-          return false;
-        }
+        return volunteerOptional.map(Volunteer::isRegistered).orElse(false);
     }
 }

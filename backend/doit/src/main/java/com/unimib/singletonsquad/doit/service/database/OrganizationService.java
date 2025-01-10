@@ -28,6 +28,6 @@ public class OrganizationService {
     }
     public boolean isRegistered(Long volunteerId) {
         Optional<Organization> organization = organizationRepository.findById(volunteerId);
-        return (organization.isPresent()) ? organization.get().isRegistered() : false;
+        return organization.map(Organization::isRegistered).orElse(false);
     }
 }

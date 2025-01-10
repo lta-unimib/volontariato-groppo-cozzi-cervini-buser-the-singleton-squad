@@ -28,6 +28,7 @@ public class VolunteerRequestController {
         return ResponseEntity.ok().body("VolunteerRequest created successfully");
     }
 
+    //TODO
     /*
     @GetMapping("/ottieni")
     public ResponseEntity<List<VolunteerRequestDTO>> getVolunteerRequestsParam(@RequestParam String city,
