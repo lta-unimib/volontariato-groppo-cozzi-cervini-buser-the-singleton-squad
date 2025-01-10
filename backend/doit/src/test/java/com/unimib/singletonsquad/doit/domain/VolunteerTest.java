@@ -16,11 +16,6 @@ class VolunteerTest {
     }
 
     @Test
-    void setEmail() {
-
-    }
-
-    @Test
     void setPhoneNumber() throws Exception {
         String validPhoneNumber = "+391234567890";
         volunteer.setPhoneNumber(validPhoneNumber);
@@ -29,13 +24,5 @@ class VolunteerTest {
         validPhoneNumber = "1234567890";
         volunteer.setPhoneNumber(validPhoneNumber);
         assertEquals(validPhoneNumber, volunteer.getPhoneNumber());
-    }
-
-    @Test
-    void testEquals() {
-    }
-
-    @Test
-    void isRegistered() {
     }
 }
