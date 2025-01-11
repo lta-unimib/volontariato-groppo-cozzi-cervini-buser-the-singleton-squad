@@ -62,14 +62,14 @@ public class AuthenticationStatusController {
         switch (role) {
             case "volunteer":
                 if(isRegister)
-                    return "/dashboard";
+                    return "/dashboard/volunteer/";
                 else
-                    return "/form/volunteer";
+                    return "/form/volunteer/";
             case "organization":
                 if(isRegister)
-                    return "/dashboard";
+                    return "/dashboard/organization/";
                 else
-                    return "/form/organization";
+                    return "/form/organization/";
 
         default:
             return null;
