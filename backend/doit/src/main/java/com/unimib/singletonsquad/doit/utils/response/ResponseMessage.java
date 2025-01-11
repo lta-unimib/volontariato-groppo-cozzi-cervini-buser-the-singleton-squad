@@ -1,5 +1,8 @@
 package com.unimib.singletonsquad.doit.utils.response;
 
+import lombok.Getter;
+
+@Getter
 public class ResponseMessage {
     private final String message;
     private final Object data;
@@ -9,18 +12,6 @@ public class ResponseMessage {
         this.message = builder.message;
         this.data = builder.data;
         this.status = builder.status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public int getStatus() {
-        return status;
     }
 
     public static class Builder {

@@ -1,8 +1,6 @@
 package com.unimib.singletonsquad.doit.domain;
 
-import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.unimib.singletonsquad.doit.domain.common.AuthenticationStatus;
-import com.unimib.singletonsquad.doit.domain.common.VolunteerRequestStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
