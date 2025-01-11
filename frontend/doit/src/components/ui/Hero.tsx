@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useTheme } from "@/hooks/useTheme";
 import Image from "next/image";
@@ -7,14 +7,14 @@ import { Button } from "@/components/ui/Button";
 import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
 import { GITHUB_PAGES, API_BASE_LINK } from "@/utils/constants";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 type UserType = "volunteer" | "organization";
 
 export function Hero() {
     const theme = useTheme();
     const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
-    const router = useRouter();
+    const {push} = useRouter();
 
     const handleButtonClick = async (userType: UserType) => {
         const uuid = uuidv4();
@@ -35,32 +35,24 @@ export function Hero() {
             }
         } while (!response || response.status !== "completed");
         if (response?.redirectPath) {
-            switch (response.redirectPath) {
-                case "dashboard/volunteer":
-                    console.log("Volunteer login successful. Redirecting...");
-                    await router.push("/dashboard/volunteer");
-                    break;
-                case "dashboard/organization":
-                    console.log("Organization login successful. Redirecting...");
-                    await router.push("/dashboard/organization");
-                    break;
-                case "form/volunteer":
-                    console.log("Volunteer registration successful. Redirecting...");
-                    await router.push({
-                        pathname: "/form/volunteer",
-                        query: {token: response.token, authId: response.authId}
-                    });
-                    break;
-                case "form/organization":
-                    console.log("Organization registration successful. Redirecting...");
-                    await router.push({
-                        pathname: "/form/organization",
-                        query: {token: response.token, authId: response.authId}
-                    });
-                    break;
-                default:
-                    console.error("Unknown redirectPath:", response.redirectPath);
-                    break;
+            if (response.redirectPath === "dashboard/volunteer") {
+                push("/dashboard/volunteer");
+            } else if (response.redirectPath === "dashboard/organization") {
+                push("/dashboard/organization");
+            } else if (response.redirectPath === "form/volunteer") {
+                const volunteerQuery = new URLSearchParams({
+                    token: response.token,
+                    authId: response.authId
+                }).toString();
+                push(`/form/volunteer?${volunteerQuery}`);
+            } else if (response.redirectPath === "form/organization") {
+                const organizationQuery = new URLSearchParams({
+                    token: response.token,
+                    authId: response.authId
+                }).toString();
+                push(`/form/organization?${organizationQuery}`);
+            } else {
+                console.error("Unknown redirectPath:", response.redirectPath);
             }
         } else {
             console.error("Registration failed or incomplete");
