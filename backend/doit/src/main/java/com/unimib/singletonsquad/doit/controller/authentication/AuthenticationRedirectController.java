@@ -22,10 +22,11 @@ public class AuthenticationRedirectController {
     @GetMapping("/success")
     public String success(@RequestParam String role, @RequestParam String isRegistered,
                                     @RequestParam String uuid,
-                                    HttpServletRequest request, Model model){
+                                    HttpServletRequest request){
         System.out.println("ook ok ok ok ok ");
 
-        this.authenticationRedirectSuccessService.handle(role, isRegistered, request,model, uuid);
+        this.authenticationRedirectSuccessService.handle(role,
+                isRegistered, request, uuid);
 
         return "successAuth";
     }

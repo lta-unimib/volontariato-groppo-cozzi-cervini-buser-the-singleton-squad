@@ -24,7 +24,10 @@ public class AuthenticationRedirectSuccessService {
     private AuthenticationResultService authenticationResultService;
 
 
-    public void handle(String role, String isRegistered, HttpServletRequest request, Model model, String uuid) {
+    public void handle(String role,
+                       String isRegistered,
+                       HttpServletRequest request,
+                       String uuid) {
         // Codifica dei parametri
         String encodedRole = URLEncoder.encode(role, StandardCharsets.UTF_8);
         String encodedIsRegistered = URLEncoder.encode(isRegistered.toString(), StandardCharsets.UTF_8);
@@ -34,7 +37,13 @@ public class AuthenticationRedirectSuccessService {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
-        String userId = request.getSession().getAttribute("user_id").toString();
+        String userId = null;
+        try{
+         userId = request.getSession().getAttribute("user_id").toString();}
+        catch(Exception e){
+            e.getStackTrace();
+        }
+        System.out.println("user_id:"+userId);
         String token = this.jwtUtils.generateToken(claims, userId);
         this.getAuthenticationResult(role, uuid, userId, Boolean.valueOf(isRegistered), token);
 

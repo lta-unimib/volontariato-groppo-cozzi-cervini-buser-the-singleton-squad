@@ -27,7 +27,8 @@ public class AuthFilter extends OncePerRequestFilter {
             "/login/oauth2/code/google",
             "/authentication/**",
             "/favicon.ico",
-            "/error"
+            "/error",
+            "/authentication/**"
     );
 
     public AuthFilter(JWTUtils jwtUtils, ObjectMapper objectMapper) {

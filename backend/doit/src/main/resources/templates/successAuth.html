@@ -83,27 +83,7 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Done IT</h1>
-    <div class="info">
-        <span th:text="${userId}"></span>
-        <br>
-        <span th:text="${authToken}"></span>
-    </div>
 
-    <div class="loader"></div>
-    <p class="status">Reindirizzamento...</p>
-
-    <form action="http://localhost:3000/" method="post" id="form-auth">
-        <input type="hidden" th:value="${userId}" name="userId">
-        <input type="hidden" th:value="${authToken}" name="authToken"/>
-        <input type="hidden" th:value="${role}" name="role">
-        <input type="hidden" th:value="${isRegistered}" name="isRegistered">
-        <button type="submit" id="manual-submit" class="manual-button">
-            Clicca qui per continuare
-        </button>
-    </form>
-</div>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -111,40 +91,20 @@
         const manualButton = document.getElementById("manual-submit");
         const loader = document.querySelector(".loader");
         const status = document.querySelector(".status");
-        const deepLinkUrl = "myapp://auth";
-        let redirectAttempted = false;
 
         // Tenta il deep link
-        setTimeout(() => {
-            try {
-                window.location.href = deepLinkUrl;
-                redirectAttempted = true;
-            } catch (error) {
-                fallbackToForm();
-            }
-        }, 800);
+
 
         // Fallback al modulo di reindirizzamento
+
+
+        // Chiudi la finestra automaticamente dopo 1 secondo
         setTimeout(() => {
-            if (!redirectAttempted) {
-                fallbackToForm();
-            }
-        }, 1500);
+            window.close();
+        }, 1000);
 
-        function fallbackToForm() {
-            try {
-                form.submit();
-                redirectAttempted = true;
-            } catch (error) {
-                showManualButton();
-            }
-        }
 
-        function showManualButton() {
-            loader.style.display = "none";
-            status.textContent = "Il reindirizzamento automatico non Ã¨ riuscito";
-            manualButton.style.display = "inline-block";
-        }
+
     });
 </script>
 </body>

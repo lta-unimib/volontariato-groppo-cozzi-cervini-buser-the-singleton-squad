@@ -89,11 +89,15 @@ public class SuccessAuthHandler implements AuthenticationSuccessHandler {
 
             if (userOauthId != null) {
                 this.authUserOauth(userOauthId, role, principal);
+                request.getSession().setAttribute("user_id", userOauthId);
             } else {
                 userOauthId = this.registerNewRecord(this.oauth2User, role);
+                System.out.println("debug: userOauthId _pi=> " + userOauthId);
                 request.getSession().setAttribute("user_id", userOauthId);
                 this.authUserOauth(userOauthId, role, principal);
             }
+            System.out.println("debug: userOauthId => " + userOauthId);
+
             Boolean isRegistered = this.getIsRegisterUser(userOauthId, role);
             if(isRegistered == null)
                 this.createResponseFailure(response, request, "user params not valid");
