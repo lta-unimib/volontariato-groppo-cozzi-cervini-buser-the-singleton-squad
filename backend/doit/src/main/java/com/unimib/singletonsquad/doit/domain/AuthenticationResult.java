@@ -12,9 +12,12 @@ import lombok.Setter;
 public class AuthenticationResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String loginId;
+    private Long id;//id entity
+    private String loginId;//passato dal frontend
+    private String role;
+    private String userdId;//Id utente db
     @Enumerated(EnumType.STRING)
     private VolunteerRequestStatus status;
-
+    boolean isRegistered;//false default;
+    String token;
 }
