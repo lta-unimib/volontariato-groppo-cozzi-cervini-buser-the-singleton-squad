@@ -4,7 +4,7 @@ on:
     branches:
       - develop
       - main
-      - feature/authentication/frontend
+      - feature/authentication/backend
   workflow_dispatch:
 permissions:
   contents: read
