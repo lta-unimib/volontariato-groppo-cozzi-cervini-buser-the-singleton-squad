@@ -5,7 +5,7 @@ on:
     branches:
       - develop
       - main
-      - feature/authentication/frontend
+      - feature/authentication/backend
   pull_request:
     types: [opened, synchronize, reopened]
 

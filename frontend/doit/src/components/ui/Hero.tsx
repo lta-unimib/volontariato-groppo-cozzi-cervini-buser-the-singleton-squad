@@ -8,56 +8,83 @@ import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
 import { GITHUB_PAGES, API_BASE_LINK } from "@/utils/constants";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
+import {Capacitor} from "@capacitor/core";
+import {Browser} from "@capacitor/browser";
 
 type UserType = "volunteer" | "organization";
 
 export function Hero() {
     const theme = useTheme();
     const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
-    const {push} = useRouter();
+    const { push } = useRouter();
 
     const handleButtonClick = async (userType: UserType) => {
         const uuid = uuidv4();
-        const redirectUrl = `${API_BASE_LINK}/authentication/${userType}/?uuid=${uuid}`;
+        const redirectUrl = `${API_BASE_LINK}/authentication/${userType}/${uuid}`;
 
-        window.open(redirectUrl, "_blank");
+        let browserWindow;
+
+        if (Capacitor.isNativePlatform()) {
+            await Browser.open({ url: redirectUrl });
+        } else {
+            browserWindow = window.open(redirectUrl, "_blank");
+        }
 
         let response;
         do {
             await new Promise(resolve => setTimeout(resolve, 1000));
             try {
-                const res = await fetch(`${API_BASE_LINK}/registration/status/${uuid}`);
+                console.log("Making request to:", `${API_BASE_LINK}/authentication/status/${uuid}`);
+                const res = await fetch(`${API_BASE_LINK}/authentication/status/${uuid}`);
+                console.log("Fetch response status:", res.status);
                 if (res.ok) {
                     response = await res.json();
+                    console.log("Fetch response data:", response);
+                } else {
+                    console.error("Fetch failed with status:", res.status);
                 }
             } catch (error) {
                 console.error("Error during polling:", error);
             }
-        } while (!response || response.status !== "completed");
-        if (response?.redirectPath) {
-            if (response.redirectPath === "dashboard/volunteer") {
-                push("/dashboard/volunteer");
-            } else if (response.redirectPath === "dashboard/organization") {
-                push("/dashboard/organization");
-            } else if (response.redirectPath === "form/volunteer") {
-                const volunteerQuery = new URLSearchParams({
-                    token: response.token,
-                    authId: response.authId
-                }).toString();
-                push(`/form/volunteer?${volunteerQuery}`);
-            } else if (response.redirectPath === "form/organization") {
-                const organizationQuery = new URLSearchParams({
-                    token: response.token,
-                    authId: response.authId
-                }).toString();
-                push(`/form/organization?${organizationQuery}`);
+
+        } while (!response || !response.data || !response.data.redirectPath || !response.data.authToken || !response.data.userId);
+
+        if (response?.status === 200 && response.data) {
+            const { redirectPath, authToken, userId } = response.data;
+
+            if (redirectPath && authToken && userId) {
+                if (Capacitor.isNativePlatform()) {
+                    await Browser.close();
+                } else if (browserWindow) {
+                    browserWindow.close();
+                }
+
+                if (redirectPath === "/dashboard/volunteer/") {
+                    push("/dashboard/volunteer/");
+                } else if (redirectPath === "/dashboard/organization/") {
+                    push("/dashboard/organization/");
+                } else if (redirectPath === "/form/volunteer/") {
+                    const volunteerQuery = new URLSearchParams({
+                        authToken: authToken,
+                        userId: userId,
+                    }).toString();
+                    push(`/form/volunteer/?${volunteerQuery}`);
+                } else if (redirectPath === "/form/organization/") {
+                    const organizationQuery = new URLSearchParams({
+                        token: authToken,
+                        authId: userId,
+                    }).toString();
+                    push(`/form/organization/?${organizationQuery}`);
+                } else {
+                    console.error("Unknown redirectPath:", redirectPath);
+                }
             } else {
-                console.error("Unknown redirectPath:", response.redirectPath);
+                console.log("Incomplete data, continuing polling...");
             }
         } else {
             console.error("Registration failed or incomplete");
         }
-    }
+    };
 
     return (
         <div className="relative flex-grow flex flex-col items-center justify-start md:justify-center px-4 md:px-8">
