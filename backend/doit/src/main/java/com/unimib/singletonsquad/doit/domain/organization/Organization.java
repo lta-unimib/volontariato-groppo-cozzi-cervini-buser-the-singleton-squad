@@ -34,7 +34,7 @@ public class Organization {
     @Column(unique = true, nullable = true)
     private String phoneNumber;
 
-    private boolean isRegistered;
+    private String password;
 
     //todo preferenze??
     private String VATNumber;
@@ -46,7 +46,7 @@ public class Organization {
     @ElementCollection()
     List<String> categories;
 
-    public void setEmail(String email) throws Exception{
+    public void setEmail(String email) throws Exception {
         if (!DataValidator.isValidEmail(email)) {
             throw new IllegalArgumentException("Email is not valid");
         }
@@ -54,11 +54,11 @@ public class Organization {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if(phoneNumber == null) {
+        if (phoneNumber == null) {
             this.phoneNumber = null;
             return;
         }
-        if(!DataValidator.isValidItalianNumber(phoneNumber)) {
+        if (!DataValidator.isValidItalianNumber(phoneNumber)) {
             throw new IllegalArgumentException("Phone number is not valid");
         }
         this.phoneNumber = phoneNumber;

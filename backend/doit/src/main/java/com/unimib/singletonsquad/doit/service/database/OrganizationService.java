@@ -3,6 +3,7 @@ package com.unimib.singletonsquad.doit.service.database;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.repository.IOrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class OrganizationService {
     @Autowired
     private IOrganizationRepository organizationRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     public Organization save(Organization organization) {
         return organizationRepository.save(organization);
@@ -26,8 +30,16 @@ public class OrganizationService {
     public Optional<Organization> findOrganizationByEmail(String email) {
         return organizationRepository.findByEmail(email);
     }
-    public boolean isRegistered(Long volunteerId) {
-        Optional<Organization> organization = organizationRepository.findById(volunteerId);
-        return organization.map(Organization::isRegistered).orElse(false);
+
+    public boolean authenticateOrganization(String email, String rawPassword) {
+        Optional<Organization> organizationOptional = organizationRepository.findByEmail(email);
+
+        if (organizationOptional.isPresent()) {
+            Organization organization = organizationOptional.get();
+            return passwordEncoder.matches(rawPassword, organization.getPassword());
+        } else {
+            return false;
+        }
     }
+
 }

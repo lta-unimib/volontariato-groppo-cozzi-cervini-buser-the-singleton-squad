@@ -21,8 +21,8 @@ public class RegisterController {
     @PostMapping("/volunteer")
     public ResponseEntity<?> register(@RequestBody VolunteerDTO volunteer) {
         try{
-            this.registerService.registerVolunteer(volunteer);
-            return ResponseEntity.ok().build();
+            final String token = this.registerService.registerVolunteer(volunteer);
+            return ResponseEntity.ok().body(token);
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getStackTrace());
         }

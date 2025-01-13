@@ -3,6 +3,7 @@ package com.unimib.singletonsquad.doit.service.register;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
+import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
 import com.unimib.singletonsquad.doit.service.database.VolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,9 +18,11 @@ public class RegisterVolunteerService {
     private VolunteerService volunteerService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationSetUp authenticationSetUp;
 
 
-    public void registerVolunteer(VolunteerDTO volunteer) throws Exception{
+    public String registerVolunteer(VolunteerDTO volunteer) throws Exception{
         String volunteerEmail = volunteer.getEmail();
         if(this.isAlreadyRegistered(volunteerEmail))
             throw new IllegalArgumentException("The volunteer is already registered");
@@ -28,6 +31,8 @@ public class RegisterVolunteerService {
         volunteer.setPassword(passwordEncoded);
         Volunteer user = this.createVolunteer(volunteer);
         this.volunteerService.save(user);
+        final String token = this.authenticationSetUp.setUpNewAuthSecurityContext(volunteer.getPassword(),"volunteer", volunteer.getEmail());
+        return token;
     }
 
     //check if this email is already being used
