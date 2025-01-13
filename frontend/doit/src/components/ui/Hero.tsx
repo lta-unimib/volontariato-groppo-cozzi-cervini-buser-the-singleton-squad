@@ -5,86 +5,12 @@ import Image from "next/image";
 import { ImageWrapper } from './ImageWrapper';
 import { Button } from "@/components/ui/Button";
 import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
-import { GITHUB_PAGES, API_BASE_LINK } from "@/utils/constants";
-import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/navigation";
-import {Capacitor} from "@capacitor/core";
-import {Browser} from "@capacitor/browser";
-
-type UserType = "volunteer" | "organization";
+import { GITHUB_PAGES } from "@/utils/constants";
+import Link from "next/link";
 
 export function Hero() {
     const theme = useTheme();
     const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
-    const { push } = useRouter();
-
-    const handleButtonClick = async (userType: UserType) => {
-        const uuid = uuidv4();
-        const redirectUrl = `${API_BASE_LINK}/authentication/${userType}/${uuid}`;
-
-        let browserWindow;
-
-        if (Capacitor.isNativePlatform()) {
-            await Browser.open({ url: redirectUrl });
-        } else {
-            browserWindow = window.open(redirectUrl, "_blank");
-        }
-
-        let response;
-        do {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            try {
-                console.log("Making request to:", `${API_BASE_LINK}/authentication/status/${uuid}`);
-                const res = await fetch(`${API_BASE_LINK}/authentication/status/${uuid}`);
-                console.log("Fetch response status:", res.status);
-                if (res.ok) {
-                    response = await res.json();
-                    console.log("Fetch response data:", response);
-                } else {
-                    console.error("Fetch failed with status:", res.status);
-                }
-            } catch (error) {
-                console.error("Error during polling:", error);
-            }
-
-        } while (!response || !response.data || !response.data.redirectPath || !response.data.authToken || !response.data.userId);
-
-        if (response?.status === 200 && response.data) {
-            const { redirectPath, authToken, userId } = response.data;
-
-            if (redirectPath && authToken && userId) {
-                if (Capacitor.isNativePlatform()) {
-                    await Browser.close();
-                } else if (browserWindow) {
-                    browserWindow.close();
-                }
-
-                if (redirectPath === "/dashboard/volunteer/") {
-                    push("/dashboard/volunteer/");
-                } else if (redirectPath === "/dashboard/organization/") {
-                    push("/dashboard/organization/");
-                } else if (redirectPath === "/form/volunteer/") {
-                    const volunteerQuery = new URLSearchParams({
-                        authToken: authToken,
-                        userId: userId,
-                    }).toString();
-                    push(`/form/volunteer/?${volunteerQuery}`);
-                } else if (redirectPath === "/form/organization/") {
-                    const organizationQuery = new URLSearchParams({
-                        token: authToken,
-                        authId: userId,
-                    }).toString();
-                    push(`/form/organization/?${organizationQuery}`);
-                } else {
-                    console.error("Unknown redirectPath:", redirectPath);
-                }
-            } else {
-                console.log("Incomplete data, continuing polling...");
-            }
-        } else {
-            console.error("Registration failed or incomplete");
-        }
-    };
 
     return (
         <div className="relative flex-grow flex flex-col items-center justify-start md:justify-center px-4 md:px-8">
@@ -112,43 +38,42 @@ export function Hero() {
                         Mettiamo in contatto organizzazioni di volontariato e volontari in Lombardia.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 items-center sm:gap-2 md:gap-4 lg:gap-6 md:items-start">
-                        <Button
-                            variant="default"
-                            size="default"
-                            className="w-full lg:hidden"
-                            onClick={() => handleButtonClick("volunteer")}
-                        >
-                            <MdOutlineAccountCircle className="mr-2" />
-                            Volontario
-                        </Button>
-                        <Button
-                            variant="default"
-                            size="lg"
-                            className="w-full hidden lg:inline-flex"
-                            onClick={() => handleButtonClick("volunteer")}
-                        >
-                            <MdOutlineAccountCircle className="mr-2" />
-                            Volontario
-                        </Button>
-
-                        <Button
-                            variant="secondary"
-                            size="default"
-                            className="w-full lg:hidden"
-                            onClick={() => handleButtonClick("organization")}
-                        >
-                            <MdOutlineBusiness className="mr-2" />
-                            Organizzazione
-                        </Button>
-                        <Button
-                            variant="secondary"
-                            size="lg"
-                            className="w-full hidden lg:inline-flex"
-                            onClick={() => handleButtonClick("organization")}
-                        >
-                            <MdOutlineBusiness className="mr-2" />
-                            Organizzazione
-                        </Button>
+                        <Link href="/auth/volunteer">
+                            <Button
+                                variant="default"
+                                size="default"
+                                className="w-full lg:hidden"
+                            >
+                                <MdOutlineAccountCircle className="mr-2" />
+                                Volontario
+                            </Button>
+                            <Button
+                                variant="default"
+                                size="lg"
+                                className="w-full hidden lg:inline-flex"
+                            >
+                                <MdOutlineAccountCircle className="mr-2" />
+                                Volontario
+                            </Button>
+                        </Link>
+                        <Link href="/auth/organization/">
+                            <Button
+                                variant="secondary"
+                                size="default"
+                                className="w-full lg:hidden"
+                            >
+                                <MdOutlineBusiness className="mr-2" />
+                                Organizzazione
+                            </Button>
+                            <Button
+                                variant="secondary"
+                                size="lg"
+                                className="w-full hidden lg:inline-flex"
+                            >
+                                <MdOutlineBusiness className="mr-2" />
+                                Organizzazione
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

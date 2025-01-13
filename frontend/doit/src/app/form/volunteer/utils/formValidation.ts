@@ -1,5 +1,3 @@
-import { VolunteerFormData } from '@/types/formData';
-
 export const isTimeInRange = (time: string, selectedTimeRange: string[]): boolean => {
     if (selectedTimeRange.length !== 2) return false;
     const [start, end] = selectedTimeRange;
@@ -19,11 +17,12 @@ export const isAvailabilityValid = (
     );
 };
 
-export const isFormValid = (formData: VolunteerFormData): boolean => {
-    return (
-        formData.availability !== null &&
-        formData.city !== "" &&
-        formData.preferences.length > 0 &&
-        formData.description.trim().length > 0
-    );
+export const validateEmail = (email: string): boolean => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+};
+
+export const validatePassword = (password: string): boolean => {
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{8,}$/;
+    return passwordPattern.test(password);
 };

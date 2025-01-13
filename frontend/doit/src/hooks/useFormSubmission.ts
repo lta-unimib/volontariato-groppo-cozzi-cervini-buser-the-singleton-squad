@@ -1,33 +1,15 @@
-import {VolunteerFormData, OrganizationFormData, OfferFormData} from "@/types/formData";
-import React, { useEffect, useState } from "react";
+"use client"
+
 import { API_BASE_LINK } from "@/utils/constants";
+import { VolunteerFormData, OrganizationFormData, OfferFormData } from "@/types/formData";
 
 type FormType = "volunteer" | "organization" | "offer";
 type FormData = VolunteerFormData | OrganizationFormData | OfferFormData;
 
-export const useFormSubmission = (formData: FormData, formType: FormType) => {
-    const [userId, setUserId] = useState<string>('');
-    const [authToken, setAuthToken] = useState<string>('');
-
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const userIdParam = urlParams.get('userId');
-        const tokenParam = urlParams.get('authToken');
-
-        if (userIdParam) setUserId(userIdParam);
-        if (tokenParam) setAuthToken(tokenParam);
-    }, []);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        const completeFormData = {
-            ...formData,
-            id: userId,
-        };
-
+export const useFormSubmission = (formType: FormType) => {
+    const handleSubmit = async (formData: FormData) => {
         try {
-            console.log("Form Data:", JSON.stringify(completeFormData, null, 2));
+            console.log("Form Data:", JSON.stringify(formData, null, 2));
 
             const endpoint = `${API_BASE_LINK}/register/${formType}`;
 
@@ -35,22 +17,31 @@ export const useFormSubmission = (formData: FormData, formType: FormType) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}`
                 },
-                body: JSON.stringify(completeFormData)
+                body: JSON.stringify(formData)
             });
 
             const data = await response.json();
             console.log("API Response:", JSON.stringify(data, null, 2));
 
+            if (response.ok) {
+                return { success: true, data };
+            } else {
+                return { success: false, error: data.message || 'Unknown error' };
+            }
         } catch (error) {
             console.error('Error:', error);
+
+            let errorMessage = "An unexpected error occurred.";
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            }
+
+            return { success: false, error: errorMessage };
         }
     };
 
     return {
         handleSubmit,
-        userId,
-        authToken
     };
 };

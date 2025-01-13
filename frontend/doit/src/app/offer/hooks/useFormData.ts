@@ -4,13 +4,14 @@ import { useState } from 'react';
 import { OfferFormData } from '@/types/formData';
 
 const initialFormData: OfferFormData = {
-    id: "",
     date: "",
     address: "",
     categories: [],
     activities: [],
     description: "",
-    volunteerCapacity: ""
+    volunteerCapacity: "",
+    email: "",
+    password: "",
 };
 
 export const useFormData = () => {

@@ -1,11 +1,9 @@
 import { useState } from "react";
 
-type FocusFields = "VATNumber" | "webSite" | "email" | "password";
+type FocusFields = "email" | "password";
 
 export const useFormFocus = () => {
     const [focusState, setFocusState] = useState({
-        VATNumberFocused: false,
-        webSiteFocused: false,
         emailFocused: false,
         passwordFocused: false,
     });

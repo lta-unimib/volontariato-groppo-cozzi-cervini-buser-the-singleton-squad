@@ -1,7 +1,8 @@
 import {AvailabilityData} from "@/types/availabilityData";
 
 export interface BaseFormData {
-    id: string;
+    email: string;
+    password: string;
     description: string;
 }
 
@@ -14,10 +15,14 @@ export interface OrganizationFormData extends BaseUserData {
     organizationName: string;
     VATNumber?: string;
     webSite?: string;
+    role?: string;
 }
 
 export interface VolunteerFormData extends BaseUserData {
+    firstName: string;
+    lastName: string;
     availability: AvailabilityData | null;
+    role?: string;
 }
 
 export interface OfferFormData extends BaseFormData{
