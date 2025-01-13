@@ -25,7 +25,9 @@ public class AuthFilter extends OncePerRequestFilter {
 
     private static final List<String> PUBLIC_PATHS = Arrays.asList(
             "/favicon.ico",
-            "/error"
+            "/error",
+            "/registration/**",
+            "/accedi/**"
     );
 
 

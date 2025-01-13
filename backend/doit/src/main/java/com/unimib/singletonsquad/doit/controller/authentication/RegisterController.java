@@ -1,8 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
-
-import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
 import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
-import com.unimib.singletonsquad.doit.service.database.VolunteerService;
+import com.unimib.singletonsquad.doit.service.register.RegisterOrganizationService;
 import com.unimib.singletonsquad.doit.service.register.RegisterVolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/registration/")
 public class RegisterController {
 
-    //Servizi
     @Autowired
     private RegisterVolunteerService registerService;
+    @Autowired
+    private RegisterOrganizationService registerOrganizationService;
 
 
     //oggetto DTP
@@ -24,16 +24,17 @@ public class RegisterController {
             final String token = this.registerService.registerVolunteer(volunteer);
             return ResponseEntity.ok().body(token);
         }catch(Exception e){
-            return ResponseEntity.badRequest().body(e.getStackTrace());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/organization")
-    public ResponseEntity<?> registerOrganization(@PathVariable String role) {
+    public ResponseEntity<?> registerOrganization(@RequestBody OrganizationDTO organization) {
         try{
-            return ResponseEntity.ok().build();
+            final String token= this.registerOrganizationService.registerOrganization(organization);
+            return ResponseEntity.ok().body(token);
         }catch(Exception e){
-            return ResponseEntity.badRequest().body(e.getStackTrace());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

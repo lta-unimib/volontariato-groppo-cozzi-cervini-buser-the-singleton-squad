@@ -2,9 +2,7 @@ package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.common.Availability;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
-import com.unimib.singletonsquad.doit.dto.SignInFormVolunteerDTO;
-import org.springframework.stereotype.Component;
-
+/*
 public class VolunteerPreferencesMapper {
 
     public static VolunteerPreferences toVolunteerPreferences (SignInFormVolunteerDTO form) {
@@ -22,3 +20,4 @@ public class VolunteerPreferencesMapper {
         return availability;
     }
 }
+*/
