@@ -6,6 +6,7 @@ import com.unimib.singletonsquad.doit.exception.utils.ExceptionResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,24 +18,18 @@ import java.util.Date;
 
 @Component
 public class AuthFilter extends OncePerRequestFilter {
-    private final JWTUtils jwtUtils;
-    private final ObjectMapper objectMapper;
+    @Autowired
+    private JWTUtils jwtUtils;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private static final List<String> PUBLIC_PATHS = Arrays.asList(
-            "/oauth/google/authentication/success",
-            "/oauth/google/authentication/failure",
-            "/login/oauth2/google",
-            "/login/oauth2/code/google",
-            "/authentication/**",
             "/favicon.ico",
             "/error",
-            "/authentication/**"
+            "/registration/**",
+            "/accedi/**"
     );
 
-    public AuthFilter(JWTUtils jwtUtils, ObjectMapper objectMapper) {
-        this.jwtUtils = jwtUtils;
-        this.objectMapper = objectMapper;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

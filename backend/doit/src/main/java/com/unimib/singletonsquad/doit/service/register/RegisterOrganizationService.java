@@ -1,55 +1,57 @@
 package com.unimib.singletonsquad.doit.service.register;
 
+
+
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.dto.SignInFormOrganizationDTO;
-import com.unimib.singletonsquad.doit.dto.SingInFormDTO;
-import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundException;
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
-import com.unimib.singletonsquad.doit.service.database.OrgCategoryService;
+import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
+import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
+import com.unimib.singletonsquad.doit.service.database.VolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
-
-@Service("registerOrganizationService")
-public class RegisterOrganizationService extends RegisterService {
+@Service
+public class RegisterOrganizationService {
 
     @Autowired
-    private OrganizationService organizationService;
+    private OrganizationMapper volunteerMapper;
     @Autowired
-    private OrgCategoryService orgCategoryService;
+    private OrganizationService volunteerService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationSetUp authenticationSetUp;
 
-    @Override
-    protected void checkUserForm(SingInFormDTO form) throws Exception {
-        System.out.println("checkUserForm Organization");
-        if(form instanceof SignInFormOrganizationDTO signInFormDTO){
-            try{
-                Optional<Organization> org = organizationService.findOrganizationById(signInFormDTO.getId());
 
-                if(org.isEmpty())
-                    throw new ResourceNotFoundException("org id not found", "ok");
-                Organization organization = OrganizationMapper.organizationInfo(signInFormDTO, org.get());
-                System.out.println(organization);
-                orgCategoryService.addOrgCategories(organization.getCategories());
-                this.organizationService.save(organization);
-            }catch (Exception e){
-                throw new Exception(e.getMessage());
-            }
-        }
+    public String registerOrganization(OrganizationDTO volunteer) throws Exception{
+        String volunteerEmail = volunteer.getEmail();
+        if(this.isAlreadyRegistered(volunteerEmail))
+            throw new IllegalArgumentException("The volunteer is already registered");
 
+        String passwordEncoded = this.encryptPassword(volunteer.getPassword());
+        volunteer.setPassword(passwordEncoded);
+        Organization user = this.createVolunteer(volunteer);
+        this.volunteerService.save(user);
+        final String token = this.authenticationSetUp.setUpNewAuthSecurityContext(volunteer.getPassword(),"volunteer", volunteer.getEmail());
+        return token;
     }
 
-    @Override
-    protected void authenticateUser(SingInFormDTO form) {
-
+    //check if this email is already being used
+    private boolean isAlreadyRegistered(final String email) {
+        return (this.volunteerService.findOrganizationByEmail(email).isPresent());
+    };
+    //hash user password
+    private String encryptPassword(final String password) {
+        return this.passwordEncoder.encode(password);
     }
 
-    @Override
-    protected void sanitizeUserInputs(SingInFormDTO form) {
-        //  this.formInputs.setDescription(super.sanitizeString(form.getDescription()));
-        //  this.formInputs.setCity(super.sanitizeString(form.getCity()));
-
+    private Organization createVolunteer(final OrganizationDTO volunteer) throws Exception{
+        return this.volunteerMapper.mapToOrganization(volunteer);
     }
 }
+

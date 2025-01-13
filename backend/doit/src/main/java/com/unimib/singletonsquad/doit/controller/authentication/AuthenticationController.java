@@ -1,28 +1,42 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
-import com.unimib.singletonsquad.doit.service.authentication.AuthenticationControllerService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.unimib.singletonsquad.doit.dto.Auth;
+import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/authentication/{role}")
+@RestController
+@RequestMapping("/accedi/{role}")
 public class AuthenticationController {
 
-    private static final String AUTH_REDIRECT = "/oauth2/authorization/google";
-
     @Autowired
-    private AuthenticationControllerService authenticationControllerService;
+    private AuthenticationUserService authenticationUserService;
 
-    @GetMapping("/{uuid}")
-    public RedirectView authentication(@PathVariable String role,
-                                       @PathVariable String uuid,
-                                       HttpServletRequest request) {
-            String redirect= this.authenticationControllerService.authenticate(request, role, uuid,AUTH_REDIRECT);
-            return new RedirectView(redirect);
+    @PostMapping("/")
+    public ResponseEntity<?> authenticateOrganization(
+            @PathVariable final String role,
+           @RequestBody final Auth auth) {
+        try{
+            System.out.println("ok ok ok ");
+            this.checkRole(role);
+            String email = auth.getEmail();
+            String password = auth.getPassword();
+            System.out.println("email: " + email);
+            System.out.println("password: " + password);
+
+
+            this.authenticationUserService.authenticate(password, role, email);
+            return ResponseEntity.ok().body("user is authenticated");
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
+    private void checkRole(@NotNull final String role) {
+        if(!(role.equalsIgnoreCase("volunteer") || role.equalsIgnoreCase("organization")))
+            throw  new IllegalArgumentException("Invalid role");
+
+    }
+
+
 }
