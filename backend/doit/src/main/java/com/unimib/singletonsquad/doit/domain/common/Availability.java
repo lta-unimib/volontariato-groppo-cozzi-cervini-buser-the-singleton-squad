@@ -24,8 +24,8 @@ public class Availability{
     private String mode;
 
     @JsonProperty("data")
-    @Convert(converter = ListObjectConverter.class) // Usa il convertitore per serializzare/ deserializzare la lista
-    @Lob // Specifica che la colonna può contenere un oggetto di grandi dimensioni (ad esempio, JSON)
-    @Column(name = "data", columnDefinition = "TEXT") // Opzionale: definire una colonna di tipo TEXT
+    @Convert(converter = ListObjectConverter.class)
+    @Lob
+    @Column(name = "data", columnDefinition = "TEXT")
     private List<String> data;
 }

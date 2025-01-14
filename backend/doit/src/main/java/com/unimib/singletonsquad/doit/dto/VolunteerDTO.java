@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unimib.singletonsquad.doit.domain.common.Availability;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,4 +26,6 @@ public class VolunteerDTO {
     private String city;
     @JsonProperty("preferences")
     private List<String> favCategories;
+    @JsonProperty("availability")
+    private AvailabilityDTO availability;
 }

@@ -1,7 +1,5 @@
 package com.unimib.singletonsquad.doit.service.register;
 
-
-
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
