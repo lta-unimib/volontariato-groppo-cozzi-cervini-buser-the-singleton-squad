@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class LocationDTO {
+public class AddressDTO {
     @JsonProperty("street")
     private String street;
     @JsonProperty("number")

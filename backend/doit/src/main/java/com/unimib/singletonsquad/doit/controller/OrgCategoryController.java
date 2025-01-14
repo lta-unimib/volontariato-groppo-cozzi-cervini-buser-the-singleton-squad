@@ -1,5 +1,4 @@
 package com.unimib.singletonsquad.doit.controller;
-import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.unimib.singletonsquad.doit.service.database.OrgCategoryService;
 import com.unimib.singletonsquad.doit.utils.response.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;

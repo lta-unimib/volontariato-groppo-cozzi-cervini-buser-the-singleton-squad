@@ -20,7 +20,7 @@ public class VolunteerRequestDTO {
     @JsonProperty("date")
     private String date;
     @JsonProperty("Address")
-    private LocationDTO address;
+    private AddressDTO address;
     @JsonProperty("date")
     private String startDate;
     @JsonProperty("endDate")
