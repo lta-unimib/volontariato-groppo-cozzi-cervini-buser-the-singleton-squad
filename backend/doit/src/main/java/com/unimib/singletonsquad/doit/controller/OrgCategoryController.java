@@ -16,7 +16,7 @@ public class OrgCategoryController {
     @Autowired
     private OrgCategoryService orgCategoryService;
 
-    @GetMapping("/all")
+    @GetMapping("/all/")
     public ResponseEntity<ResponseMessage> getAll() {
         ResponseMessage responseMessage;
         List<String> categories = orgCategoryService.getAllOrgCategories() != null ? orgCategoryService.getAllOrgCategories() : new ArrayList<>();
