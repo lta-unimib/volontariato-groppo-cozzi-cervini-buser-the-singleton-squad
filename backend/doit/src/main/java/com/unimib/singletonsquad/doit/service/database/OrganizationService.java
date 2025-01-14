@@ -33,12 +33,11 @@ public class OrganizationService {
 
     public boolean authenticateOrganization(String email, String rawPassword) {
         Optional<Organization> organizationOptional = organizationRepository.findByEmail(email);
-        System.out.println("Debug =>" + organizationOptional.isPresent());
-
+        System.out.println("Organization present:" + organizationOptional.isPresent());
 
         if (organizationOptional.isPresent()) {
             Organization organization = organizationOptional.get();
-            return organization.getPassword().equals(rawPassword);
+            return passwordEncoder.matches(rawPassword, organization.getPassword());
         } else {
             return false;
         }

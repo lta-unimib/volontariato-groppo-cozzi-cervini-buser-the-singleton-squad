@@ -21,25 +21,14 @@ public class Volunteer {
     private String surname;
     @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
+    private String password;
+    private String description;
     @OneToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "id_volunteer_preferences")
     private VolunteerPreferences volunteerPreferences;
-    @Column(nullable = true)
-    private String description;
-    @Column(nullable = false)
-    private String password;
-
-
-
-    public Volunteer(Long id, String name, String surname, String email) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-    }
 
     public Volunteer() {}
-
 
     public void setEmail(String email) throws Exception {
         if(!isValidEmail(email)) {
@@ -47,7 +36,6 @@ public class Volunteer {
         }
         this.email = email;
     }
-
 
     private static boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@" +

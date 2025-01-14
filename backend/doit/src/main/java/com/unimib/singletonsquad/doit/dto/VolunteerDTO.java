@@ -1,16 +1,28 @@
 package com.unimib.singletonsquad.doit.dto;
 
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.util.List;
+
 @Getter
 @Setter
+@ToString
 public class VolunteerDTO {
-
+    @JsonProperty("firstName")
     private String name;
-    private String cognome;
+    @JsonProperty("lastName")
+    private String surname;
+    @JsonProperty("email")
     private String email;
+    @JsonProperty("password")
     private String password;
+    @JsonProperty("description")
     private String description;
-    private VolunteerPreferences volunteerPreferences;
+    @JsonProperty("city")
+    private String city;
+    @JsonProperty("preferences")
+    private List<String> favCategories;
 }

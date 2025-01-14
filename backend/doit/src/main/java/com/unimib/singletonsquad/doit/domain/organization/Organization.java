@@ -1,6 +1,5 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unimib.singletonsquad.doit.utils.DataValidator;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,27 +14,24 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Builder
+@ToString
 @Table(name = "organization")
 public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-
     @Column(unique = true, nullable = false)
     private String name;
-
     private String description;
-
     @Column(unique = true, nullable = false)
     private String email;
-
     private String password;
     private String website;
     private String VATNumber;
-    private String role;
+    private String role;//TODO REMOVE ?
     @ElementCollection
-    @Column(name = "category")
+    @Column(name = "categories")
     private List<String> categories = new ArrayList<>();
 
     public void setEmail(String email) {
@@ -48,8 +44,7 @@ public class Organization {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Organization)) return false;
-        Organization that = (Organization) o;
+        if (!(o instanceof Organization that)) return false;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name);
     }
 

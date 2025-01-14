@@ -18,10 +18,10 @@ public class OrganizationMapper {
         organization.setDescription(organizationDTO.getDescription());
         organization.setName(organizationDTO.getName());
         organization.setEmail(organizationDTO.getEmail());
-        organization.setCategories(organizationDTO.getPreferenze());
+        organization.setCategories(organizationDTO.getPreferences());
         organization.setWebsite(organizationDTO.getWebSite());
         organization.setPassword(organizationDTO.getPassword());
-        organization.setRole(organizationDTO.getRole());
+        //organization.setRole(organizationDTO.getRole());
         organization.setVATNumber(organizationDTO.getVatNumber());
         return organization;
     }

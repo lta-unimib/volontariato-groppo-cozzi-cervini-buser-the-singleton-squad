@@ -43,7 +43,7 @@ public class VolunteerService {
 
     public boolean authenticateVolunteer(String email, String rawPassword) {
         Optional<Volunteer> volunteerOptional = volunteerRepository.findByEmail(email);
-
+        System.out.println("Volunteer present: " + volunteerOptional.isPresent());
         if (volunteerOptional.isPresent()) {
             Volunteer volunteer = volunteerOptional.get();
             return passwordEncoder.matches(rawPassword, volunteer.getPassword());

@@ -13,6 +13,7 @@ import java.util.List;
 @Table(name = "volunteer_preferences")
 public class VolunteerPreferences {
     @Id
+    @Column(nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String city;
