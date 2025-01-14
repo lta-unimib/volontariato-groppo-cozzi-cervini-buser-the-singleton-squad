@@ -25,7 +25,7 @@ export interface VolunteerFormData extends BaseUserData {
     role?: string;
 }
 
-export interface OfferFormData extends BaseFormData{
+export interface RequestFormData extends BaseFormData{
     title: string;
     date: string;
     address: string;

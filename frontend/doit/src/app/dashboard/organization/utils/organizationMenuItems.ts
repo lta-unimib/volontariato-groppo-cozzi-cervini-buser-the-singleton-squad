@@ -6,7 +6,7 @@ import { MdOutlineAccountCircle } from "react-icons/md";
 
 export const organizationMenuItems = [
     {
-        title: "Offerte volontariato",
+        title: "Richieste volontariato",
         url: "/dashboard/organization",
         icon: MdOutlinePostAdd,
         className: "md:inline hidden"

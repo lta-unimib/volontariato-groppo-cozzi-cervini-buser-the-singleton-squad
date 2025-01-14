@@ -1,7 +1,7 @@
 "use client";
 
 import { Page } from "@/components/layout/Page";
-import { OfferForm } from "@/app/offer/components/OfferForm";
+import { RequestForm } from "@/app/request/components/RequestForm";
 import FormHeader from "@/components/layout/FormHeader";
 import { useBack } from "@/hooks/useBack";
 
@@ -17,7 +17,7 @@ export default function Home() {
                     onBack={handleBack}
                 />
             </div>
-            <OfferForm />
+            <RequestForm />
         </Page>
     );
 }

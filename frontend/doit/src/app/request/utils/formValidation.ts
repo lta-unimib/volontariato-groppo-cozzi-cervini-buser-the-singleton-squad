@@ -1,6 +1,6 @@
-import {OfferFormData} from "@/types/formData";
+import {RequestFormData} from "@/types/formData";
 
-export const isFormValid = (formData: OfferFormData): boolean => {
+export const isFormValid = (formData: RequestFormData): boolean => {
     return (
         formData.date != "" &&
         formData.address != "" &&

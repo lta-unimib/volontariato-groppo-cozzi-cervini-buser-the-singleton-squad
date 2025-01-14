@@ -1,6 +1,6 @@
 "use client";
 
-import {organizationMenuItems} from "@/app/dashboard/volunteer/utils/organizationMenuItems";
+import {organizationMenuItems} from "@/app/dashboard/organization/utils/organizationMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import {Page} from "@/components/layout/Page";
 import {MdOutlineAdd} from "react-icons/md";
@@ -42,7 +42,7 @@ export default function Home() {
                             "md:left-auto md:right-4 md:-translate-x-0 md:bottom-4"
                         )}
                         size="icon"
-                        onClick={() => router.push("../offer")}
+                        onClick={() => router.push("../request")}
                     >
                         <MdOutlineAdd className="!h-6 !w-6" />
                     </Button>

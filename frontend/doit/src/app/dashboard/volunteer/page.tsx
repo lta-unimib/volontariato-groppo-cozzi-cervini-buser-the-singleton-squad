@@ -1,7 +1,7 @@
 "use client";
 
 import { Page } from "@/components/layout/Page";
-import { volunteerMenuItems } from "@/app/dashboard/organization/utils/volunteerMenuItems";
+import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import OfferCard from "@/components/ui/OfferCard";
 import { ScrollArea } from "@/components/ui/ScrollArea";

@@ -5,13 +5,13 @@ import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { BaseForm } from "@/components/ui/form/BaseForm";
 import { useFormSubmission } from '@/hooks/useFormSubmission';
-import { DatePickerDialog } from "@/app/offer/components/DatePicker";
-import { useFormData } from "@/app/offer/hooks/useFormData";
-import AddressDialog from "@/app/offer/components/AddressDialog";
+import { DatePickerDialog } from "@/app/request/components/DatePicker";
+import { useFormData } from "@/app/request/hooks/useFormData";
+import AddressDialog from "@/app/request/components/AddressDialog";
 import { Input } from "@/components/ui/Input";
-import { isFormValid } from "@/app/offer/utils/formValidation";
+import { isFormValid } from "@/app/request/utils/formValidation";
 
-export function OfferForm() {
+export function RequestForm() {
     const { formData, updateField } = useFormData();
     const { handleSubmit } = useFormSubmission("offer");
 
@@ -57,7 +57,7 @@ export function OfferForm() {
                 />
 
                 <Textarea
-                    placeholder="Descrizione dell'utente"
+                    placeholder="Descrizione della richiesta di volontariato"
                     className="rounded-2xl min-h-[100px]"
                     value={formData.description}
                     onChange={(e) => updateField("description", e.target.value)}
