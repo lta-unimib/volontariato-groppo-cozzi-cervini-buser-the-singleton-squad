@@ -3,14 +3,10 @@ package com.unimib.singletonsquad.doit.service.register;
 
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
-import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
-import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
-import com.unimib.singletonsquad.doit.service.database.VolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

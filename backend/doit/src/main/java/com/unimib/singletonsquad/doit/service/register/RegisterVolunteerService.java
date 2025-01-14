@@ -1,9 +1,11 @@
 package com.unimib.singletonsquad.doit.service.register;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
+import com.unimib.singletonsquad.doit.service.database.VolunteerPreferencesService;
 import com.unimib.singletonsquad.doit.service.database.VolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +18,8 @@ public class RegisterVolunteerService {
     private VolunteerMapper volunteerMapper;
     @Autowired
     private VolunteerService volunteerService;
+    @Autowired
+    private VolunteerPreferencesService volunteerPreferencesService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -43,8 +47,15 @@ public class RegisterVolunteerService {
         return this.passwordEncoder.encode(password);
     }
 
-    private Volunteer createVolunteer(final VolunteerDTO volunteer) throws Exception{
-        return this.volunteerMapper.mapToVolunteer(volunteer);
+    private Volunteer createVolunteer(final VolunteerDTO volunteerDTO) throws Exception{
+        Volunteer volunteer = this.volunteerMapper.mapToVolunteer(volunteerDTO);
+        VolunteerPreferences volunteerPreferences = new VolunteerPreferences();
+        volunteerPreferences.setCity(volunteerDTO.getCity());
+        volunteerPreferences.setCategories(volunteerDTO.getFavCategories());
+        //volunteerPreferences.setAvailability();
+        volunteerPreferencesService.save(volunteerPreferences);
+        volunteer.setVolunteerPreferences(volunteerPreferences);
+        return volunteer;
     }
 }
 

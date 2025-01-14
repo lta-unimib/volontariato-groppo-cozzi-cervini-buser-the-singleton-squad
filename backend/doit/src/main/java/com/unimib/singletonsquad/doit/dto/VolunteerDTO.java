@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -21,6 +23,6 @@ public class VolunteerDTO {
     private String description;
     @JsonProperty("city")
     private String city;
-    /*@JsonProperty("preferences")
-    private VolunteerPreferences volunteerPreferences;*/
+    @JsonProperty("preferences")
+    private List<String> favCategories;
 }
