@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { CityPicker } from './CityPicker';
+import { CityPicker } from '../../../components/ui/city/CityPicker';
 import { MdHome } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { AddressData } from '@/types/addressData';

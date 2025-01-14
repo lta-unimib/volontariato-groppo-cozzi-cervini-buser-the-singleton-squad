@@ -8,7 +8,7 @@ const initialFormData: VolunteerFormData = {
     lastName: "",
     email: "",
     password: "",
-    availability: null,
+    availability: undefined,
     city: "",
     preferences: [],
     description: "",

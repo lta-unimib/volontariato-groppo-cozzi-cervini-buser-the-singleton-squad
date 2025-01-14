@@ -1,9 +1,10 @@
 import { useState } from "react";
 
 type FocusFields = "email" | "password";
+type FocusState = Record<`${FocusFields}Focused`, boolean>;
 
 export const useFormFocus = () => {
-    const [focusState, setFocusState] = useState({
+    const [focusState, setFocusState] = useState<FocusState>({
         emailFocused: false,
         passwordFocused: false,
     });

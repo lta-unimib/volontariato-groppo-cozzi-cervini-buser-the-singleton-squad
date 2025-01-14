@@ -1,20 +1,23 @@
 "use client";
 
 import Image, { ImageProps } from "next/image";
+import { useBasePath } from '@/hooks/useBasePath';
 
-interface EnhancedImageProps extends Omit<ImageProps, 'src'> {
-    src: string;
+interface EnhancedImageProps extends Omit<ImageProps, 'src' | 'alt'> {
+    readonly src: string;
+    readonly alt: string;
 }
 
-export function ImageWrapper(props: EnhancedImageProps) {
-    const basePath = process.env.GITHUB_PAGES
-        ? '/volontariato-groppo-cozzi-cervini-buser-the-singleton-squad'
-        : '';
+export function ImageWrapper(props: Readonly<EnhancedImageProps>) {
+    const basePath = useBasePath() || '';
+
+    const srcPath = `${basePath}${props.src}`;
 
     return (
         <Image
             {...props}
-            src={`${basePath}${props.src}`}
+            src={srcPath}
+            alt={props.alt}
         />
     );
 }

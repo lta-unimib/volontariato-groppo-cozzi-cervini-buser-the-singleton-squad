@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { CityPicker } from "@/components/ui/CityPicker";
+import { CityPicker } from "@/components/ui/city/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
-import { BaseForm } from "@/components/ui/BaseForm";
-import { IconInput } from "@/components/ui/FormFields";
+import { BaseForm } from "@/components/ui/form/BaseForm";
+import { IconInput } from "@/components/ui/form/FormFields";
 import { useFormData } from '@/app/form/volunteer/hooks/useFormData';
 import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { AvailabilityDialog } from '@/app/form/volunteer/components/AvailabilityPicker';

@@ -21,7 +21,7 @@ export interface OrganizationFormData extends BaseUserData {
 export interface VolunteerFormData extends BaseUserData {
     firstName: string;
     lastName: string;
-    availability: AvailabilityData | null;
+    availability: AvailabilityData | undefined;
     role?: string;
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import {Page} from "@/components/layout/Page";
-import {volunteerMenuItems} from "@/utils/volunteerMenuItems";
+import {volunteerMenuItems} from "@/app/dashboard/organization/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 
 export default function Home() {

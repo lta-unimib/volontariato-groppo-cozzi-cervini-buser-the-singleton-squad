@@ -49,18 +49,4 @@ export const offers: Offer[] = [
         date: "1/04/2024 - 30/06/2024",
         image: "https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg",
     },
-    {
-        organization: "Ambiente Verde",
-        description: "Cerchiamo volontari per: pulizia spiagge",
-        location: "Lido di Venezia",
-        date: "5/07/2024 - 5/09/2024",
-        image: "https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg",
-    },
-    {
-        organization: "Associazione Cuore",
-        description: "Volontari per: supporto psicologico",
-        location: "Roma",
-        date: "1/02/2024 - 1/05/2024",
-        image: "https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg",
-    },
 ];

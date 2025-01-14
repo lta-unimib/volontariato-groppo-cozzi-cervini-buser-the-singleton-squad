@@ -1,8 +1,8 @@
 import * as React from "react";
-import { format } from "date-fns";
+import { format, isBefore, startOfDay } from "date-fns";
 import { CalendarIcon } from 'lucide-react';
 import { Button } from "@/components/ui/Button";
-import { Calendar } from "@/components/ui/Calendar";
+import { Calendar } from "@/components/ui/date/Calendar";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/Dialog";
 import DateSelector from "./DateSelector";
 
@@ -10,8 +10,15 @@ export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (dat
     const [date, setDate] = React.useState<Date | undefined>(undefined);
     const [currentMonth, setCurrentMonth] = React.useState<Date | undefined>(undefined);
     const [isOpen, setIsOpen] = React.useState(false);
+    const [error, setError] = React.useState<string | null>(null);
 
     const updateAllStates = (newDate: Date) => {
+        const today = startOfDay(new Date());
+        if (isBefore(newDate, today)) {
+            setError("Non è possibile selezionare una data precedente a oggi");
+        } else {
+            setError(null);
+        }
         setDate(newDate);
         setCurrentMonth(newDate);
     };
@@ -22,6 +29,8 @@ export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (dat
         "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
         "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"
     ];
+
+    const isDateValid = date ? !isBefore(date, startOfDay(new Date())) : false;
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -51,6 +60,10 @@ export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (dat
                     updateAllStates={updateAllStates}
                 />
 
+                {error && (
+                    <p className="text-destructive text-sm text-center mt-2">{error}</p>
+                )}
+
                 <div className="flex justify-center mt-4">
                     <Calendar
                         mode="single"
@@ -65,23 +78,25 @@ export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (dat
                         initialFocus
                         fromYear={1900}
                         toYear={new Date().getFullYear()}
+                        disabled={(date) => isBefore(date, startOfDay(new Date()))}
                     />
                 </div>
 
                 <DialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
                     <Button variant="outline" onClick={() => {
                         setDate(undefined);
+                        setError(null);
                         setIsOpen(false);
                     }} className="w-full sm:w-auto rounded-full">
                         Annulla
                     </Button>
 
                     <Button onClick={() => {
-                        if (date) {
+                        if (date && isDateValid) {
                             onSaveAction(date);
+                            setIsOpen(false);
                         }
-                        setIsOpen(false);
-                    }} className="w-full sm:w-auto rounded-full" disabled={!date}>
+                    }} className="w-full sm:w-auto rounded-full" disabled={!date || !isDateValid}>
                         Salva
                     </Button>
                 </DialogFooter>

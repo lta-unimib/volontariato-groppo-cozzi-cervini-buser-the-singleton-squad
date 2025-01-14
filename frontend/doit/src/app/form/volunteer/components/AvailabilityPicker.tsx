@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { ScrollArea } from "@/components/ui/ScrollArea";
-import { Calendar } from "@/components/ui/Calendar";
+import { Calendar } from "@/components/ui/date/Calendar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { cn } from "@/lib/utils";
 import { MdCalendarMonth } from "react-icons/md";
@@ -11,6 +11,12 @@ import { timeSlots, weekDays, getDisplayText } from '@/app/form/volunteer/utils/
 import { isTimeInRange, isAvailabilityValid } from '@/app/form/volunteer/utils/formValidation';
 import { AvailabilityMode, AvailabilityDialogProps } from "@/types/availabilityData";
 import { DateRange } from "react-day-picker";
+
+const MODES = {
+  DAILY: 'daily',
+  WEEKLY: 'weekly',
+  MONTHLY: 'monthly'
+};
 
 export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAction }) => {
   const {
@@ -29,19 +35,17 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAc
   } = useAvailabilityDialog(onSaveAction);
 
   const handleTimeSelect = (time: string) => {
-    if (selectedTimeRange.length === 2) {
-      setSelectedTimeRange([time]);
-    } else if (selectedTimeRange.length === 1) {
-      const start = selectedTimeRange[0];
+    let updatedTimeRange = [...selectedTimeRange];
+    if (updatedTimeRange.length === 2) {
+      updatedTimeRange = [time];
+    } else if (updatedTimeRange.length === 1) {
+      const [start] = updatedTimeRange;
       const end = time;
-      if (start <= end) {
-        setSelectedTimeRange([start, end]);
-      } else {
-        setSelectedTimeRange([end, start]);
-      }
+      updatedTimeRange = start <= end ? [start, end] : [end, start];
     } else {
-      setSelectedTimeRange([time]);
+      updatedTimeRange = [time];
     }
+    setSelectedTimeRange(updatedTimeRange);
   };
 
   const handleWeekDaySelect = (day: string) => {
@@ -49,6 +53,14 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAc
         prev.includes(day)
             ? prev.filter(d => d !== day)
             : [...prev, day]
+    );
+  };
+
+  const isSaveDisabled = () => {
+    return (
+        (selectedMode === MODES.DAILY && selectedTimeRange.length !== 2) ||
+        (selectedMode === MODES.WEEKLY && selectedWeekDays.length === 0) ||
+        (selectedMode === MODES.MONTHLY && (!selectedDateRange?.from || !selectedDateRange?.to))
     );
   };
 
@@ -76,12 +88,14 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAc
 
           <Tabs value={selectedMode} onValueChange={(value) => handleModeChange(value as AvailabilityMode)} className="w-full mt-4">
             <TabsList className="grid w-full grid-cols-3 rounded-full p-1">
-              <TabsTrigger value="daily" className="rounded-full">Daily</TabsTrigger>
-              <TabsTrigger value="weekly" className="rounded-full">Weekly</TabsTrigger>
-              <TabsTrigger value="monthly" className="rounded-full">Monthly</TabsTrigger>
+              {Object.values(MODES).map((mode) => (
+                  <TabsTrigger key={mode} value={mode} className="rounded-full">
+                    {mode.charAt(0).toUpperCase() + mode.slice(1)}
+                  </TabsTrigger>
+              ))}
             </TabsList>
 
-            <TabsContent value="daily" className="mt-4">
+            <TabsContent value={MODES.DAILY} className="mt-4">
               <ScrollArea className="h-[348px] w-full rounded-2xl border">
                 <div className="grid grid-cols-3 gap-2 p-4">
                   {timeSlots.map((time) => (
@@ -101,7 +115,7 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAc
               </ScrollArea>
             </TabsContent>
 
-            <TabsContent value="weekly" className="mt-4">
+            <TabsContent value={MODES.WEEKLY} className="mt-4">
               <div className="h-[348px] w-full rounded-2xl border flex flex-col gap-2 p-4">
                 {weekDays.map((day) => (
                     <Button
@@ -116,8 +130,7 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAc
               </div>
             </TabsContent>
 
-
-            <TabsContent value="monthly" className="mt-4">
+            <TabsContent value={MODES.MONTHLY} className="mt-4">
               <div className="flex justify-center h-[348px] w-full rounded-2xl border p-4">
                 <Calendar
                     mode="range"
@@ -145,11 +158,7 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAc
             <Button
                 onClick={handleSave}
                 className="w-full sm:w-auto rounded-full"
-                disabled={
-                    (selectedMode === 'daily' && selectedTimeRange.length !== 2) ||
-                    (selectedMode === 'weekly' && selectedWeekDays.length === 0) ||
-                    (selectedMode === 'monthly' && (!selectedDateRange?.from || !selectedDateRange?.to))
-                }
+                disabled={isSaveDisabled()}
             >
               Salva
             </Button>

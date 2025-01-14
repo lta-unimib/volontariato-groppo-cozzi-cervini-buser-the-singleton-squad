@@ -2,7 +2,7 @@
 
 import { useTheme } from "@/hooks/useTheme";
 import Image from "next/image";
-import { ImageWrapper } from "@/components/ui/ImageWrapper";
+import { ImageWrapper } from "@/components/layout/ImageWrapper";
 import { GITHUB_PAGES } from "@/utils/constants";
 
 export function Logo() {
