@@ -4,8 +4,13 @@ import React, { FormEvent, ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 
+interface SuccessResponse {
+    success: boolean;
+    message?: string;
+}
+
 interface BaseFormProps {
-    readonly onSubmitAction: (e: FormEvent) => Promise<any>;
+    readonly onSubmitAction: (e: FormEvent) => Promise<SuccessResponse>;
     readonly isValid: boolean;
     readonly children: ReactNode;
     readonly redirectTo?: string;

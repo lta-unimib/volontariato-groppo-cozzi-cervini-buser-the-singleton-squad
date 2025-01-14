@@ -13,6 +13,7 @@ import {MdOutlinePerson, MdOutlineEmail, MdOutlinePassword} from "react-icons/md
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import {useFormValidation} from "@/app/form/volunteer/hooks/useFormValidation";
 import {useFormFocus} from "@/app/form/volunteer/hooks/useFormFocus";
+import bcryptjs from "bcryptjs";
 
 export function VolunteerForm() {
     const { formData, updateField } = useFormData();
@@ -23,7 +24,22 @@ export function VolunteerForm() {
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        await handleSubmit(formData);
+        try {
+            const salt = await bcryptjs.genSalt(10);
+            const hashedPassword = await bcryptjs.hash(formData.password, salt);
+
+            const finalFormData = {
+                ...formData,
+                password: hashedPassword,
+            };
+
+            await handleSubmit(finalFormData);
+
+            return { success: true };
+        } catch (error) {
+            console.error("Error during form submission:", error);
+            return { success: false, message: "Submission failed" };
+        }
     };
 
     return (

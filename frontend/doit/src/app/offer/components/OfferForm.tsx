@@ -14,11 +14,19 @@ import { isFormValid } from "@/app/offer/utils/formValidation";
 
 export function OfferForm() {
     const { formData, updateField } = useFormData();
-    const { handleSubmit } = useFormSubmission("offer"); // Assuming "offer" is passed to the hook to handle submission logic.
+    const { handleSubmit } = useFormSubmission("offer");
 
     const onSubmit = async (e: React.FormEvent) => {
-        e.preventDefault(); // Prevent default form behavior
-        await handleSubmit(formData); // Call handleSubmit with formData
+        e.preventDefault();
+
+        try {
+            await handleSubmit(formData);
+
+            return { success: true };
+        } catch (error) {
+            console.error("Error during form submission:", error);
+            return { success: false, message: "Submission failed" };
+        }
     };
 
     return (
