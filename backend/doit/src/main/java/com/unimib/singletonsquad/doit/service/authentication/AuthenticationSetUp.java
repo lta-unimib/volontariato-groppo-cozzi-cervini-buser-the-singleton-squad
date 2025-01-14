@@ -23,7 +23,7 @@ public class AuthenticationSetUp {
                                              final String email) {
 
         final String token = this.generateUserToken(role, email);
-
+        System.out.println("New User Token: " + token);
         CustomOAuth2User newAuthUser = new CustomOAuth2User(email, token, role);
         Authentication newAuth = new UsernamePasswordAuthenticationToken(
                 newAuthUser,

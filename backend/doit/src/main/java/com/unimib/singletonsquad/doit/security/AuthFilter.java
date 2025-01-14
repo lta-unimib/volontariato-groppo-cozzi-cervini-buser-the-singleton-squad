@@ -27,7 +27,7 @@ public class AuthFilter extends OncePerRequestFilter {
             "/favicon.ico",
             "/error",
             "/registration/**",
-            "/accedi/**"
+            "/login/**"
     );
 
 

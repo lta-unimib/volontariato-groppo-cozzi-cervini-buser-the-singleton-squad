@@ -15,6 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Builder
+@ToString
 @Table(name = "organization")
 public class Organization {
     @Id

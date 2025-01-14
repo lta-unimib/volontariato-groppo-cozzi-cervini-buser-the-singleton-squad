@@ -13,8 +13,9 @@ public class VolunteerMapper {
     public Volunteer mapToVolunteer(VolunteerDTO volunteerDTO) throws Exception {
         Volunteer volunteer = new Volunteer();
         volunteer.setName(volunteerDTO.getName());
+        volunteer.setSurname(volunteerDTO.getSurname());
         volunteer.setEmail(volunteerDTO.getEmail());
-        volunteer.setVolunteerPreferences(volunteerDTO.getVolunteerPreferences());
+        //volunteer.setVolunteerPreferences(volunteerDTO.getVolunteerPreferences());
         volunteer.setPassword(volunteerDTO.getPassword());
         volunteer.setDescription(volunteerDTO.getDescription());
         return volunteer;

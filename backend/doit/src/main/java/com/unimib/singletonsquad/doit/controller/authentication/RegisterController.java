@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/registration/")
+@RequestMapping("/registration")
 public class RegisterController {
 
     @Autowired
@@ -16,10 +16,9 @@ public class RegisterController {
     @Autowired
     private RegisterOrganizationService registerOrganizationService;
 
-
-    //oggetto DTP
-    @PostMapping("/volunteer")
-    public ResponseEntity<?> register(@RequestBody VolunteerDTO volunteer) {
+    @PostMapping("/volunteer/")
+    public ResponseEntity<?> registerVolunteer(@RequestBody VolunteerDTO volunteer) {
+        System.out.println(volunteer);
         try{
             final String token = this.registerService.registerVolunteer(volunteer);
             return ResponseEntity.ok().body(token);
@@ -28,8 +27,9 @@ public class RegisterController {
         }
     }
 
-    @PostMapping("/organization")
+    @PostMapping("/organization/")
     public ResponseEntity<?> registerOrganization(@RequestBody OrganizationDTO organization) {
+        System.out.println(organization);
         try{
             final String token= this.registerOrganizationService.registerOrganization(organization);
             return ResponseEntity.ok().body(token);

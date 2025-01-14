@@ -31,8 +31,7 @@ public class RegisterVolunteerService {
         volunteer.setPassword(passwordEncoded);
         Volunteer user = this.createVolunteer(volunteer);
         this.volunteerService.save(user);
-        final String token = this.authenticationSetUp.setUpNewAuthSecurityContext(volunteer.getPassword(),"volunteer", volunteer.getEmail());
-        return token;
+        return this.authenticationSetUp.setUpNewAuthSecurityContext(volunteer.getPassword(),"volunteer", volunteer.getEmail());
     }
 
     //check if this email is already being used

@@ -35,18 +35,17 @@ public class AuthenticationUserService {
                              @NotNull final String role,
                              @NotNull final String email) {
 
-
-        if(!this.checkUserRegistered(email, role, password))
+        if(!checkUserRegistered(email, role, password))
             throw new IllegalArgumentException("user is not registered");
 
         this.authenticationSetUp.setUpNewAuthSecurityContext(password, role, email);
     }
     private boolean checkUserRegistered(final String email, final String role, final String password) {
-        switch (role){
-            case "volunteer": return this.volunteerService.authenticateVolunteer(email, password);
-            case "organization": return this.organizationService.authenticateOrganization(email, password);
-            default: return false;
-        }
+        return switch (role) {
+            case "volunteer" -> this.volunteerService.authenticateVolunteer(email, password);
+            case "organization" -> this.organizationService.authenticateOrganization(email, password);
+            default -> false;
+        };
     }
 
 }
