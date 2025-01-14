@@ -9,7 +9,6 @@ public interface IVolunteerRequestRepository {
 
     Optional<VolunteerRequest> findById(long id);
     void deleteById(long id);
-   /// VolunteerRequest update(VolunteerRequest updatedRequest);
     boolean existsById(long id);
 
 }

@@ -29,7 +29,7 @@ public class VolunteerRequest {
     private String startDateTime;
     private String endDateTime;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "organization_id", nullable = false) // Specifica la colonna corretta
     private Organization organization;
     @ElementCollection
