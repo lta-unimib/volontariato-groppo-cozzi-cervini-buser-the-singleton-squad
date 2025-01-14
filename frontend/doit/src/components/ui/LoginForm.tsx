@@ -13,8 +13,8 @@ import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/Label"
 import React, { useState } from "react"
 import Link from "next/link"
-import {API_BASE_LINK} from "@/utils/constants";
-import { useRouter } from "next/router" // Import useRouter hook
+import { API_BASE_LINK } from "@/utils/constants"
+import { useRouter } from "next/navigation"
 
 interface LoginFormProps extends React.ComponentPropsWithoutRef<"div"> {
     signUpHref?: string;
@@ -55,13 +55,14 @@ export function LoginForm({
                 const errorData = await response.json().catch(() => ({}))
                 const errorMessage = errorData.message || `Login failed: ${response.statusText}`
                 setError(errorMessage)
+                router.push(redirectPath)
                 return
             }
 
             const data = await response.json()
             console.log(data)
 
-            await router.push(redirectPath)
+            router.push(redirectPath)
 
         } catch (err) {
             setError("An unexpected error occurred. Please try again later.")

@@ -11,7 +11,6 @@ export default function Home() {
     return (
         <Page>
             <div className="flex w-full h-screen">
-                {/* Sidebar */}
                 <div className="w-[var(--sidebar-width)]">
                     <SidebarLayout
                         menuItems={volunteerMenuItems}
@@ -24,7 +23,6 @@ export default function Home() {
                     </SidebarLayout>
                 </div>
 
-                {/* Scroll Area */}
                 <div className="flex-1 my-4">
                     <ScrollArea className="h-full px-8">
                         <div className="space-y-2">
