@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -13,6 +15,18 @@ public class VolunteerRequestDTO {
     private String organizationId;
     @JsonProperty("title")
     private String title;
-    @JsonProperty("detailed_description")
+    @JsonProperty("description")
     private String detailedDescription;
+    @JsonProperty("date")
+    private String date;
+    @JsonProperty("Address")
+    private LocationDTO address;
+    @JsonProperty("date")
+    private String startDate;
+    @JsonProperty("endDate")
+    String endDate;
+    @JsonProperty("volunteerCapacity")
+    private int volunteerCapacity;
+    @JsonProperty("categories")
+    private List<String> categories;
 }

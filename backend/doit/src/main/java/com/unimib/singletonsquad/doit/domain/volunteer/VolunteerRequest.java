@@ -31,9 +31,9 @@ public class VolunteerRequest {
     private String endDateTime;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Organization organization;
+    private Organization organization;//ok
     @ElementCollection
-    private List<String> volunteerCategories;
+    private List<String> volunteerCategories;//ok
 
     public VolunteerRequest() {}
 
