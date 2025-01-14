@@ -1,39 +1,30 @@
-"use client";
-
-import React, { useState, useEffect, ChangeEvent, useRef } from "react";
+import {useRef, ChangeEvent, useState} from "react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
-import { ScrollArea } from "@/components/ui/ScrollArea";
-import { CityPickerProps, CityData } from '@/types/cityData';
-import { useCitySearch } from '@/hooks/useCitySearch';
-import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
-import { CityList } from '@/components/ui/city/CityList';
+import { CityList } from "./CityList";
+import { useCitySearch } from "@/hooks/useCitySearch";
+import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
+import { CityPickerProps, CityData } from "@/types/cityData";
 
 export function CityPicker({ value, onChangeAction, showCap = false }: CityPickerProps) {
-    const [searchQuery, setSearchQuery] = useState<string>("");
     const [selectedCity, setSelectedCity] = useState<string>(value);
-    const scrollAreaRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const { cities, error } = useCitySearch();
-
-    const filteredCities = cities.filter((city) =>
-        city.nome.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const { cities, error, searchQuery, setSearchQuery } = useCitySearch();
 
     const handleCitySelection = (city: CityData, e?: React.MouseEvent) => {
         e?.preventDefault();
         e?.stopPropagation();
         setSelectedCity(city.nome);
         setSearchQuery(city.nome);
-        setHighlightedIndex(-1);
         onChangeAction(city.nome, showCap ? city.cap : undefined);
         inputRef.current?.focus();
     };
 
     const { highlightedIndex, setHighlightedIndex, handleKeyDown } = useKeyboardNavigation({
-        filteredCities,
-        handleCitySelection,
+        filteredCities: cities,
+        onCitySelect: handleCitySelection,
+        searchQuery,
         setSearchQuery,
         setSelectedCity
     });
@@ -46,20 +37,6 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
         }
         setHighlightedIndex(-1);
     };
-
-    useEffect(() => {
-        if (highlightedIndex >= 0 && scrollAreaRef.current) {
-            const buttons = scrollAreaRef.current.getElementsByTagName('button');
-            const highlightedButton = buttons[highlightedIndex];
-
-            if (highlightedButton) {
-                highlightedButton.scrollIntoView({
-                    block: 'nearest',
-                    behavior: 'smooth'
-                });
-            }
-        }
-    }, [highlightedIndex]);
 
     return (
         <Card className="w-full rounded-[24px]">
@@ -75,22 +52,14 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
                     autoComplete="off"
                 />
                 <div className="p-4 rounded-2xl border">
-                    <ScrollArea className="h-32">
-                        <div className="space-y-1 pr-4" ref={scrollAreaRef}>
-                            {error ? (
-                                <p className="text-center text-destructive">{error}</p>
-                            ) : (
-                                <CityList
-                                    cities={filteredCities}
-                                    selectedCity={selectedCity}
-                                    highlightedIndex={highlightedIndex}
-                                    onCitySelect={handleCitySelection}
-                                    onMouseEnter={(index) => setHighlightedIndex(index)}
-                                    onMouseLeave={() => setHighlightedIndex(-1)}
-                                />
-                            )}
-                        </div>
-                    </ScrollArea>
+                    <CityList
+                        cities={cities}
+                        selectedCity={selectedCity}
+                        highlightedIndex={highlightedIndex}
+                        onCitySelect={handleCitySelection}
+                        setHighlightedIndex={setHighlightedIndex}
+                        error={error}
+                    />
                 </div>
             </CardContent>
         </Card>

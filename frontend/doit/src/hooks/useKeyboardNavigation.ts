@@ -1,16 +1,17 @@
-import { KeyboardEvent, useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import { CityData } from '@/types/cityData';
 
 interface UseKeyboardNavigationProps {
-    readonly filteredCities: CityData[];
-    readonly handleCitySelection: (city: CityData) => void;
-    readonly setSearchQuery: (query: string) => void;
-    readonly setSelectedCity: (city: string) => void;
+    filteredCities: CityData[];
+    onCitySelect: (city: CityData) => void;
+    searchQuery: string;
+    setSearchQuery: (query: string) => void;
+    setSelectedCity: (city: string) => void;
 }
 
 export const useKeyboardNavigation = ({
                                           filteredCities,
-                                          handleCitySelection,
+                                          onCitySelect,
                                           setSearchQuery,
                                           setSelectedCity
                                       }: UseKeyboardNavigationProps) => {
@@ -18,6 +19,7 @@ export const useKeyboardNavigation = ({
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         const maxIndex = filteredCities.length - 1;
+
         switch (e.key) {
             case 'ArrowDown':
                 e.preventDefault();
@@ -30,9 +32,9 @@ export const useKeyboardNavigation = ({
             case 'Enter':
                 e.preventDefault();
                 if (highlightedIndex >= 0 && highlightedIndex <= maxIndex) {
-                    handleCitySelection(filteredCities[highlightedIndex]);
+                    onCitySelect(filteredCities[highlightedIndex]);
                 } else if (filteredCities.length === 1) {
-                    handleCitySelection(filteredCities[0]);
+                    onCitySelect(filteredCities[0]);
                 }
                 break;
             case 'Escape':
@@ -44,7 +46,7 @@ export const useKeyboardNavigation = ({
             case 'Tab':
                 if (highlightedIndex >= 0) {
                     e.preventDefault();
-                    handleCitySelection(filteredCities[highlightedIndex]);
+                    onCitySelect(filteredCities[highlightedIndex]);
                 }
                 break;
         }
