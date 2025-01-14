@@ -20,7 +20,6 @@ public class VolunteerRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-    @Column(nullable = false)
     private String title;
     private String detailedDescription;
     private int capacity;
@@ -30,8 +29,9 @@ public class VolunteerRequest {
     private String startDateTime;
     private String endDateTime;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Organization organization;//ok
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "organization_id", nullable = false) // Specifica la colonna corretta
+    private Organization organization;
     @ElementCollection
     private List<String> volunteerCategories;//ok
 

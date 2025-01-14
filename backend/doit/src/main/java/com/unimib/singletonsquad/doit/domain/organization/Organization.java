@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.utils.DataValidator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -22,19 +23,26 @@ public class Organization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
+
     @Column(unique = true, nullable = false)
     private String name;
+
     private String description;
+
     @Column(unique = true, nullable = false)
     @Email
     private String email;
+
     private String password;
     private String website;
     private String VATNumber;
-    
+
     @ElementCollection
     @Column(name = "categories")
     private List<String> categories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<VolunteerRequest> volunteerRequests = new ArrayList<>();
 
     public void setEmail(String email) {
         if (!DataValidator.isValidEmail(email)) {

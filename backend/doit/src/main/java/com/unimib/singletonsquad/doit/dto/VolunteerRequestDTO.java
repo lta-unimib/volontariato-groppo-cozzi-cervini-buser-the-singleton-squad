@@ -12,12 +12,12 @@ import java.util.List;
 @ToString
 public class VolunteerRequestDTO {
     @JsonProperty("organizationId")
-    private String organizationId;
+    private Long orgId;
     @JsonProperty("title")
     private String title;
     @JsonProperty("description")
     private String detailedDescription;
-    @JsonProperty("Address")
+    @JsonProperty("address")
     private AddressDTO address;
     @JsonProperty("date")
     private String startDate;

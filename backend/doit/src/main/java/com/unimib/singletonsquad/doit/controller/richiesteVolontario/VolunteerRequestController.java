@@ -14,13 +14,13 @@ public class VolunteerRequestController {
     @Autowired
     private VolunteerRequestControllerService volunteerRequestControllerService;
 
-    @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
         try{
             this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO);
             return ResponseEntity.ok().body("VolunteerRequest created successfully");
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("VolunteerRequest could not be created");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
