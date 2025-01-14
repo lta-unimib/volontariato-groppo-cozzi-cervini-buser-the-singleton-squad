@@ -2,8 +2,6 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
-import com.unimib.singletonsquad.doit.service.database.VolunteerRequestService;
-import com.unimib.singletonsquad.doit.service.database.VolunteerService;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,12 +19,15 @@ public class VolunteerRequestController {
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createVolunteerRequest(@RequestBody VolunteerRequestDTO volunteerRequestDTO) {
-        System.out.println("POST volunteer request: \n" + volunteerRequestDTO);
-        //this.volunteerRequestService.save(volunteerRequestDTO);
-        return ResponseEntity.ok().body("VolunteerRequest created successfully");
+        try{
+            this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO);
+            return ResponseEntity.ok().body("VolunteerRequest created successfully");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("VolunteerRequest could not be created");
+        }
     }
 
-    @DeleteMapping("/{idRequest}/")
+    @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest) {
         try{
             this.volunteerRequestControllerService.deleteVolunteerRequest(idRequest);
@@ -37,11 +38,11 @@ public class VolunteerRequestController {
     }
 
 
-    @PutMapping("/{idRequest}/")
+    @PutMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest,
                                                     final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
         try {
-            this.volunteerRequestControllerService.updateRequestService(volunteerRequestDTO, idRequest);
+            this.volunteerRequestControllerService.updateVolunteerRequest(volunteerRequestDTO, idRequest);
             return ResponseEntity.ok("VolunteerRequest updated successfully");
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

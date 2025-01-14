@@ -14,8 +14,16 @@ public class VolunteerRequestMapper {
 
     public VolunteerRequest createRequestVolunteer(VolunteerRequestDTO request, @Nullable Long id) {
         VolunteerRequest volunteerRequest = new VolunteerRequest();
-
         volunteerRequest.setId(id);
+        return volunteerRequest(request, volunteerRequest);
+    }
+    public VolunteerRequest createRequestVolunteer(VolunteerRequestDTO request) {
+        VolunteerRequest volunteerRequest = new VolunteerRequest();
+
+        return volunteerRequest(request, volunteerRequest);
+    }
+
+    private VolunteerRequest volunteerRequest(VolunteerRequestDTO request, VolunteerRequest volunteerRequest) {
         volunteerRequest.setDetailedDescription(request.getDetailedDescription());
         volunteerRequest.setCapacity(request.getVolunteerCapacity());
         volunteerRequest.setAddress(this.addressMapper.createAddress(request.getAddress()));

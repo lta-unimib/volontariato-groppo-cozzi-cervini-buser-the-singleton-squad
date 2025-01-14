@@ -21,12 +21,8 @@ public class VolunteerRequestService {
     @Autowired
     DistanceCalculatorService distanceCalculatorService;
 
-    public VolunteerRequest save(VolunteerRequestDTO volunteerRequest) {
-        VolunteerRequest volunteerRequestEntity = new VolunteerRequest();
-        volunteerRequestEntity.setDetailedDescription(volunteerRequest.getDetailedDescription());
-        volunteerRequestEntity.setTitle(volunteerRequest.getTitle());
-
-        return repository.save(volunteerRequestEntity);
+    public VolunteerRequest save(VolunteerRequest volunteerRequest) {
+        return repository.save(volunteerRequest);
     }
 
     public Optional<VolunteerRequest> findRequestById(Long id) {
