@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class Volunteer {
     @Column(nullable = false)
     private String surname;
     @Column(unique = true, nullable = false)
+    @Email
     private String email;
     @Column(nullable = false)
     private String password;

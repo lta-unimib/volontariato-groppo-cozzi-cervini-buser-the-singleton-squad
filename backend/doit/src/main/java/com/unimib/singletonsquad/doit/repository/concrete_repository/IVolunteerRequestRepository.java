@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.repository;
+package com.unimib.singletonsquad.doit.repository.concrete_repository;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 
@@ -9,7 +9,7 @@ public interface IVolunteerRequestRepository {
 
     Optional<VolunteerRequest> findById(long id);
     void deleteById(long id);
-    VolunteerRequest update(VolunteerRequest updatedRequest);
+   /// VolunteerRequest update(VolunteerRequest updatedRequest);
     boolean existsById(long id);
 
 }

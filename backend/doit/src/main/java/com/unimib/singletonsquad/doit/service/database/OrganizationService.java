@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.service.database;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.repository.IOrganizationRepository;
+import com.unimib.singletonsquad.doit.repository.concrete_repository.IOrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

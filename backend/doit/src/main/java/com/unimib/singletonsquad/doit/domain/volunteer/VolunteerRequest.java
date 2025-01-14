@@ -1,7 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.common.Address;
-import com.unimib.singletonsquad.doit.domain.common.Location;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;

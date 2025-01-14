@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.service.database;
 
 import com.unimib.singletonsquad.doit.domain.common.Availability;
-import com.unimib.singletonsquad.doit.repository.IAvailabilityRepository;
+import com.unimib.singletonsquad.doit.repository.concrete_repository.IAvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

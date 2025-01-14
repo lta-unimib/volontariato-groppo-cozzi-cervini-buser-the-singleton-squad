@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.repository;
+package com.unimib.singletonsquad.doit.repository.concrete_repository;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 

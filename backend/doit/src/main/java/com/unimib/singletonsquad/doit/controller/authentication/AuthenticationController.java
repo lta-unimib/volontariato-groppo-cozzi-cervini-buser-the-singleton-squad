@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
 import com.unimib.singletonsquad.doit.dto.Auth;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
-import jakarta.validation.constraints.NotNull;
+import com.unimib.singletonsquad.doit.utils.UserVerify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,9 @@ public class AuthenticationController {
            @RequestBody final Auth auth) {
         try{
             System.out.println("Authenticating user with role: " + role);
-            this.checkRole(role);
+            if(!UserVerify.checkUserRole(role))
+                throw new Exception("Invalid user role");
+
             String email = auth.getEmail();
             String password = auth.getPassword();
             System.out.println("email: " + email);
@@ -32,10 +34,7 @@ public class AuthenticationController {
         }
     }
 
-    private void checkRole(@NotNull final String role) {
-        if(!(role.equalsIgnoreCase("volunteer") || role.equalsIgnoreCase("organization")))
-            throw  new IllegalArgumentException("Invalid role");
-    }
+
 
 
 }

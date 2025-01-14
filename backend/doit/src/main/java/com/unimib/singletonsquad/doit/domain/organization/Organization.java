@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.domain.organization;
 
 import com.unimib.singletonsquad.doit.utils.DataValidator;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -25,11 +26,12 @@ public class Organization {
     private String name;
     private String description;
     @Column(unique = true, nullable = false)
+    @Email
     private String email;
     private String password;
     private String website;
     private String VATNumber;
-    private String role;//TODO REMOVE ?
+    
     @ElementCollection
     @Column(name = "categories")
     private List<String> categories = new ArrayList<>();

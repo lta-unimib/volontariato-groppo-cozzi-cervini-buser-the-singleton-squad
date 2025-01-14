@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.service.database;
 
 import com.unimib.singletonsquad.doit.domain.OrgCategory;
-import com.unimib.singletonsquad.doit.repository.JPAVolunteerCategory;
+import com.unimib.singletonsquad.doit.repository.jpa.JPAVolunteerCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

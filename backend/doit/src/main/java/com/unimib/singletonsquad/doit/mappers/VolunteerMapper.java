@@ -20,4 +20,16 @@ public class VolunteerMapper {
         volunteer.setDescription(volunteerDTO.getDescription());
         return volunteer;
     }
+
+
+    public Volunteer createVolunteer(final VolunteerDTO volunteerDTO) throws Exception{
+        Volunteer volunteer = this.mapToVolunteer(volunteerDTO);
+
+        VolunteerPreferences volunteerPreferences = new VolunteerPreferences();
+        volunteerPreferences.setCity(volunteerDTO.getCity());
+        volunteerPreferences.setCategories(volunteerDTO.getFavCategories());
+        volunteerPreferences.setAvailability(AvailabilityMapper.map(volunteerDTO.getAvailability()));
+        volunteer.setVolunteerPreferences(volunteerPreferences);
+        return volunteer;
+    }
 }

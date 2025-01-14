@@ -1,4 +1,3 @@
-
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
@@ -12,13 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/request")
 public class VolunteerRequestController {
 
-
     @Autowired
     private VolunteerRequestControllerService volunteerRequestControllerService;
 
-
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createVolunteerRequest(@RequestBody VolunteerRequestDTO volunteerRequestDTO) {
+    public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
         try{
             this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO);
             return ResponseEntity.ok().body("VolunteerRequest created successfully");
@@ -37,7 +34,6 @@ public class VolunteerRequestController {
         }
     }
 
-
     @PutMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest,
                                                     final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
@@ -47,7 +43,6 @@ public class VolunteerRequestController {
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 
     //TODO
@@ -74,19 +69,6 @@ public class VolunteerRequestController {
     /*
 
         return null;
-    }
-/*
+    }*/
 
-    @DeleteMapping("/delete/{id_richiesta}")
-    public ResponseEntity<String> deleteVolunteerRequest(@PathVariable Long id_richiesta) {
-
-        return null;
-    }
-
-    @PutMapping("/update/{id_richiesta}")
-    public ResponseEntity<String> updateVolunteerRequest(@PathVariable Long id_richiesta,
-                                                         @RequestBody VolunteerRequestDTO requestDTO) {
-        return null;
-    }
-    */
 }
