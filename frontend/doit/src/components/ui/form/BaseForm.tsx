@@ -25,7 +25,7 @@ export function BaseForm({
                              children,
                              redirectTo,
                              submitText = "Submit",
-                             className = "flex items-center justify-center min-h-screen",
+                             className = "flex flex-col items-center justify-start lg:justify-center sm:min-h-screen",
                              buttonClassName = "w-full bg-primary text-white rounded-full py-2",
                          }: BaseFormProps) {
     const router = useRouter();

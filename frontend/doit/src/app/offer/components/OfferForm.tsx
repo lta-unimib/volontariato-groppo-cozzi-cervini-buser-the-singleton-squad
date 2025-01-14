@@ -33,6 +33,13 @@ export function OfferForm() {
             redirectTo={"../../../dashboard/organization"}
         >
             <div className="flex flex-col space-y-4">
+                <Input
+                    placeholder="Titolo"
+                    className="rounded-full"
+                    value={formData.title}
+                    onChange={(e) => updateField("title", e.target.value)}
+                />
+
                 <DatePickerDialog
                     onSaveAction={(date) => updateField("date", date.toDateString())}
                 />

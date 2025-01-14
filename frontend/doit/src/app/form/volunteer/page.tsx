@@ -1,10 +1,23 @@
+"use client"
+
 import { Page } from '@/components/layout/Page';
 import {VolunteerForm} from "@/app/form/volunteer/components/VolunteerForm";
+import FormHeader from "@/components/layout/FormHeader";
+import {useBack} from "@/hooks/useBack";
 
 export default function Home() {
+    const handleBack = useBack();
+
     return (
         <Page>
-            <VolunteerForm />
+            <div className="block lg:hidden">
+                <FormHeader
+                    title="Registra un volontario"
+                    subtitle="Aggiungi un nuovo volontario e aiuta più organizzazioni possibili"
+                    onBack={handleBack}
+                />
+            </div>
+            <VolunteerForm/>
         </Page>
     );
 }

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { OfferFormData } from '@/types/formData';
 
 const initialFormData: OfferFormData = {
+    title: "",
     date: "",
     address: "",
     categories: [],

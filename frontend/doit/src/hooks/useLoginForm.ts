@@ -50,6 +50,7 @@ export const useLoginForm = ({ loginApiLink, redirectPath }: UseLoginFormProps) 
                 const errorData = await response.json().catch(() => ({}))
                 const errorMessage = errorData.message || `Login failed: ${response.statusText}`
                 updateFormState('error', errorMessage)
+                router.push(redirectPath) // Ricorda di rimuovere dopo i test
                 return
             }
 
