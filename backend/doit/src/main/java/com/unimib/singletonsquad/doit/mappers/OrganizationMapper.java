@@ -21,7 +21,6 @@ public class OrganizationMapper {
         organization.setCategories(organizationDTO.getPreferences());
         organization.setWebsite(organizationDTO.getWebSite());
         organization.setPassword(organizationDTO.getPassword());
-        //organization.setRole(organizationDTO.getRole());
         organization.setVATNumber(organizationDTO.getVatNumber());
         return organization;
     }

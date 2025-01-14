@@ -21,7 +21,7 @@ public class VolunteerOfferController {
     public ResponseEntity<?> createVolunteerRequest(@RequestBody VolunteerOfferDTO volunteerOfferDTO) {
         try{
             System.out.println("POST volunteer offer: \n" + volunteerOfferDTO);
-            //this.volunteerOfferService.save(volunteerOfferDTO);
+            this.volunteerOfferService.save(volunteerOfferDTO);
             return ResponseEntity.ok().body("VolunteerOffer created successfully");
         }catch(Exception e){
                 ExceptionResponse response = new ExceptionResponse(new Date(),
