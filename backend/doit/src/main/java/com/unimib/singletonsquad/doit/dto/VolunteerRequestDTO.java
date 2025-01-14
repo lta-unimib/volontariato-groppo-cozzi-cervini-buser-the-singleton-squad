@@ -17,8 +17,6 @@ public class VolunteerRequestDTO {
     private String title;
     @JsonProperty("description")
     private String detailedDescription;
-    @JsonProperty("date")
-    private String date;
     @JsonProperty("Address")
     private AddressDTO address;
     @JsonProperty("date")

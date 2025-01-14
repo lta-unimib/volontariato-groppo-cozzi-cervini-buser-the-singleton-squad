@@ -4,6 +4,7 @@ package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.service.database.VolunteerRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class VolunteerRequestController {
     @Autowired
     private VolunteerRequestService volunteerRequestService;
 
-    @PostMapping("/new/")
+    @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createVolunteerRequest(@RequestBody VolunteerRequestDTO volunteerRequestDTO) {
         System.out.println("POST volunteer request: \n" + volunteerRequestDTO);
         //this.volunteerRequestService.save(volunteerRequestDTO);
