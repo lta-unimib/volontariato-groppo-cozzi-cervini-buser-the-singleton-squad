@@ -3,9 +3,13 @@ on:
   push:
     branches:
       - develop
+      - main
+      - feature/authentication/backend
   pull_request:
     branches:
       - develop
+      - main
+      - feature/authentication/backend
 jobs:
   build:
     runs-on: ubuntu-latest

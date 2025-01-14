@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-delicate-silence-a9nepk6u.gwc.azure.neon.tech/appdb?sslmode=require
+    username: appdb_owner
+    password: E19GHblZDxKi
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template-location: true  # Impostalo su 'true' per assicurarti che venga verificata la presenza dei template

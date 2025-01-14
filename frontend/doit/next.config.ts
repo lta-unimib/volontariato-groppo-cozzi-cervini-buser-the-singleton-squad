@@ -1,12 +1,17 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
     output: 'export',
-    assetPrefix: process.env.GITHUB_PAGES ? '/{repository-name}' : '',
-    basePath: process.env.GITHUB_PAGES ? '/{repository-name}' : '',
+    reactStrictMode: true,
+    assetPrefix: process.env.GITHUB_PAGES === 'true' ? `/${process.env.REPOSITORY_NAME}` : '',
+    basePath: process.env.GITHUB_PAGES === 'true' ? `/${process.env.REPOSITORY_NAME}` : '',
     images: {
         unoptimized: true,
     },
-}
+    env: {
+        GITHUB_PAGES: process.env.GITHUB_PAGES || 'false',
+        REPOSITORY_NAME: process.env.REPOSITORY_NAME || '',
+    },
+};
 
-export default nextConfig
+export default nextConfig;
