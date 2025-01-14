@@ -2,7 +2,9 @@ package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.dto.AddressDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AddressMapper {
 
     public Address createAddress(AddressDTO addressDTO){

@@ -4,12 +4,14 @@ import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.repository.IVolunteerRequestRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @Transactional
@@ -43,4 +45,18 @@ public class VolunteerRequestService {
         }
         return distances;
     }
+
+    public void deleteRequestById(Long id) {
+        this.repository.deleteById(id);
+    }
+
+    public void updateRequest(VolunteerRequest volunteerRequest, Long id) throws Exception {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("VolunteerRequest not found with id " + volunteerRequest.getId());
+        }
+
+        this.repository.save(volunteerRequest);
+    }
+
+
 }

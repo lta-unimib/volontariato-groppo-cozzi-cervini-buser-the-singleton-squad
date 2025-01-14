@@ -27,4 +27,6 @@ public class VolunteerRequestDTO {
     private int volunteerCapacity;
     @JsonProperty("categories")
     private List<String> categories;
+    @JsonProperty("volunteerType")
+    private String volunteerType;
 }

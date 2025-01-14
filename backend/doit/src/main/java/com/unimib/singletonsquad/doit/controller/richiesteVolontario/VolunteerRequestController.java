@@ -3,6 +3,8 @@ package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.service.database.VolunteerRequestService;
+import com.unimib.singletonsquad.doit.service.database.VolunteerService;
+import com.unimib.singletonsquad.doit.service.request.VolunteerRequestControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,14 +13,40 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/request")
 public class VolunteerRequestController {
+
+
     @Autowired
-    private VolunteerRequestService volunteerRequestService;
+    private VolunteerRequestControllerService volunteerRequestControllerService;
+
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createVolunteerRequest(@RequestBody VolunteerRequestDTO volunteerRequestDTO) {
+    public ResponseEntity<?> createVolunteerRequest(@RequestBody VolunteerRequestDTO volunteerRequestDTO) {
         System.out.println("POST volunteer request: \n" + volunteerRequestDTO);
         //this.volunteerRequestService.save(volunteerRequestDTO);
         return ResponseEntity.ok().body("VolunteerRequest created successfully");
+    }
+
+    @DeleteMapping("/{idRequest}/")
+    public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest) {
+        try{
+            this.volunteerRequestControllerService.deleteVolunteerRequest(idRequest);
+            return ResponseEntity.ok("VolunteerRequest deleted successfully");
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+    @PutMapping("/{idRequest}/")
+    public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest,
+                                                    final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
+        try {
+            this.volunteerRequestControllerService.updateRequestService(volunteerRequestDTO, idRequest);
+            return ResponseEntity.ok("VolunteerRequest updated successfully");
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
     //TODO
