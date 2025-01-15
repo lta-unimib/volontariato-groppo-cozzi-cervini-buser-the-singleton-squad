@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { CityPicker } from '@/components/ui/city/CityPicker';
-import { MdHome } from "react-icons/md";
+import { MdOutlineHome } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { AddressData } from '@/types/addressData';
 
@@ -21,11 +21,11 @@ interface AddressDialogProps {
 const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
     const [open, setOpen] = useState(false);
     const [address, setAddress] = useState<AddressData>({
-        street: '',
-        number: '',
-        city: '',
-        postalCode: '',
-        additionalInfo: ''
+        street: "",
+        number: "",
+        city: "",
+        postalCode: "",
+        additionalInfo: "",
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +71,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
                         isFormValid() ? "text-foreground" : "text-muted-foreground"
                     )}
                 >
-                    <MdHome className="mr-2 h-5 w-5" />
+                    <MdOutlineHome className="mr-2 h-5 w-5" />
                     {getDisplayText()}
                 </Button>
             </DialogTrigger>

@@ -9,11 +9,14 @@ import { DatePickerDialog } from "@/app/request/components/DatePicker";
 import { useFormData } from "@/app/request/hooks/useFormData";
 import AddressDialog from "@/app/request/components/AddressDialog";
 import { Input } from "@/components/ui/Input";
-import { isFormValid } from "@/app/request/utils/formValidation";
+import { useFormValidation } from "@/app/request/hooks/useFormValidation";
+import { useFormFocus } from "@/app/request/hooks/useFormFocus";
 
 export function RequestForm() {
     const { formData, updateField } = useFormData();
     const { handleSubmit } = useFormSubmission("offer");
+    const { validationState, isValid } = useFormValidation(formData);
+    const { focusState, handleFocus, handleBlur } = useFormFocus();
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,7 +32,7 @@ export function RequestForm() {
     return (
         <BaseForm
             onSubmitAction={onSubmit}
-            isValid={isFormValid(formData)}
+            isValid={isValid()}
             redirectTo={"../../../dashboard/organization"}
         >
             <div className="flex flex-col space-y-4">
@@ -68,6 +71,10 @@ export function RequestForm() {
                     className="rounded-full"
                     value={formData.volunteerCapacity}
                     onChange={(e) => updateField("volunteerCapacity", e.target.value)}
+                    isInvalid={!validationState.isCapacityValid}
+                    isFocused={focusState.volunteerCapacityFocused}
+                    onFocus={() => handleFocus("volunteerCapacity")}
+                    onBlur={() => handleBlur("volunteerCapacity")}
                 />
             </div>
         </BaseForm>

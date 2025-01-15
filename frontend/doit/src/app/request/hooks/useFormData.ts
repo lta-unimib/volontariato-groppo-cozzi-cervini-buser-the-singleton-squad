@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from 'react';
-import { OfferFormData } from '@/types/formData';
+import { RequestFormData } from '@/types/formData';
 
-const initialFormData: OfferFormData = {
+const initialFormData: RequestFormData = {
     title: "",
     date: "",
     address: "",
@@ -16,11 +16,11 @@ const initialFormData: OfferFormData = {
 };
 
 export const useFormData = () => {
-    const [formData, setFormData] = useState<OfferFormData>(initialFormData);
+    const [formData, setFormData] = useState<RequestFormData>(initialFormData);
 
-    const updateField = <K extends keyof OfferFormData>(
+    const updateField = <K extends keyof RequestFormData>(
         field: K,
-        value: OfferFormData[K]
+        value: RequestFormData[K]
     ) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };

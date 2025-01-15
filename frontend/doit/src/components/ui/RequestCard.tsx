@@ -12,7 +12,7 @@ interface LayoutProps {
 
 import Image from 'next/image';
 
-export default function OfferCard({
+export default function RequestCard({
                                       organization,
                                       description,
                                       location,

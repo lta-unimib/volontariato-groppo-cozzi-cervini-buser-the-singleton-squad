@@ -44,7 +44,7 @@ export function OrganizationForm() {
         <BaseForm
             onSubmitAction={handleFormSubmit}
             isValid={isValid()}
-            redirectTo={"../../../dashboard/organization"}
+            redirectTo={"../../../dashboard/organization/"}
         >
             <IconInput
                 value={formData.organizationName}

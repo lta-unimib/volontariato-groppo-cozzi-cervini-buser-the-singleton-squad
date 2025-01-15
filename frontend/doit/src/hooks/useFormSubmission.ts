@@ -1,10 +1,10 @@
 "use client"
 
 import { API_BASE_LINK } from "@/utils/constants";
-import { VolunteerFormData, OrganizationFormData, OfferFormData } from "@/types/formData";
+import { VolunteerFormData, OrganizationFormData, RequestFormData } from "@/types/formData";
 
 type FormType = "volunteer" | "organization" | "offer";
-type FormData = VolunteerFormData | OrganizationFormData | OfferFormData;
+type FormData = VolunteerFormData | OrganizationFormData | RequestFormData;
 
 export const useFormSubmission = (formType: FormType) => {
     const handleSubmit = async (formData: FormData) => {

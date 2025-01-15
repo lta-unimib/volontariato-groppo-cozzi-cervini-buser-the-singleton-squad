@@ -1,4 +1,4 @@
-type Offer = {
+type Request = {
     organization: string;
     description: string;
     location: string;
@@ -6,7 +6,7 @@ type Offer = {
     image: string;
 };
 
-export const offers: Offer[] = [
+export const request: Request[] = [
     {
         organization: "Gruppo ALBORA",
         description: "Cerchiamo coordinatrice per: casa GRAZIA",

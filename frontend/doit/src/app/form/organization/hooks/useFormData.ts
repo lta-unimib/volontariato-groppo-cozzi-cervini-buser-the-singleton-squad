@@ -8,8 +8,8 @@ const initialFormData: OrganizationFormData = {
     city: "",
     preferences: [],
     description: "",
-    VATNumber: undefined,
-    webSite: undefined,
+    VATNumber: "",
+    webSite: "",
     role: 'organization'
 };
 

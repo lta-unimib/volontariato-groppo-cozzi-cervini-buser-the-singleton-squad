@@ -3,9 +3,9 @@
 import { Page } from "@/components/layout/Page";
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
-import OfferCard from "@/components/ui/OfferCard";
+import RequestCard from "@/components/ui/RequestCard";
 import { ScrollArea } from "@/components/ui/ScrollArea";
-import {offers} from "@/app/dashboard/volunteer/utils/cardUtils";
+import { request } from "@/app/request/utils/cardUtils";
 
 export default function Home() {
     return (
@@ -26,8 +26,8 @@ export default function Home() {
                 <div className="flex-1 my-4">
                     <ScrollArea className="h-full px-8">
                         <div className="space-y-2">
-                            {offers.map((card, i) => (
-                                <OfferCard
+                            {request.map((card, i) => (
+                                <RequestCard
                                     key={i}
                                     organization={card.organization}
                                     description={card.description}
