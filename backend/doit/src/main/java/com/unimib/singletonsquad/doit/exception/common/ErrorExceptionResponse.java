@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 public class ErrorExceptionResponse {
 
-        private String errorCode;
+        private HttpStatus errorCode;
         private String errorMessage;
         private LocalDate timestamp;
 
