@@ -25,7 +25,7 @@ public class RegisterController {
     public ResponseEntity<?> registerVolunteer(@RequestBody VolunteerDTO volunteer) {
         try{
             final String token = this.registerService.registerVolunteer(volunteer);
-            ResponseMessage message = ResponseMessageUtil.createResponse("registration success",
+            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer registration success",
                     HttpStatus.OK, "{\"token\":\"" + token + "\"}");
             return ResponseEntity.ok().body(message);
         }catch(Exception e){
@@ -40,7 +40,7 @@ public class RegisterController {
         System.out.println(organization);
         try{
             final String token= this.registerOrganizationService.registerOrganization(organization);
-            ResponseMessage message = ResponseMessageUtil.createResponse("registration success",
+            ResponseMessage message = ResponseMessageUtil.createResponse("organization registration success",
                     HttpStatus.OK, "{\"token\":\"" + token + "\"}");
             return ResponseEntity.ok().body(message);
         }catch(Exception e){
@@ -48,8 +48,4 @@ public class RegisterController {
             return ResponseEntity.badRequest().body(message);
         }
     }
-
-
-
-
 }

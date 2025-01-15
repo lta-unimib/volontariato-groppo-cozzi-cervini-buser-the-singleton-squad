@@ -36,7 +36,7 @@ public class VolunteerRequestController {
         try{
             this.checkUserRoleFromToken(request);
             this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO);
-            ResponseMessage message = ResponseMessageUtil.createResponse("success", HttpStatus.OK);
+            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request created", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
         }catch (Exception e){
             ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -49,7 +49,7 @@ public class VolunteerRequestController {
         try{
             this.checkUserRoleFromToken(request);
             this.volunteerRequestControllerService.deleteVolunteerRequest(idRequest);
-            ResponseMessage message = ResponseMessageUtil.createResponse("registration success", HttpStatus.OK);
+            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request deleted", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
         }catch (Exception e) {
             ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -62,7 +62,7 @@ public class VolunteerRequestController {
                                                     final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
         try {
             this.volunteerRequestControllerService.updateVolunteerRequest(volunteerRequestDTO, idRequest);
-            ResponseMessage message = ResponseMessageUtil.createResponse("registration success", HttpStatus.OK);
+            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request updated", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
         }catch (Exception e) {
             ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);

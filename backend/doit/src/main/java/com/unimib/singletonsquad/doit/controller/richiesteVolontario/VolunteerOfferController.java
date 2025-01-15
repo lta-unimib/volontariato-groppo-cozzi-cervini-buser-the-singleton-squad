@@ -33,7 +33,7 @@ public class VolunteerOfferController {
             this.checkUserRoleFromToken(request);
             this.volunteerOfferService.save(volunteerOfferDTO);
 
-            ResponseMessage message = ResponseMessageUtil.createResponse("registration success", HttpStatus.OK);
+            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer offer saved", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
         }catch(Exception e){
             ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);

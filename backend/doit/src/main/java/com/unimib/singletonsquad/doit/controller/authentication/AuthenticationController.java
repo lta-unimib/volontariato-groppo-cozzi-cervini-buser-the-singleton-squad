@@ -28,7 +28,7 @@ public class AuthenticationController {
             String password = auth.getPassword();
             this.authenticationUserService.authenticate(password, role, email);
 
-            ResponseMessage message = ResponseMessageUtil.createResponse("user is authenticated", HttpStatus.OK);
+            ResponseMessage message = ResponseMessageUtil.createResponse("user is authenticated as " + role, HttpStatus.OK);
             return ResponseEntity.ok().body(message);
         }catch(Exception e){
            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.UNAUTHORIZED);
