@@ -3,7 +3,11 @@ import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
 import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
 import com.unimib.singletonsquad.doit.service.register.RegisterOrganizationService;
 import com.unimib.singletonsquad.doit.service.register.RegisterVolunteerService;
+import com.unimib.singletonsquad.doit.utils.response.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.response.ResponseMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,25 +20,32 @@ public class RegisterController {
     @Autowired
     private RegisterOrganizationService registerOrganizationService;
 
-    @PostMapping("/volunteer/")
+    @PostMapping(value = "/volunteer/", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerVolunteer(@RequestBody VolunteerDTO volunteer) {
-        System.out.println(volunteer);
         try{
             final String token = this.registerService.registerVolunteer(volunteer);
-            return ResponseEntity.ok().body(token);
+            ResponseMessage message = ResponseMessageUtil.createResponse("registration success",
+                    HttpStatus.OK, "{\"token\":\"" + token + "\"}");
+            return ResponseEntity.ok().body(message);
         }catch(Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(message);
         }
     }
 
-    @PostMapping("/organization/")
+    @PostMapping(value = "/organization/", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerOrganization(@RequestBody OrganizationDTO organization) {
         System.out.println(organization);
         try{
             final String token= this.registerOrganizationService.registerOrganization(organization);
-            return ResponseEntity.ok().body(token);
+            ResponseMessage message = ResponseMessageUtil.createResponse("registration success",
+                    HttpStatus.OK, "{\"token\":\"" + token + "\"}");
+            return ResponseEntity.ok().body(message);
         }catch(Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(message);
         }
     }
 

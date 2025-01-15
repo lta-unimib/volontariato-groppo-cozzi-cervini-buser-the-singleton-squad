@@ -1,8 +1,15 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestControllerService;
+import com.unimib.singletonsquad.doit.utils.UserRole;
+import com.unimib.singletonsquad.doit.utils.UserVerify;
+import com.unimib.singletonsquad.doit.utils.response.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.response.ResponseMessageUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,35 +20,53 @@ public class VolunteerRequestController {
 
     @Autowired
     private VolunteerRequestControllerService volunteerRequestControllerService;
+    @Autowired
+    private JWTUtils jwtUtils;
+    @Autowired
+    private UserVerify userVerify;
+
+    private void checkUserRoleFromToken(final HttpServletRequest request) throws Exception{
+        String token = this.jwtUtils.getTokenFromRequest(request);
+        this.userVerify.checkUserRoleFromToken(token, String.valueOf(UserRole.volunteer));
+    }
+
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
+    public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request) {
         try{
+            this.checkUserRoleFromToken(request);
             this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO);
-            return ResponseEntity.ok().body("VolunteerRequest created successfully");
+            ResponseMessage message = ResponseMessageUtil.createResponse("success", HttpStatus.OK);
+            return ResponseEntity.ok().body(message);
         }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(message);
         }
     }
 
-    @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest) {
+    @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request) {
         try{
+            this.checkUserRoleFromToken(request);
             this.volunteerRequestControllerService.deleteVolunteerRequest(idRequest);
-            return ResponseEntity.ok("VolunteerRequest deleted successfully");
+            ResponseMessage message = ResponseMessageUtil.createResponse("registration success", HttpStatus.OK);
+            return ResponseEntity.ok().body(message);
         }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(message);
         }
     }
 
-    @PutMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest,
                                                     final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
         try {
             this.volunteerRequestControllerService.updateVolunteerRequest(volunteerRequestDTO, idRequest);
-            return ResponseEntity.ok("VolunteerRequest updated successfully");
+            ResponseMessage message = ResponseMessageUtil.createResponse("registration success", HttpStatus.OK);
+            return ResponseEntity.ok().body(message);
         }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(message);
         }
     }
 

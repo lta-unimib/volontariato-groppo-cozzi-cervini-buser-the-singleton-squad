@@ -41,12 +41,15 @@ public class VolunteerRequestService {
     }
 
     public void deleteRequestById(Long id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("VolunteerRequest not found with id " + id);
+        }
         this.repository.deleteById(id);
     }
 
     public void updateRequest(VolunteerRequest volunteerRequest, Long id){
         if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("VolunteerRequest not found with id " + volunteerRequest.getId());
+            throw new EntityNotFoundException("VolunteerRequest not found with id " + id);
         }
         this.repository.save(volunteerRequest);
     }

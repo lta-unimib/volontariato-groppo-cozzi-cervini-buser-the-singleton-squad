@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.utils.response;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 public class ResponseMessage {
@@ -31,7 +32,7 @@ public class ResponseMessage {
             return this;
         }
 
-        public Builder status(int status) {
+        public Builder status(HttpStatus status) {
             this.status = status;
             return this;
         }
