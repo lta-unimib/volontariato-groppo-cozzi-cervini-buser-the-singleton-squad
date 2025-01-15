@@ -1,8 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
-import com.unimib.singletonsquad.doit.exception.utils.ExceptionResponse;
-import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.database.VolunteerOfferService;
 import com.unimib.singletonsquad.doit.utils.UserRole;
 import com.unimib.singletonsquad.doit.utils.UserVerify;
@@ -14,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
 @RestController
 @RequestMapping("/offer")
 public class VolunteerOfferController {
@@ -26,17 +22,14 @@ public class VolunteerOfferController {
 
     @PostMapping("/new/")
     public ResponseEntity<?> createVolunteerRequest(final HttpServletRequest request,
-                                                    final @RequestBody VolunteerOfferDTO volunteerOfferDTO) {
-        try{
+                                                    final @RequestBody VolunteerOfferDTO volunteerOfferDTO)
+            throws Exception {
             this.userVerify.checkUserRoleFromToken(request, String.valueOf(UserRole.volunteer));
             this.volunteerOfferService.save(volunteerOfferDTO);
 
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer offer saved", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
-        }catch(Exception e){
-            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-            return ResponseEntity.badRequest().body(message);
-        }
+
     }
 
 }

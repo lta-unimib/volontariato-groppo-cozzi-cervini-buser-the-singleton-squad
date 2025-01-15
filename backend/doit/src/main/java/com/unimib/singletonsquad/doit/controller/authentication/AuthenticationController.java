@@ -19,8 +19,7 @@ public class AuthenticationController {
     private AuthenticationUserService authenticationUserService;
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> authenticateUser( @PathVariable final String role,  @RequestBody final Auth auth) {
-        try{
+    public ResponseEntity<?> authenticateUser( @PathVariable final String role,  @RequestBody final Auth auth) throws Exception{
             System.out.println("Authenticating user with role: " + role);
             if(!UserVerify.checkUserRole(role))
                 throw new InvalidRoleGeneralException("Invalid user role");
@@ -31,10 +30,7 @@ public class AuthenticationController {
 
             ResponseMessage message = ResponseMessageUtil.createResponse("user is authenticated as " + role, HttpStatus.OK);
             return ResponseEntity.ok().body(message);
-        }catch(Exception e){
-           ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.UNAUTHORIZED);
-            return ResponseEntity.badRequest().body(message);
-        }
+
     }
 
 

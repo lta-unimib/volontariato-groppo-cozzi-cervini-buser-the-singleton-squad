@@ -11,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/registration")
 public class RegisterController {
@@ -22,30 +25,23 @@ public class RegisterController {
 
     @PostMapping(value = "/volunteer/", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerVolunteer(@RequestBody VolunteerDTO volunteer) {
-        try{
+    public ResponseEntity<?> registerVolunteer(final @RequestBody VolunteerDTO volunteer) throws Exception {
+
             final String token = this.registerService.registerVolunteer(volunteer);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer registration success",
                     HttpStatus.OK, "{\"token\":\"" + token + "\"}");
             return ResponseEntity.ok().body(message);
-        }catch(Exception e){
-            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-            return ResponseEntity.badRequest().body(message);
-        }
     }
 
     @PostMapping(value = "/organization/", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerOrganization(@RequestBody OrganizationDTO organization) {
-        System.out.println(organization);
-        try{
+    public ResponseEntity<?> registerOrganization(@RequestBody OrganizationDTO organization) throws Exception {
             final String token= this.registerOrganizationService.registerOrganization(organization);
+
+            Map<String, Object> tokenData = new HashMap<>();
+            tokenData.put("token", token);
             ResponseMessage message = ResponseMessageUtil.createResponse("organization registration success",
-                    HttpStatus.OK, "{\"token\":\"" + token + "\"}");
+                    HttpStatus.OK, tokenData);
             return ResponseEntity.ok().body(message);
-        }catch(Exception e){
-            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-            return ResponseEntity.badRequest().body(message);
-        }
     }
 }

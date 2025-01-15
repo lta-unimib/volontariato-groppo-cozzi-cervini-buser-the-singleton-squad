@@ -16,7 +16,7 @@ public class UserVerify {
         return (role.equalsIgnoreCase("volunteer") || role.equalsIgnoreCase("organization"));
     }
 
-    public void checkUserRoleFromToken(final HttpServletRequest request, final String roleDesired) throws Exception {
+    public void checkUserRoleFromToken(final HttpServletRequest request, final String roleDesired) throws InvalidRoleGeneralException {
         String token = jwtUtils.getTokenFromRequest(request);
         String roleFromToken = this.jwtUtils.extractClaimByName(token, "role").toString();
         if(!roleFromToken.equals(roleDesired))

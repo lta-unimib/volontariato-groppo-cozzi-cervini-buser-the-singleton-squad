@@ -26,43 +26,31 @@ public class VolunteerRequestController {
 
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request) {
-        try{
+    public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)
+            throws Exception {
             this.userVerify.checkUserRoleFromToken(request, String.valueOf(UserRole.organization));
             this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request created", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
-        }catch (Exception e){
-            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-            return ResponseEntity.badRequest().body(message);
-        }
     }
 
     @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request) {
-        try{
+    public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request)
+    throws Exception {
             this.userVerify.checkUserRoleFromToken(request, String.valueOf(UserRole.organization));
             this.volunteerRequestControllerService.deleteVolunteerRequest(idRequest);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request deleted", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
-        }catch (Exception e) {
-            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-            return ResponseEntity.badRequest().body(message);
-        }
     }
 
     @PutMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request,
-                                                    final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
-        try {
+                                                    final @RequestBody VolunteerRequestDTO volunteerRequestDTO)
+    throws Exception {
             this.userVerify.checkUserRoleFromToken(request, String.valueOf(UserRole.organization));
             this.volunteerRequestControllerService.updateVolunteerRequest(volunteerRequestDTO, idRequest);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request updated", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
-        }catch (Exception e) {
-            ResponseMessage message = ResponseMessageUtil.createResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-            return ResponseEntity.badRequest().body(message);
-        }
     }
 
     //TODO

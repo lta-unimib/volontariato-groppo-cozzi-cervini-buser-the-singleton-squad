@@ -1,23 +1,20 @@
 package com.unimib.singletonsquad.doit.exception.auth;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 
+@Getter
+@Setter
 public class AuthException extends AuthenticationException {
-    private final String path;
 
-    public AuthException(String message, String path) {
+    private HttpStatus httpStatus;
+
+
+    public AuthException(String message, HttpStatus httpStatus) {
         super(message);
-        this.path = path;
-        // Rimuove lo stack trace
-        this.setStackTrace(new StackTraceElement[0]);
+        this.httpStatus = httpStatus;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    @Override
-    public String toString() {
-        return "AuthException: " + getMessage() + " (Path: " + path + ")";
-    }
 }

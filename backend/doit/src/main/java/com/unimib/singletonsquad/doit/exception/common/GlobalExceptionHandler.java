@@ -2,11 +2,13 @@ package com.unimib.singletonsquad.doit.exception.common;
 
 import com.unimib.singletonsquad.doit.exception.auth.AuthException;
 import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
+import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
+import com.unimib.singletonsquad.doit.exception.auth.UserNotRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
-import com.unimib.singletonsquad.doit.exception.utils.ExceptionResponse;
+import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -17,7 +19,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 
-import java.util.Date;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
@@ -79,16 +80,36 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, "Argomento non valido: " + ex.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorExceptionResponse> handleGenericException(Exception ex) {
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Errore interno del server");
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ErrorExceptionResponse> handleAuthException(AuthException ex) {
+       return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
-    @ExceptionHandler(AuthException.class)
-    public ResponseEntity<ExceptionResponse> handleAuthException(AuthException ex) {
-        ExceptionResponse error = new ExceptionResponse(new Date(), "unauthorized", ex.getMessage(), 401);
-        return new ResponseEntity<>(error, HttpStatusCode.valueOf(401));
+    @ExceptionHandler(UserAlreadyRegisteredGeneralException.class)
+    public ResponseEntity<ErrorExceptionResponse> handleUserAlreadyRegistered(UserAlreadyRegisteredGeneralException ex) {
+        return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
+
+    @ExceptionHandler(UserNotRegisteredGeneralException.class)
+    public ResponseEntity<ErrorExceptionResponse> handleUserNotRegistered(UserNotRegisteredGeneralException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(UniqueResourceAlreadyExistsGeneralException.class)
+    public ResponseEntity<ErrorExceptionResponse> handleUniqueResourceAlreadyExists(UniqueResourceAlreadyExistsGeneralException ex) {
+        return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorExceptionResponse> handleGenericException(Exception ex) {
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorExceptionResponse> handleAuthenticationException(AuthenticationException ex) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
 
     /// build the response
     private ResponseEntity<ErrorExceptionResponse> buildErrorResponse(HttpStatus status, String message) {
