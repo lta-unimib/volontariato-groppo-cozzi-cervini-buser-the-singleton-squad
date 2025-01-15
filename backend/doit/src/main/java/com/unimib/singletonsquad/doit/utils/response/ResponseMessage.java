@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 public class ResponseMessage {
     private final String message;
     private final Object data;
-    private final int status;
+    private final HttpStatus status;
 
     private ResponseMessage(Builder builder) {
         this.message = builder.message;
@@ -18,7 +18,7 @@ public class ResponseMessage {
     public static class Builder {
         private String message;
         private Object data = null;
-        private int status = 0;
+        private HttpStatus status;
 
         public Builder(String message) {
             if (message == null || message.trim().isEmpty()) {
