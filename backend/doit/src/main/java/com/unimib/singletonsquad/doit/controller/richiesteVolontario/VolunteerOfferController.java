@@ -22,15 +22,13 @@ public class VolunteerOfferController {
     @Autowired
     private VolunteerOfferService volunteerOfferService;
     @Autowired
-    private JWTUtils jwtUtils;
-    @Autowired
     private UserVerify userVerify;
 
     @PostMapping("/new/")
     public ResponseEntity<?> createVolunteerRequest(final HttpServletRequest request,
                                                     final @RequestBody VolunteerOfferDTO volunteerOfferDTO) {
         try{
-            this.checkUserRoleFromToken(request);
+            this.userVerify.checkUserRoleFromToken(request, String.valueOf(UserRole.volunteer));
             this.volunteerOfferService.save(volunteerOfferDTO);
 
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer offer saved", HttpStatus.OK);
@@ -41,8 +39,4 @@ public class VolunteerOfferController {
         }
     }
 
-    private void checkUserRoleFromToken(final HttpServletRequest request) throws Exception{
-        String token = this.jwtUtils.getTokenFromRequest(request);
-        this.userVerify.checkUserRoleFromToken(token, String.valueOf(UserRole.volunteer));
-    }
 }

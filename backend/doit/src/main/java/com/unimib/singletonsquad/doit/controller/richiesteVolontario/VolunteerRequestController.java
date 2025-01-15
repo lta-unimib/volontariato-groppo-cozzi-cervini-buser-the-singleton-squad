@@ -21,20 +21,14 @@ public class VolunteerRequestController {
     @Autowired
     private VolunteerRequestControllerService volunteerRequestControllerService;
     @Autowired
-    private JWTUtils jwtUtils;
-    @Autowired
     private UserVerify userVerify;
 
-    private void checkUserRoleFromToken(final HttpServletRequest request) throws Exception{
-        String token = this.jwtUtils.getTokenFromRequest(request);
-        this.userVerify.checkUserRoleFromToken(token, String.valueOf(UserRole.organization));
-    }
 
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request) {
         try{
-            this.checkUserRoleFromToken(request);
+            this.userVerify.checkUserRoleFromToken(request, String.valueOf(UserRole.organization));
             this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request created", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
@@ -47,7 +41,7 @@ public class VolunteerRequestController {
     @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request) {
         try{
-            this.checkUserRoleFromToken(request);
+            this.userVerify.checkUserRoleFromToken(request, String.valueOf(UserRole.organization));
             this.volunteerRequestControllerService.deleteVolunteerRequest(idRequest);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request deleted", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
@@ -58,9 +52,10 @@ public class VolunteerRequestController {
     }
 
     @PutMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest,
+    public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request,
                                                     final @RequestBody VolunteerRequestDTO volunteerRequestDTO) {
         try {
+            this.userVerify.checkUserRoleFromToken(request, String.valueOf(UserRole.organization));
             this.volunteerRequestControllerService.updateVolunteerRequest(volunteerRequestDTO, idRequest);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request updated", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
