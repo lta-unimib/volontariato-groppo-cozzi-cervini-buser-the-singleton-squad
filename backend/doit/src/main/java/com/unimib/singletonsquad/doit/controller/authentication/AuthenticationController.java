@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
 import com.unimib.singletonsquad.doit.dto.Auth;
+import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
 import com.unimib.singletonsquad.doit.utils.UserVerify;
 import com.unimib.singletonsquad.doit.utils.response.ResponseMessage;
@@ -22,7 +23,7 @@ public class AuthenticationController {
         try{
             System.out.println("Authenticating user with role: " + role);
             if(!UserVerify.checkUserRole(role))
-                throw new Exception("Invalid user role");
+                throw new InvalidRoleGeneralException("Invalid user role");
 
             String email = auth.getEmail();
             String password = auth.getPassword();

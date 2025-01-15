@@ -1,5 +1,7 @@
 package com.unimib.singletonsquad.doit.service.authentication;
 
+import com.unimib.singletonsquad.doit.exception.auth.AuthException;
+import com.unimib.singletonsquad.doit.exception.auth.UserNotRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.security.CustomOAuth2User;
 import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,10 +36,10 @@ public class AuthenticationUserService {
 
     public void authenticate(@NotNull final String password,
                              @NotNull final String role,
-                             @NotNull final String email) {
+                             @NotNull final String email) throws Exception {
 
         if(!checkUserRegistered(email, role, password))
-            throw new IllegalArgumentException("user is not registered");
+            throw new UserNotRegisteredGeneralException("User not registered");
 
         this.authenticationSetUp.setUpNewAuthSecurityContext(password, role, email);
     }

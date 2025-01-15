@@ -43,4 +43,7 @@ public class OrganizationService {
         }
     }
 
+    public boolean findOrganizationByName(String name) {
+        return organizationRepository.findByName(name) != null;
+    }
 }

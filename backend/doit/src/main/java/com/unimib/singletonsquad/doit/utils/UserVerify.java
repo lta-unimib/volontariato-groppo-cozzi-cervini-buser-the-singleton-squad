@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.utils;
 
+import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.security.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,6 @@ public class UserVerify {
         String token = jwtUtils.getTokenFromRequest(request);
         String roleFromToken = this.jwtUtils.extractClaimByName(token, "role").toString();
         if(!roleFromToken.equals(roleDesired))
-            throw new Exception(String.format("Invalid user role: %s", roleDesired));
+            throw new InvalidRoleGeneralException(String.format("Invalid user role: %s", roleDesired));
     }
 }

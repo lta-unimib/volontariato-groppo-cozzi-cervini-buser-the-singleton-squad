@@ -1,15 +1,14 @@
 package com.unimib.singletonsquad.doit.exception.common;
 
 import com.unimib.singletonsquad.doit.exception.auth.AuthException;
-import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleException;
-import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundException;
-import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundException;
+import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
+import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
+import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.exception.utils.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,18 +23,18 @@ import java.util.NoSuchElementException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+    @ExceptionHandler(ResourceNotFoundGeneralException.class)
+    public ResponseEntity<ErrorExceptionResponse> handleResourceNotFoundException(ResourceNotFoundGeneralException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getErrorMessage());
     }
 
-    @ExceptionHandler(RecordNotFoundException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleRecordNotFoundException(RecordNotFoundException ex) {
+    @ExceptionHandler(RecordNotFoundGeneralException.class)
+    public ResponseEntity<ErrorExceptionResponse> handleRecordNotFoundException(RecordNotFoundGeneralException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getErrorMessage());
     }
 
-    @ExceptionHandler(InvalidRoleException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleInvalidRoleException(InvalidRoleException ex) {
+    @ExceptionHandler(InvalidRoleGeneralException.class)
+    public ResponseEntity<ErrorExceptionResponse> handleInvalidRoleException(InvalidRoleGeneralException ex) {
         return buildErrorResponse(HttpStatus.FORBIDDEN, ex.getErrorMessage());
     }
 

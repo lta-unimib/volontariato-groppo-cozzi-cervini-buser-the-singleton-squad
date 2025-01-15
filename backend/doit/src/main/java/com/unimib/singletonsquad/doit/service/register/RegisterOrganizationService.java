@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.service.register;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
+import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
@@ -26,8 +27,10 @@ public class RegisterOrganizationService {
         String organizationEmail = organization.getEmail();
         System.out.println("Mail:" + organizationEmail);
         if(this.isAlreadyRegistered(organizationEmail))
-            throw new IllegalArgumentException("The organization is already registered");
-
+            throw new UserAlreadyRegisteredGeneralException("An organization with email: " + organizationEmail + " is already registered");
+        if(this.nameIsAlreadyTaken(organization.getName())) {
+            throw new UserAlreadyRegisteredGeneralException("An organization with name " + organization.getName() + " is already registered");
+        }
         String passwordEncoded = this.encryptPassword(organization.getPassword());
         organization.setPassword(passwordEncoded);
         Organization user = this.createVolunteer(organization);
@@ -39,6 +42,10 @@ public class RegisterOrganizationService {
     private boolean isAlreadyRegistered(final String email) {
         return (this.organizationService.findOrganizationByEmail(email).isPresent());
     };
+
+    private boolean nameIsAlreadyTaken(final String name) {
+        return this.organizationService.findOrganizationByName(name);
+    }
     //hash user password
     private String encryptPassword(final String password) {
         return this.passwordEncoder.encode(password);

@@ -3,6 +3,7 @@ package com.unimib.singletonsquad.doit.service.register;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
+import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
 import com.unimib.singletonsquad.doit.service.database.VolunteerPreferencesService;
@@ -29,7 +30,7 @@ public class RegisterVolunteerService {
     public String registerVolunteer(VolunteerDTO volunteer) throws Exception{
         String volunteerEmail = volunteer.getEmail();
         if(this.isAlreadyRegistered(volunteerEmail))
-            throw new IllegalArgumentException("The volunteer is already registered");
+            throw new UserAlreadyRegisteredGeneralException("The volunteer " +volunteer.getEmail() + " is already registered");
 
         String passwordEncoded = this.encryptPassword(volunteer.getPassword());
         volunteer.setPassword(passwordEncoded);

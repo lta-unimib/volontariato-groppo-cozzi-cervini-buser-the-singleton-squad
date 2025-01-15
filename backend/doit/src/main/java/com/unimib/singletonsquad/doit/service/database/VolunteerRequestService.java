@@ -1,9 +1,8 @@
 package com.unimib.singletonsquad.doit.service.database;
 
-import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
+import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerRequestRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +15,6 @@ import java.util.Optional;
 public class VolunteerRequestService {
     @Autowired
     IVolunteerRequestRepository repository;
-    @Autowired
-    DistanceCalculatorService distanceCalculatorService;
 
     public VolunteerRequest save(VolunteerRequest volunteerRequest) {
         return repository.save(volunteerRequest);
@@ -27,29 +24,16 @@ public class VolunteerRequestService {
         return repository.findById((long) id);
     }
 
-    public List<VolunteerRequest> matchVolunteer(Volunteer volunteer) {
-
-        return null;
-    }
-
-    public double[] distances(List<VolunteerRequest> volunteerRequests, String city) {
-        double[] distances = new double[volunteerRequests.size()];
-        for (int i = 0; i < volunteerRequests.size(); i++) {
-            distances[i] = distanceCalculatorService.calculateDistance(volunteerRequests.get(i).getCity(), city);
-        }
-        return distances;
-    }
-
     public void deleteRequestById(Long id) {
         if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("VolunteerRequest not found with id " + id);
+            throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + id);
         }
         this.repository.deleteById(id);
     }
 
     public void updateRequest(VolunteerRequest volunteerRequest, Long id){
         if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("VolunteerRequest not found with id " + id);
+            throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + id);
         }
         this.repository.save(volunteerRequest);
     }

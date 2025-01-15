@@ -22,5 +22,4 @@ public class AvailabilityService {
     public Optional<Availability> findById(Long id) {
         return this.availabilityRepository.findById(id);
     }
-
 }

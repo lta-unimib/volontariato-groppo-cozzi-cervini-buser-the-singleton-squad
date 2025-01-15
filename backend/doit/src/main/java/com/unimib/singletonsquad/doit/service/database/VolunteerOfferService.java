@@ -5,6 +5,7 @@ import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
+import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OfferMapper;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,14 @@ public class VolunteerOfferService {
         Optional<VolunteerRequest> volunteerRequest = volunteerRequestService.findRequestById(volunteerOfferDTO.getVolunteerRequestId()) ;
         Optional<Organization> organization = organizationService.findOrganizationById(volunteerOfferDTO.getOrganizationId());
 
-        if(organization.isPresent() && volunteer.isPresent() && volunteerRequest.isPresent()) {
+        if(organization.isEmpty()) {
+            throw new RecordNotFoundGeneralException("Organization not found");
+        }else if(volunteer.isEmpty()) {
+            throw new RecordNotFoundGeneralException("Volunteer not found");
+        } else if(volunteerRequest.isEmpty()){
+            throw new RecordNotFoundGeneralException("VolunteerRequest not found");
+        }else{
             volunteerOffer = OfferMapper.toOffer(volunteerOfferDTO, organization.get(), volunteer.get(), volunteerRequest.get());
-        } else {
-            throw new Exception("Wrong volunteer offer");
         }
 
         return volunteerOfferRepository.save(volunteerOffer);

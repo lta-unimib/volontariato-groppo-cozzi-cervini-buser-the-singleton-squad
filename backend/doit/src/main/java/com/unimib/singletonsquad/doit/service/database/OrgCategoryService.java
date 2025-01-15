@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.service.database;
 
 import com.unimib.singletonsquad.doit.domain.OrgCategory;
+import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;
 import com.unimib.singletonsquad.doit.repository.jpa.JPAVolunteerCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,9 @@ public class OrgCategoryService {
             OrgCategory orgCategoryObj = new OrgCategory();
             orgCategoryObj.setName(orgCategory);
             repository.save(orgCategoryObj);
+        }else {
+            throw new UniqueResourceAlreadyExistsGeneralException("Category " + orgCategory + " already exists");
         }
-
     }
 
     public void addOrgCategories(List<String> orgCategories) {
