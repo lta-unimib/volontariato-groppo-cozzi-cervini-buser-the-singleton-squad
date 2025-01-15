@@ -1,10 +1,14 @@
 package com.unimib.singletonsquad.doit.exception.common;
 
+import com.unimib.singletonsquad.doit.exception.auth.AuthException;
 import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleException;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundException;
 import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundException;
+import com.unimib.singletonsquad.doit.exception.utils.ExceptionResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +17,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
@@ -77,6 +83,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorExceptionResponse> handleGenericException(Exception ex) {
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Errore interno del server");
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ExceptionResponse> handleAuthException(AuthException ex) {
+        ExceptionResponse error = new ExceptionResponse(new Date(), "unauthorized", ex.getMessage(), 401);
+        return new ResponseEntity<>(error, HttpStatusCode.valueOf(401));
     }
 
     /// build the response
