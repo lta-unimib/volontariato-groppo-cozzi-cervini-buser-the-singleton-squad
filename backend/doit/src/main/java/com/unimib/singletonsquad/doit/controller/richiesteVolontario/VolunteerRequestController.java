@@ -27,7 +27,7 @@ public class VolunteerRequestController {
 
     private void checkUserRoleFromToken(final HttpServletRequest request) throws Exception{
         String token = this.jwtUtils.getTokenFromRequest(request);
-        this.userVerify.checkUserRoleFromToken(token, String.valueOf(UserRole.volunteer));
+        this.userVerify.checkUserRoleFromToken(token, String.valueOf(UserRole.organization));
     }
 
 
