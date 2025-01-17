@@ -26,11 +26,10 @@ public class VolunteerRequestController {
     private UserVerify userVerify;
 
 
-
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)
             throws Exception {
-            this.userVerify.checkUserRoleFromToken(request, UserRole.organization);
+            this.userVerify.checkUserRoleFromToken(request, UserRole.volunteer); //cambiare in organizzazione
             this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request created", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
@@ -43,11 +42,9 @@ public class VolunteerRequestController {
             throw new InvalidRoleGeneralException("You do not have the required role");
 
         VolunteerRequest specificRequest = this.volunteerRequestControllerService.getSpecificRequest(idRequest);
-        ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request deleted", HttpStatus.OK, specificRequest);
+        ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request got", HttpStatus.OK, specificRequest);
         return ResponseEntity.ok().body(message);
     }
-
-
 
     @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request)
@@ -68,30 +65,49 @@ public class VolunteerRequestController {
             return ResponseEntity.ok().body(message);
     }
 
-    //TODO
-    /*
-    @GetMapping("/ottieni")
-    public ResponseEntity<List<VolunteerRequestDTO>> getVolunteerRequestsParam(@RequestParam String city,
-                                                                          @RequestParam String startDate,
-                                                                          @RequestParam String endDate,
-                                                                          @RequestParam String categories)
-    {
-        return null;
-    }
+    //TODO --> ALGORITMO DI MATCHING
 
+    /**
     @GetMapping("/ottieni")
-    public ResponseEntity<List<VolunteerRequestDTO>> getVolunteerRequestsAlgorithm(){
-        /** todo
+    public ResponseEntity<?> getVolunteerRequestsAlgorithm(){
+        /**
+        TODO OPERAZIONI PRELIMINARI
+
+        - Cercare file che contiene latitudine e longitudine delle città Lombardia
+            - inserirlo nel database come tabella singola
+
+        - Token --> email + ruolo ==> solo VOLONTARIO??
+        - I parametri si recuperano dal database
+        - Creazione di un oggetto apposito: Voto, Preferenza --> l'ordinamento verrà per il voto
+        - per fare SORTING:
+            List<MyObject> sortedList = list.parallelStream()
+                            .sorted(Comparator.comparing(MyObject::getName))
+                            .collect(Collectors.toList());
+
+        - la ricerca della città, la si fa per nome
+
+
+        TODO ALGORITMO
+
+            0) dal token, ottengo Preferenze Temporali, Categorie e Città [recuperarla con il postalCode],
+            1) chiamata per prendere le volunteer request
+            2) Creare un oggetto che inserire il voto di match tra preferenze utente e richiesta
+            3) Calcolare la distanza per ogni città della richiesta con la città dell'utente[database] <-->  città-richiesta
+                3.0 effettuare per richiesta una chiamata del database: nomeCittà, ed ottiene latitudine e longitudine
+                3.1 calcolare distanza per ogni città della richiesta
+                3.2 assegnare un voto in base alla distanza
+
+            4) assegnavo un voto :le richieste in base alle categorie_preferite
+                4.1 --> 1: se almeno una preferenza utente è inserita nelle categorie della richiesta
+                    --> 0: altrimenti
+
+            5) assegnare il voto rispetto alla disponibilità temporale
+
+            6) ordinare le richieste in base al campo voto
+
+            TODO IDEA GENERALE DI VOTO
             distanza 30%
             categorie_preferite 40%
             disponibilità_temporale 30%
-
-            classe che contiene tutte le richieste di volontariato, tipo catalogo
-            CONTROLLER --> SERVICE --> REPOSITORY --> SERVICE, elabora e le riordina, --> CONTROLLER --> RISPOSTA
         */
-    /*
-
-        return null;
-    }*/
-
 }

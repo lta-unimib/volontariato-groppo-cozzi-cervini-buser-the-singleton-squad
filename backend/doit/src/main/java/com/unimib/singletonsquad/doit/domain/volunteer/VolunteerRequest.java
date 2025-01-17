@@ -1,12 +1,11 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,6 +14,7 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 @Entity
+@NoArgsConstructor
 public class VolunteerRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +31,11 @@ public class VolunteerRequest {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "organization_id", nullable = false) // Specifica la colonna corretta
+    @JsonSerialize(using = OrganizationNameSerializer.class)
     private Organization organization;
     @ElementCollection
     private List<String> volunteerCategories;//ok
 
-    public VolunteerRequest() {}
 
     public void setCapacity(int capacity) {
         if(capacity <= 0) {

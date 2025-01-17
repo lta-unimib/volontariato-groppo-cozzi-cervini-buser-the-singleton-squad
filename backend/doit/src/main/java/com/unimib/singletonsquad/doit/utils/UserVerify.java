@@ -27,7 +27,10 @@ public class UserVerify {
         String role = String.valueOf(roleDesired);
         String token = jwtUtils.getTokenFromRequest(request);
         String roleFromToken = this.jwtUtils.extractClaimByName(token, "role").toString();
-        if(!roleFromToken.equals(roleDesired))
+        System.out.println("roleFromToken " + roleFromToken);
+        System.out.println("roleDesired " + roleDesired);
+
+        if(!roleFromToken.equalsIgnoreCase(role))
             throw new InvalidRoleGeneralException(String.format("Invalid user role: %s", role));
     }
 }

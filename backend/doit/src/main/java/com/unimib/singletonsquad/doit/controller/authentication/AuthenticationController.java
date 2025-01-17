@@ -26,8 +26,12 @@ public class AuthenticationController {
 
             String email = auth.getEmail();
             String password = auth.getPassword();
+            System.out.println("Authenticating user with email: " + email);
+            System.out.println("Authenticating user with password: " + password);
+
             this.authenticationUserService.authenticate(password, role, email);
 
+            //todo inserire il token
             ResponseMessage message = ResponseMessageUtil.createResponse("user is authenticated as " + role, HttpStatus.OK);
             return ResponseEntity.ok().body(message);
 

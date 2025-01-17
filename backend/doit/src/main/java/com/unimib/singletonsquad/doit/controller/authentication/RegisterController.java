@@ -24,6 +24,7 @@ public class RegisterController {
     @Autowired
     private RegisterOrganizationService registerOrganizationService;
 
+
     @PostMapping(value = "/volunteer/", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerVolunteer(final @RequestBody VolunteerDTO volunteer) throws Exception {
@@ -41,10 +42,10 @@ public class RegisterController {
     public ResponseEntity<?> registerOrganization(@RequestBody OrganizationDTO organization) throws Exception {
             final String token= this.registerOrganizationService.registerOrganization(organization);
 
-            Map<String, Object> tokenData = new HashMap<>();
-            tokenData.put("token", token);
-            ResponseMessage message = ResponseMessageUtil.createResponse("organization registration success",
-                    HttpStatus.OK, tokenData);
-            return ResponseEntity.ok().body(message);
+        JsonNode tokenJson = ResponseMessageUtil.createJsonNode("authToken", token);
+        ResponseMessage message = ResponseMessageUtil.createResponse("volunteer registration success",
+                HttpStatus.OK, tokenJson);
+
+        return ResponseEntity.ok().body(message);
     }
 }

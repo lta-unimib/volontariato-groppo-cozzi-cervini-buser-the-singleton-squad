@@ -33,15 +33,24 @@ public class OrganizationService {
 
     public boolean authenticateOrganization(String email, String rawPassword) {
         Optional<Organization> organizationOptional = organizationRepository.findByEmail(email);
-        System.out.println("Organization present:" + organizationOptional.isPresent());
+
+        System.out.println("Organization present: " + organizationOptional.isPresent());
 
         if (organizationOptional.isPresent()) {
             Organization organization = organizationOptional.get();
+            System.out.println("Organization email: " + organization.getEmail());
+
+            // Stampa l'hash della rawPassword
+            String hashedPassword = passwordEncoder.encode(rawPassword);
+            System.out.println("Raw password: " + rawPassword);
+            System.out.println("Hashed password: " + hashedPassword);
+
             return passwordEncoder.matches(rawPassword, organization.getPassword());
         } else {
             return false;
         }
     }
+
 
     public boolean findOrganizationByName(String name) {
         return organizationRepository.findByName(name) != null;
