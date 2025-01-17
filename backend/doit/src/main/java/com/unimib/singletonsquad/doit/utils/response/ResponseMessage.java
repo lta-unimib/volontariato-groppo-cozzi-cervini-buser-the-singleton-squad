@@ -1,12 +1,15 @@
 package com.unimib.singletonsquad.doit.utils.response;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 @Getter
 public class ResponseMessage {
     private final String message;
-    private final Object data;
+    private final JsonNode data;
     private final HttpStatus status;
 
     private ResponseMessage(Builder builder) {
@@ -16,8 +19,9 @@ public class ResponseMessage {
     }
 
     public static class Builder {
+        ObjectMapper objectMapper = new ObjectMapper();
         private String message;
-        private Object data = null;
+        private JsonNode data = null;
         private HttpStatus status;
 
         public Builder(String message) {
@@ -28,7 +32,8 @@ public class ResponseMessage {
         }
 
         public Builder data(Object data) {
-            this.data = data;
+            JsonNode temp = objectMapper.valueToTree(data);
+            this.data = temp;
             return this;
         }
 

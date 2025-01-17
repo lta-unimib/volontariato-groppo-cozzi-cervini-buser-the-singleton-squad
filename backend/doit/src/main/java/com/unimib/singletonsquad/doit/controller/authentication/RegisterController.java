@@ -1,4 +1,5 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
 import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
 import com.unimib.singletonsquad.doit.service.register.RegisterOrganizationService;
@@ -28,8 +29,10 @@ public class RegisterController {
     public ResponseEntity<?> registerVolunteer(final @RequestBody VolunteerDTO volunteer) throws Exception {
 
             final String token = this.registerService.registerVolunteer(volunteer);
+            JsonNode tokenJson = ResponseMessageUtil.createJsonNode("authToken", token);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer registration success",
-                    HttpStatus.OK, "{\"token\":\"" + token + "\"}");
+                    HttpStatus.OK, tokenJson);
+
             return ResponseEntity.ok().body(message);
     }
 

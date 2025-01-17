@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class VolunteerRequestService {
+
     @Autowired
     IVolunteerRequestRepository repository;
 
@@ -21,22 +22,26 @@ public class VolunteerRequestService {
     }
 
     public Optional<VolunteerRequest> findRequestById(Long id) {
-        return repository.findById((long) id);
+        return repository.findById(id);
     }
 
-    public void deleteRequestById(Long id) {
+    public void deleteRequestById(Long id) throws RecordNotFoundGeneralException {
         if (!repository.existsById(id)) {
             throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + id);
         }
         this.repository.deleteById(id);
     }
 
-    public void updateRequest(VolunteerRequest volunteerRequest, Long id){
-        if (!repository.existsById(id)) {
+    public void updateRequest(VolunteerRequest volunteerRequest, Long id) throws RecordNotFoundGeneralException {
+        if (!repository.existsById(id))
             throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + id);
-        }
         this.repository.save(volunteerRequest);
     }
 
 
+    public VolunteerRequest getSpecificRequest(Long idRequest) {
+        if (!repository.existsById(idRequest))
+            throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + idRequest);
+        return repository.findById(idRequest).isPresent() ? repository.findById(idRequest).get() : null;
+    }
 }

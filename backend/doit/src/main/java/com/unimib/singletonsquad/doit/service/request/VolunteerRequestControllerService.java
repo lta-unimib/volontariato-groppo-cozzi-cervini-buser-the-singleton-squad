@@ -17,31 +17,23 @@ public class VolunteerRequestControllerService {
 
 
     public void deleteVolunteerRequest(final Long requestId) throws Exception {
-        try {
-            this.volunteerRequestService.deleteRequestById(requestId);
-        }catch (Exception e) {
-            throw new Exception(e);
-        }
+        this.volunteerRequestService.deleteRequestById(requestId);
     }
 
     public void updateVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, final Long id)
             throws Exception {
-        try{
             VolunteerRequest temp = this.volunteerRequestMapper.createRequestVolunteer(volunteerRequestDTO, id);
             this.volunteerRequestService.updateRequest(temp, id);
-        }catch (Exception e) {
-            throw new Exception(e);
-        }
     }
 
     public void createVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO)
             throws Exception {
-        try{
             VolunteerRequest temp = this.volunteerRequestMapper.createRequestVolunteer(volunteerRequestDTO);
             this.volunteerRequestService.save(temp);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
     }
 
+    public VolunteerRequest getSpecificRequest(Long idRequest) throws Exception {
+        VolunteerRequest temp = this.volunteerRequestService.getSpecificRequest(idRequest);
+        return temp;
+    }
 }

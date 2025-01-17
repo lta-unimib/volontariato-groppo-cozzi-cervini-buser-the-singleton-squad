@@ -16,10 +16,18 @@ public class UserVerify {
         return (role.equalsIgnoreCase("volunteer") || role.equalsIgnoreCase("organization"));
     }
 
-    public void checkUserRoleFromToken(final HttpServletRequest request, final String roleDesired) throws InvalidRoleGeneralException {
+    public boolean checkRoleFromRequest(final HttpServletRequest request) {
+        String token = jwtUtils.getTokenFromRequest(request);
+        String roleFromToken = this.jwtUtils.extractClaimByName(token, "role").toString();
+        return checkUserRole(roleFromToken);
+    }
+
+
+    public void checkUserRoleFromToken(final HttpServletRequest request, final UserRole roleDesired) throws InvalidRoleGeneralException {
+        String role = String.valueOf(roleDesired);
         String token = jwtUtils.getTokenFromRequest(request);
         String roleFromToken = this.jwtUtils.extractClaimByName(token, "role").toString();
         if(!roleFromToken.equals(roleDesired))
-            throw new InvalidRoleGeneralException(String.format("Invalid user role: %s", roleDesired));
+            throw new InvalidRoleGeneralException(String.format("Invalid user role: %s", role));
     }
 }
