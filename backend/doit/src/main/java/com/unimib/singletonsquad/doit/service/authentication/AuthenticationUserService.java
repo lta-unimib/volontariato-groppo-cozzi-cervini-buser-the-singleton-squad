@@ -2,8 +2,8 @@ package com.unimib.singletonsquad.doit.service.authentication;
 
 import com.unimib.singletonsquad.doit.dto.AuthDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserNotRegisteredGeneralException;
-import com.unimib.singletonsquad.doit.service.database.OrganizationService;
-import com.unimib.singletonsquad.doit.service.database.VolunteerService;
+import com.unimib.singletonsquad.doit.service.database.organization.OrganizationService;
+import com.unimib.singletonsquad.doit.service.database.volunteer.VolunteerService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -5,9 +5,9 @@ import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
-import com.unimib.singletonsquad.doit.service.database.OrganizationService;
+import com.unimib.singletonsquad.doit.service.database.organization.OrganizationService;
+import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,7 +31,7 @@ public class RegistrationOrganizationService {
 
         Organization user = this.createVolunteer(organization);
         this.organizationService.save(user);
-        return this.authenticationSetUp.setUpNewAuthSecurityContext(organization.getPassword(),"organization", organization.getEmail());
+        return this.authenticationSetUp.setUpNewAuthSecurityContext(organization.getPassword(), UserRole.organization.name(), organization.getEmail());
     }
 
     private boolean isAlreadyRegistered(final String email) {

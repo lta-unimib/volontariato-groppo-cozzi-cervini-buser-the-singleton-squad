@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.service.database;
+package com.unimib.singletonsquad.doit.service.database.organization;
 
 import com.unimib.singletonsquad.doit.domain.organization.OrgCategory;
 import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;

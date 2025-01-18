@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.service.database;
+package com.unimib.singletonsquad.doit.service.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;

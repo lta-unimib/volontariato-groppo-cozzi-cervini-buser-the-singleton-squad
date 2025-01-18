@@ -7,12 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizationMapper {
 
-    /**
-     *  TODO LE PREFERENZE
-     *
-     *
-     */
-
     public Organization mapToOrganization(OrganizationDTO organizationDTO){
         Organization organization = new Organization();
         organization.setDescription(organizationDTO.getDescription());

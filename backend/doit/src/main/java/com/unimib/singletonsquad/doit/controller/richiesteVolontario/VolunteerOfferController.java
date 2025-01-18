@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
-import com.unimib.singletonsquad.doit.service.database.VolunteerOfferService;
+import com.unimib.singletonsquad.doit.service.database.volunteer.VolunteerOfferService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;

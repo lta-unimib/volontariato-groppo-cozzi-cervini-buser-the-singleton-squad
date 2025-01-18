@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.service.database;
+package com.unimib.singletonsquad.doit.service.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
@@ -8,6 +8,7 @@ import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OfferMapper;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerOfferRepository;
+import com.unimib.singletonsquad.doit.service.database.organization.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

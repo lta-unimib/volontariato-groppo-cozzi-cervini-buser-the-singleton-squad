@@ -3,7 +3,7 @@ package com.unimib.singletonsquad.doit.service.request;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
-import com.unimib.singletonsquad.doit.service.database.VolunteerRequestService;
+import com.unimib.singletonsquad.doit.service.database.volunteer.VolunteerRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
