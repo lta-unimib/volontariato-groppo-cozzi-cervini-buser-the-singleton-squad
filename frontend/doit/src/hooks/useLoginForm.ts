@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { API_BASE_LINK } from "@/utils/constants";
+import { makeApiRequest } from "@/utils/apiUtils";
 
 interface LoginFormState {
     readonly email: string;
@@ -13,6 +13,11 @@ interface LoginFormState {
 interface UseLoginFormProps {
     readonly loginApiLink: string;
     readonly redirectPath: string;
+}
+
+interface LoginResponse {
+    authToken: string;
+    user?: any;
 }
 
 export const useLoginForm = ({ loginApiLink, redirectPath }: UseLoginFormProps) => {
@@ -35,40 +40,29 @@ export const useLoginForm = ({ loginApiLink, redirectPath }: UseLoginFormProps) 
         updateFormState('loading', true);
         updateFormState('error', null);
 
-        try {
-            const fullUrl = `${API_BASE_LINK}${loginApiLink}`;
-            console.log("API Request URL:", fullUrl);
-            console.log("Request Payload:", { email: formState.email, password: formState.password });
-
-            const response = await fetch(fullUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: formState.email,
-                    password: formState.password
-                }),
-            });
-
-            console.log("Response Status:", response.status);
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                console.log("Error Response Data:", errorData);
-                const errorMessage = errorData.message || `Login failed: ${response.statusText}`;
-                updateFormState('error', errorMessage);
-                return;
+        const { status, data, message } = await makeApiRequest<LoginResponse>(
+            loginApiLink,
+            {
+                email: formState.email,
+                password: formState.password
             }
+        );
 
-            const data = await response.json();
-            console.log("Success Response Data:", data);
-            router.push(redirectPath);
-
-        } catch (err) {
-            console.error("Error during login:", err);
-            updateFormState('error', "An unexpected error occurred. Please try again later.");
-        } finally {
+        if (status !== 200 || !data) {
+            updateFormState('error', message || 'Login failed');
             updateFormState('loading', false);
+            return;
         }
+
+        if (data.authToken) {
+            sessionStorage.setItem('authToken', data.authToken);
+            if (data.user) {
+                sessionStorage.setItem('userData', JSON.stringify(data.user));
+            }
+        }
+
+        updateFormState('loading', false);
+        router.push(redirectPath);
     };
 
     return {
