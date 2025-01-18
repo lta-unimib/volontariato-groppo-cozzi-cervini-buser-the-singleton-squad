@@ -7,8 +7,11 @@ import com.unimib.singletonsquad.doit.exception.auth.UserNotRegisteredGeneralExc
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -20,100 +23,108 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import java.util.NoSuchElementException;
+;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundGeneralException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleResourceNotFoundException(ResourceNotFoundGeneralException ex) {
+    public ResponseEntity<ResponseMessage> handleResourceNotFoundException(ResourceNotFoundGeneralException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getErrorMessage());
     }
 
     @ExceptionHandler(RecordNotFoundGeneralException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleRecordNotFoundException(RecordNotFoundGeneralException ex) {
+    public ResponseEntity<ResponseMessage> handleRecordNotFoundException(RecordNotFoundGeneralException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getErrorMessage());
     }
 
     @ExceptionHandler(InvalidRoleGeneralException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleInvalidRoleException(InvalidRoleGeneralException ex) {
+    public ResponseEntity<ResponseMessage> handleInvalidRoleException(InvalidRoleGeneralException ex) {
         return buildErrorResponse(HttpStatus.FORBIDDEN, ex.getErrorMessage());
     }
 
-    @ExceptionHandler(HttpClientErrorException.MethodNotAllowed.class)
-    public ResponseEntity<ErrorExceptionResponse> handleMethodNotAllowedException(HttpClientErrorException.MethodNotAllowed ex) {
-        return buildErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, ex.getMessage());
-    }
-
+    // Handling validation exceptions
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleValidationException(MethodArgumentNotValidException ex) {
-        String message = "Errore di validazione: " + ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+    public ResponseEntity<ResponseMessage> handleValidationException(MethodArgumentNotValidException ex) {
+        String message = String.format("Validation error: %s", ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
         return buildErrorResponse(HttpStatus.BAD_REQUEST, message);
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleMissingParams(MissingServletRequestParameterException ex) {
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, "Parametro mancante: " + ex.getParameterName());
+    public ResponseEntity<ResponseMessage> handleMissingParams(MissingServletRequestParameterException ex) {
+        String message = String.format("%s\nMissing parameter: %s", ex.getMessage(), ex.getParameterName());
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, message);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        return buildErrorResponse(HttpStatus.CONFLICT, "Violazione dell'integrità dei dati");
+    public ResponseEntity<ResponseMessage> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleAccessDenied(AccessDeniedException ex) {
-        return buildErrorResponse(HttpStatus.FORBIDDEN, "Accesso negato");
+    public ResponseEntity<ResponseMessage> handleAccessDenied(AccessDeniedException ex) {
+        return buildErrorResponse(HttpStatus.FORBIDDEN, String.format("Access denied: %s", ex.getMessage()));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleBadCredentials(BadCredentialsException ex) {
-        return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Credenziali non valide");
+    public ResponseEntity<ResponseMessage> handleBadCredentials(BadCredentialsException ex) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Invalid credentials");
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleNoSuchElement(NoSuchElementException ex) {
-        return buildErrorResponse(HttpStatus.NOT_FOUND, "Elemento non trovato");
+    public ResponseEntity<ResponseMessage> handleNoSuchElement(NoSuchElementException ex) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, String.format("Element not found: %s", ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleIllegalArgument(IllegalArgumentException ex) {
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, "Argomento non valido: " + ex.getMessage());
+    public ResponseEntity<ResponseMessage> handleIllegalArgument(IllegalArgumentException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, String.format("Invalid argument: %s", ex.getMessage()));
     }
 
     @ExceptionHandler(AuthException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleAuthException(AuthException ex) {
-       return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    public ResponseEntity<ResponseMessage> handleAuthException(AuthException ex) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
     @ExceptionHandler(UserAlreadyRegisteredGeneralException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleUserAlreadyRegistered(UserAlreadyRegisteredGeneralException ex) {
+    public ResponseEntity<ResponseMessage> handleUserAlreadyRegistered(UserAlreadyRegisteredGeneralException ex) {
         return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
     @ExceptionHandler(UserNotRegisteredGeneralException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleUserNotRegistered(UserNotRegisteredGeneralException ex) {
+    public ResponseEntity<ResponseMessage> handleUserNotRegistered(UserNotRegisteredGeneralException ex) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(UniqueResourceAlreadyExistsGeneralException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleUniqueResourceAlreadyExists(UniqueResourceAlreadyExistsGeneralException ex) {
+    public ResponseEntity<ResponseMessage> handleUniqueResourceAlreadyExists(UniqueResourceAlreadyExistsGeneralException ex) {
         return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorExceptionResponse> handleAuthenticationException(AuthenticationException ex) {
+    public ResponseEntity<ResponseMessage> handleAuthenticationException(AuthenticationException ex) {
         return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorExceptionResponse> handleGenericException(Exception ex) {
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    @ExceptionHandler(HttpClientErrorException.MethodNotAllowed.class)
+    public ResponseEntity<ResponseMessage> handleMethodNotAllowedException(HttpClientErrorException.MethodNotAllowed ex) {
+        return buildErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, ex.getMessage());
     }
 
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ResponseMessage> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+        String message = String.format("Request method '%s' is not supported", ex.getMethod());
+        return buildErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, message);
+    }
 
-    /// build the response
-    private ResponseEntity<ErrorExceptionResponse> buildErrorResponse(HttpStatus status, String message) {
-        ErrorExceptionResponse response = new ErrorExceptionResponse(status, message);
-        return new ResponseEntity<>(response, status);
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseMessage> handleGenericException(Exception ex) {
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Internal server error: %s", ex.getMessage()));
+    }
+
+    // Build the error response
+    private ResponseEntity<ResponseMessage> buildErrorResponse(HttpStatus status, String message) {
+        ResponseMessage messageResponse = ResponseMessageUtil.createResponse(message, status, null);
+        return new ResponseEntity<>(messageResponse, status);
     }
 }

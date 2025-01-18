@@ -22,6 +22,7 @@ public class OrganizationMapper {
         organization.setWebsite(organizationDTO.getWebSite());
         organization.setPassword(organizationDTO.getPassword());
         organization.setVATNumber(organizationDTO.getVatNumber());
+        organization.setCity(organizationDTO.getCity());
         return organization;
     }
 }

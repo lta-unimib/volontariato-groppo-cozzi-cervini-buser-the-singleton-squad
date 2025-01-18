@@ -2,7 +2,8 @@ package com.unimib.singletonsquad.doit.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unimib.singletonsquad.doit.exception.auth.AuthException;
-import com.unimib.singletonsquad.doit.exception.common.ErrorExceptionResponse;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import java.util.List;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -71,11 +72,9 @@ public class AuthFilter extends OncePerRequestFilter {
         if (!isValidSignature)
             throw new AuthException("Invalid token signature",HttpStatus.UNAUTHORIZED);
 
-
         boolean isExpired = jwtUtils.isExpired(token);
-
         if (isExpired)
-            throw new AuthException("Token has expired",HttpStatus.UNAUTHORIZED);
+            throw new AuthException("Token has expired", HttpStatus.UNAUTHORIZED);
 
         request.getSession().setAttribute("token", token);
     }
@@ -86,25 +85,17 @@ public class AuthFilter extends OncePerRequestFilter {
 
     private void handleAuthenticationError(HttpServletResponse response,
                                            AuthException ex) throws IOException {
-        ErrorExceptionResponse errorResponse = new ErrorExceptionResponse(
-                HttpStatus.UNAUTHORIZED,
-                ex.getMessage()
-        );
-        sendErrorResponse(response, errorResponse);
+        sendErrorResponse(response, ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     private void handleGenericError(HttpServletResponse response,
                                     Exception ex) throws IOException {
-        ErrorExceptionResponse errorResponse = new ErrorExceptionResponse(
-            HttpStatus.INTERNAL_SERVER_ERROR,
-                ex.getMessage()
-        );
-        sendErrorResponse(response, errorResponse);
+        sendErrorResponse(response, ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    private void sendErrorResponse(HttpServletResponse response,
-                                   ErrorExceptionResponse errorResponse) throws IOException {
-        response.setStatus(errorResponse.getErrorCode().value());
+    private void sendErrorResponse(HttpServletResponse response, String message, HttpStatus status) throws IOException {
+        ResponseMessage errorResponse = ResponseMessageUtil.createResponse(message, status, null);
+        response.setStatus(errorResponse.getStatus().value());
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         objectMapper.writeValue(response.getWriter(), errorResponse);

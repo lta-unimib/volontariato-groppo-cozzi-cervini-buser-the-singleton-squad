@@ -5,10 +5,10 @@ import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestControllerService;
-import com.unimib.singletonsquad.doit.utils.UserRole;
-import com.unimib.singletonsquad.doit.utils.UserVerify;
-import com.unimib.singletonsquad.doit.utils.response.ResponseMessage;
-import com.unimib.singletonsquad.doit.utils.response.ResponseMessageUtil;
+import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
+import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,15 +24,18 @@ public class VolunteerRequestController {
     private VolunteerRequestControllerService volunteerRequestControllerService;
     @Autowired
     private UserVerify userVerify;
+    @Autowired
+    private JWTUtils jwtUtils;
 
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)
             throws Exception {
-            this.userVerify.checkUserRoleFromToken(request, UserRole.volunteer); //cambiare in organizzazione
-            this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO);
-            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request created", HttpStatus.OK);
-            return ResponseEntity.ok().body(message);
+        this.userVerify.checkUserRoleFromToken(request, UserRole.organization);
+        String email = this.getUsernameFromToken(request);
+        this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO, email);
+        ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request created", HttpStatus.OK);
+        return ResponseEntity.ok().body(message);
     }
 
     @GetMapping(value = "/{idRequest}/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,54 +63,17 @@ public class VolunteerRequestController {
                                                     final @RequestBody VolunteerRequestDTO volunteerRequestDTO)
     throws Exception {
             this.userVerify.checkUserRoleFromToken(request, UserRole.organization);
-            this.volunteerRequestControllerService.updateVolunteerRequest(volunteerRequestDTO, idRequest);
+            String email = this.getUsernameFromToken(request);
+            this.volunteerRequestControllerService.updateVolunteerRequest(volunteerRequestDTO, idRequest, email);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request updated", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
     }
 
-    //TODO --> ALGORITMO DI MATCHING
 
-    /**
-    @GetMapping("/ottieni")
-    public ResponseEntity<?> getVolunteerRequestsAlgorithm(){
-        /**
-        TODO OPERAZIONI PRELIMINARI
-
-        - Cercare file che contiene latitudine e longitudine delle città Lombardia
-            - inserirlo nel database come tabella singola
-
-        - Token --> email + ruolo ==> solo VOLONTARIO??
-        - I parametri si recuperano dal database
-        - Creazione di un oggetto apposito: Voto, Preferenza --> l'ordinamento verrà per il voto
-        - per fare SORTING:
-            List<MyObject> sortedList = list.parallelStream()
-                            .sorted(Comparator.comparing(MyObject::getName))
-                            .collect(Collectors.toList());
-
-        - la ricerca della città, la si fa per nome
+    private String getUsernameFromToken(final HttpServletRequest request) {
+        String token = this.jwtUtils.getTokenFromRequest(request);
+        return this.jwtUtils.extractUsername(token);
+    }
 
 
-        TODO ALGORITMO
-
-            0) dal token, ottengo Preferenze Temporali, Categorie e Città [recuperarla con il postalCode],
-            1) chiamata per prendere le volunteer request
-            2) Creare un oggetto che inserire il voto di match tra preferenze utente e richiesta
-            3) Calcolare la distanza per ogni città della richiesta con la città dell'utente[database] <-->  città-richiesta
-                3.0 effettuare per richiesta una chiamata del database: nomeCittà, ed ottiene latitudine e longitudine
-                3.1 calcolare distanza per ogni città della richiesta
-                3.2 assegnare un voto in base alla distanza
-
-            4) assegnavo un voto :le richieste in base alle categorie_preferite
-                4.1 --> 1: se almeno una preferenza utente è inserita nelle categorie della richiesta
-                    --> 0: altrimenti
-
-            5) assegnare il voto rispetto alla disponibilità temporale
-
-            6) ordinare le richieste in base al campo voto
-
-            TODO IDEA GENERALE DI VOTO
-            distanza 30%
-            categorie_preferite 40%
-            disponibilità_temporale 30%
-        */
 }

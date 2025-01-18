@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 
 public class InvalidRoleGeneralException extends GeneralException {
         public InvalidRoleGeneralException(String errorMessage) {
-            super(HttpStatus.BAD_REQUEST, errorMessage);
+            super(HttpStatus.FORBIDDEN, errorMessage);
         }
     }

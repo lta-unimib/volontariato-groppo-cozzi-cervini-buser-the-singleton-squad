@@ -11,8 +11,6 @@ import java.util.List;
 @Setter
 @ToString
 public class VolunteerRequestDTO {
-    @JsonProperty("organizationId")
-    private Long orgId;
     @JsonProperty("title")
     private String title;
     @JsonProperty("description")

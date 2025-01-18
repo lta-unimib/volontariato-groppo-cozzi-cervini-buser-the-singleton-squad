@@ -1,6 +1,6 @@
-package com.unimib.singletonsquad.doit.controller;
+package com.unimib.singletonsquad.doit.controller.organization;
 import com.unimib.singletonsquad.doit.service.database.OrgCategoryService;
-import com.unimib.singletonsquad.doit.utils.response.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

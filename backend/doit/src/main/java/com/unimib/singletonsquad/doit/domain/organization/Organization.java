@@ -1,10 +1,12 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.utils.DataValidator;
+import com.unimib.singletonsquad.doit.utils.data.DataValidator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +39,19 @@ public class Organization {
     private String website;
     private String VATNumber;
 
+    private String city;
+
     @ElementCollection
     @Column(name = "categories")
+    @CollectionTable(
+            name = "organization_categories",
+            joinColumns = @JoinColumn(name = "organization_id")
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> categories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<VolunteerRequest> volunteerRequests = new ArrayList<>();
 
     public void setEmail(String email) {

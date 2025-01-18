@@ -5,12 +5,10 @@ public class EmailException extends IllegalArgumentException {
         super(message);
     }
 
-    // Costruttore con causa
     public EmailException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    // Costruttore solo con causa
     public EmailException(Throwable cause) {
         super(cause);
     }

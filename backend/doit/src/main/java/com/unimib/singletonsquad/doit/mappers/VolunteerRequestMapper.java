@@ -4,49 +4,53 @@ import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.service.database.OrganizationService;
-import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 
 @Component
 public class VolunteerRequestMapper {
 
     @Autowired
     private AddressMapper addressMapper;
+
     @Autowired
     private OrganizationService organizationService;
 
-
-    public VolunteerRequest createRequestVolunteer(VolunteerRequestDTO request, @Nullable Long id) throws Exception {
+    public VolunteerRequest updateVolunteerRequest(VolunteerRequestDTO requestDTO, Long requestId, String organizationEmail)
+            throws Exception {
         VolunteerRequest volunteerRequest = new VolunteerRequest();
-        volunteerRequest.setId(id);
-        return volunteerRequest(request, volunteerRequest);
+        volunteerRequest.setId(requestId);
+        return mapVolunteerRequestFields(requestDTO, volunteerRequest, organizationEmail);
     }
 
-    public VolunteerRequest createRequestVolunteer(VolunteerRequestDTO request) throws Exception {
+    public VolunteerRequest createRequestVolunteer(VolunteerRequestDTO requestDTO, String organizationEmail)
+            throws Exception {
         VolunteerRequest volunteerRequest = new VolunteerRequest();
-
-        return volunteerRequest(request, volunteerRequest);
+        return mapVolunteerRequestFields(requestDTO, volunteerRequest, organizationEmail);
     }
 
-    private VolunteerRequest volunteerRequest(VolunteerRequestDTO request, VolunteerRequest volunteerRequest) throws Exception {
-        volunteerRequest.setDetailedDescription(request.getDetailedDescription());
-        volunteerRequest.setCapacity(request.getVolunteerCapacity());
-        volunteerRequest.setAddress(this.addressMapper.createAddress(request.getAddress()));
-        volunteerRequest.setVolunteerType(request.getVolunteerType());
-        volunteerRequest.setStartDateTime(request.getStartDate());
-        volunteerRequest.setEndDateTime(request.getEndDate());
-        volunteerRequest.setTitle(request.getTitle());
-        volunteerRequest.setOrganization(this.getOrganization(request.getOrgId()));
+    private VolunteerRequest mapVolunteerRequestFields(VolunteerRequestDTO requestDTO,
+                                                       VolunteerRequest volunteerRequest,
+                                                       String organizationEmail) throws Exception {
+        volunteerRequest.setDetailedDescription(requestDTO.getDetailedDescription());
+        volunteerRequest.setCapacity(requestDTO.getVolunteerCapacity());
+        volunteerRequest.setAddress(addressMapper.createAddress(requestDTO.getAddress()));
+        volunteerRequest.setVolunteerType(requestDTO.getVolunteerType());
+        volunteerRequest.setStartDateTime(requestDTO.getStartDate());
+        volunteerRequest.setEndDateTime(requestDTO.getEndDate());
+        volunteerRequest.setTitle(requestDTO.getTitle());
+        volunteerRequest.setOrganization(getOrganizationByEmail(organizationEmail));
+
         return volunteerRequest;
     }
 
-    private Organization getOrganization(Long idOrganization) throws Exception {
-        System.out.println("DEBUG ==> " + idOrganization);
-        if(!this.organizationService.findOrganizationById(idOrganization).isPresent())
-            throw new Exception("Organization not found");
-        return this.organizationService.findOrganizationById(idOrganization).get();
+    private Organization getOrganization(Long organizationId) throws Exception {
+        return organizationService.findOrganizationById(organizationId)
+                .orElseThrow(() -> new Exception("Organization not found with ID: " + organizationId));
     }
 
+    private Organization getOrganizationByEmail(String email) throws Exception {
+        return organizationService.findOrganizationByEmail(email)
+                .orElseThrow(() -> new Exception("Organization not found with email: " + email));
+    }
 }

@@ -42,8 +42,10 @@ public class OrganizationService {
 
             // Stampa l'hash della rawPassword
             String hashedPassword = passwordEncoder.encode(rawPassword);
-            System.out.println("Raw password: " + rawPassword);
             System.out.println("Hashed password: " + hashedPassword);
+            System.out.println("Organization password: " + organization.getPassword());
+            System.out.println("DEBUG: "+passwordEncoder.matches(rawPassword, organization.getPassword()));
+            System.out.println("DEBUG: "+passwordEncoder.matches(hashedPassword, organization.getPassword()));
 
             return passwordEncoder.matches(rawPassword, organization.getPassword());
         } else {

@@ -19,31 +19,22 @@ public class VolunteerService {
     private final IVolunteerRepository volunteerRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // Aggiunto PasswordEncoder per il matching delle password
+    private PasswordEncoder passwordEncoder;
 
-    // Metodo per trovare un volontario tramite ID
     public Optional<Volunteer> findVolunteerById(long id) {
         return volunteerRepository.findById(id);
     }
 
-    // Metodo per trovare un volontario tramite email
     public Optional<Volunteer> findVolunteerByEmail(String email) {
         return volunteerRepository.findByEmail(email);
     }
 
-    // Metodo per salvare un volontario
     public Volunteer save(Volunteer volunteer) {
         return volunteerRepository.save(volunteer);
     }
 
-    // Metodo per verificare se l'email è già registrata
-    public boolean isRegistered(String email) {
-        return volunteerRepository.findByEmail(email).isPresent();
-    }
-
     public boolean authenticateVolunteer(String email, String rawPassword) {
         Optional<Volunteer> volunteerOptional = volunteerRepository.findByEmail(email);
-        System.out.println("Volunteer present: " + volunteerOptional.isPresent());
         if (volunteerOptional.isPresent()) {
             Volunteer volunteer = volunteerOptional.get();
             return passwordEncoder.matches(rawPassword, volunteer.getPassword());

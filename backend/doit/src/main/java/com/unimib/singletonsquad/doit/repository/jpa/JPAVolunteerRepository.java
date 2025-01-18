@@ -12,7 +12,7 @@ public interface JPAVolunteerRepository extends JpaRepository<Volunteer, Long>, 
     // JpaRepository methods are automatically inherited:
     // save(), findById(), findAll(), deleteById(), etc.
 
-    // Automatic implementation  dei metodi di IVolunteerRepository
+    // Automatic implementation dei metodi di IVolunteerRepository
     @Override
     List<Volunteer> findByName(String name);
 

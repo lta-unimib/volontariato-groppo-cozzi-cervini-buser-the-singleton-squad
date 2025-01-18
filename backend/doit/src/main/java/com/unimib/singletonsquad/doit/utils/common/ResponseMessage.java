@@ -1,9 +1,8 @@
-package com.unimib.singletonsquad.doit.utils.response;
+package com.unimib.singletonsquad.doit.utils.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 @Getter

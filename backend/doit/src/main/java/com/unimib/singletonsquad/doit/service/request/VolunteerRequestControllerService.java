@@ -20,15 +20,15 @@ public class VolunteerRequestControllerService {
         this.volunteerRequestService.deleteRequestById(requestId);
     }
 
-    public void updateVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, final Long id)
+    public void updateVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, final Long id, final String email)
             throws Exception {
-            VolunteerRequest temp = this.volunteerRequestMapper.createRequestVolunteer(volunteerRequestDTO, id);
+            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(volunteerRequestDTO, id, email);
             this.volunteerRequestService.updateRequest(temp, id);
     }
 
-    public void createVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO)
+    public void createVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, String email)
             throws Exception {
-            VolunteerRequest temp = this.volunteerRequestMapper.createRequestVolunteer(volunteerRequestDTO);
+            VolunteerRequest temp = this.volunteerRequestMapper.createRequestVolunteer(volunteerRequestDTO, email);
             this.volunteerRequestService.save(temp);
     }
 

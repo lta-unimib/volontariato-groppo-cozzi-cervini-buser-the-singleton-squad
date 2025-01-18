@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.utils;
+package com.unimib.singletonsquad.doit.utils.authentication;
 
 import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.security.JWTUtils;
@@ -27,8 +27,6 @@ public class UserVerify {
         String role = String.valueOf(roleDesired);
         String token = jwtUtils.getTokenFromRequest(request);
         String roleFromToken = this.jwtUtils.extractClaimByName(token, "role").toString();
-        System.out.println("roleFromToken " + roleFromToken);
-        System.out.println("roleDesired " + roleDesired);
 
         if(!roleFromToken.equalsIgnoreCase(role))
             throw new InvalidRoleGeneralException(String.format("Invalid user role: %s", role));

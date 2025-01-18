@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.domain;
+package com.unimib.singletonsquad.doit.domain.organization;
 
 import jakarta.persistence.*;
 import lombok.Getter;

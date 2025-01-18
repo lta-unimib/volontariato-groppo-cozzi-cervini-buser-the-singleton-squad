@@ -1,10 +1,11 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
-import com.unimib.singletonsquad.doit.dto.Auth;
+import com.fasterxml.jackson.databind.JsonNode;;
+import com.unimib.singletonsquad.doit.dto.AuthDTO;
 import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
-import com.unimib.singletonsquad.doit.utils.UserVerify;
-import com.unimib.singletonsquad.doit.utils.response.ResponseMessage;
-import com.unimib.singletonsquad.doit.utils.response.ResponseMessageUtil;
+import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,22 +20,19 @@ public class AuthenticationController {
     private AuthenticationUserService authenticationUserService;
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> authenticateUser( @PathVariable final String role,  @RequestBody final Auth auth) throws Exception{
-            System.out.println("Authenticating user with role: " + role);
-            if(!UserVerify.checkUserRole(role))
-                throw new InvalidRoleGeneralException("Invalid user role");
+    public ResponseEntity<?> authenticateUser( @PathVariable final String role,  @RequestBody final AuthDTO auth) throws Exception{
+        if(!UserVerify.checkUserRole(role))
+            throw new InvalidRoleGeneralException("Invalid user role");
 
-            String email = auth.getEmail();
-            String password = auth.getPassword();
-            System.out.println("Authenticating user with email: " + email);
-            System.out.println("Authenticating user with password: " + password);
+        String token = this.authenticationUserService.authenticate(auth, role);
+        ResponseMessage message = this.createMessageResponse(role, token);
+        return ResponseEntity.ok().body(message);
+    }
 
-            this.authenticationUserService.authenticate(password, role, email);
-
-            //todo inserire il token
-            ResponseMessage message = ResponseMessageUtil.createResponse("user is authenticated as " + role, HttpStatus.OK);
-            return ResponseEntity.ok().body(message);
-
+    private ResponseMessage createMessageResponse( @PathVariable final String role, final String token){
+        JsonNode tokenJson = ResponseMessageUtil.createJsonNode("authToken", token);
+        String messageResponse = String.format("Successfully authenticated %s", role);
+        return ResponseMessageUtil.createResponse( messageResponse, HttpStatus.OK, tokenJson);
     }
 
 

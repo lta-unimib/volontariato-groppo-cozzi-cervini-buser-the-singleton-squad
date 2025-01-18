@@ -10,14 +10,14 @@ import java.time.LocalDate;
 @Setter
 public class ErrorExceptionResponse {
 
-        private HttpStatus errorCode;
-        private String errorMessage;
-        private LocalDate timestamp;
+        private HttpStatus status;
+        private String message;
+        private Object data;
 
-        public ErrorExceptionResponse(HttpStatus errorCode, String errorMessage) {
-            this.errorCode = errorCode;
-            this.errorMessage = errorMessage;
-            this.timestamp = LocalDate.now();
+        public ErrorExceptionResponse(HttpStatus status, String errorMessage) {
+            this.status = status;
+            this.data= null ;
+            this.message = errorMessage;
         }
 
     }
