@@ -2,10 +2,6 @@ export const validateDate = (date: string): boolean => {
     return date !== "";
 };
 
-export const validateAddress = (address: string): boolean => {
-    return address !== "";
-};
-
 export const validateCategories = (categories: string[]): boolean => {
     return categories.length > 0;
 };

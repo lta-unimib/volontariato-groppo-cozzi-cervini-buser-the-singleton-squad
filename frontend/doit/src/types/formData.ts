@@ -1,4 +1,5 @@
-import {AvailabilityData} from "@/types/availabilityData";
+import { AvailabilityData } from "@/types/availabilityData";
+import { AddressData } from "@/types/addressData";
 
 export interface BaseFormData {
     email: string;
@@ -6,7 +7,7 @@ export interface BaseFormData {
     description: string;
 }
 
-export interface BaseUserData extends BaseFormData{
+export interface BaseUserData extends BaseFormData {
     city: string;
     preferences: string[];
 }
@@ -25,11 +26,12 @@ export interface VolunteerFormData extends BaseUserData {
     role?: string;
 }
 
-export interface RequestFormData extends BaseFormData{ // Request Form Data should not contain email and password
+export interface RequestFormData {
     title: string;
     date: string;
-    address: string;
+    address: AddressData;
     categories: string[];
     activities: string[];
+    description: string;
     volunteerCapacity: string;
 }

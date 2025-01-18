@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 import { MdOutlineBusiness, MdOutlineEmail, MdOutlinePassword } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import bcryptjs from 'bcryptjs';
@@ -17,12 +17,12 @@ import { useFormSubmission } from "@/hooks/useFormSubmission";
 
 export function OrganizationForm() {
     const { formData, updateField } = useFormData();
+    const { handleSubmit } = useFormSubmission("organization");
     const { validationState, isValid } = useFormValidation(formData);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
-    const { handleSubmit } = useFormSubmission("organization");
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleFormSubmit = async (e: FormEvent) => {
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const salt = await bcryptjs.genSalt(10);
@@ -33,16 +33,24 @@ export function OrganizationForm() {
                 password: hashedPassword,
             };
 
-            return handleSubmit(finalFormData);
+            const response = await handleSubmit(finalFormData);
+            if (response.status === 200) {
+                return { success: true };
+            }
+            return {
+                success: false,
+                message: response.message || `Error ${response.status}`
+            };
+
         } catch (error) {
-            console.error('Error during form submission:', error);
-            throw error;
+            console.error("Error during form submission:", error);
+            return { success: false, message: "Submission failed" };
         }
     };
 
     return (
         <BaseForm
-            onSubmitAction={handleFormSubmit}
+            onSubmitAction={onSubmit}
             isValid={isValid()}
             redirectTo={"../../../dashboard/organization/"}
         >

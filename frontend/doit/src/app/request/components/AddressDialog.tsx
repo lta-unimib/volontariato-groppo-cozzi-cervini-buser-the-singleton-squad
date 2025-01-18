@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+"use client";
+
+import React from 'react';
 import {
     Dialog,
     DialogContent,
@@ -13,50 +15,47 @@ import { CityPicker } from '@/components/ui/city/CityPicker';
 import { MdOutlineHome } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { AddressData } from '@/types/addressData';
-
-// Manca la validazione live per i campi tipo numero e via
+import { useAddressFormData } from '@/app/request/hooks/useAddressFormData';
+import { useAddressFormFocus } from '@/app/request/hooks/useAddressFormFocus';
+import { useAddressFormValidation } from '@/app/request/hooks/useAddressFormValidation';
 
 interface AddressDialogProps {
     onSaveAction: (data: AddressData) => void;
 }
 
 const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
-    const [open, setOpen] = useState(false);
-    const [address, setAddress] = useState<AddressData>({
-        street: "",
-        number: "",
-        city: "",
-        postalCode: "",
-        additionalInfo: "",
-    });
+    const [open, setOpen] = React.useState(false);
+    const [savedAddress, setSavedAddress] = React.useState<AddressData | null>(null);
+    const { addressData, updateField, resetForm } = useAddressFormData();
+    const { focusState, handleFocus, handleBlur } = useAddressFormFocus();
+    const { validationState, isValid } = useAddressFormValidation(addressData);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setAddress(prev => ({ ...prev, [name]: value }));
+        updateField(name as keyof AddressData, value);
     };
 
     const handleCityChange = (selectedCity: string, selectedCap?: string) => {
-        setAddress(prev => ({
-            ...prev,
-            city: selectedCity,
-            postalCode: selectedCap ?? prev.postalCode
-        }));
+        updateField('city', selectedCity);
+        if (selectedCap) {
+            updateField('postalCode', selectedCap);
+        }
     };
 
     const handleSave = () => {
-        onSaveAction(address);
-        setOpen(false);
-    };
-
-    const isFormValid = () => {
-        return address.street && address.number && address.city && address.postalCode;
+        if (isValid()) {
+            setSavedAddress(addressData);
+            onSaveAction(addressData);
+            setOpen(false);
+            resetForm();
+        }
     };
 
     const getDisplayText = () => {
-        if (isFormValid()) {
-            let text = `${address.street} ${address.number}, ${address.city}, ${address.postalCode}`;
-            if (address.additionalInfo) {
-                text += `, ${address.additionalInfo}`;
+        if (savedAddress) {
+            let text = `${savedAddress.street} ${savedAddress.number}, ${savedAddress.city}, ${savedAddress.postalCode}`;
+            if (savedAddress.additionalInfo) {
+                text += `, ${savedAddress.additionalInfo}`;
             }
             return text;
         }
@@ -70,7 +69,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
                     variant="outline"
                     className={cn(
                         "w-full justify-start text-left font-normal rounded-full",
-                        isFormValid() ? "text-foreground" : "text-muted-foreground"
+                        savedAddress ? "text-foreground" : "text-muted-foreground"
                     )}
                 >
                     <MdOutlineHome className="mr-2 h-5 w-5" />
@@ -84,59 +83,71 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
                 </DialogHeader>
 
                 <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-1 items-center gap-4">
-                        <Input
-                            id="street"
-                            name="street"
-                            value={address.street}
-                            onChange={handleInputChange}
-                            className="w-full rounded-full"
-                            placeholder="Via"
-                        />
-                    </div>
-                    <div className="grid grid-cols-1 items-center gap-4">
-                        <Input
-                            id="number"
-                            name="number"
-                            value={address.number}
-                            onChange={handleInputChange}
-                            className="w-full rounded-full"
-                            placeholder="Numero"
-                        />
-                    </div>
-                    <div className="grid grid-cols-1 items-center gap-4">
-                        <CityPicker
-                            value={address.city}
-                            onChangeAction={handleCityChange}
-                            showCap={true}
-                        />
-                    </div>
-                    <div className="grid grid-cols-1 items-center gap-4">
-                        <Input
-                            id="postalCode"
-                            name="postalCode"
-                            value={address.postalCode}
-                            onChange={handleInputChange}
-                            className="w-full rounded-full"
-                            placeholder="CAP"
-                        />
-                    </div>
-                    <div className="grid grid-cols-1 items-center gap-4">
-                        <Input
-                            id="additionalInfo"
-                            name="additionalInfo"
-                            value={address.additionalInfo ?? ''}
-                            onChange={handleInputChange}
-                            className="w-full rounded-full"
-                            placeholder="Interno/Campanello (opzionale)"
-                        />
-                    </div>
+                    <Input
+                        id="street"
+                        name="street"
+                        value={addressData.street}
+                        onChange={handleInputChange}
+                        className="w-full rounded-full"
+                        placeholder="Via"
+                        isInvalid={!validationState.isStreetValid}
+                        isFocused={focusState.streetFocused}
+                        onFocus={() => handleFocus("street")}
+                        onBlur={() => handleBlur("street")}
+                    />
+
+                    <Input
+                        id="number"
+                        name="number"
+                        value={addressData.number}
+                        onChange={handleInputChange}
+                        className="w-full rounded-full"
+                        placeholder="Numero"
+                        isInvalid={!validationState.isNumberValid}
+                        isFocused={focusState.numberFocused}
+                        onFocus={() => handleFocus("number")}
+                        onBlur={() => handleBlur("number")}
+                    />
+
+                    <CityPicker
+                        value={addressData.city}
+                        onChangeAction={handleCityChange}
+                        showCap={true}
+                    />
+
+                    <Input
+                        id="postalCode"
+                        name="postalCode"
+                        value={addressData.postalCode}
+                        onChange={handleInputChange}
+                        className="w-full rounded-full"
+                        placeholder="CAP"
+                        isInvalid={!validationState.isPostalCodeValid}
+                        isFocused={focusState.postalCodeFocused}
+                        onFocus={() => handleFocus("postalCode")}
+                        onBlur={() => handleBlur("postalCode")}
+                    />
+
+                    <Input
+                        id="additionalInfo"
+                        name="additionalInfo"
+                        value={addressData.additionalInfo ?? ''}
+                        onChange={handleInputChange}
+                        className="w-full rounded-full"
+                        placeholder="Interno/Campanello (opzionale)"
+                        isFocused={focusState.additionalInfoFocused}
+                        onFocus={() => handleFocus("additionalInfo")}
+                        onBlur={() => handleBlur("additionalInfo")}
+                    />
                 </div>
 
                 <DialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
                     <Button
                         variant="outline"
-                        onClick={() => setOpen(false)}
+                        onClick={() => {
+                            setOpen(false);
+                            resetForm();
+                        }}
                         className="w-full sm:w-auto rounded-full"
                     >
                         Annulla
@@ -144,7 +155,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
                     <Button
                         onClick={handleSave}
                         className="w-full sm:w-auto rounded-full"
-                        disabled={!isFormValid()}
+                        disabled={!isValid()}
                     >
                         Salva
                     </Button>

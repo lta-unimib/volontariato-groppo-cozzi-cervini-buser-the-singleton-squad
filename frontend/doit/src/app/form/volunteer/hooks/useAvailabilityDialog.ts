@@ -21,12 +21,12 @@ export const useAvailabilityDialog = (onSave: (data: AvailabilityData) => void) 
     }, [resetSelections]);
 
     const handleSave = useCallback(() => {
-        let selectedData: [string, string] | undefined;
+        let selectedData: [string, string] | string[] | undefined;
 
         if (selectedMode === 'daily') {
             selectedData = selectedTimeRange.length === 2 ? selectedTimeRange as [string, string] : undefined;
         } else if (selectedMode === 'weekly') {
-            selectedData = selectedWeekDays.length === 2 ? selectedWeekDays as [string, string] : undefined;
+            selectedData = selectedWeekDays.length > 0 ? selectedWeekDays : undefined;
         } else {
             const { from, to } = selectedDateRange;
             if (from && to) {
@@ -35,11 +35,10 @@ export const useAvailabilityDialog = (onSave: (data: AvailabilityData) => void) 
         }
 
         if (selectedData) {
-            onSave({ mode: selectedMode, timeRange: selectedData });
+            onSave({ mode: selectedMode, timeRange: selectedMode === 'weekly' ? selectedWeekDays : selectedData });
         }
         setOpen(false);
     }, [selectedMode, selectedTimeRange, selectedWeekDays, selectedDateRange, onSave]);
-
 
 
     const handleCancel = useCallback(() => {

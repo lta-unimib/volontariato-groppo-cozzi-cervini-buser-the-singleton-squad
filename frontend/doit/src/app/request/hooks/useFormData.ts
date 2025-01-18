@@ -2,17 +2,22 @@
 
 import { useState } from 'react';
 import { RequestFormData } from '@/types/formData';
+import { AddressData } from '@/types/addressData';
 
 const initialFormData: RequestFormData = {
     title: "",
     date: "",
-    address: "",
+    address: {
+        street: "",
+        number: "",
+        city: "",
+        postalCode: "",
+        additionalInfo: ""
+    },
     categories: [],
     activities: [],
     description: "",
-    volunteerCapacity: "",
-    email: "",
-    password: "",
+    volunteerCapacity: ""
 };
 
 export const useFormData = () => {

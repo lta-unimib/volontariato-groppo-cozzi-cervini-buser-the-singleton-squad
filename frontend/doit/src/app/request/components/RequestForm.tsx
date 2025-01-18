@@ -4,7 +4,7 @@ import React from "react";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { BaseForm } from "@/components/ui/form/BaseForm";
-import { useFormSubmission } from '@/hooks/useFormSubmission';
+import { useRequestFormSubmission } from '@/app/request/hooks/useRequestFormSubmission';
 import { DatePickerDialog } from "@/app/request/components/DatePicker";
 import { useFormData } from "@/app/request/hooks/useFormData";
 import AddressDialog from "@/app/request/components/AddressDialog";
@@ -14,18 +14,27 @@ import { useFormFocus } from "@/app/request/hooks/useFormFocus";
 
 export function RequestForm() {
     const { formData, updateField } = useFormData();
-    const { handleSubmit } = useFormSubmission("request");
-    const { validationState, isValid } = useFormValidation(formData); // non posso usare form validation perchè l'endpoint è API_BASE_LINK/request/new/
+    const { handleSubmit } = useRequestFormSubmission();
+    const { validationState, isValid } = useFormValidation(formData);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await handleSubmit(formData);
-            return { success: true };
+            const response = await handleSubmit(formData);
+            if (response.status === 200) {
+                return { success: true };
+            }
+            return {
+                success: false,
+                message: response.message || `Error ${response.status}`
+            };
         } catch (error) {
             console.error("Error during form submission:", error);
-            return { success: false, message: "Submission failed" };
+            return {
+                success: false,
+                message: error instanceof Error ? error.message : "Submission failed"
+            };
         }
     };
 
@@ -48,7 +57,7 @@ export function RequestForm() {
                 />
 
                 <AddressDialog
-                    onSaveAction={(address) => updateField("address", JSON.stringify(address))}
+                    onSaveAction={(address) => updateField("address", address)}
                 />
 
                 <RoundCheckboxSelector

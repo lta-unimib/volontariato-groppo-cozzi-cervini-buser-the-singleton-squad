@@ -33,9 +33,17 @@ export function VolunteerForm() {
                 password: hashedPassword,
             };
 
-            await handleSubmit(finalFormData);
+            console.log(formData.availability);
 
-            return { success: true };
+            const response = await handleSubmit(finalFormData);
+            if (response.status === 200) {
+                return { success: true };
+            }
+            return {
+                success: false,
+                message: response.message || `Error ${response.status}`
+            };
+
         } catch (error) {
             console.error("Error during form submission:", error);
             return { success: false, message: "Submission failed" };
