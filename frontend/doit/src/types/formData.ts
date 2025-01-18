@@ -25,7 +25,7 @@ export interface VolunteerFormData extends BaseUserData {
     role?: string;
 }
 
-export interface RequestFormData extends BaseFormData{
+export interface RequestFormData extends BaseFormData{ // Request Form Data should not contain email and password
     title: string;
     date: string;
     address: string;

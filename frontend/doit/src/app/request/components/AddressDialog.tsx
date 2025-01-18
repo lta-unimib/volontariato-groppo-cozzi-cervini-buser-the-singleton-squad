@@ -14,6 +14,8 @@ import { MdOutlineHome } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { AddressData } from '@/types/addressData';
 
+// Manca la validazione live per i campi tipo numero e via
+
 interface AddressDialogProps {
     onSaveAction: (data: AddressData) => void;
 }

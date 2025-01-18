@@ -14,8 +14,8 @@ import { useFormFocus } from "@/app/request/hooks/useFormFocus";
 
 export function RequestForm() {
     const { formData, updateField } = useFormData();
-    const { handleSubmit } = useFormSubmission("offer");
-    const { validationState, isValid } = useFormValidation(formData);
+    const { handleSubmit } = useFormSubmission("request");
+    const { validationState, isValid } = useFormValidation(formData); // non posso usare form validation perchè l'endpoint è API_BASE_LINK/request/new/
     const { focusState, handleFocus, handleBlur } = useFormFocus();
 
     const onSubmit = async (e: React.FormEvent) => {

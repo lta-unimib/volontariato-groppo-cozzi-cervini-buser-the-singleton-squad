@@ -39,6 +39,7 @@ export function BaseForm({
 
         try {
             const result = await onSubmitAction(e);
+            console.log("Form Submission Result:", result);
 
             if (result.success && redirectTo) {
                 router.push(redirectTo);

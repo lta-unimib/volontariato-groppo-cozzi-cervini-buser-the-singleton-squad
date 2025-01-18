@@ -37,6 +37,9 @@ export const useLoginForm = ({ loginApiLink, redirectPath }: UseLoginFormProps) 
 
         try {
             const fullUrl = `${API_BASE_LINK}${loginApiLink}`;
+            console.log("API Request URL:", fullUrl);
+            console.log("Request Payload:", { email: formState.email, password: formState.password });
+
             const response = await fetch(fullUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -46,15 +49,18 @@ export const useLoginForm = ({ loginApiLink, redirectPath }: UseLoginFormProps) 
                 }),
             });
 
+            console.log("Response Status:", response.status);
+
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
+                console.log("Error Response Data:", errorData);
                 const errorMessage = errorData.message || `Login failed: ${response.statusText}`;
                 updateFormState('error', errorMessage);
                 return;
             }
 
             const data = await response.json();
-            console.log(data);
+            console.log("Success Response Data:", data);
             router.push(redirectPath);
 
         } catch (err) {

@@ -3,7 +3,7 @@
 import { API_BASE_LINK } from "@/utils/constants";
 import { VolunteerFormData, OrganizationFormData, RequestFormData } from "@/types/formData";
 
-type FormType = "volunteer" | "organization" | "offer";
+type FormType = "volunteer" | "organization" | "request";
 type FormData = VolunteerFormData | OrganizationFormData | RequestFormData;
 
 export const useFormSubmission = (formType: FormType) => {
@@ -11,7 +11,7 @@ export const useFormSubmission = (formType: FormType) => {
         try {
             console.log("Form Data:", JSON.stringify(formData, null, 2));
 
-            const endpoint = `${API_BASE_LINK}/register/${formType}`;
+            const endpoint = `${API_BASE_LINK}/registration/${formType}/`;
 
             const response = await fetch(endpoint, {
                 method: 'POST',
