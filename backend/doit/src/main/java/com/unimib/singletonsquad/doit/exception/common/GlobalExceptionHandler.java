@@ -1,9 +1,6 @@
 package com.unimib.singletonsquad.doit.exception.common;
 
-import com.unimib.singletonsquad.doit.exception.auth.AuthException;
-import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
-import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
-import com.unimib.singletonsquad.doit.exception.auth.UserNotRegisteredGeneralException;
+import com.unimib.singletonsquad.doit.exception.auth.*;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;
@@ -59,6 +56,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ResponseMessage> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
+    }
+    @ExceptionHandler(InvalidEmailTokenException.class)
+    public ResponseEntity<ResponseMessage> invalidEmailToken(InvalidEmailTokenException ex) {
+        return buildErrorResponse(HttpStatus.PRECONDITION_FAILED, ex.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)

@@ -7,6 +7,8 @@ import com.unimib.singletonsquad.doit.service.database.VolunteerRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VolunteerRequestControllerService {
 
@@ -33,7 +35,15 @@ public class VolunteerRequestControllerService {
     }
 
     public VolunteerRequest getSpecificRequest(Long idRequest) throws Exception {
-        VolunteerRequest temp = this.volunteerRequestService.getSpecificRequest(idRequest);
-        return temp;
+        return this.volunteerRequestService.getSpecificRequest(idRequest);
     }
+
+    public List<VolunteerRequest> getAllRequestByOrganizationEmail(String email) {
+        return this.volunteerRequestService.getAllRequestByEmail(email);
+    }
+    public List<VolunteerRequest> getAllRequest() {
+        return this.volunteerRequestService.getAllRequest();
+    }
+
+
 }

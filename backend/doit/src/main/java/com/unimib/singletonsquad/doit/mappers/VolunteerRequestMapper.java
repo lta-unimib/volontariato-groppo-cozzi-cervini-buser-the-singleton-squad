@@ -40,6 +40,7 @@ public class VolunteerRequestMapper {
         volunteerRequest.setEndDateTime(requestDTO.getEndDate());
         volunteerRequest.setTitle(requestDTO.getTitle());
         volunteerRequest.setOrganization(getOrganizationByEmail(organizationEmail));
+        volunteerRequest.setVolunteerCategories(requestDTO.getCategories());
 
         return volunteerRequest;
     }

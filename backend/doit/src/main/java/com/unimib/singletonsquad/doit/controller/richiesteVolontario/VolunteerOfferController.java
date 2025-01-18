@@ -24,7 +24,7 @@ public class VolunteerOfferController {
     public ResponseEntity<?> createVolunteerRequest(final HttpServletRequest request,
                                                     final @RequestBody VolunteerOfferDTO volunteerOfferDTO)
             throws Exception {
-            this.userVerify.checkUserRoleFromToken(request, UserRole.volunteer);
+            String email = this.userVerify.validateUserRoleFromToken(request, UserRole.volunteer);
             this.volunteerOfferService.save(volunteerOfferDTO);
 
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer offer saved", HttpStatus.OK);

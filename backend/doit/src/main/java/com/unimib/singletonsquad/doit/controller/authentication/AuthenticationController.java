@@ -21,7 +21,7 @@ public class AuthenticationController {
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> authenticateUser( @PathVariable final String role,  @RequestBody final AuthDTO auth) throws Exception{
-        if(!UserVerify.checkUserRole(role))
+        if(!UserVerify.isValidRole(role))
             throw new InvalidRoleGeneralException("Invalid user role");
 
         String token = this.authenticationUserService.authenticate(auth, role);

@@ -6,7 +6,6 @@ import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerR
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +14,7 @@ import java.util.Optional;
 public class VolunteerRequestService {
 
     @Autowired
-    IVolunteerRequestRepository repository;
+    private IVolunteerRequestRepository repository;
 
     public VolunteerRequest save(VolunteerRequest volunteerRequest) {
         return repository.save(volunteerRequest);
@@ -26,22 +25,32 @@ public class VolunteerRequestService {
     }
 
     public void deleteRequestById(Long id) throws RecordNotFoundGeneralException {
-        if (!repository.existsById(id)) {
-            throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + id);
-        }
-        this.repository.deleteById(id);
+        validateRequestExists(id);
+        repository.deleteById(id);
     }
 
     public void updateRequest(VolunteerRequest volunteerRequest, Long id) throws RecordNotFoundGeneralException {
-        if (!repository.existsById(id))
-            throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + id);
-        this.repository.save(volunteerRequest);
+        validateRequestExists(id);
+        repository.save(volunteerRequest);
     }
 
-
     public VolunteerRequest getSpecificRequest(Long idRequest) {
-        if (!repository.existsById(idRequest))
-            throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + idRequest);
-        return repository.findById(idRequest).isPresent() ? repository.findById(idRequest).get() : null;
+        return repository.findById(idRequest)
+                .orElseThrow(() -> new RecordNotFoundGeneralException(
+                        "VolunteerRequest not found with id " + idRequest));
+    }
+
+    public List<VolunteerRequest> getAllRequestByEmail(String email) {
+        return repository.findByOrganization_Email(email);
+    }
+
+    public List<VolunteerRequest> getAllRequest() {
+        return repository.findAll();
+    }
+
+    private void validateRequestExists(Long id) {
+        if (!repository.existsById(id)) {
+            throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + id);
+        }
     }
 }

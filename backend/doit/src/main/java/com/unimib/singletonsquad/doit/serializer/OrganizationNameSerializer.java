@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.domain.volunteer;
+package com.unimib.singletonsquad.doit.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
