@@ -1,41 +1,43 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
-import com.unimib.singletonsquad.doit.dto.Auth;
+import com.fasterxml.jackson.databind.JsonNode;;
+import com.unimib.singletonsquad.doit.dto.AuthDTO;
+import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
-import jakarta.validation.constraints.NotNull;
+import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/login/{role}")
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationUserService authenticationUserService;
+    private final AuthenticationUserService authenticationUserService;
 
-    @PostMapping("/")
-    public ResponseEntity<?> authenticateUser(
-            @PathVariable final String role,
-           @RequestBody final Auth auth) {
-        try{
-            System.out.println("Authenticating user with role: " + role);
-            this.checkRole(role);
-            String email = auth.getEmail();
-            String password = auth.getPassword();
-            System.out.println("email: " + email);
-            System.out.println("password: " + password);
+    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> authenticateUser( @PathVariable final String role,  @RequestBody final AuthDTO auth) throws Exception{
+        if(!UserVerify.isValidRole(role))
+            throw new InvalidRoleGeneralException("Invalid user role");
 
-            this.authenticationUserService.authenticate(password, role, email);
-            return ResponseEntity.ok().body("user is authenticated");
-        }catch(Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        String token = this.authenticationUserService.authenticate(auth, role);
+        ResponseMessage message = this.createMessageResponse(role, token);
+        return ResponseEntity.ok().body(message);
     }
 
-    private void checkRole(@NotNull final String role) {
-        if(!(role.equalsIgnoreCase("volunteer") || role.equalsIgnoreCase("organization")))
-            throw  new IllegalArgumentException("Invalid role");
+    private ResponseMessage createMessageResponse( @PathVariable final String role, final String token){
+        JsonNode tokenJson = ResponseMessageUtil.createJsonNode("authToken", token);
+        String messageResponse = String.format("Successfully authenticated %s", role);
+        return ResponseMessageUtil.createResponse( messageResponse, HttpStatus.OK, tokenJson);
     }
+
+
+
 
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class VolunteerDTO {
+public class VolunteerDTO  {
     @JsonProperty("firstName")
     private String name;
     @JsonProperty("lastName")
@@ -25,4 +25,6 @@ public class VolunteerDTO {
     private String city;
     @JsonProperty("preferences")
     private List<String> favCategories;
+    @JsonProperty("availability")
+    private AvailabilityDTO availability;
 }

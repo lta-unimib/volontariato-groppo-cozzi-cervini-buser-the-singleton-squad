@@ -1,8 +1,11 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Objects;
 
@@ -20,11 +23,13 @@ public class Volunteer {
     @Column(nullable = false)
     private String surname;
     @Column(unique = true, nullable = false)
+    @Email
     private String email;
     @Column(nullable = false)
     private String password;
     private String description;
     @OneToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     //@JoinColumn(name = "id_volunteer_preferences")
     private VolunteerPreferences volunteerPreferences;
 

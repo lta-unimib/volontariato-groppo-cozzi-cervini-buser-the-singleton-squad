@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class OrganizationDTO {
+public class OrganizationDTO{
     @JsonProperty("organizationName")
     private String name;
     @JsonProperty("email")

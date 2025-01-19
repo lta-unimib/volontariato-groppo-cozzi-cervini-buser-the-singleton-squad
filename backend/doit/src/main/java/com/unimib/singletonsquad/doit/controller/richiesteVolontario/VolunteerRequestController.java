@@ -1,70 +1,83 @@
-
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
-import com.unimib.singletonsquad.doit.service.database.VolunteerRequestService;
-import com.unimib.singletonsquad.doit.service.request.RequestHandlerService;
+import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
+import com.unimib.singletonsquad.doit.security.JWTUtils;
+import com.unimib.singletonsquad.doit.service.request.VolunteerRequestControllerService;
+import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
+import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/richieste")
+@RequestMapping("/request")
+@AllArgsConstructor
 public class VolunteerRequestController {
-    @Autowired
-    private VolunteerRequestService volunteerRequestService;
 
-    //@Autowired
-    //@Qualifier("")
-    //private RequestHandlerService requestHandlerService;
+    private final VolunteerRequestControllerService volunteerRequestControllerService;
+    private final UserVerify userVerify;
 
-    @PostMapping("/nuova")
-    public ResponseEntity<String> createVolunteerRequest(@RequestBody VolunteerRequestDTO volunteerRequestDTO) {
-        System.out.println("POST volunteer request: \n" + volunteerRequestDTO);
-        this.volunteerRequestService.save(volunteerRequestDTO);
-        return ResponseEntity.ok().body("VolunteerRequest created successfully");
+    @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)
+            throws Exception {
+        String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
+        this.volunteerRequestControllerService.createVolunteerRequest(volunteerRequestDTO, email);
+        ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request created", HttpStatus.OK);
+        return ResponseEntity.ok().body(message);
     }
 
-    //TODO
-    /*
-    @GetMapping("/ottieni")
-    public ResponseEntity<List<VolunteerRequestDTO>> getVolunteerRequestsParam(@RequestParam String city,
-                                                                          @RequestParam String startDate,
-                                                                          @RequestParam String endDate,
-                                                                          @RequestParam String categories)
-    {
-        return null;
+    @GetMapping(value = "/{idRequest}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getSpecificRequest(final @PathVariable("idRequest") Long idRequest, final HttpServletRequest request)
+            throws Exception {
+       this.userVerify.isRoleValidFromRequest(request);
+       VolunteerRequest specificRequest = this.volunteerRequestControllerService.getSpecificRequest(idRequest);
+       ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request got", HttpStatus.OK, specificRequest);
+       return ResponseEntity.ok().body(message);
     }
 
-    @GetMapping("/ottieni")
-    public ResponseEntity<List<VolunteerRequestDTO>> getVolunteerRequestsAlgorithm(){
-        /** todo
-            distanza 30%
-            categorie_preferite 40%
-            disponibilità_temporale 30%
+    @GetMapping(value = "/getall/organization/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
+        String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
+        List<VolunteerRequest> volunteerRequestList = this.volunteerRequestControllerService.getAllRequestByOrganizationEmail(email);
+        ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization", HttpStatus.OK, volunteerRequestList);
+        return ResponseEntity.ok().body(message);
+        }
 
-            classe che contiene tutte le richieste di volontariato, tipo catalogo
-            CONTROLLER --> SERVICE --> REPOSITORY --> SERVICE, elabora e le riordina, --> CONTROLLER --> RISPOSTA
-        */
-    /*
-
-        return null;
-    }
-/*
-
-    @DeleteMapping("/delete/{id_richiesta}")
-    public ResponseEntity<String> deleteVolunteerRequest(@PathVariable Long id_richiesta) {
-
-        return null;
+    @GetMapping(value = "/getall/")
+    public ResponseEntity<?> getAllVolunteerRequest(final HttpServletRequest request) throws Exception {
+        this.userVerify.isRoleValidFromRequest(request);
+        List<VolunteerRequest> volunteerRequestList = this.volunteerRequestControllerService.getAllRequest();
+        ResponseMessage message = ResponseMessageUtil.createResponse("get all reques", HttpStatus.OK, volunteerRequestList);
+        return ResponseEntity.ok().body(message);
     }
 
-    @PutMapping("/update/{id_richiesta}")
-    public ResponseEntity<String> updateVolunteerRequest(@PathVariable Long id_richiesta,
-                                                         @RequestBody VolunteerRequestDTO requestDTO) {
-        return null;
+
+    @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request)
+    throws Exception {
+            String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
+            this.volunteerRequestControllerService.deleteVolunteerRequest(idRequest);
+            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request deleted", HttpStatus.OK);
+            return ResponseEntity.ok().body(message);
     }
-    */
+
+    @PutMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request,
+                                                    final @RequestBody VolunteerRequestDTO volunteerRequestDTO)
+    throws Exception {
+        String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
+        this.volunteerRequestControllerService.updateVolunteerRequest(volunteerRequestDTO, idRequest, email);
+            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request updated", HttpStatus.OK);
+            return ResponseEntity.ok().body(message);
+    }
 }

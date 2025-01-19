@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.service.authentication;
 
 import com.unimib.singletonsquad.doit.security.CustomOAuth2User;
 import com.unimib.singletonsquad.doit.security.JWTUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,10 +14,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 @Component
+@AllArgsConstructor
 public class AuthenticationSetUp {
 
-    @Autowired
-    private JWTUtils jwtUtils;
+    private final JWTUtils jwtUtils;
 
     public String setUpNewAuthSecurityContext(final String password,
                                              final String role,

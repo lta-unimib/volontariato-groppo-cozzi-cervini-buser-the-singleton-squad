@@ -1,12 +1,15 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
-import com.unimib.singletonsquad.doit.domain.common.Location;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
+import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -15,30 +18,33 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 @Entity
+@NoArgsConstructor
 public class VolunteerRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-    @Column(nullable = false)
     private String title;
     private String detailedDescription;
     private int capacity;
     @OneToOne(cascade = CascadeType.ALL)
-    private Location location;
+    private Address address;
     private String volunteerType;
     private String startDateTime;
     private String endDateTime;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "organization_id", nullable = false)
+    @JsonSerialize(using = OrganizationNameSerializer.class)
     private Organization organization;
     @ElementCollection
+    @CollectionTable(name = "volunteer_request_categories", joinColumns = @JoinColumn(name = "volunteer_request_id"))
+    @Column(name = "category")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> volunteerCategories;
 
-    public VolunteerRequest() {}
 
     public void setCapacity(int capacity) {
-        if(capacity <= 0) {
+        if (capacity <= 0) {
             throw new IllegalArgumentException("Capacity must be a positive number");
         } else {
             this.capacity = capacity;
@@ -49,13 +55,9 @@ public class VolunteerRequest {
         return volunteerCategories.contains(category);
     }
 
-    public String getCity() {
-        return location.getCity();
-    }
-
     public boolean hasCategories(List<String> categories) {
-        for(String category : categories) {
-            if(volunteerCategories.contains(category)) {
+        for (String category : categories) {
+            if (volunteerCategories.contains(category)) {
                 return true;
             }
         }

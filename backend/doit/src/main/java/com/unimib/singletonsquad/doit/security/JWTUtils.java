@@ -60,8 +60,6 @@ public class JWTUtils {
                     .parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            // Logga l'eccezione per il debug (se necessario)
-            // log.error("Token non valido: " + e.getMessage());
             return false;
         }
     }
@@ -70,7 +68,6 @@ public class JWTUtils {
         try {
             return extractExpiration(token).before(new Date());
         } catch (JwtException e) {
-            // Tratta i token malformati come scaduti
             return true;
         }
     }
@@ -105,8 +102,7 @@ public class JWTUtils {
                 .getBody();
     }
     public Authentication getAuthentication(String token) {
-        // Estrarre le informazioni utente dal token e creare un'Authentication
-        String username = extractUsername(token); // Metodo per estrarre lo username
+        String username = extractUsername(token);
         return new UsernamePasswordAuthenticationToken(
                 username, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
         );

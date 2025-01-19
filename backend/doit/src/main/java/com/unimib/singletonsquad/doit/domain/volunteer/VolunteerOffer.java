@@ -1,6 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
-import com.unimib.singletonsquad.doit.domain.common.VolunteerRequestStatus;
+import com.unimib.singletonsquad.doit.domain.common.Status;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,14 +20,10 @@ public class VolunteerOffer {
     @Column(nullable = false)
     private Long id;
     private String competenceDescription;
-    @ManyToOne
-    private VolunteerPreferences volunteerPreferences;
     @OneToOne
     private Organization organization;
     @OneToOne
     private Volunteer volunteer;
-
     @Enumerated(EnumType.STRING)
-    private VolunteerRequestStatus volunteerRequestStatus;
-
+    private Status status;
 }

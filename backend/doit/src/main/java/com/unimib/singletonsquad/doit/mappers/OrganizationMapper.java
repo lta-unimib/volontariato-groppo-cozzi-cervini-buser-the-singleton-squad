@@ -7,12 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizationMapper {
 
-    /**
-     *  TODO LE PREFERENZE
-     *
-     *
-     */
-
     public Organization mapToOrganization(OrganizationDTO organizationDTO){
         Organization organization = new Organization();
         organization.setDescription(organizationDTO.getDescription());
@@ -21,8 +15,8 @@ public class OrganizationMapper {
         organization.setCategories(organizationDTO.getPreferences());
         organization.setWebsite(organizationDTO.getWebSite());
         organization.setPassword(organizationDTO.getPassword());
-        //organization.setRole(organizationDTO.getRole());
         organization.setVATNumber(organizationDTO.getVatNumber());
+        organization.setCity(organizationDTO.getCity());
         return organization;
     }
 }
