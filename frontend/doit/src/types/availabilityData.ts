@@ -7,7 +7,6 @@ export interface AvailabilityDialogProps {
 export interface AvailabilityData {
     mode: AvailabilityMode;
     timeRange: [string, string] | string[];
-    weekDays?: string[];
     dateRange?: {
         from: Date;
         to: Date;

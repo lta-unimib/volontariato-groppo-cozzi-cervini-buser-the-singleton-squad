@@ -2,13 +2,14 @@
 import { Card, CardContent } from "@/components/ui/Card";
 import { Label } from "@/components/ui/Label";
 import { ScrollArea } from "@/components/ui/ScrollArea";
-import { useState, useId } from "react";
+import { useState, useEffect, useId } from "react";
 
 interface RoundCheckboxSelectorProps {
-    readonly onChangeAction: (selectedValues: string[]) => void;
+    onChangeAction?: (selectedValues: string[]) => void;
+    initialSelected?: string[];
 }
 
-export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorProps) {
+export function RoundCheckboxSelector({ onChangeAction, initialSelected = [] }: RoundCheckboxSelectorProps) {
     const options = [
         { id: "supporto_anziani", label: "Supporto Anziani" },
         { id: "supporto_bambini", label: "Supporto Bambini" },
@@ -17,16 +18,21 @@ export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorP
         { id: "caritas", label: "Caritas" },
     ];
 
-    // Use React's useId hook instead of uuid
     const componentId = useId();
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<string[]>(initialSelected);
+
+    useEffect(() => {
+        setSelectedOptions(initialSelected);
+    }, [initialSelected]);
 
     const handleCheckboxChange = (optionId: string) => {
-        const updatedSelected = selectedOptions.includes(optionId)
-            ? selectedOptions.filter((id) => id !== optionId)
-            : [...selectedOptions, optionId];
-        setSelectedOptions(updatedSelected);
-        onChangeAction(updatedSelected);
+        if (onChangeAction) {
+            const updatedSelected = selectedOptions.includes(optionId)
+                ? selectedOptions.filter((id) => id !== optionId)
+                : [...selectedOptions, optionId];
+            setSelectedOptions(updatedSelected);
+            onChangeAction(updatedSelected);
+        }
     };
 
     return (
@@ -36,6 +42,7 @@ export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorP
                     <div className="space-y-1">
                         {options.map((option) => {
                             const uniqueOptionId = `${componentId}-${option.id}`;
+                            const isDisabled = !onChangeAction;
                             return (
                                 <div key={uniqueOptionId} className="flex items-center space-x-2 py-2">
                                     <input
@@ -45,10 +52,13 @@ export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorP
                                         onChange={() => handleCheckboxChange(option.id)}
                                         className="hidden peer"
                                         aria-label={option.label}
+                                        disabled={isDisabled}
                                     />
                                     <label
                                         htmlFor={uniqueOptionId}
-                                        className="relative w-4 h-4 rounded-full border border-gray-200 hover:border-gray-300 transition-colors peer-checked:border-primary flex items-center justify-center cursor-pointer"
+                                        className={`relative w-4 h-4 rounded-full border border-gray-200 hover:border-gray-300 transition-colors peer-checked:border-primary flex items-center justify-center cursor-pointer ${
+                                            isDisabled ? "cursor-not-allowed" : ""
+                                        }`}
                                     >
                                         <div
                                             className={`w-2 h-2 rounded-full transition-colors ${
@@ -58,7 +68,7 @@ export function RoundCheckboxSelector({ onChangeAction }: RoundCheckboxSelectorP
                                     </label>
                                     <Label
                                         htmlFor={uniqueOptionId}
-                                        className="cursor-pointer text-sm font-normal"
+                                        className={`cursor-pointer text-sm font-normal`}
                                     >
                                         {option.label}
                                     </Label>

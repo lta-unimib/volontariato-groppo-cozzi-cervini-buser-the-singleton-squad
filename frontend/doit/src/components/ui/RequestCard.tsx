@@ -42,7 +42,7 @@ export default function RequestCard({
                 <Image
                     src={image}
                     alt="Descrizione immagine"
-                    className="w-36 md:w-60 h-full object-cover rounded-r-md shadow-lg"
+                    className="w-36 md:w-60 h-full object-cover rounded-r-2xl shadow-lg"
                     width={240}
                     height={400}
                     priority

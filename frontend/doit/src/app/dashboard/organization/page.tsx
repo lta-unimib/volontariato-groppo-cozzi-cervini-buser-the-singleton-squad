@@ -88,9 +88,9 @@ export default function Home() {
                     </SidebarLayout>
                 </div>
 
-                <div className="flex-1 my-4">
-                    <ScrollArea className="h-full px-4 md:px-8">
-                        <div className="space-y-4 h-full min-h-[10rem]">
+                <div className="flex-1 flex flex-col">
+                    <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
+                        <div className="space-y-4">
                             {loading ? (
                                 <div className="flex mt-10 items-center justify-center h-full">
                                     <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
