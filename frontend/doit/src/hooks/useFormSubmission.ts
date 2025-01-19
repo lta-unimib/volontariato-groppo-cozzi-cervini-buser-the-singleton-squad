@@ -8,7 +8,7 @@ type FormData = VolunteerFormData | OrganizationFormData;
 
 interface RegistrationResponse {
     authToken: string;
-    user?: any;
+    user?: string;
 }
 
 export const useFormSubmission = (formType: FormType) => ({

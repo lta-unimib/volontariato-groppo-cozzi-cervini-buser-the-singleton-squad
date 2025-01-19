@@ -17,7 +17,7 @@ interface UseLoginFormProps {
 
 interface LoginResponse {
     authToken: string;
-    user?: any;
+    user?: string;
 }
 
 export const useLoginForm = ({ loginApiLink, redirectPath }: UseLoginFormProps) => {

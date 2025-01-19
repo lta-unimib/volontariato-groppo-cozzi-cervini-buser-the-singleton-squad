@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { RequestFormData } from '@/types/formData';
-import { AddressData } from '@/types/addressData';
 
 const initialFormData: RequestFormData = {
     title: "",
