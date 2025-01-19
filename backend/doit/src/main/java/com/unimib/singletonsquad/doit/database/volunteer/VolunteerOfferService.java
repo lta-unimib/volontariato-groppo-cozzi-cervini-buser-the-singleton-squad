@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.service.database.volunteer;
+package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
@@ -8,24 +8,21 @@ import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OfferMapper;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerOfferRepository;
-import com.unimib.singletonsquad.doit.service.database.organization.OrganizationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.unimib.singletonsquad.doit.database.organization.OrganizationService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 @Transactional
 public class VolunteerOfferService {
-    @Autowired
-    private IVolunteerOfferRepository volunteerOfferRepository;
-    @Autowired
-    private VolunteerService volunteerService;
-    @Autowired
-    private OrganizationService organizationService;
-    @Autowired
-    private VolunteerRequestService volunteerRequestService;
+    private final IVolunteerOfferRepository volunteerOfferRepository;
+    private final VolunteerService volunteerService;
+    private final OrganizationService organizationService;
+    private final VolunteerRequestService volunteerRequestService;
 
     public VolunteerOffer save(VolunteerOfferDTO volunteerOfferDTO) throws Exception {
         VolunteerOffer volunteerOffer;

@@ -1,18 +1,20 @@
-package com.unimib.singletonsquad.doit.service.database.organization;
+package com.unimib.singletonsquad.doit.database.organization;
 
 import com.unimib.singletonsquad.doit.domain.organization.OrgCategory;
 import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;
 import com.unimib.singletonsquad.doit.repository.jpa.JPAVolunteerCategory;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class OrgCategoryService {
-    @Autowired
-    private JPAVolunteerCategory repository;
+    private final JPAVolunteerCategory repository;
 
     public boolean isOrgCategoryExists(String name) {
         return repository.existsByName(name);
@@ -29,10 +31,7 @@ public class OrgCategoryService {
     }
 
     public void addOrgCategories(List<String> orgCategories) {
-        System.out.println(orgCategories);
-        for (String orgCategory : orgCategories) {
-            addOrgCategory(orgCategory);
-        }
+       orgCategories.forEach(this::addOrgCategory);
     }
 
     public List<OrgCategory> getAllCategories() {

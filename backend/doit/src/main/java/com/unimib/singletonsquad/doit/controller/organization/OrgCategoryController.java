@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.organization;
-import com.unimib.singletonsquad.doit.service.database.organization.OrgCategoryService;
+import com.unimib.singletonsquad.doit.database.organization.OrgCategoryService;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/categories")
 public class OrgCategoryController {
-    @Autowired
     private OrgCategoryService orgCategoryService;
 
     @GetMapping("/all/")

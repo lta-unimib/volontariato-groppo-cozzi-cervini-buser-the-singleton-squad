@@ -1,24 +1,23 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
-import com.unimib.singletonsquad.doit.service.database.volunteer.VolunteerOfferService;
+import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/offer")
 public class VolunteerOfferController {
-    @Autowired
-    private VolunteerOfferService volunteerOfferService;
-    @Autowired
-    private UserVerify userVerify;
+    private final VolunteerOfferService volunteerOfferService;
+    private final UserVerify userVerify;
 
     @PostMapping("/new/")
     public ResponseEntity<?> createVolunteerRequest(final HttpServletRequest request,

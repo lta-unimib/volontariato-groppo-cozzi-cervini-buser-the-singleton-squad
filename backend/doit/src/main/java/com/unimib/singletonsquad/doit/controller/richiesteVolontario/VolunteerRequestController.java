@@ -10,6 +10,7 @@ import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,12 +21,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/request")
+@AllArgsConstructor
 public class VolunteerRequestController {
 
-    @Autowired
-    private VolunteerRequestControllerService volunteerRequestControllerService;
-    @Autowired
-    private UserVerify userVerify;
+    private final VolunteerRequestControllerService volunteerRequestControllerService;
+    private final UserVerify userVerify;
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)

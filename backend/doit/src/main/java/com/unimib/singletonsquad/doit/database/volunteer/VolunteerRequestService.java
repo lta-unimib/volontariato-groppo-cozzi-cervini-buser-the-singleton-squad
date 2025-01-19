@@ -1,9 +1,9 @@
-package com.unimib.singletonsquad.doit.service.database.volunteer;
+package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerRequestRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class VolunteerRequestService {
 
-    @Autowired
-    private IVolunteerRequestRepository repository;
+    private final IVolunteerRequestRepository repository;
 
     public VolunteerRequest save(VolunteerRequest volunteerRequest) {
         return repository.save(volunteerRequest);

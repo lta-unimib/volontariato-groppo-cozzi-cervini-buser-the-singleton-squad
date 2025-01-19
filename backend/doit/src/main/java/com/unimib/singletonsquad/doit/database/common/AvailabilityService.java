@@ -1,19 +1,19 @@
-package com.unimib.singletonsquad.doit.service.database.common;
+package com.unimib.singletonsquad.doit.database.common;
 
 import com.unimib.singletonsquad.doit.domain.common.Availability;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.IAvailabilityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 @Transactional
 public class AvailabilityService {
 
-    @Autowired
-    private IAvailabilityRepository availabilityRepository;
+    private final IAvailabilityRepository availabilityRepository;
 
     public Availability save(Availability availability) {
         return this.availabilityRepository.save(availability);

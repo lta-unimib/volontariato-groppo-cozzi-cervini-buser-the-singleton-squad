@@ -1,8 +1,8 @@
-package com.unimib.singletonsquad.doit.service.database.organization;
+package com.unimib.singletonsquad.doit.database.organization;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.IOrganizationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,12 +11,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
-
+@AllArgsConstructor
 public class OrganizationService {
-    @Autowired
-    private IOrganizationRepository organizationRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final IOrganizationRepository organizationRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     public Organization save(Organization organization) {

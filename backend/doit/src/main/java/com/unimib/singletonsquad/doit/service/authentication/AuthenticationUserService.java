@@ -2,21 +2,18 @@ package com.unimib.singletonsquad.doit.service.authentication;
 
 import com.unimib.singletonsquad.doit.dto.AuthDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserNotRegisteredGeneralException;
-import com.unimib.singletonsquad.doit.service.database.organization.OrganizationService;
-import com.unimib.singletonsquad.doit.service.database.volunteer.VolunteerService;
+import com.unimib.singletonsquad.doit.database.organization.OrganizationService;
+import com.unimib.singletonsquad.doit.database.volunteer.VolunteerService;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
+@AllArgsConstructor
 @Service
 public class AuthenticationUserService {
 
-    @Autowired
-    private VolunteerService volunteerService;
-    @Autowired
-    private OrganizationService organizationService;
-    @Autowired
-    private AuthenticationSetUp authenticationSetUp;
+    private final VolunteerService volunteerService;
+    private final OrganizationService organizationService;
+    private final AuthenticationSetUp authenticationSetUp;
 
 
     public String authenticate(@NotNull final AuthDTO auth, @NotNull final String role) {

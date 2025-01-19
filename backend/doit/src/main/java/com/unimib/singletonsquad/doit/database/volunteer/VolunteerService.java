@@ -1,9 +1,8 @@
-package com.unimib.singletonsquad.doit.service.database.volunteer;
+package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +11,11 @@ import java.util.Optional;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class VolunteerService {
 
-    @Autowired
     private final IVolunteerRepository volunteerRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public Optional<Volunteer> findVolunteerById(long id) {
         return volunteerRepository.findById(id);

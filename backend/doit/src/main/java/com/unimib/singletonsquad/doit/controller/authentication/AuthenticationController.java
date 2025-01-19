@@ -6,6 +6,7 @@ import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserS
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,11 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/login/{role}")
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationUserService authenticationUserService;
+    private final AuthenticationUserService authenticationUserService;
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> authenticateUser( @PathVariable final String role,  @RequestBody final AuthDTO auth) throws Exception{

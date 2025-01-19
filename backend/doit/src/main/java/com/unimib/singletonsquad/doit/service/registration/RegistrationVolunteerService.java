@@ -5,20 +5,18 @@ import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
-import com.unimib.singletonsquad.doit.service.database.volunteer.VolunteerService;
+import com.unimib.singletonsquad.doit.database.volunteer.VolunteerService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class RegistrationVolunteerService {
 
-    @Autowired
-    private VolunteerMapper volunteerMapper;
-    @Autowired
-    private VolunteerService volunteerService;
-    @Autowired
-    private AuthenticationSetUp authenticationSetUp;
+    private final VolunteerMapper volunteerMapper;
+    private final VolunteerService volunteerService;
+    private final AuthenticationSetUp authenticationSetUp;
 
 
     public String registerVolunteer(VolunteerDTO volunteer) throws Exception{

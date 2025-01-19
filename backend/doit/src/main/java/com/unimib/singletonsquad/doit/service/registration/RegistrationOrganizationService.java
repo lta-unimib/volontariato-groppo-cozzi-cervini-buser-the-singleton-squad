@@ -5,20 +5,18 @@ import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
-import com.unimib.singletonsquad.doit.service.database.organization.OrganizationService;
+import com.unimib.singletonsquad.doit.database.organization.OrganizationService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class RegistrationOrganizationService {
 
-    @Autowired
-    private OrganizationMapper volunteerMapper;
-    @Autowired
-    private OrganizationService organizationService;
-    @Autowired
-    private AuthenticationSetUp authenticationSetUp;
+    private final OrganizationMapper volunteerMapper;
+    private final OrganizationService organizationService;
+    private  final AuthenticationSetUp authenticationSetUp;
 
 
     public String registerOrganization(OrganizationDTO organization) throws Exception{

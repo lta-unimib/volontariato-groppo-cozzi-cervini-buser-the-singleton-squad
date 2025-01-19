@@ -3,19 +3,17 @@ package com.unimib.singletonsquad.doit.service.request;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
-import com.unimib.singletonsquad.doit.service.database.volunteer.VolunteerRequestService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class VolunteerRequestControllerService {
-
-    @Autowired
-    private VolunteerRequestService volunteerRequestService;
-    @Autowired
-    private VolunteerRequestMapper volunteerRequestMapper;
+    private final VolunteerRequestService volunteerRequestService;
+    private final VolunteerRequestMapper volunteerRequestMapper;
 
 
     public void deleteVolunteerRequest(final Long requestId) throws Exception {

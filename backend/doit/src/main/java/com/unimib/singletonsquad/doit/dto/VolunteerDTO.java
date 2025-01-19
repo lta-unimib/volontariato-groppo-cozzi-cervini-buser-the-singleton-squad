@@ -1,7 +1,6 @@
 package com.unimib.singletonsquad.doit.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unimib.singletonsquad.doit.domain.common.Availability;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class VolunteerDTO {
+public class VolunteerDTO  {
     @JsonProperty("firstName")
     private String name;
     @JsonProperty("lastName")
