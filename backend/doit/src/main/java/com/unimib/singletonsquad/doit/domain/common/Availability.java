@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.domain.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unimib.singletonsquad.doit.converter.ListObjectConverter;
+import com.unimib.singletonsquad.doit.utils.data.DataConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.cglib.core.Local;
@@ -10,6 +11,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -37,10 +39,6 @@ public class Availability{
         LocalDateTime startDateTime = LocalDateTime.parse(start);
         LocalDateTime endDateTime = LocalDateTime.parse(end);
 
-        /*for (String datum : data) {
-            System.out.println(datum);
-        }*/
-
         switch (mode) {
             case "daily": {
                 System.out.println("Checking for daily Availability");
@@ -53,15 +51,27 @@ public class Availability{
             }
             case "weekly": {
                 System.out.println("Weekly Availability");
+                LocalDateTime localDateTime = startDateTime;
+
+                while(localDateTime.isBefore(endDateTime)) {
+                    localDateTime = localDateTime.plusDays(1);
+                    String day = localDateTime.getDayOfWeek().toString();
+                    day = DataConverter.translateDayOfWeek(day);
+                    if(data.contains(day)) {
+                        return true;
+                    }
+                }
                 break;
             }
             case "monthly": {
-                System.out.println("Monthly Availability");
-                break;
+                System.out.println("Checking for monthly Availability");
+                LocalDateTime availableTimeStart = LocalDateTime.parse(data.get(0).replaceAll("Z", ""));
+                LocalDateTime availableTimeEnd = LocalDateTime.parse(data.get(1).replaceAll("Z", ""));
+                return availableTimeStart.isBefore(startDateTime) && availableTimeEnd.isAfter(endDateTime);
             }
         }
          
-        return true;
+        return false;
     }
 
     public boolean isBetween(LocalDateTime start, LocalDateTime end) {

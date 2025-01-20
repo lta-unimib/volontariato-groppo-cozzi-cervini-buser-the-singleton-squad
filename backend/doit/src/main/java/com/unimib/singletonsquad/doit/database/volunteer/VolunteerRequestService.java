@@ -64,6 +64,7 @@ public class VolunteerRequestService {
             VolunteerRequest request = requests.get(i);
             points[i] += volunteerPreferences.hasCategories(request.getVolunteerCategories()) ? 1 : 0;
             points[i] += volunteerPreferences.hasAvailability(request.getStartDateTime(), request.getEndDateTime()) ? 1 : 0;
+            //TODO GEOSORTING
         }
 
         for (int point : points) {
