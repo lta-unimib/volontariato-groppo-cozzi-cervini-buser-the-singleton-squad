@@ -56,6 +56,7 @@ public class VolunteerRequestControllerService {
         if(volunteer.isEmpty())
             throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", volunteerEmail));
 
+
         volunteerRequestService.getVolunteerRequestBasedOnPreferences(volunteer.get().getVolunteerPreferences());
 
         /// TODO IMPLEMENTARE IL MECCANISMO DI MATCHING
