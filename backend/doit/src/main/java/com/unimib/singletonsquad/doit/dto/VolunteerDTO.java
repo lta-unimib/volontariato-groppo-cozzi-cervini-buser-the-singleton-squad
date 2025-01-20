@@ -27,4 +27,6 @@ public class VolunteerDTO  {
     private List<String> favCategories;
     @JsonProperty("availability")
     private AvailabilityDTO availability;
+    @JsonProperty("role")
+    private String role;
 }

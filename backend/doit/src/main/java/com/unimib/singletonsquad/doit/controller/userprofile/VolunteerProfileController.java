@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.controller.userprofile;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
+import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.profile.UserProfileService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
@@ -30,8 +31,9 @@ public class VolunteerProfileController {
             throws Exception{
         String email = this.userVerify.validateUserRoleFromToken(request, UserRole.volunteer);
         Volunteer vol = this.userProfileService.getVolunteerInfo(email);
+        VolunteerDTO volunteerDTO = VolunteerMapper.toVolunteerDTO(vol);
         String messageResponse = String.format("getting info for %s", email);
-        return ResponseMessageUtil.createResponse(messageResponse, HttpStatus.OK, vol);
+        return ResponseMessageUtil.createResponse(messageResponse, HttpStatus.OK, volunteerDTO);
     }
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -12,4 +12,11 @@ public class AvailabilityMapper {
         availability.setData(availabilityDTO.getTimeRange());
         return availability;
     }
+
+    public static AvailabilityDTO toAvailabilityDTO(Availability availability) {
+        AvailabilityDTO availabilityDTO = new AvailabilityDTO();
+        availabilityDTO.setMode(availability.getMode());
+        availabilityDTO.setTimeRange(availability.getData());
+        return availabilityDTO;
+    }
 }
