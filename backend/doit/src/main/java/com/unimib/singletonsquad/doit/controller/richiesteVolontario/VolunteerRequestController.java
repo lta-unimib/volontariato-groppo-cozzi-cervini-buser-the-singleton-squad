@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
+import com.unimib.singletonsquad.doit.database.common.CityInfoRepositoryService;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
@@ -26,6 +27,8 @@ public class VolunteerRequestController {
 
     private final VolunteerRequestControllerService volunteerRequestControllerService;
     private final UserVerify userVerify;
+    private final CityInfoRepositoryService test;
+
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)
@@ -90,4 +93,12 @@ public class VolunteerRequestController {
         ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestSortedList);
         return ResponseEntity.ok().body(message);
     }
+
+    @GetMapping("/test/{cityName}/")
+    public ResponseEntity<?> getVolunteerRequestTest(final @PathVariable String cityName, final HttpServletRequest request) throws Exception {
+        Object temp = this.test.getCityInfo(cityName);
+        return ResponseEntity.ok().body(temp);
+
+    }
+
 }
