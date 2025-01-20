@@ -4,15 +4,12 @@ import com.unimib.singletonsquad.doit.domain.common.CityInfo;
 import com.unimib.singletonsquad.doit.dto.CityInfoDTO;
 import com.unimib.singletonsquad.doit.mappers.CityInfoMapper;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.ICityInfoRepository;
-import com.unimib.singletonsquad.doit.utils.common.HttpClientServiceUtil;
+import com.unimib.singletonsquad.doit.service.http.CityInfoHTTPService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
-import java.util.Optional;
-import java.util.concurrent.CyclicBarrier;
+import java.util.Optional;;
 
 @Service
 @AllArgsConstructor
@@ -21,7 +18,7 @@ public class CityInfoRepositoryService {
 
     private final ICityInfoRepository cityInfoRepository;
     private final CityInfoMapper cityInfoMapper;
-    private final HttpClientServiceUtil httpClient;
+    private final CityInfoHTTPService http;
 
     public CityInfo getCityInfo(String cityName) throws Exception {
         Optional<CityInfo> cityInfo = this.cityInfoRepository.findByCityName(cityName);
@@ -30,8 +27,6 @@ public class CityInfoRepositoryService {
         else
             return this.getCityAndSave(cityName);
     }
-
-
 
     /// Salva la città nel database
     public CityInfo saveCityInfo(@NotNull final CityInfo cityInfo) throws Exception {
@@ -48,7 +43,7 @@ public class CityInfoRepositoryService {
     private CityInfo getCityAndSave(@NotNull final String cityName) throws Exception {
         ///due to API can just get 1 request per second
         //Thread.sleep(1000);
-        double[] coords = this.httpClient.getCoordinatesFromOpenCage(cityName);
+        double[] coords = this.http.getCoordinatesFromOpenCage(cityName);
         CityInfoDTO cityInfoDTO = new CityInfoDTO();
         cityInfoDTO.setCityName(cityName);
         cityInfoDTO.setLatitude(coords[0]);
