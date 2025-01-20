@@ -1,5 +1,7 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -17,15 +19,20 @@ public class Volunteer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    @JsonIgnore
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "name")
+    @JsonProperty("firstName")
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "surname")
+    @JsonProperty("lastName")
     private String surname;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, name="email")
+    @JsonProperty("email")
     @Email
     private String email;
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
     private String description;
     @OneToOne(cascade = CascadeType.ALL)

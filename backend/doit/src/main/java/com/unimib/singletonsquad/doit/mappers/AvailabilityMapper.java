@@ -9,7 +9,7 @@ public class AvailabilityMapper {
     public Availability map(AvailabilityDTO availabilityDTO) {
         Availability availability = new Availability();
         availability.setMode(availabilityDTO.getMode());
-        availability.setData(availabilityDTO.getData());
+        availability.setData(availabilityDTO.getTimeRange());
         return availability;
     }
 }

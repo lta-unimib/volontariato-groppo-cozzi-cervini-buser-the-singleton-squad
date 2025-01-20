@@ -13,5 +13,5 @@ public class AvailabilityDTO {
     @JsonProperty("mode")
     private String mode;
     @JsonProperty("timeRange")
-    private List<String> data;
+    private List<String> timeRange;
 }

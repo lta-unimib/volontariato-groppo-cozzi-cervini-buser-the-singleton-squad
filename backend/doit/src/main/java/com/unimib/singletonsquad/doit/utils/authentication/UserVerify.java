@@ -50,4 +50,15 @@ public class UserVerify {
     private String extractRoleFromToken(String token) {
         return String.valueOf(jwtUtils.extractClaimByName(token, "role"));
     }
+
+    public String getUserEmail(final HttpServletRequest request, final String role) throws Exception {
+        switch (role){
+            case "volunteer":
+                return validateUserRoleFromToken(request, UserRole.volunteer);
+            case "organization":
+                return validateUserRoleFromToken(request, UserRole.organization);
+            default:
+                throw new InvalidRoleGeneralException(String.format("Invalid role: %s", role));
+        }
+    }
 }

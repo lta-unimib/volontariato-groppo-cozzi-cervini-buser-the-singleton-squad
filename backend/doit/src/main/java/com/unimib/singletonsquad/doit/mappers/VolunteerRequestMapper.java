@@ -4,17 +4,16 @@ import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class VolunteerRequestMapper {
 
-    @Autowired
-    private AddressMapper addressMapper;
-
-    @Autowired
-    private OrganizationDatabaseService organizationService;
+    private final AddressMapper addressMapper;
+    private final OrganizationDatabaseService organizationService;
 
     public VolunteerRequest updateVolunteerRequest(VolunteerRequestDTO requestDTO, Long requestId, String organizationEmail)
             throws Exception {
