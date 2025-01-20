@@ -1,5 +1,8 @@
 package com.unimib.singletonsquad.doit.service.request;
 
+import com.unimib.singletonsquad.doit.database.volunteer.VolunteerService;
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
@@ -7,13 +10,17 @@ import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestService
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @AllArgsConstructor
 public class VolunteerRequestControllerService {
     private final VolunteerRequestService volunteerRequestService;
     private final VolunteerRequestMapper volunteerRequestMapper;
+    private final VolunteerService volunteerService;
 
 
     public void deleteVolunteerRequest(final Long requestId) throws Exception {
@@ -39,9 +46,18 @@ public class VolunteerRequestControllerService {
     public List<VolunteerRequest> getAllRequestByOrganizationEmail(String email) {
         return this.volunteerRequestService.getAllRequestByEmail(email);
     }
+
     public List<VolunteerRequest> getAllRequest() {
         return this.volunteerRequestService.getAllRequest();
     }
 
-
+    public List<VolunteerRequest> getAllRequestSorted(long volunteerId) throws ExecutionException, InterruptedException {
+        Optional<Volunteer> volunteer = volunteerService.findVolunteerById(volunteerId);
+        List<VolunteerRequest> volunteerRequestList = new ArrayList<>();
+        if(volunteer.isPresent()) {
+            System.out.println("ENTRATO");
+            volunteerRequestService.getVolunteerRequestBasedOnPreferences(volunteer.get().getVolunteerPreferences());
+        }
+        return volunteerRequestList;
+    }
 }

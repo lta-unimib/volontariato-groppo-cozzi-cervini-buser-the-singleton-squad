@@ -57,7 +57,7 @@ public class VolunteerRequestController {
     public ResponseEntity<?> getAllVolunteerRequest(final HttpServletRequest request) throws Exception {
         this.userVerify.isRoleValidFromRequest(request);
         List<VolunteerRequest> volunteerRequestList = this.volunteerRequestControllerService.getAllRequest();
-        ResponseMessage message = ResponseMessageUtil.createResponse("get all reques", HttpStatus.OK, volunteerRequestList);
+        ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestList);
         return ResponseEntity.ok().body(message);
     }
 
@@ -79,5 +79,13 @@ public class VolunteerRequestController {
         this.volunteerRequestControllerService.updateVolunteerRequest(volunteerRequestDTO, idRequest, email);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request updated", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
+    }
+
+    @GetMapping(value = "/matching/{volunteerId}/")
+    public ResponseEntity<?> getVolunteerRequest(final HttpServletRequest request, final @PathVariable Long volunteerId) throws Exception {
+        this.userVerify.isRoleValidFromRequest(request);
+        List<VolunteerRequest> volunteerRequestList = this.volunteerRequestControllerService.getAllRequestSorted(volunteerId);
+        ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestList);
+        return ResponseEntity.ok().body(message);
     }
 }
