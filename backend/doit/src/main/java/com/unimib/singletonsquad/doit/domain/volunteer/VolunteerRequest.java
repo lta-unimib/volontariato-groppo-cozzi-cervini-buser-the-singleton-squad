@@ -55,41 +55,4 @@ public class VolunteerRequest {
     public boolean hasCategory(String category) {
         return volunteerCategories.contains(category);
     }
-
-    public boolean hasCategories(List<String> categories) {
-        for (String category : categories) {
-            if (volunteerCategories.contains(category)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public int getMatchingPoint(VolunteerPreferences volunteerPreferences) {
-        int matchingPoint = 0;
-        if(volunteerPreferences != null) {
-            matchingPoint += matchingCategories(volunteerPreferences.getCategories());
-            matchingPoint += matchAvailability(volunteerPreferences.getAvailability());
-            matchingPoint += calculateDistance(volunteerPreferences);
-        }
-        return matchingPoint;
-    }
-
-    private int matchingCategories(List<String> categories) {
-        int matchingPoint = 0;
-        for(String category : categories) {
-            matchingPoint += hasCategory(category) ? 1 : 0;
-        }
-        return matchingPoint;
-    }
-
-    private int calculateDistance(VolunteerPreferences volunteerPreferences) {
-        int distance = 0;
-        String city = volunteerPreferences.getCity();
-        return distance;
-    }
-
-    private int matchAvailability(Availability availability) {
-        return availability.isBetween(startDateTime, endDateTime) ? 1 : 0;
-    }
 }

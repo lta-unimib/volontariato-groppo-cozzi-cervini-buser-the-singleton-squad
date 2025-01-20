@@ -30,4 +30,18 @@ public class VolunteerPreferences {
                 ", volunteerCategories=" + categories +
                 '}';
     }
+
+    public boolean hasCategories(List<String> categories) {
+        for (String category : categories) {
+            if (categories.contains(category)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasAvailability(String start, String end) {
+        return this.availability.matching(start, end);
+    }
+
 }
