@@ -1,6 +1,5 @@
 package com.unimib.singletonsquad.doit.utils.common;
 
-import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.RequestMatchDTO;
 

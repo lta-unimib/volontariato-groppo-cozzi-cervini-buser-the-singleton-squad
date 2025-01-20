@@ -20,8 +20,10 @@ public class CityInfoDatabaseService {
     private final CityInfoMapper cityInfoMapper;
     private final CityInfoHTTPService http;
 
+    /// proxy
     public CityInfo getCityInfo(String cityName) throws Exception {
         Optional<CityInfo> cityInfo = this.cityInfoRepository.findByCityName(cityName);
+        /// todo hashmap
         if(cityInfo.isPresent())
             return cityInfo.get();
         else
