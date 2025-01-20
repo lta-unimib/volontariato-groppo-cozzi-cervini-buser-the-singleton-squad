@@ -4,6 +4,7 @@ import com.unimib.singletonsquad.doit.domain.common.CityInfo;
 import com.unimib.singletonsquad.doit.dto.CityInfoDTO;
 import com.unimib.singletonsquad.doit.mappers.CityInfoMapper;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.ICityInfoRepository;
+import com.unimib.singletonsquad.doit.utils.common.HttpClientServiceUtil;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ public class CityInfoRepositoryService {
 
     private final ICityInfoRepository cityInfoRepository;
     private final CityInfoMapper cityInfoMapper;
+    private final HttpClientServiceUtil httpClient;
+    private final static String CITY_INFO_URL = "/cityinfo";
 
 
     /// Da implementare con il pattern Proxy:
@@ -27,8 +30,7 @@ public class CityInfoRepositoryService {
             cityInfo = this.getCityInfo(cityName);
         }
         else {
-            /// chiamata API per poi salvarla
-            CityInfoDTO response = null;
+            CityInfoDTO response = this.getCityInfoAPI(cityName) ;
             cityInfo = this.saveDtoIntoDatabase(response);
         }
         return cityInfo;
@@ -47,6 +49,13 @@ public class CityInfoRepositoryService {
     private CityInfo saveDtoIntoDatabase(@NotNull final CityInfoDTO response) throws Exception {
         CityInfo temp = this.createCityInfo(response);
         return this.saveCityInfo(temp);
+    }
+
+    private CityInfoDTO getCityInfoAPI(String cityName) throws Exception {
+        return httpClient.executeGet(
+                CITY_INFO_URL,
+                CityInfoDTO.class
+        );
     }
 
 }
