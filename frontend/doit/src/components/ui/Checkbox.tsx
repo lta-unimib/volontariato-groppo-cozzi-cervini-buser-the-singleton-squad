@@ -22,15 +22,18 @@ export function RoundCheckboxSelector({ onChangeAction, initialSelected = [] }: 
     const [selectedOptions, setSelectedOptions] = useState<string[]>(initialSelected);
 
     useEffect(() => {
-        setSelectedOptions(initialSelected);
+        if (JSON.stringify(initialSelected) !== JSON.stringify(selectedOptions)) {
+            setSelectedOptions(initialSelected);
+        }
     }, [initialSelected]);
 
     const handleCheckboxChange = (optionId: string) => {
+        const updatedSelected = selectedOptions.includes(optionId)
+            ? selectedOptions.filter((id) => id !== optionId)
+            : [...selectedOptions, optionId];
+        setSelectedOptions(updatedSelected);
+
         if (onChangeAction) {
-            const updatedSelected = selectedOptions.includes(optionId)
-                ? selectedOptions.filter((id) => id !== optionId)
-                : [...selectedOptions, optionId];
-            setSelectedOptions(updatedSelected);
             onChangeAction(updatedSelected);
         }
     };
