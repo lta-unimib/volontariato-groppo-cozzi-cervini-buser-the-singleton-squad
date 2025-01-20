@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Page } from "@/components/layout/Page";
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
@@ -9,37 +9,30 @@ import { Calendar } from "@/components/ui/Calendar";
 import { Card, CardContent } from "@/components/ui/Card";
 import { addMonths, eachDayOfInterval, getDay, startOfMonth } from "date-fns";
 import { ProfileHeader } from "@/components/layout/ProfileHeader";
-import { AvailabilityData } from "@/types/availabilityData";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
+import { makeGetRequest } from "@/utils/apiUtils";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AvailabilityData } from "@/types/availabilityData";
+import { VolunteerFormData } from "@/types/formData";
 
-interface VolunteerProfile {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    availability: AvailabilityData;
-    city: string;
-    preferences: string[];
-    description: string;
-    role: string;
+interface VolunteerApiResponse {
+    status: number;
+    data: VolunteerFormData;
 }
 
 export default function Home() {
     const [date] = useState<Date | undefined>(new Date());
-
-    // Uncomment this section to use API data fetching
-    /*
-    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [userProfile, setUserProfile] = useState<VolunteerFormData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await makeGetRequest<UserApiResponse>("/user/profile/");
+                const response = await makeGetRequest<VolunteerApiResponse>("/profile/volunteer/");
 
                 if (response.status === 200 && response.data) {
-                    setUserProfile(response.data);
+                    setUserProfile(response.data.data);
                 } else {
                     setError("Failed to fetch user profile");
                 }
@@ -51,22 +44,6 @@ export default function Home() {
             }
         })();
     }, []);
-    */
-
-    const volunteerProfile: VolunteerProfile = {
-        firstName: "Daniele",
-        lastName: "Buser",
-        email: "buserdaniele@gmail.com",
-        password: "pswd?",
-        availability: {
-            mode: "monthly",
-            timeRange: ["2025-01-15", "2025-01-20"]
-        },
-        city: "Bovisio-Masciago",
-        preferences: ["ripetizioni", "supporto_bambini"],
-        description: "Descrizione dettagliata",
-        role: "Volontario"
-    };
 
     const getSelectedDays = (availability: AvailabilityData, currentMonth: Date): Date[] => {
         const startOfCurrentMonth = startOfMonth(currentMonth);
@@ -108,30 +85,37 @@ export default function Home() {
         }
     };
 
-    const formatAvailability = (availability: AvailabilityData) => {
+    const formatAvailability = (availability?: AvailabilityData) => {
+        if (!availability) return "Availability not specified";
+
         switch (availability.mode) {
             case "daily":
-                return availability.timeRange ? `Available daily from ${availability.timeRange[0]} to ${availability.timeRange[1]}` : "Availability not specified";
+                return availability.timeRange
+                    ? `Available daily from ${availability.timeRange[0]} to ${availability.timeRange[1]}`
+                    : "Availability not specified";
             case "weekly":
-                return availability.timeRange ? `Available every: ${availability.timeRange.join(", ")}` : "Availability not specified";
+                return availability.timeRange
+                    ? `Available every: ${availability.timeRange.join(", ")}`
+                    : "Availability not specified";
             case "monthly":
                 if (!availability.timeRange) return "Availability not specified";
-                const startDate = new Date(availability.timeRange[0]);
-                const endDate = new Date(availability.timeRange[1]);
+                const [startDate, endDate] = availability.timeRange.map(dateStr => new Date(dateStr));
                 return `Available monthly from day ${startDate.getDate()} to day ${endDate.getDate()}`;
             default:
                 return "Availability not specified";
         }
     };
 
+
     const selectedDays = useMemo(() => {
-        return date ? getSelectedDays(volunteerProfile.availability, date) : [];
-    }, [date, volunteerProfile.availability]);
+        return date && userProfile?.availability
+            ? getSelectedDays(userProfile.availability, date)
+            : [];
+    }, [date, userProfile]);
+
 
     const isAvailable = selectedDays.some((d) => d.toDateString() === new Date().toDateString());
 
-    // Uncomment this section when using API data fetching
-    /*
     if (loading) {
         return (
             <div className="flex flex-col lg:flex-row w-full">
@@ -155,7 +139,6 @@ export default function Home() {
             </div>
         );
     }
-    */
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
@@ -170,9 +153,9 @@ export default function Home() {
                     <div className="flex-1 flex flex-col pb-28 md:pb-4">
                         <div className="p-4 md:px-8">
                             <ProfileHeader
-                                name={`${volunteerProfile.firstName} ${volunteerProfile.lastName}`}
-                                role={volunteerProfile.role}
-                                city={volunteerProfile.city}
+                                name={`${userProfile.firstName} ${userProfile.lastName}`}
+                                role={userProfile.role ?? "Volunteer"}
+                                city={userProfile.city}
                                 imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
                                 isAvailable={isAvailable}
                             />
@@ -184,7 +167,7 @@ export default function Home() {
                                     <Card className="rounded-2xl">
                                         <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">About</h3>
-                                            <p className="text-sm text-muted-foreground mt-2">{volunteerProfile.description}</p>
+                                            <p className="text-sm text-muted-foreground mt-2">{userProfile.description}</p>
                                         </CardContent>
                                     </Card>
 
@@ -193,7 +176,7 @@ export default function Home() {
                                             <h3 className="text-xl font-semibold text-foreground mb-4">Preferences</h3>
                                             <div className="text-sm text-muted-foreground mb-4">
                                                 <RoundCheckboxSelector
-                                                    initialSelected={volunteerProfile.preferences}
+                                                    initialSelected={userProfile.preferences}
                                                 />
                                             </div>
                                         </CardContent>
@@ -203,7 +186,7 @@ export default function Home() {
                                         <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
                                             <ul className="text-sm text-muted-foreground mt-2">
-                                                <li>Email: <a href={`mailto:${volunteerProfile.email}`}>{volunteerProfile.email}</a></li>
+                                                <li>Email: <a href={`mailto:${userProfile.email}`}>{userProfile.email}</a></li>
                                             </ul>
                                         </CardContent>
                                     </Card>
@@ -213,7 +196,7 @@ export default function Home() {
                                     <CardContent className="pt-6">
                                         <h3 className="text-xl font-semibold text-foreground mb-4">Availability</h3>
                                         <div className="text-sm text-muted-foreground mb-4">
-                                            {formatAvailability(volunteerProfile.availability)}
+                                            {formatAvailability(userProfile.availability)}
                                         </div>
                                         <div className="flex justify-center">
                                             <Card className="rounded-2xl w-full flex items-center justify-center">

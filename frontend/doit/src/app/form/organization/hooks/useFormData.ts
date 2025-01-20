@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 import { OrganizationFormData } from "@/types/formData";
 
@@ -14,22 +16,27 @@ const initialFormData: OrganizationFormData = {
 };
 
 export const useFormData = () => {
-    const [formData, setFormData] = useState<OrganizationFormData>(initialFormData);
+    const [formData, setFormDataState] = useState<OrganizationFormData>(initialFormData);
 
     const updateField = <K extends keyof OrganizationFormData>(
         field: K,
         value: OrganizationFormData[K]
     ) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        setFormDataState(prev => ({ ...prev, [field]: value }));
+    };
+
+    const setFormData = (newData: Partial<OrganizationFormData>) => {
+        setFormDataState(prev => ({ ...prev, ...newData }));
     };
 
     const resetForm = () => {
-        setFormData(initialFormData);
+        setFormDataState(initialFormData);
     };
 
     return {
         formData,
         updateField,
+        setFormData,
         resetForm
     };
 };

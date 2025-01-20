@@ -11,11 +11,12 @@ interface RegistrationResponse {
     user?: string;
 }
 
-export const useFormSubmission = (formType: FormType) => ({
+export const useFormSubmission = (formType: FormType, isEditing: boolean) => ({
     handleSubmit: async (formData: FormData) => {
-        const response = await makeApiRequest<RegistrationResponse>(`/registration/${formType}/`, formData);
+        const endpoint = isEditing ? `/update/${formType}/` : `/registration/${formType}/`;
+        const response = await makeApiRequest<RegistrationResponse>(endpoint, formData);
 
-        if (response.status === 200 && response.data) {
+        if (!isEditing && response.status === 200 && response.data) {
             if (response.data.authToken) {
                 sessionStorage.setItem('authToken', response.data.authToken);
                 if (response.data.user) {

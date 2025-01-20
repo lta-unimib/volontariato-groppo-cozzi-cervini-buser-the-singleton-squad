@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineBusiness, MdOutlineEmail, MdOutlinePassword } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import bcryptjs from 'bcryptjs';
@@ -14,27 +14,47 @@ import { useFormData } from "@/app/form/organization/hooks/useFormData";
 import { useFormValidation } from "@/app/form/organization/hooks/useFormValidation";
 import { useFormFocus } from "@/app/form/organization/hooks/useFormFocus";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
+import { useSearchParams } from "next/navigation";
+import { router } from "next/client";
 
 export function OrganizationForm() {
-    const { formData, updateField } = useFormData();
-    const { handleSubmit } = useFormSubmission("organization");
+    const searchParams = useSearchParams();
+    const isEditing = searchParams.get('mode') === 'edit';
+    const { formData, updateField, setFormData } = useFormData();
+    const { handleSubmit } = useFormSubmission("organization", isEditing);
     const { validationState, isValid } = useFormValidation(formData);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
     const [showPassword, setShowPassword] = useState(false);
 
+    useEffect(() => {
+        if (isEditing) {
+            (async () => {
+                try {
+                    const response = await fetch('/api/profile/organization/');
+                    if (response.ok) {
+                        const userData = await response.json();
+                        setFormData(userData.data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+            })();
+        }
+    }, [isEditing, setFormData]);
+
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const salt = await bcryptjs.genSalt(10);
-            const hashedPassword = await bcryptjs.hash(formData.password, salt);
+            let finalFormData = { ...formData };
 
-            const finalFormData = {
-                ...formData,
-                password: hashedPassword,
-            };
+            if (!isEditing) {
+                const salt = await bcryptjs.genSalt(10);
+                finalFormData.password = await bcryptjs.hash(formData.password, salt);
+            }
 
             const response = await handleSubmit(finalFormData);
             if (response.status === 200) {
+                await router.push('/dashboard/organization');
                 return { success: true };
             }
             return {
@@ -52,7 +72,7 @@ export function OrganizationForm() {
         <BaseForm
             onSubmitAction={onSubmit}
             isValid={isValid()}
-            redirectTo={"../../../dashboard/organization/"}
+            redirectTo={isEditing ? "../../../profile/organization" : "../../../dashboard/organization"}
         >
             <IconInput
                 value={formData.organizationName}
@@ -61,42 +81,46 @@ export function OrganizationForm() {
                 icon={<MdOutlineBusiness />}
             />
 
-            <IconInput
-                value={formData.email}
-                onChange={(e) => updateField("email", e.target.value)}
-                placeholder="Email"
-                type="email"
-                icon={<MdOutlineEmail />}
-                isInvalid={!validationState.isEmailValid}
-                isFocused={focusState.emailFocused}
-                onFocus={() => handleFocus("email")}
-                onBlur={() => handleBlur("email")}
-            />
+            {!isEditing && (
+                <>
+                    <IconInput
+                        value={formData.email}
+                        onChange={(e) => updateField("email", e.target.value)}
+                        placeholder="Email"
+                        type="email"
+                        icon={<MdOutlineEmail />}
+                        isInvalid={!validationState.isEmailValid}
+                        isFocused={focusState.emailFocused}
+                        onFocus={() => handleFocus("email")}
+                        onBlur={() => handleBlur("email")}
+                    />
 
-            <div className="relative">
-                <IconInput
-                    value={formData.password}
-                    onChange={(e) => updateField("password", e.target.value)}
-                    placeholder="Password"
-                    type={showPassword ? "text" : "password"}
-                    icon={<MdOutlinePassword/>}
-                    isInvalid={!validationState.isPasswordValid}
-                    isFocused={focusState.passwordFocused}
-                    onFocus={() => handleFocus("password")}
-                    onBlur={() => handleBlur("password")}
-                />
-                <button
-                    type="button"
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2"
-                    onClick={() => setShowPassword(!showPassword)}
-                >
-                    {showPassword ? (
-                        <AiOutlineEyeInvisible size={20} className="text-muted-foreground"/>
-                    ) : (
-                        <AiOutlineEye size={20} className="text-muted-foreground"/>
-                    )}
-                </button>
-            </div>
+                    <div className="relative">
+                        <IconInput
+                            value={formData.password}
+                            onChange={(e) => updateField("password", e.target.value)}
+                            placeholder="Password"
+                            type={showPassword ? "text" : "password"}
+                            icon={<MdOutlinePassword />}
+                            isInvalid={!validationState.isPasswordValid}
+                            isFocused={focusState.passwordFocused}
+                            onFocus={() => handleFocus("password")}
+                            onBlur={() => handleBlur("password")}
+                        />
+                        <button
+                            type="button"
+                            className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? (
+                                <AiOutlineEyeInvisible size={20} className="text-muted-foreground" />
+                            ) : (
+                                <AiOutlineEye size={20} className="text-muted-foreground" />
+                            )}
+                        </button>
+                    </div>
+                </>
+            )}
 
             <CityPicker
                 value={formData.city}

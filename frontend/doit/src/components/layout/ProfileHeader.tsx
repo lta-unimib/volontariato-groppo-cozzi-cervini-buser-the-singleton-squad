@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { MdOutlineEdit } from "react-icons/md";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 
 interface ProfileHeaderProps {
     name: string;
@@ -15,8 +16,14 @@ export const ProfileHeader = ({
                                   role,
                                   city,
                                   imageUrl,
-                                  isAvailable
+                                  isAvailable,
                               }: ProfileHeaderProps) => {
+    const router = useRouter();
+
+    const handleEdit = () => {
+        router.push(`/form/${role}`);
+    };
+
     return (
         <div className="flex items-start justify-between pt-16 md:pt-0 w-full lg:flex-row flex-col">
             <div className="flex items-center space-x-12">
@@ -48,6 +55,7 @@ export const ProfileHeader = ({
                 variant="secondary"
                 size="default"
                 className="mt-0 ml-48 lg:mt-12"
+                onClick={handleEdit}
             >
                 <MdOutlineEdit className="mr-2" />
                 Modifica
