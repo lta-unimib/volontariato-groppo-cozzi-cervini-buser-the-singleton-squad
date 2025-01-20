@@ -65,68 +65,11 @@ public class VolunteerRequestDatabaseService {
         }
     }
 
-    public List<?> getVolunteerRequestBasedOnPreferences(VolunteerPreferences volunteerPreferences) throws Exception {
-        List<VolunteerRequest> requests = getAllRequest();
-        int[] points = new int[requests.size()];
-        String volunteerCity = getVolunteerCity(volunteerPreferences);
-        List<RequestMatchDTO> requestMatchDTOs = new ArrayList<>();
 
-        for (int i = 0; i < points.length; i++) {
-            VolunteerRequest request = requests.get(i);
-            points[i] += volunteerPreferences.hasCategories(request.getVolunteerCategories()) ? 10 : 0;
-            points[i] += volunteerPreferences.hasAvailability(request.getStartDateTime(), request.getEndDateTime()) ? 10 : 0;
-            points[i] += calculatePoint(this.setup(request.getAddress().getCity(), getVolunteerCoords(volunteerCity)));
-            requestMatchDTOs.add(new RequestMatchDTO(request, points[i]));
-        }
-
-        for (int point : points) {
-            System.out.println(point);
-        }
-        //todo DTO Request voto
-        return ParallelSort.sortRequestByVote(requestMatchDTOs);
-
-    }
-
-    private String getVolunteerCity(VolunteerPreferences volunteerPreferences){
-        return volunteerPreferences.getCity();
-    }
-
-    private double setup(@NotNull final String city, @NotNull final double[] volunteerCoords) throws Exception {
-        CityInfo requestCity = this.getRequestCoord(city);
-        double latVolunteer = requestCity.getLatitude();
-        double lonVolunteer = requestCity.getLongitude();
-        return DistanceCalculator.calculateDistance(latVolunteer, lonVolunteer, volunteerCoords[0], volunteerCoords[1]);
-
-    }
-
-    private CityInfo getRequestCoord(@NotNull final String city) throws Exception {
+    public CityInfo getCityInfo(@NotNull final String city) throws Exception {
         return this.cityRepository.getCityInfo(city);
     }
-    private double[] getVolunteerCoords(@NotNull final String city) throws Exception {
-        CityInfo requestCity = this.getRequestCoord(city);
-        double latVolunteer = requestCity.getLatitude();
-        double lonVolunteer = requestCity.getLongitude();
-        return new double[]{latVolunteer, lonVolunteer};
-    }
 
-    private int calculatePoint(final double distance) {
-        if(distance <0)
-            return -1;
-        else if (distance < 10)
-            return 10;
-        else if (distance < 30)
-            return 7;
-        else if (distance < 60)
-            return 5;
-        else if(distance < 80)
-            return 3;
-        else if (distance < 100)
-            return 2;
-        else if(distance < 150)
-            return 1;
-        else
-            return 0;
-    }
 
 
 }
