@@ -73,20 +73,12 @@ public class VolunteerRequestController {
         return ResponseEntity.ok().body(message);
     }
 
-    @GetMapping(value = "/getall/organization/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/all/organization/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
         String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
         List<VolunteerRequest> volunteerRequestList = this.volunteerRequestControllerService.getAllRequestByOrganizationEmail(email);
         ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization", HttpStatus.OK, volunteerRequestList);
         return ResponseEntity.ok().body(message);
-    }
-
-    /// TO BE REMOVED
-    @GetMapping("/test/{cityName}/")
-    public ResponseEntity<?> getVolunteerRequestTest(final @PathVariable String cityName, final HttpServletRequest request) throws Exception {
-        Object temp = this.test.getCityInfo(cityName);
-        return ResponseEntity.ok().body(temp);
-
     }
 
 }
