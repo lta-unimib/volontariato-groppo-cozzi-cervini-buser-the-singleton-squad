@@ -12,7 +12,7 @@ import { ProfileHeader } from "@/components/layout/ProfileHeader";
 import { AvailabilityData } from "@/types/availabilityData";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 
-interface UserProfile {
+interface VolunteerProfile {
     firstName: string;
     lastName: string;
     email: string;
@@ -53,7 +53,7 @@ export default function Home() {
     }, []);
     */
 
-    const userProfile: UserProfile = {
+    const volunteerProfile: VolunteerProfile = {
         firstName: "Daniele",
         lastName: "Buser",
         email: "buserdaniele@gmail.com",
@@ -125,8 +125,8 @@ export default function Home() {
     };
 
     const selectedDays = useMemo(() => {
-        return date ? getSelectedDays(userProfile.availability, date) : [];
-    }, [date, userProfile.availability]);
+        return date ? getSelectedDays(volunteerProfile.availability, date) : [];
+    }, [date, volunteerProfile.availability]);
 
     const isAvailable = selectedDays.some((d) => d.toDateString() === new Date().toDateString());
 
@@ -170,9 +170,9 @@ export default function Home() {
                     <div className="flex-1 flex flex-col pb-28 md:pb-4">
                         <div className="p-4 md:px-8">
                             <ProfileHeader
-                                name={`${userProfile.firstName} ${userProfile.lastName}`}
-                                role={userProfile.role}
-                                city={userProfile.city}
+                                name={`${volunteerProfile.firstName} ${volunteerProfile.lastName}`}
+                                role={volunteerProfile.role}
+                                city={volunteerProfile.city}
                                 imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
                                 isAvailable={isAvailable}
                             />
@@ -184,7 +184,7 @@ export default function Home() {
                                     <Card className="rounded-2xl">
                                         <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">About</h3>
-                                            <p className="text-sm text-muted-foreground mt-2">{userProfile.description}</p>
+                                            <p className="text-sm text-muted-foreground mt-2">{volunteerProfile.description}</p>
                                         </CardContent>
                                     </Card>
 
@@ -193,7 +193,7 @@ export default function Home() {
                                             <h3 className="text-xl font-semibold text-foreground mb-4">Preferences</h3>
                                             <div className="text-sm text-muted-foreground mb-4">
                                                 <RoundCheckboxSelector
-                                                    initialSelected={userProfile.preferences}
+                                                    initialSelected={volunteerProfile.preferences}
                                                 />
                                             </div>
                                         </CardContent>
@@ -203,7 +203,7 @@ export default function Home() {
                                         <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
                                             <ul className="text-sm text-muted-foreground mt-2">
-                                                <li>Email: {userProfile.email}</li>
+                                                <li>Email: <a href={`mailto:${volunteerProfile.email}`}>{volunteerProfile.email}</a></li>
                                             </ul>
                                         </CardContent>
                                     </Card>
@@ -213,7 +213,7 @@ export default function Home() {
                                     <CardContent className="pt-6">
                                         <h3 className="text-xl font-semibold text-foreground mb-4">Availability</h3>
                                         <div className="text-sm text-muted-foreground mb-4">
-                                            {formatAvailability(userProfile.availability)}
+                                            {formatAvailability(volunteerProfile.availability)}
                                         </div>
                                         <div className="flex justify-center">
                                             <Card className="rounded-2xl w-full flex items-center justify-center">

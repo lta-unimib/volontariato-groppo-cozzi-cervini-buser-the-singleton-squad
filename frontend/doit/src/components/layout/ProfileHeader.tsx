@@ -7,7 +7,7 @@ interface ProfileHeaderProps {
     role: string;
     city: string;
     imageUrl: string;
-    isAvailable: boolean;
+    isAvailable?: boolean;
 }
 
 export const ProfileHeader = ({
@@ -29,12 +29,14 @@ export const ProfileHeader = ({
                         height={144}
                         priority
                     />
-                    <span
-                        className={`absolute bottom-3 right-3 w-4 h-4 rounded-full ${
-                            isAvailable ? "bg-green-500" : "bg-red-500"
-                        }`}
-                        title={isAvailable ? "Available" : "Unavailable"}
-                    />
+                    {isAvailable !== undefined && (
+                        <span
+                            className={`absolute bottom-3 right-3 w-4 h-4 rounded-full ${
+                                isAvailable ? "bg-green-500" : "bg-red-500"
+                            }`}
+                            title={isAvailable ? "Available" : "Unavailable"}
+                        />
+                    )}
                 </div>
                 <div>
                     <h2 className="text-2xl font-semibold">{name}</h2>
