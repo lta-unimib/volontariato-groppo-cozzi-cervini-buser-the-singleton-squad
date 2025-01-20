@@ -12,5 +12,6 @@ import java.util.List;
 public class AvailabilityDTO {
     @JsonProperty("mode")
     private String mode;
+    @JsonProperty("timeRange")
     private List<String> data;
 }
