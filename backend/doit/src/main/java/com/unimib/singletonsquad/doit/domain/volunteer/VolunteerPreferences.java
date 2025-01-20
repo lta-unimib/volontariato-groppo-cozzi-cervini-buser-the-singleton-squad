@@ -43,5 +43,4 @@ public class VolunteerPreferences {
     public boolean hasAvailability(String start, String end) {
         return this.availability.matching(start, end);
     }
-
 }
