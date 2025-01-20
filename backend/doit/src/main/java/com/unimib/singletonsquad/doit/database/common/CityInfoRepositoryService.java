@@ -5,14 +5,17 @@ import com.unimib.singletonsquad.doit.dto.CityInfoDTO;
 import com.unimib.singletonsquad.doit.mappers.CityInfoMapper;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.ICityInfoRepository;
 import com.unimib.singletonsquad.doit.utils.common.HttpClientServiceUtil;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.CyclicBarrier;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class CityInfoRepositoryService {
 
     private final ICityInfoRepository cityInfoRepository;
@@ -39,7 +42,7 @@ public class CityInfoRepositoryService {
 
 
     /// Salva la città nel database
-    public CityInfo saveCityInfo(CityInfo cityInfo) throws Exception {
+    public CityInfo saveCityInfo(@NotNull final CityInfo cityInfo) throws Exception {
         return this.cityInfoRepository.save(cityInfo);
     }
     /// Serve per convertire i parametri della chiamata HTTP in una città
@@ -51,7 +54,7 @@ public class CityInfoRepositoryService {
         return this.saveCityInfo(temp);
     }
 
-    private CityInfoDTO getCityInfoAPI(String cityName) throws Exception {
+    private CityInfoDTO getCityInfoAPI(@NotNull String cityName) throws Exception {
         return httpClient.executeGet(
                 CITY_INFO_URL,
                 CityInfoDTO.class

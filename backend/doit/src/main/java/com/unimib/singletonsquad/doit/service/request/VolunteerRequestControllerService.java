@@ -2,18 +2,18 @@ package com.unimib.singletonsquad.doit.service.request;
 
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerService;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestService;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 @Service
 @AllArgsConstructor
@@ -51,13 +51,15 @@ public class VolunteerRequestControllerService {
         return this.volunteerRequestService.getAllRequest();
     }
 
-    public List<VolunteerRequest> getAllRequestSorted(long volunteerId) throws ExecutionException, InterruptedException {
-        Optional<Volunteer> volunteer = volunteerService.findVolunteerById(volunteerId);
+    public List<VolunteerRequest> getAllRequestSorted(@NotNull final String volunteerEmail) throws Exception{
+        Optional<Volunteer> volunteer = volunteerService.findVolunteerByEmail(volunteerEmail);
+        if(volunteer.isEmpty())
+            throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", volunteerEmail));
+
+        volunteerRequestService.getVolunteerRequestBasedOnPreferences(volunteer.get().getVolunteerPreferences());
+
+        /// TODO IMPLEMENTARE IL MECCANISMO DI MATCHING
         List<VolunteerRequest> volunteerRequestList = new ArrayList<>();
-        if(volunteer.isPresent()) {
-            System.out.println("ENTRATO");
-            volunteerRequestService.getVolunteerRequestBasedOnPreferences(volunteer.get().getVolunteerPreferences());
-        }
         return volunteerRequestList;
     }
 }

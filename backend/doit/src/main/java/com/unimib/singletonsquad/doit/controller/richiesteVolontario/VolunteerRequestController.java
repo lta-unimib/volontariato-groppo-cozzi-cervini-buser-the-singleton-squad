@@ -81,11 +81,13 @@ public class VolunteerRequestController {
             return ResponseEntity.ok().body(message);
     }
 
-    @GetMapping(value = "/matching/{volunteerId}/")
-    public ResponseEntity<?> getVolunteerRequest(final HttpServletRequest request, final @PathVariable Long volunteerId) throws Exception {
-        this.userVerify.isRoleValidFromRequest(request);
-        List<VolunteerRequest> volunteerRequestList = this.volunteerRequestControllerService.getAllRequestSorted(volunteerId);
-        ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestList);
+    @GetMapping(value = "/matching/")
+    public ResponseEntity<?> getVolunteerRequest(final HttpServletRequest request) throws Exception {
+        String email = this.userVerify.validateUserRoleFromToken(request, UserRole.volunteer);
+
+        List<VolunteerRequest> volunteerRequestSortedList = this.volunteerRequestControllerService.getAllRequestSorted(email);
+
+        ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestSortedList);
         return ResponseEntity.ok().body(message);
     }
 }
