@@ -51,16 +51,13 @@ public class VolunteerRequestControllerService {
         return this.volunteerRequestService.getAllRequest();
     }
 
-    public List<VolunteerRequest> getAllRequestSorted(@NotNull final String volunteerEmail) throws Exception{
+    public List<?> getAllRequestSorted(@NotNull final String volunteerEmail) throws Exception{
         Optional<Volunteer> volunteer = volunteerService.findVolunteerByEmail(volunteerEmail);
         if(volunteer.isEmpty())
             throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", volunteerEmail));
 
 
-        volunteerRequestService.getVolunteerRequestBasedOnPreferences(volunteer.get().getVolunteerPreferences());
+        return volunteerRequestService.getVolunteerRequestBasedOnPreferences(volunteer.get().getVolunteerPreferences());
 
-        /// TODO IMPLEMENTARE IL MECCANISMO DI MATCHING
-        List<VolunteerRequest> volunteerRequestList = new ArrayList<>();
-        return volunteerRequestList;
     }
 }

@@ -4,13 +4,17 @@ import com.unimib.singletonsquad.doit.database.common.CityInfoRepositoryService;
 import com.unimib.singletonsquad.doit.domain.common.CityInfo;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
+import com.unimib.singletonsquad.doit.dto.RequestMatchDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerRequestRepository;
+import com.unimib.singletonsquad.doit.utils.common.ParallelSort;
 import com.unimib.singletonsquad.doit.utils.data.DistanceCalculator;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.*;
@@ -62,21 +66,26 @@ public class VolunteerRequestService {
         }
     }
 
-    public void getVolunteerRequestBasedOnPreferences(VolunteerPreferences volunteerPreferences) throws Exception {
+    public List<?> getVolunteerRequestBasedOnPreferences(VolunteerPreferences volunteerPreferences) throws Exception {
         List<VolunteerRequest> requests = getAllRequest();
         int[] points = new int[requests.size()];
         String volunteerCity = getVolunteerCity(volunteerPreferences);
+        List<RequestMatchDTO> requestMatchDTOs = new ArrayList<>();
 
         for (int i = 0; i < points.length; i++) {
             VolunteerRequest request = requests.get(i);
-            points[i] += volunteerPreferences.hasCategories(request.getVolunteerCategories()) ? 1 : 0;
-            points[i] += volunteerPreferences.hasAvailability(request.getStartDateTime(), request.getEndDateTime()) ? 1 : 0;
+            points[i] += volunteerPreferences.hasCategories(request.getVolunteerCategories()) ? 10 : 0;
+            points[i] += volunteerPreferences.hasAvailability(request.getStartDateTime(), request.getEndDateTime()) ? 10 : 0;
             points[i] += calculatePoint(this.setup(request.getAddress().getCity(), getVolunteerCoords(volunteerCity)));
+            requestMatchDTOs.add(new RequestMatchDTO(request, points[i]));
         }
 
         for (int point : points) {
             System.out.println(point);
         }
+        //todo DTO Request voto
+        return ParallelSort.sortPersonsByAge(requestMatchDTOs);
+
     }
 
     private String getVolunteerCity(VolunteerPreferences volunteerPreferences){
@@ -108,10 +117,12 @@ public class VolunteerRequestService {
             return 10;
         else if (distance < 30)
             return 7;
-        else if(distance < 80)
+        else if (distance < 60)
             return 5;
-        else if (distance < 100)
+        else if(distance < 80)
             return 3;
+        else if (distance < 100)
+            return 2;
         else if(distance < 150)
             return 1;
         else

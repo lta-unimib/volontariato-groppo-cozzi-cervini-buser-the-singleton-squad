@@ -84,11 +84,12 @@ public class VolunteerRequestController {
             return ResponseEntity.ok().body(message);
     }
 
+    //TODO RESTIUIRE SOLO LA RICHIESTA E NON IL VOTO
     @GetMapping(value = "/matching/")
     public ResponseEntity<?> getVolunteerRequest(final HttpServletRequest request) throws Exception {
         String email = this.userVerify.validateUserRoleFromToken(request, UserRole.volunteer);
 
-        List<VolunteerRequest> volunteerRequestSortedList = this.volunteerRequestControllerService.getAllRequestSorted(email);
+        List<?> volunteerRequestSortedList = this.volunteerRequestControllerService.getAllRequestSorted(email);
 
         ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestSortedList);
         return ResponseEntity.ok().body(message);
