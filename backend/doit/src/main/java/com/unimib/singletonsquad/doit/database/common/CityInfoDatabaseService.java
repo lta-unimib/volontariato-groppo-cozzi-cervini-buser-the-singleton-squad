@@ -9,6 +9,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;;
 
 @Service
@@ -19,20 +22,30 @@ public class CityInfoDatabaseService {
     private final ICityInfoRepository cityInfoRepository;
     private final CityInfoMapper cityInfoMapper;
     private final CityInfoHTTPService http;
+    private final Map<String, CityInfo> cityInfoMap = new HashMap<>();
 
-    /// proxy
     public CityInfo getCityInfo(String cityName) throws Exception {
-        Optional<CityInfo> cityInfo = this.cityInfoRepository.findByCityName(cityName);
-        /// todo hashmap
-        if(cityInfo.isPresent())
-            return cityInfo.get();
-        else
-            return this.getCityAndSave(cityName);
+        if (cityInfoMap.containsKey(cityName)) {
+            return cityInfoMap.get(cityName);
+        } else {
+            Optional<CityInfo> cityInfo = this.cityInfoRepository.findByCityName(cityName);
+            if(cityInfo.isPresent())
+                return cityInfo.get();
+            else
+                return this.getCityAndSave(cityName);
+        }
     }
 
     /// Salva la città nel database
     public CityInfo saveCityInfo(@NotNull final CityInfo cityInfo) throws Exception {
-        return this.cityInfoRepository.save(cityInfo);
+        CityInfo saved;
+        if (!cityInfoMap.containsKey(cityInfo.getCityName())) {
+            saved = this.cityInfoRepository.save(cityInfo);
+            cityInfoMap.put(cityInfo.getCityName(), saved);
+        } else {
+            saved = cityInfoMap.get(cityInfo.getCityName());
+        }
+        return saved;
     }
     /// Serve per convertire i parametri della chiamata HTTP in una città
     private CityInfo createCityInfo(CityInfoDTO cityInfoDTO) {
