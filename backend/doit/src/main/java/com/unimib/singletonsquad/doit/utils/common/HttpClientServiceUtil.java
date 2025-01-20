@@ -27,7 +27,7 @@ public class HttpClientServiceUtil {
                     .bodyToMono(responseClass)
                     .block();
         } catch (WebClientResponseException e) {
-            throw new RuntimeException("Errore nella chiamata HTTP: " + e.getMessage(), e);
+            throw new RuntimeException("Error in HTTP call: " + e.getMessage(), e);
         }
     }
 

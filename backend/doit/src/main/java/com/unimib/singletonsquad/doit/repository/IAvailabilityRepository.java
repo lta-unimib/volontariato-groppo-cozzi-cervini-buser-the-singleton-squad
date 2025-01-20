@@ -10,7 +10,6 @@ import java.util.Optional;
 @Primary
 @Repository
 public interface IAvailabilityRepository extends JpaRepository<Availability, Integer> {
-    Availability save(Availability availability);
     Optional<Availability> findById(Long id);
     boolean existsById(Long id);
 }

@@ -5,13 +5,8 @@ import com.unimib.singletonsquad.doit.converter.ListObjectConverter;
 import com.unimib.singletonsquad.doit.utils.data.DataConverter;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.cglib.core.Local;
-
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @AllArgsConstructor

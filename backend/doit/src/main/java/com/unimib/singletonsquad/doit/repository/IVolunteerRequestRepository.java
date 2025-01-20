@@ -6,12 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.List;
 public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequest, Long> {
-    VolunteerRequest save(VolunteerRequest organization);
-
     Optional<VolunteerRequest> findById(long id);
     void deleteById(long id);
     boolean existsById(long id);
-
-    List<VolunteerRequest> findAll();
     List<VolunteerRequest> findByOrganization_Email(String email);
 }

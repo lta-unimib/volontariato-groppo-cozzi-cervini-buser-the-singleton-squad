@@ -10,11 +10,8 @@ import java.util.Optional;
 @Repository
 @Primary
 public interface IOrganizationRepository extends JpaRepository<Organization, Long> {
-    Organization save(Organization organization);
-    Optional<Organization> findById(Long id);
     Organization findByName(String name);
     boolean existsByName(String name);
-    boolean existsById(Long id);
     boolean existsByEmail(String email);
     Optional<Organization> findByEmail(String email);
 
