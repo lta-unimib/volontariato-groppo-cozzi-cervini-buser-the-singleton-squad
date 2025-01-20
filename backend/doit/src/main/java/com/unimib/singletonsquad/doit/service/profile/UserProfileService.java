@@ -20,6 +20,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserProfileService {
 
+    /**
+        PER IL REFACROTING FARE UNA CLASSE ASTRATTA CHE
+        IMPLEMENTA I METODI COMUNI
+     */
+
     private final VolunteerDatabaseService volunteerDatabaseService;
     private final OrganizationDatabaseService organizationDatabaseService;
     private final VolunteerMapper volunteerMapper;
@@ -51,5 +56,18 @@ public class UserProfileService {
             throw new RecordNotFoundGeneralException("Organization not exists");
         Organization tobeSaved = this.organizationMapper.updateOrganizationInfos(organizationData.get(), organization);
         this.organizationDatabaseService.save(tobeSaved);
+    }
+
+    public void deleteVolunteer(String email) {
+        Optional<Volunteer> volunteerData = this.volunteerDatabaseService.findVolunteerByEmail(email);
+        if(volunteerData.isEmpty())
+            throw new RecordNotFoundGeneralException("Volunteer not exists");
+        this.volunteerDatabaseService.deleteVolunteer(email);
+    }
+    public void deleteOrganization(String email) {
+        Optional<Organization> organizationData = this.organizationDatabaseService.findOrganizationByEmail(email);
+        if(organizationData.isEmpty())
+            throw new RecordNotFoundGeneralException("Organization not exists");
+        this.organizationDatabaseService.deleteOrganization(email);
     }
 }

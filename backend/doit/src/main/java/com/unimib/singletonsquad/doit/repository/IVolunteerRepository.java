@@ -20,4 +20,5 @@ public interface IVolunteerRepository extends JpaRepository<Volunteer, Long> {
     Optional<Volunteer> findFirstByIdGreaterThan(Long id);
     List<Volunteer> findByIdBetween(Long startId, Long endId);
     boolean existsByIdLessThan(Long id);
+    void deleteByEmail(String email);
 }

@@ -39,4 +39,8 @@ public class VolunteerDatabaseService {
         }
     }
 
+    public void deleteVolunteer(String email) {
+        this.volunteerRepository.deleteByEmail(email);
+    }
+
 }

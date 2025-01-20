@@ -43,4 +43,8 @@ public class OrganizationDatabaseService {
     public boolean findOrganizationByName(String name) {
         return organizationRepository.findByName(name) != null;
     }
+
+    public void deleteOrganization(String email) {
+        this.organizationRepository.deleteByEmail(email);
+    }
 }

@@ -43,6 +43,14 @@ public class OrganizationProfileController {
         return ResponseMessageUtil.createResponse(messageResponse, HttpStatus.OK, null);
     }
 
+    @DeleteMapping(value = "/")
+    public ResponseMessage deleteOrganization(final HttpServletRequest request){
+        String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
+        this.userProfileService.deleteOrganization(email);
+        String messageResponse = String.format("deleted user %s", email);
+        return ResponseMessageUtil.createResponse(messageResponse, HttpStatus.OK, null);
+    }
+
 
 
 
