@@ -3,7 +3,7 @@ package com.unimib.singletonsquad.doit.database.common;
 import com.unimib.singletonsquad.doit.domain.common.CityInfo;
 import com.unimib.singletonsquad.doit.dto.CityInfoDTO;
 import com.unimib.singletonsquad.doit.mappers.CityInfoMapper;
-import com.unimib.singletonsquad.doit.repository.concrete_repository.ICityInfoRepository;
+import com.unimib.singletonsquad.doit.repository.ICityInfoRepository;
 import com.unimib.singletonsquad.doit.service.http.CityInfoHTTPService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +14,7 @@ import java.util.Optional;;
 @Service
 @AllArgsConstructor
 @Transactional
-public class CityInfoRepositoryService {
+public class CityInfoDatabaseService {
 
     private final ICityInfoRepository cityInfoRepository;
     private final CityInfoMapper cityInfoMapper;

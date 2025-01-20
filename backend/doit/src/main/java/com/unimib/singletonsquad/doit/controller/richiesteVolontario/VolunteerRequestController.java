@@ -1,10 +1,8 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
-import com.unimib.singletonsquad.doit.database.common.CityInfoRepositoryService;
+import com.unimib.singletonsquad.doit.database.common.CityInfoDatabaseService;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
-import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
-import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestControllerService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
@@ -12,7 +10,6 @@ import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +24,7 @@ public class VolunteerRequestController {
 
     private final VolunteerRequestControllerService volunteerRequestControllerService;
     private final UserVerify userVerify;
-    private final CityInfoRepositoryService test;
+    private final CityInfoDatabaseService test;
 
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

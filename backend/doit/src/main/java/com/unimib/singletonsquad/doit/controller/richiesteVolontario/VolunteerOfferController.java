@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
-import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferService;
+import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferDatabaseService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping("/offer")
 public class VolunteerOfferController {
-    private final VolunteerOfferService volunteerOfferService;
+    private final VolunteerOfferDatabaseService volunteerOfferService;
     private final UserVerify userVerify;
 
     @PostMapping("/new/")

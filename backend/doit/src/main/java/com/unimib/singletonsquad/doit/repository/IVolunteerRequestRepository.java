@@ -1,10 +1,11 @@
-package com.unimib.singletonsquad.doit.repository.concrete_repository;
+package com.unimib.singletonsquad.doit.repository;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 import java.util.List;
-public interface IVolunteerRequestRepository {
+public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequest, Long> {
     VolunteerRequest save(VolunteerRequest organization);
 
     Optional<VolunteerRequest> findById(long id);

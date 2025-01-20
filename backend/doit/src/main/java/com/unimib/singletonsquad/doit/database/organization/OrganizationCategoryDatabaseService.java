@@ -2,7 +2,7 @@ package com.unimib.singletonsquad.doit.database.organization;
 
 import com.unimib.singletonsquad.doit.domain.organization.OrgCategory;
 import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;
-import com.unimib.singletonsquad.doit.repository.jpa.JPAVolunteerCategory;
+import com.unimib.singletonsquad.doit.repository.IVolunteerCategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class OrgCategoryService {
-    private final JPAVolunteerCategory repository;
+public class OrganizationCategoryDatabaseService {
+    private final IVolunteerCategoryRepository repository;
 
     public boolean isOrgCategoryExists(String name) {
         return repository.existsByName(name);

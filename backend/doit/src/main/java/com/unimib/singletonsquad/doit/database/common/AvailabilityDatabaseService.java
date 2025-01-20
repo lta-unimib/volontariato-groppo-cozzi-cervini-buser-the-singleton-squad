@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.database.common;
 
 import com.unimib.singletonsquad.doit.domain.common.Availability;
-import com.unimib.singletonsquad.doit.repository.concrete_repository.IAvailabilityRepository;
+import com.unimib.singletonsquad.doit.repository.IAvailabilityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 @Transactional
-public class AvailabilityService {
+public class AvailabilityDatabaseService {
 
     private final IAvailabilityRepository availabilityRepository;
 

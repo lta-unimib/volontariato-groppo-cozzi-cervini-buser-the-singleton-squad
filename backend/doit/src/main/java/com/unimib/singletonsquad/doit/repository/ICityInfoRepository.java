@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.repository.concrete_repository;
+package com.unimib.singletonsquad.doit.repository;
 
 import com.unimib.singletonsquad.doit.domain.common.CityInfo;
 import org.springframework.stereotype.Repository;

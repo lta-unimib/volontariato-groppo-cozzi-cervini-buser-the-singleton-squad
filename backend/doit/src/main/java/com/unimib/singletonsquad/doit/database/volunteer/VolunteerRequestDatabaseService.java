@@ -1,12 +1,12 @@
 package com.unimib.singletonsquad.doit.database.volunteer;
 
-import com.unimib.singletonsquad.doit.database.common.CityInfoRepositoryService;
+import com.unimib.singletonsquad.doit.database.common.CityInfoDatabaseService;
 import com.unimib.singletonsquad.doit.domain.common.CityInfo;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.RequestMatchDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
-import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerRequestRepository;
+import com.unimib.singletonsquad.doit.repository.IVolunteerRequestRepository;
 import com.unimib.singletonsquad.doit.utils.common.ParallelSort;
 import com.unimib.singletonsquad.doit.utils.data.DistanceCalculator;
 import jakarta.validation.constraints.NotNull;
@@ -17,15 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.*;
 
 @Service
 @Transactional
 @AllArgsConstructor
-public class VolunteerRequestService {
+public class VolunteerRequestDatabaseService {
 
     private final IVolunteerRequestRepository repository;
-    private final CityInfoRepositoryService cityRepository;
+    private final CityInfoDatabaseService cityRepository;
 
 
     public VolunteerRequest save(VolunteerRequest volunteerRequest) {
@@ -84,7 +83,7 @@ public class VolunteerRequestService {
             System.out.println(point);
         }
         //todo DTO Request voto
-        return ParallelSort.sortPersonsByAge(requestMatchDTOs);
+        return ParallelSort.sortRequestByVote(requestMatchDTOs);
 
     }
 

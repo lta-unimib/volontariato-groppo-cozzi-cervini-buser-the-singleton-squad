@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerRepository;
+import com.unimib.singletonsquad.doit.repository.IVolunteerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @AllArgsConstructor
-public class VolunteerService {
+public class VolunteerDatabaseService {
 
     private final IVolunteerRepository volunteerRepository;
     private final PasswordEncoder passwordEncoder;

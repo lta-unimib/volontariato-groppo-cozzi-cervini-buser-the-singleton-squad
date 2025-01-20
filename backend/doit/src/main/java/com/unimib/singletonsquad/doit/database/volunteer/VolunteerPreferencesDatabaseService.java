@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
-import com.unimib.singletonsquad.doit.repository.concrete_repository.IVolunteerPreferencesRepository;
+import com.unimib.singletonsquad.doit.repository.IVolunteerPreferencesRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @AllArgsConstructor
-public class VolunteerPreferencesService {
+public class VolunteerPreferencesDatabaseService {
     private final IVolunteerPreferencesRepository volunteerPreferencesRepository;
 
     public VolunteerPreferences save(VolunteerPreferences volunteerPreferences) {

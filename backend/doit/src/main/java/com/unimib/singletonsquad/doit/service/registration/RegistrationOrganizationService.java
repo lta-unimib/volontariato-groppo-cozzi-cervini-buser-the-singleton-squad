@@ -5,7 +5,7 @@ import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
-import com.unimib.singletonsquad.doit.database.organization.OrganizationService;
+import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class RegistrationOrganizationService {
 
     private final OrganizationMapper volunteerMapper;
-    private final OrganizationService organizationService;
+    private final OrganizationDatabaseService organizationService;
     private  final AuthenticationSetUp authenticationSetUp;
 
 

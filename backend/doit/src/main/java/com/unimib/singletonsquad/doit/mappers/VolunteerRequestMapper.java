@@ -3,7 +3,7 @@ package com.unimib.singletonsquad.doit.mappers;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
-import com.unimib.singletonsquad.doit.database.organization.OrganizationService;
+import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class VolunteerRequestMapper {
     private AddressMapper addressMapper;
 
     @Autowired
-    private OrganizationService organizationService;
+    private OrganizationDatabaseService organizationService;
 
     public VolunteerRequest updateVolunteerRequest(VolunteerRequestDTO requestDTO, Long requestId, String organizationEmail)
             throws Exception {
