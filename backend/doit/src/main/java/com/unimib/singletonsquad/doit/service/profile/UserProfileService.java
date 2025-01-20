@@ -33,12 +33,16 @@ public class UserProfileService {
 
     public Volunteer getVolunteerInfo(String email) {
         Optional<Volunteer> volunteer = this.volunteerDatabaseService.findVolunteerByEmail(email);
-        return (volunteer.isPresent()) ? volunteer.get() : null;
+        if(volunteer.isEmpty())
+            throw new RecordNotFoundGeneralException("Volunteer not found");
+        return volunteer.get();
     }
 
     public Organization getOrganizationInfo(String email) {
         Optional<Organization> organization = this.organizationDatabaseService.findOrganizationByEmail(email);
-        return (organization.isPresent()) ? organization.get() : null;
+        if(organization.isEmpty())
+            throw new RecordNotFoundGeneralException("Organization not found");
+        return organization.get();
     }
 
 

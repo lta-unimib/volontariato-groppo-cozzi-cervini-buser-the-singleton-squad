@@ -30,7 +30,7 @@ public class VolunteerProfileController {
             throws Exception{
         String email = this.userVerify.validateUserRoleFromToken(request, UserRole.volunteer);
         Volunteer vol = this.userProfileService.getVolunteerInfo(email);
-        String messageResponse = String.format("getting info for %s", vol.getEmail());
+        String messageResponse = String.format("getting info for %s", email);
         return ResponseMessageUtil.createResponse(messageResponse, HttpStatus.OK, vol);
     }
 
