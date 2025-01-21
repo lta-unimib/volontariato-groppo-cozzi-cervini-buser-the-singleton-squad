@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.controller.userProfile;
+package com.unimib.singletonsquad.doit.controller.userprofile;
 
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
