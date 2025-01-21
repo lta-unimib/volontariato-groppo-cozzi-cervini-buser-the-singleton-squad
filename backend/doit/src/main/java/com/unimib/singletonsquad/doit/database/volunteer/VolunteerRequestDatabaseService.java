@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class VolunteerRequestDatabaseService {
     }
 
     public List<VolunteerRequest> getAllRequest() {
-        return repository.findAll();
+        return repository.getAllRequest(LocalDate.now());
     }
 
     private void validateRequestExists(Long id) {

@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.utils.data.DataValidator;
 import jakarta.persistence.*;
@@ -53,6 +54,11 @@ public class Organization {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<VolunteerRequest> volunteerRequests = new ArrayList<>();
+
+    // Aggiunta della relazione con VolunteerOffer
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<VolunteerOffer> volunteerOffers = new ArrayList<>();
 
     public void setEmail(String email) {
         if (!DataValidator.isValidEmail(email)) {

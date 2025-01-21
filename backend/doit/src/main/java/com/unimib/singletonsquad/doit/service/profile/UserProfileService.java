@@ -6,7 +6,6 @@ import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
 import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
-import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
@@ -22,7 +21,8 @@ public class UserProfileService {
 
     /**
         PER IL REFACROTING FARE UNA CLASSE ASTRATTA CHE
-        IMPLEMENTA I METODI COMUNI
+        IMPLEMENTA I METODI COMUNI CHE SONO RIDEFINITI NELLE
+        CLASSI CONCRETE
      */
 
     private final VolunteerDatabaseService volunteerDatabaseService;
