@@ -26,5 +26,5 @@ public class VolunteerRequestDTO {
     @JsonProperty("categories")
     private List<String> categories;
     @JsonProperty("frequency")
-    private String volunteerType;
+    private List<String> volunteerType;
 }

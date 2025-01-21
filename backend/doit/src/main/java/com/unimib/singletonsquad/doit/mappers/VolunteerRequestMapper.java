@@ -42,7 +42,7 @@ public class VolunteerRequestMapper {
         volunteerRequest.setDetailedDescription(requestDTO.getDetailedDescription());
         volunteerRequest.setCapacity(requestDTO.getVolunteerCapacity());
         volunteerRequest.setAddress(addressMapper.createAddress(requestDTO.getAddress()));
-        volunteerRequest.setVolunteerType(requestDTO.getVolunteerType());
+        volunteerRequest.setVolunteerType(requestDTO.getVolunteerType().getFirst());
         volunteerRequest.setStartDateTime(requestDTO.getStartDate());
         volunteerRequest.setEndDateTime(requestDTO.getEndDate());
         volunteerRequest.setTitle(requestDTO.getTitle());
