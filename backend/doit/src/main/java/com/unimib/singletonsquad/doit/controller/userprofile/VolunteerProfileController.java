@@ -31,7 +31,7 @@ public class VolunteerProfileController {
             throws Exception{
         String email = this.userVerify.validateUserRoleFromToken(request, UserRole.volunteer);
         Volunteer vol = this.userProfileService.getVolunteerInfo(email);
-        VolunteerDTO volunteerDTO = VolunteerMapper.toVolunteerDTO(vol);
+        VolunteerDTO volunteerDTO = VolunteerMapper.toVolunteerDTO(vol);//TODO MOVE IN SERVICE
         String messageResponse = String.format("getting info for %s", email);
         return ResponseMessageUtil.createResponse(messageResponse, HttpStatus.OK, volunteerDTO);
     }

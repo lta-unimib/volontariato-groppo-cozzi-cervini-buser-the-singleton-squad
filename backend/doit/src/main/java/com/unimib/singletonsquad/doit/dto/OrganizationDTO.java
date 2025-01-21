@@ -27,4 +27,6 @@ public class OrganizationDTO{
     private List<String> preferences;
     @JsonProperty("webSite")
     private String webSite;
+    @JsonProperty("role")
+    private String role;
 }

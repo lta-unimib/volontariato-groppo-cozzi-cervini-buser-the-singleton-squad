@@ -32,4 +32,17 @@ public class OrganizationMapper {
 
         return organization;
     }
+
+    public static OrganizationDTO mapToOrganizationDTO(Organization organization){
+        OrganizationDTO organizationDTO = new OrganizationDTO();
+        organizationDTO.setDescription(organization.getDescription());
+        organizationDTO.setName(organization.getName());
+        organizationDTO.setEmail(organization.getEmail());
+        organizationDTO.setCity(organization.getCity());
+        organizationDTO.setVatNumber(organization.getVATNumber());
+        organizationDTO.setWebSite(organization.getWebsite());
+        organizationDTO.setPreferences(organization.getCategories());
+        organizationDTO.setRole("Organization");
+        return organizationDTO;
+    }
 }

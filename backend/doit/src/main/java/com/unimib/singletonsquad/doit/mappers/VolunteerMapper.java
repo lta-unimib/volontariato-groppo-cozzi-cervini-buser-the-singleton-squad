@@ -66,7 +66,7 @@ public class VolunteerMapper {
         volunteerDTO.setFavCategories(volunteer.getVolunteerPreferences().getCategories());
         volunteerDTO.setAvailability(AvailabilityMapper.toAvailabilityDTO(volunteer.getVolunteerPreferences().getAvailability()));
         volunteerDTO.setCity(volunteer.getVolunteerPreferences().getCity());
-        volunteerDTO.setRole("volunteer");
+        volunteerDTO.setRole("Volunteer");
         return volunteerDTO;
     }
 

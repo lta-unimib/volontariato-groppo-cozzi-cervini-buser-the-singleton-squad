@@ -5,6 +5,7 @@ import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
 import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
 import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
+import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.profile.UserProfileService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
@@ -31,8 +32,9 @@ public class OrganizationProfileController {
     public ResponseMessage getOrganizationInfo(final HttpServletRequest request) throws Exception{
         String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
         Organization organization = this.userProfileService.getOrganizationInfo(email);
+        OrganizationDTO organizationDTO = OrganizationMapper.mapToOrganizationDTO(organization);
         String messageResponse = String.format("getting info for %s", email);
-        return ResponseMessageUtil.createResponse(messageResponse, HttpStatus.OK, organization);
+        return ResponseMessageUtil.createResponse(messageResponse, HttpStatus.OK, organizationDTO);
     }
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
