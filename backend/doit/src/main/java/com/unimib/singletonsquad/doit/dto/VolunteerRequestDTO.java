@@ -17,14 +17,14 @@ public class VolunteerRequestDTO {
     private String detailedDescription;
     @JsonProperty("address")
     private AddressDTO address;
-    @JsonProperty("date")
+    @JsonProperty("startTime")
     private String startDate;
-    @JsonProperty("endDate")
+    @JsonProperty("endTime")
     String endDate;
     @JsonProperty("volunteerCapacity")
     private int volunteerCapacity;
     @JsonProperty("categories")
     private List<String> categories;
-    @JsonProperty("volunteerType")
+    @JsonProperty("frequency")
     private String volunteerType;
 }
