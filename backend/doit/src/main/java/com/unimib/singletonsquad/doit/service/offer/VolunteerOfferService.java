@@ -21,7 +21,6 @@ public class VolunteerOfferService {
 
     private final VolunteerOfferDatabaseService volunteerOfferDatabaseService;
     private final VolunteerRequestService volunteerRequestControllerService;
-    //TODO CAMBIARE ASSOLUTAMENTE IL NOME
     private final RegisteredUserService checkUserIsRegisteredDatabaseService;
 
     public List<VolunteerOffer> getAllVolunteerOffers(final String email) throws Exception {
@@ -33,8 +32,8 @@ public class VolunteerOfferService {
     /// ADD NEW OFFER
     public void addNewOffer(VolunteerOfferDTO volunteerOfferDTO, String email) throws Exception {
         Volunteer volunteer = (Volunteer) this.checkUserIsRegisteredDatabaseService.getFromDatabaseByEmail(email, UserRole.volunteer);
-        Organization organization = (Organization) this.checkUserIsRegisteredDatabaseService.getFromDatabaseByEmail(email, UserRole.organization);
         VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(volunteerOfferDTO.getVolunteerRequestId());
+        Organization organization = volunteerRequest.getOrganization()  ;
         VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteerOfferDTO, organization, volunteer, volunteerRequest);
         //todo Imposta anche il riferimento alla volunteerRequest nel VolunteerOffer
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);

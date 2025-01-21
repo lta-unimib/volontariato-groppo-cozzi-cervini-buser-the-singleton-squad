@@ -44,7 +44,7 @@ public class VolunteerRequest {
     private List<String> volunteerCategories;
 
     //todo aggiunta relazione con Offer
-    @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "volunteer_offer_id")
     private List<VolunteerOffer> volunteerOffer;
 

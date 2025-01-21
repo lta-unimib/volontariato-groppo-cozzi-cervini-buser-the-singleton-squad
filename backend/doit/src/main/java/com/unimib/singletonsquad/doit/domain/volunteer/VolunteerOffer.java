@@ -46,7 +46,6 @@ public class VolunteerOffer {
     @JsonIgnore
     private VolunteerRequest volunteerRequest;
 
-    // Override di equals e hashCode per la corretta gestione degli oggetti
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -40,7 +40,7 @@ public class VolunteerOfferController {
     @DeleteMapping(value = "/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseMessage deleteVolunteer(@PathVariable("idOffer") Long idOffer){
         //todo aggiungere la verifica
-        this.volunteerOfferService.deleteOffer(idOffer);
+       // this.volunteerOfferService.deleteOffer(idOffer);
         return null;
     }
 

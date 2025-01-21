@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.List;
 public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequest, Long> {
@@ -14,7 +15,7 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
     boolean existsById(long id);
     List<VolunteerRequest> findByOrganization_Email(String email);
 
-    @Query(value = "SELECT * FROM nome_tabella WHERE capacita > 0 AND  (end_date_time IS NULL OR end_date_time < :oggi)", nativeQuery = true)
-    List<VolunteerRequest> getAllRequest(@Param("oggi") LocalDate oggi);
+    @Query(value = "SELECT v FROM VolunteerRequest AS v WHERE TO_TIMESTAMP(v.endDateTime, 'YYYY-MM-DD\"T\"HH24:MI:SS') > :oggi AND v.capacity > 0")
+    List<VolunteerRequest> getAllRequest(@Param("oggi") LocalDateTime oggi);
 
 }
