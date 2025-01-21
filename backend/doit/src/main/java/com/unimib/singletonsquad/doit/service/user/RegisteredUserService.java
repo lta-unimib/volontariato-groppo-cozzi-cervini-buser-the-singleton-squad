@@ -44,11 +44,11 @@ public class RegisteredUserService {
     public void isRegistered(@NotNull final String email, final UserRole role) throws Exception {
         switch (role) {
             case volunteer:
-                if(this.volunteerDatabaseService.findVolunteerByEmail(email) == null)
+                if(this.volunteerDatabaseService.findVolunteerByEmail(email).isEmpty())
                     throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", email));
                 break;
             case organization:
-                if(this.organizationDatabaseService.findOrganizationByEmail(email) == null)
+                if(this.organizationDatabaseService.findOrganizationByEmail(email).isEmpty())
                     throw new RecordNotFoundGeneralException(String.format("Organization %s not found", email));
                 break;
             default:
