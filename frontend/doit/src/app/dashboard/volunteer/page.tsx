@@ -51,7 +51,7 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await makeGetRequest<ApiResponse>("/request/getall/");
+                const response = await makeGetRequest<ApiResponse>("/request/all/");
 
                 if (response.status === 200 && Array.isArray(response.data)) {
                     setOffers(response.data as Request[]);

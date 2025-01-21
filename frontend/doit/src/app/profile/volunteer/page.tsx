@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Page } from "@/components/layout/Page";
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
@@ -9,37 +9,31 @@ import { Calendar } from "@/components/ui/Calendar";
 import { Card, CardContent } from "@/components/ui/Card";
 import { addMonths, eachDayOfInterval, getDay, startOfMonth } from "date-fns";
 import { ProfileHeader } from "@/components/layout/ProfileHeader";
-import { AvailabilityData } from "@/types/availabilityData";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
+import { makeGetRequest } from "@/utils/apiUtils";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AvailabilityData } from "@/types/availabilityData";
+import { VolunteerFormData } from "@/types/formData";
 
-interface VolunteerProfile {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    availability: AvailabilityData;
-    city: string;
-    preferences: string[];
-    description: string;
-    role: string;
+interface ApiResponse {
+    message: string;
+    data: Request[];
+    status: string;
 }
 
 export default function Home() {
     const [date] = useState<Date | undefined>(new Date());
-
-    // Uncomment this section to use API data fetching
-    /*
-    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [volunteerProfile, setVolunteerProfile] = useState<VolunteerFormData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await makeGetRequest<UserApiResponse>("/user/profile/");
+                const response = await makeGetRequest<ApiResponse>("/profile/volunteer/");
 
                 if (response.status === 200 && response.data) {
-                    setUserProfile(response.data);
+                    setVolunteerProfile(response.data as unknown as VolunteerFormData);
                 } else {
                     setError("Failed to fetch user profile");
                 }
@@ -51,22 +45,6 @@ export default function Home() {
             }
         })();
     }, []);
-    */
-
-    const volunteerProfile: VolunteerProfile = {
-        firstName: "Daniele",
-        lastName: "Buser",
-        email: "buserdaniele@gmail.com",
-        password: "pswd?",
-        availability: {
-            mode: "monthly",
-            timeRange: ["2025-01-15", "2025-01-20"]
-        },
-        city: "Bovisio-Masciago",
-        preferences: ["ripetizioni", "supporto_bambini"],
-        description: "Descrizione dettagliata",
-        role: "Volontario"
-    };
 
     const getSelectedDays = (availability: AvailabilityData, currentMonth: Date): Date[] => {
         const startOfCurrentMonth = startOfMonth(currentMonth);
@@ -108,16 +86,21 @@ export default function Home() {
         }
     };
 
-    const formatAvailability = (availability: AvailabilityData) => {
+    const formatAvailability = (availability?: AvailabilityData) => {
+        if (!availability) return "Availability not specified";
+
         switch (availability.mode) {
             case "daily":
-                return availability.timeRange ? `Available daily from ${availability.timeRange[0]} to ${availability.timeRange[1]}` : "Availability not specified";
+                return availability.timeRange
+                    ? `Available daily from ${availability.timeRange[0]} to ${availability.timeRange[1]}`
+                    : "Availability not specified";
             case "weekly":
-                return availability.timeRange ? `Available every: ${availability.timeRange.join(", ")}` : "Availability not specified";
+                return availability.timeRange
+                    ? `Available every: ${availability.timeRange.join(", ")}`
+                    : "Availability not specified";
             case "monthly":
                 if (!availability.timeRange) return "Availability not specified";
-                const startDate = new Date(availability.timeRange[0]);
-                const endDate = new Date(availability.timeRange[1]);
+                const [startDate, endDate] = availability.timeRange.map(dateStr => new Date(dateStr));
                 return `Available monthly from day ${startDate.getDate()} to day ${endDate.getDate()}`;
             default:
                 return "Availability not specified";
@@ -125,13 +108,13 @@ export default function Home() {
     };
 
     const selectedDays = useMemo(() => {
-        return date ? getSelectedDays(volunteerProfile.availability, date) : [];
-    }, [date, volunteerProfile.availability]);
+        return date && volunteerProfile?.availability
+            ? getSelectedDays(volunteerProfile.availability, date)
+            : [];
+    }, [date, volunteerProfile]);
 
     const isAvailable = selectedDays.some((d) => d.toDateString() === new Date().toDateString());
 
-    // Uncomment this section when using API data fetching
-    /*
     if (loading) {
         return (
             <div className="flex flex-col lg:flex-row w-full">
@@ -144,7 +127,7 @@ export default function Home() {
         );
     }
 
-    if (error || !userProfile) {
+    if (error || !volunteerProfile) {
         return (
             <div className="flex flex-col lg:flex-row w-full">
                 <Page>
@@ -155,14 +138,19 @@ export default function Home() {
             </div>
         );
     }
-    */
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
             <Page>
                 <div className="flex w-full min-h-screen">
                     <div className="w-[var(--sidebar-width)]">
-                        <SidebarLayout menuItems={volunteerMenuItems} header={""} side={"left"} variant={"floating"} collapsible={"icon"}>
+                        <SidebarLayout
+                            menuItems={volunteerMenuItems}
+                            header={""}
+                            side={"left"}
+                            variant={"floating"}
+                            collapsible={"icon"}
+                        >
                             <div />
                         </SidebarLayout>
                     </div>
@@ -171,10 +159,11 @@ export default function Home() {
                         <div className="p-4 md:px-8">
                             <ProfileHeader
                                 name={`${volunteerProfile.firstName} ${volunteerProfile.lastName}`}
-                                role={volunteerProfile.role}
+                                role="Volunteer"
                                 city={volunteerProfile.city}
                                 imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
                                 isAvailable={isAvailable}
+                                profileData={volunteerProfile}
                             />
                         </div>
 
@@ -194,6 +183,7 @@ export default function Home() {
                                             <div className="text-sm text-muted-foreground mb-4">
                                                 <RoundCheckboxSelector
                                                     initialSelected={volunteerProfile.preferences}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                         </CardContent>

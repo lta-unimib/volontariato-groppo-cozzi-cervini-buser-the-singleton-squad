@@ -1,13 +1,44 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { AvailabilityMode, AvailabilityData } from "@/types/availabilityData";
 import { DateRange } from "react-day-picker";
 
-export const useAvailabilityDialog = (onSave: (data: AvailabilityData) => void) => {
+export const useAvailabilityDialog = (
+    onSave: (data: AvailabilityData) => void,
+    defaultValue?: AvailabilityData
+) => {
     const [open, setOpen] = useState(false);
-    const [selectedMode, setSelectedMode] = useState<AvailabilityMode>('daily');
-    const [selectedTimeRange, setSelectedTimeRange] = useState<string[]>([]);
-    const [selectedWeekDays, setSelectedWeekDays] = useState<string[]>([]);
-    const [selectedDateRange, setSelectedDateRange] = useState<DateRange>({ from: undefined, to: undefined });
+    const [selectedMode, setSelectedMode] = useState<AvailabilityMode>(defaultValue?.mode || 'daily');
+    const [selectedTimeRange, setSelectedTimeRange] = useState<string[]>(
+        defaultValue?.mode === 'daily' ? (defaultValue.timeRange as string[]) : []
+    );
+    const [selectedWeekDays, setSelectedWeekDays] = useState<string[]>(
+        defaultValue?.mode === 'weekly' ? (defaultValue.timeRange as string[]) : []
+    );
+    const [selectedDateRange, setSelectedDateRange] = useState<DateRange>(() => {
+        if (defaultValue?.mode === 'monthly' && Array.isArray(defaultValue.timeRange)) {
+            return {
+                from: new Date(defaultValue.timeRange[0]),
+                to: new Date(defaultValue.timeRange[1])
+            };
+        }
+        return { from: undefined, to: undefined };
+    });
+
+    useEffect(() => {
+        if (defaultValue) {
+            setSelectedMode(defaultValue.mode);
+            if (defaultValue.mode === 'daily') {
+                setSelectedTimeRange(defaultValue.timeRange as string[]);
+            } else if (defaultValue.mode === 'weekly') {
+                setSelectedWeekDays(defaultValue.timeRange as string[]);
+            } else if (defaultValue.mode === 'monthly' && Array.isArray(defaultValue.timeRange)) {
+                setSelectedDateRange({
+                    from: new Date(defaultValue.timeRange[0]),
+                    to: new Date(defaultValue.timeRange[1])
+                });
+            }
+        }
+    }, [defaultValue]);
 
     const resetSelections = useCallback(() => {
         setSelectedTimeRange([]);
@@ -40,11 +71,24 @@ export const useAvailabilityDialog = (onSave: (data: AvailabilityData) => void) 
         setOpen(false);
     }, [selectedMode, selectedTimeRange, selectedWeekDays, selectedDateRange, onSave]);
 
-
     const handleCancel = useCallback(() => {
-        resetSelections();
+        if (defaultValue) {
+            setSelectedMode(defaultValue.mode);
+            if (defaultValue.mode === 'daily') {
+                setSelectedTimeRange(defaultValue.timeRange as string[]);
+            } else if (defaultValue.mode === 'weekly') {
+                setSelectedWeekDays(defaultValue.timeRange as string[]);
+            } else if (defaultValue.mode === 'monthly' && Array.isArray(defaultValue.timeRange)) {
+                setSelectedDateRange({
+                    from: new Date(defaultValue.timeRange[0]),
+                    to: new Date(defaultValue.timeRange[1])
+                });
+            }
+        } else {
+            resetSelections();
+        }
         setOpen(false);
-    }, [resetSelections]);
+    }, [defaultValue, resetSelections]);
 
     return {
         open,

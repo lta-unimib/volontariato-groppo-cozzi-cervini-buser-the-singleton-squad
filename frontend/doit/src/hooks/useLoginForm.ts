@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { makeApiRequest } from "@/utils/apiUtils";
+import { makePostRequest } from "@/utils/apiUtils";
 
 interface LoginFormState {
     readonly email: string;
@@ -40,7 +40,7 @@ export const useLoginForm = ({ loginApiLink, redirectPath }: UseLoginFormProps) 
         updateFormState('loading', true);
         updateFormState('error', null);
 
-        const { status, data, message } = await makeApiRequest<LoginResponse>(
+        const { status, data, message } = await makePostRequest<LoginResponse>(
             loginApiLink,
             {
                 email: formState.email,

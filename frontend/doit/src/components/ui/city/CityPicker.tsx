@@ -1,4 +1,4 @@
-import {useRef, ChangeEvent, useState} from "react";
+import React, { useRef, ChangeEvent, useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { CityList } from "./CityList";
@@ -11,6 +11,13 @@ export function CityPicker({ value, onChangeAction, showCap = false }: CityPicke
     const inputRef = useRef<HTMLInputElement>(null);
 
     const { cities, error, searchQuery, setSearchQuery } = useCitySearch();
+
+    useEffect(() => {
+        if (value) {
+            setSearchQuery(value);
+            setSelectedCity(value);
+        }
+    }, [value, setSearchQuery]);
 
     const handleCitySelection = (city: CityData, e?: React.MouseEvent) => {
         e?.preventDefault();

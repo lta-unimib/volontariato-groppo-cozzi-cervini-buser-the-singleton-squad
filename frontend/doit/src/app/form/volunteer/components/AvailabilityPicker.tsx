@@ -18,7 +18,10 @@ const MODES = {
   MONTHLY: 'monthly'
 };
 
-export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAction }) => {
+export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
+                                                                        onSaveAction,
+                                                                        initialSelected
+                                                                      }) => {
   const {
     open,
     setOpen,
@@ -32,7 +35,8 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({ onSaveAc
     handleModeChange,
     handleSave,
     handleCancel
-  } = useAvailabilityDialog(onSaveAction);
+  } = useAvailabilityDialog(onSaveAction, initialSelected);
+
 
   const handleTimeSelect = (time: string) => {
     let updatedTimeRange = [...selectedTimeRange];
