@@ -1,18 +1,22 @@
 spring:
   datasource:
-    url: jdbc:postgresql://ep-delicate-silence-a9nepk6u.gwc.azure.neon.tech/appdb?sslmode=require
+    url: jdbc:postgresql://ep-delicate-silence-a9nepk6u.gwc.azure.neon.tech:5432/appdb?sslmode=require
     username: appdb_owner
     password: E19GHblZDxKi
     driver-class-name: org.postgresql.Driver
-
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000 # Timeout della connessione a 30 secondi
+      idle-timeout: 600000 # Timeout di inattività a 10 minuti
+      max-lifetime: 1800000 # Durata massima della connessione
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
-    check-template-location: true  # Impostalo su 'true' per assicurarti che venga verificata la presenza dei template
+    check-template-location: true
