@@ -11,7 +11,7 @@ export const useFormValidation = (formData: RequestFormData) => {
     const validationState = {
         isDateValid: validateDate(formData.date),
         areCategoriesValid: validateCategories(formData.categories),
-        areActivitiesValid: validateActivities(formData.activities),
+        areActivitiesValid: validateActivities(formData.frequency),
         isDescriptionValid: validateDescription(formData.description),
         isCapacityValid: validateVolunteerCapacity(formData.volunteerCapacity)
     };

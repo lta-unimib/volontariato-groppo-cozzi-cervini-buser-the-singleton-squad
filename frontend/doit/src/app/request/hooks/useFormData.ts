@@ -14,9 +14,11 @@ const initialFormData: RequestFormData = {
         additionalInfo: ""
     },
     categories: [],
-    activities: [],
+    frequency: [],
     description: "",
-    volunteerCapacity: ""
+    volunteerCapacity: "",
+    startTime: "",
+    endTime: ""
 };
 
 export const useFormData = () => {

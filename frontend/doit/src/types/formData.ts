@@ -29,9 +29,11 @@ export interface VolunteerFormData extends BaseUserData {
 export interface RequestFormData {
     title: string;
     date: string;
+    startTime: string;
+    endTime: string;
     address: AddressData;
     categories: string[];
-    activities: string[];
+    frequency: string[];
     description: string;
     volunteerCapacity: string;
 }

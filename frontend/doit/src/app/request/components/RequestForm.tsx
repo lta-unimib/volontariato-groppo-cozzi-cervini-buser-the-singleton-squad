@@ -11,6 +11,8 @@ import AddressDialog from "@/app/request/components/AddressDialog";
 import { Input } from "@/components/ui/Input";
 import { useFormValidation } from "@/app/request/hooks/useFormValidation";
 import { useFormFocus } from "@/app/request/hooks/useFormFocus";
+import {TimePicker} from "@/app/request/components/TimePicker";
+import {Card, CardContent} from "@/components/ui/Card";
 
 export function RequestForm() {
     const { formData, updateField } = useFormData();
@@ -56,6 +58,23 @@ export function RequestForm() {
                     onSaveAction={(date) => updateField("date", date.toDateString())}
                 />
 
+                <Card className="rounded-2xl">
+                    <CardContent className="flex items-center justify-center h-full">
+                        <div className="flex flex-col sm:flex-row sm:space-x-10 sm:justify-center space-y-6 md:space-y-0 pt-6 pb-4">
+                            <TimePicker
+                                label="Seleziona inizio"
+                                onChange={(time) => updateField("startTime", time)}
+                            />
+
+                            <TimePicker
+                                label="Seleziona fine"
+                                onChange={(time) => updateField("endTime", time)}
+                            />
+                        </div>
+                    </CardContent>
+                </Card>
+
+
                 <AddressDialog
                     onSaveAction={(address) => updateField("address", address)}
                 />
@@ -65,7 +84,9 @@ export function RequestForm() {
                 />
 
                 <RoundCheckboxSelector
-                    onChangeAction={(activities) => updateField("activities", activities)}
+                    onChangeAction={(frequency) => updateField("frequency", frequency)}
+                    optionType = "frequency"
+                    isSingleSelect = {true}
                 />
 
                 <Textarea

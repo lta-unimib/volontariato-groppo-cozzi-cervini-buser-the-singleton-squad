@@ -8,14 +8,18 @@ interface RoundCheckboxSelectorProps {
     readonly onChangeAction?: (selectedValues: string[]) => void;
     readonly initialSelected?: string[];
     readonly readOnly?: boolean;
+    readonly isSingleSelect?: boolean;
+    readonly optionType?: "categories" | "frequency";
 }
 
 export function RoundCheckboxSelector({
                                           onChangeAction,
                                           initialSelected,
-                                          readOnly = false
+                                          readOnly = false,
+                                          isSingleSelect = false,
+                                          optionType = "categories",
                                       }: RoundCheckboxSelectorProps) {
-    const options = [
+    const categories = [
         { id: "supporto_anziani", label: "Supporto Anziani" },
         { id: "supporto_bambini", label: "Supporto Bambini" },
         { id: "supporto_disabili", label: "Supporto Disabili" },
@@ -23,17 +27,31 @@ export function RoundCheckboxSelector({
         { id: "caritas", label: "Caritas" },
     ];
 
+    const frequency = [
+        { id: "daily", label: "Daily" },
+        { id: "weekly", label: "Weekly" },
+        { id: "monthly", label: "Monthly" },
+    ];
+
+    const options = optionType === "categories" ? categories : frequency;
+
     const componentId = useId();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(initialSelected || []);
 
     const handleCheckboxChange = (optionId: string) => {
         if (readOnly) return;
 
-        const updatedSelected = selectedOptions.includes(optionId)
-            ? selectedOptions.filter((id) => id !== optionId)
-            : [...selectedOptions, optionId];
-        setSelectedOptions(updatedSelected);
-        onChangeAction?.(updatedSelected);
+        if (isSingleSelect) {
+            const updatedSelected = selectedOptions[0] === optionId ? [] : [optionId];
+            setSelectedOptions(updatedSelected);
+            onChangeAction?.(updatedSelected);
+        } else {
+            const updatedSelected = selectedOptions.includes(optionId)
+                ? selectedOptions.filter((id) => id !== optionId)
+                : [...selectedOptions, optionId];
+            setSelectedOptions(updatedSelected);
+            onChangeAction?.(updatedSelected);
+        }
     };
 
     return (
