@@ -76,4 +76,26 @@ public class UserProfileService {
             throw new RecordNotFoundGeneralException("Organization not exists");
         this.organizationDatabaseService.deleteOrganization(email);
     }
+
+    public void updateVolunteerPassword(String email, String password) throws Exception {
+        Optional<Volunteer> volunteerOptional = volunteerDatabaseService.findVolunteerByEmail(email);
+        if(volunteerOptional.isEmpty()) {
+            throw new RecordNotFoundGeneralException("Volunteer not found");
+        } else {
+            Volunteer volunteer = volunteerOptional.get();
+            volunteer.setPassword(password);
+            this.volunteerDatabaseService.save(volunteer);
+        }
+    }
+
+    public void updateOrganizationPassword(String email, String password) throws Exception {
+        Optional<Organization> organizationOptional = organizationDatabaseService.findOrganizationByEmail(email);
+        if(organizationOptional.isEmpty()) {
+            throw new RecordNotFoundGeneralException("Volunteer not found");
+        } else {
+           Organization organization = organizationOptional.get();
+            organization.setPassword(password);
+           this.organizationDatabaseService.save(organization);
+        }
+    }
 }

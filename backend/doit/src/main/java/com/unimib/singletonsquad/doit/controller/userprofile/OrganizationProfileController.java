@@ -44,7 +44,4 @@ public class OrganizationProfileController extends UserProfileController {
         String messageResponse = String.format("deleted user %s", email);
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, null);
     }
-
-
-
 }
