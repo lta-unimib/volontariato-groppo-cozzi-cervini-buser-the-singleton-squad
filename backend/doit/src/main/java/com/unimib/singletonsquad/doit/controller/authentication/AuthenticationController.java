@@ -35,9 +35,4 @@ public class AuthenticationController {
         String messageResponse = String.format("Successfully authenticated %s", role);
         return ResponseMessageUtil.createResponse( messageResponse, HttpStatus.OK, tokenJson);
     }
-
-
-
-
-
 }

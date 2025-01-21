@@ -80,5 +80,4 @@ public class VolunteerRequestController {
         ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization", HttpStatus.OK, volunteerRequestList);
         return ResponseEntity.ok().body(message);
     }
-
 }

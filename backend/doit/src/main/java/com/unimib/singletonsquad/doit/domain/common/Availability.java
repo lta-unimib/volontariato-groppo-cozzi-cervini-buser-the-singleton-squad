@@ -41,10 +41,14 @@ public class Availability{
                 System.out.println("Checking for daily Availability");
                 LocalTime startTime = startDateTime.toLocalTime();
                 LocalTime endTime = endDateTime.toLocalTime();
-                LocalTime availableTimeStart = LocalTime.parse(data.get(0));
-                LocalTime availableTimeEnd = LocalTime.parse(data.get(1));
-
-                return availableTimeStart.isAfter(startTime) && availableTimeEnd.isBefore(endTime);
+                if(data.get(0) != null && data.get(1) != null) {
+                    LocalTime availableTimeStart = LocalTime.parse(data.get(0));
+                    LocalTime availableTimeEnd = LocalTime.parse(data.get(1));
+                    if(startTime != null && endTime != null) {
+                        return availableTimeStart.isAfter(startTime) && availableTimeEnd.isBefore(endTime);
+                    }
+                }
+                return false;
             }
             case "weekly": {
                 System.out.println("Weekly Availability");
