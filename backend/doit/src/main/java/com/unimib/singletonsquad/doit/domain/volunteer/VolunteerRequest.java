@@ -43,6 +43,11 @@ public class VolunteerRequest {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> volunteerCategories;
 
+    //todo aggiunta relazione con Offer
+    @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "volunteer_offer_id")
+    private List<VolunteerOffer> volunteerOffer;
+
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {

@@ -31,12 +31,14 @@ public class UserProfileService {
     private final OrganizationMapper organizationMapper;
 
 
-    public Volunteer getVolunteerInfo(String email) {
+    public VolunteerDTO getVolunteerInfo(String email) throws Exception {
         Optional<Volunteer> volunteer = this.volunteerDatabaseService.findVolunteerByEmail(email);
         if(volunteer.isEmpty())
             throw new RecordNotFoundGeneralException("Volunteer not found");
-        return volunteer.get();
+        return VolunteerMapper.toVolunteerDTO(volunteer.get());
+
     }
+
 
     public Organization getOrganizationInfo(String email) {
         Optional<Organization> organization = this.organizationDatabaseService.findOrganizationByEmail(email);

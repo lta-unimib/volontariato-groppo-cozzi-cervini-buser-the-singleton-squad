@@ -31,6 +31,8 @@ public class UserVerify {
         return true;
     }
 
+    //TODO RIMUOVERLO O FARLO PRIVATE
+    //TODO SOSTITUIRLO CON GETUSER EMAIL
     public String validateUserRoleFromToken(HttpServletRequest request, UserRole roleDesired) throws InvalidRoleGeneralException {
         String role = roleDesired.name();
         String token = jwtUtils.getTokenFromRequest(request);
@@ -51,14 +53,17 @@ public class UserVerify {
         return String.valueOf(jwtUtils.extractClaimByName(token, "role"));
     }
 
-    public String getUserEmail(final HttpServletRequest request, final String role) throws Exception {
+    public String getUserEmail(final HttpServletRequest request, final UserRole role) throws Exception {
         switch (role){
-            case "volunteer":
+            case volunteer->{
                 return validateUserRoleFromToken(request, UserRole.volunteer);
-            case "organization":
+            }
+            case organization->{
                 return validateUserRoleFromToken(request, UserRole.organization);
-            default:
+            }
+            default ->{
                 throw new InvalidRoleGeneralException(String.format("Invalid role: %s", role));
+            }
         }
     }
 }

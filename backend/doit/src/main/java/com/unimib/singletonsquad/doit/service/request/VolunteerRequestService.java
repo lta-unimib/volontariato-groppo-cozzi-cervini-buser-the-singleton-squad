@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.service.request;
 
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class VolunteerRequestControllerService {
+public class VolunteerRequestService {
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
     private final VolunteerRequestMapper volunteerRequestMapper;
     private final VolunteerRequestMatchingService volunteerRequestMatchingService;
@@ -57,8 +58,14 @@ public class VolunteerRequestControllerService {
         if(volunteer.isEmpty())
             throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", volunteerEmail));
 
-
         return this.volunteerRequestMatchingService.getVolunteerRequestBasedOnPreferences(volunteer.get());
+    }
+
+    /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA
+    public void addVolunteerOffer(Long idRequest, VolunteerOffer volunteerOffer) throws Exception{
+        VolunteerRequest request = getSpecificRequest(idRequest);
+        request.getVolunteerOffer().add(volunteerOffer);
+        this.volunteerRequestDatabaseService.save(request);
 
     }
 }

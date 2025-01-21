@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 
+import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.utils.data.DataValidator;
@@ -21,7 +22,7 @@ import java.util.Objects;
 @Builder
 @ToString
 @Table(name = "organization")
-public class Organization {
+public class Organization implements User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)

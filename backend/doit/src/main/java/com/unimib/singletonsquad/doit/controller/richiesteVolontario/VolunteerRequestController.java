@@ -3,7 +3,7 @@ package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 import com.unimib.singletonsquad.doit.database.common.CityInfoDatabaseService;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
-import com.unimib.singletonsquad.doit.service.request.VolunteerRequestControllerService;
+import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
@@ -22,7 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 public class VolunteerRequestController {
 
-    private final VolunteerRequestControllerService volunteerRequestControllerService;
+    private final VolunteerRequestService volunteerRequestControllerService;
     private final UserVerify userVerify;
     private final CityInfoDatabaseService test;
 

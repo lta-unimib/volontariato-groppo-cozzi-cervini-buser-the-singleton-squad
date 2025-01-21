@@ -12,6 +12,7 @@ public class OfferMapper {
         VolunteerOffer volunteerOffer = new VolunteerOffer();
         volunteerOffer.setVolunteer(volunteer);
         volunteerOffer.setOrganization(organization);
+        volunteerOffer.setVolunteerRequest(volunteerRequest);
         volunteerOffer.setStatus(Status.PENDING);
         volunteerOffer.setCompetenceDescription(volunteerOfferDTO.getVolunteerDescription());
         return volunteerOffer;

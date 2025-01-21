@@ -1,8 +1,14 @@
 package com.unimib.singletonsquad.doit.service.offer;
 
-import com.unimib.singletonsquad.doit.database.common.CheckUserIsRegisteredDatabaseService;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferDatabaseService;
+import com.unimib.singletonsquad.doit.domain.organization.Organization;
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
+import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
+import com.unimib.singletonsquad.doit.mappers.OfferMapper;
+import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
+import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,11 +20,36 @@ import java.util.List;
 public class VolunteerOfferService {
 
     private final VolunteerOfferDatabaseService volunteerOfferDatabaseService;
-    private final CheckUserIsRegisteredDatabaseService checkUserIsRegisteredDatabaseService;
-
+    private final VolunteerRequestService volunteerRequestControllerService;
+    //TODO CAMBIARE ASSOLUTAMENTE IL NOME
+    private final RegisteredUserService checkUserIsRegisteredDatabaseService;
 
     public List<VolunteerOffer> getAllVolunteerOffers(final String email) throws Exception {
-        this.checkUserIsRegisteredDatabaseService.checkUserIsRegistered(email, UserRole.volunteer);
+        this.checkUserIsRegisteredDatabaseService.isRegistered(email, UserRole.volunteer);
         return this.volunteerOfferDatabaseService.getAllVolunteerOffers(email);
     }
+
+
+    /// ADD NEW OFFER
+    public void addNewOffer(VolunteerOfferDTO volunteerOfferDTO, String email) throws Exception {
+        Volunteer volunteer = (Volunteer) this.checkUserIsRegisteredDatabaseService.getFromDatabaseByEmail(email, UserRole.volunteer);
+        Organization organization = (Organization) this.checkUserIsRegisteredDatabaseService.getFromDatabaseByEmail(email, UserRole.organization);
+        VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(volunteerOfferDTO.getVolunteerRequestId());
+        VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteerOfferDTO, organization, volunteer, volunteerRequest);
+        //todo Imposta anche il riferimento alla volunteerRequest nel VolunteerOffer
+        this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
+
+    }
+
+    /// REMOVE A OFFER
+
+    /// UPDATED A OFFER
+
+
+    /// ACCEPT A OFFER
+
+    /// DECLINE A OFFER
+
+
+
 }

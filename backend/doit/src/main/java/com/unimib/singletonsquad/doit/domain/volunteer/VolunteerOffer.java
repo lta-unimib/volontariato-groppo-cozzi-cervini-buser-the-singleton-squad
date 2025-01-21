@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unimib.singletonsquad.doit.domain.common.Status;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import jakarta.persistence.*;
@@ -38,6 +39,12 @@ public class VolunteerOffer {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
+    //TODO manca il riferimento alla richiesta
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "volunteer_request_id", nullable = false)
+    @JsonIgnore
+    private VolunteerRequest volunteerRequest;
 
     // Override di equals e hashCode per la corretta gestione degli oggetti
     @Override

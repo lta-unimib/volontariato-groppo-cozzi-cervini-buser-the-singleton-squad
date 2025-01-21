@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.domain.volunteer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unimib.singletonsquad.doit.domain.common.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +18,7 @@ import java.util.Objects;
 @Getter
 @Entity
 @Table(name = "volunteer")
-public class Volunteer {
+public class Volunteer implements User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
