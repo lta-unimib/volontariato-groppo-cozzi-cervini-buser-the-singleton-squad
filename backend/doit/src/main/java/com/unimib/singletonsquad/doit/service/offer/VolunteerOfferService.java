@@ -28,16 +28,12 @@ public class VolunteerOfferService {
         return this.volunteerOfferDatabaseService.getAllVolunteerOffers(email);
     }
 
-
     /// ADD NEW OFFER
     public void addNewOffer(VolunteerOfferDTO volunteerOfferDTO, String email) throws Exception {
         Volunteer volunteer = (Volunteer) this.checkUserIsRegisteredDatabaseService.getFromDatabaseByEmail(email, UserRole.volunteer);
         VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(volunteerOfferDTO.getVolunteerRequestId());
-        Organization organization = volunteerRequest.getOrganization()  ;
-        VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteerOfferDTO, organization, volunteer, volunteerRequest);
-        //todo Imposta anche il riferimento alla volunteerRequest nel VolunteerOffer
+        VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteerOfferDTO, volunteer, volunteerRequest);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
-
     }
 
     /// REMOVE A OFFER
