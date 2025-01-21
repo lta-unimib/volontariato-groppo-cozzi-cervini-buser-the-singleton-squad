@@ -36,11 +36,4 @@ public class VolunteerOfferAcceptController {
         this.acceptService.acceptVolunteerOffer(idOffer, organizationEmail);
         return ResponseEntity.ok().body("accepted");
     }
-
-    @PostMapping(value = "/candidati/{idOffer}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> candidatiOffer(@PathVariable Long idOffer) throws Exception {
-        String volunteerEmail = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer);
-        return null;
-    }
-
 }
