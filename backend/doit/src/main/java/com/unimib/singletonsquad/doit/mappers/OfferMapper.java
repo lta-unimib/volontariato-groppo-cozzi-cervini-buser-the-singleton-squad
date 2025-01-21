@@ -16,4 +16,12 @@ public class OfferMapper {
         volunteerOffer.setCompetenceDescription(volunteerOfferDTO.getVolunteerDescription());
         return volunteerOffer;
     }
+
+    public static VolunteerOfferDTO toOfferDTO(VolunteerOffer volunteerOffer) {
+        VolunteerOfferDTO dto = new VolunteerOfferDTO();
+        dto.setVolunteerId(volunteerOffer.getVolunteer().getId());
+        dto.setVolunteerDescription(volunteerOffer.getCompetenceDescription());
+        dto.setVolunteerRequestId(volunteerOffer.getVolunteerRequest().getId());
+        return dto;
+    }
 }
