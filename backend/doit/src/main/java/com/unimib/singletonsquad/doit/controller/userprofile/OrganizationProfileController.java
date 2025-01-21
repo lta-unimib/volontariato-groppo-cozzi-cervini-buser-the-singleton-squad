@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.controller.userProfile;
+package com.unimib.singletonsquad.doit.controller.userprofile;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
