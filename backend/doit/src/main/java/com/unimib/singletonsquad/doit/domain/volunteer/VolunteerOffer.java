@@ -26,11 +26,6 @@ public class VolunteerOffer {
     @Column(nullable = false)
     private String competenceDescription;
 
-    // Relazione con Organization
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "organization_id", referencedColumnName = "id", nullable = false)
-    private Organization organization;
-
     // Relazione con Volunteer
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_id", nullable = false)
@@ -39,8 +34,6 @@ public class VolunteerOffer {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
-
-    //TODO manca il riferimento alla richiesta
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_request_id", nullable = false)
     @JsonIgnore
@@ -53,13 +46,16 @@ public class VolunteerOffer {
         VolunteerOffer that = (VolunteerOffer) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(competenceDescription, that.competenceDescription) &&
-                Objects.equals(organization, that.organization) &&
                 Objects.equals(volunteer, that.volunteer) &&
                 status == that.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, competenceDescription, organization, volunteer, status);
+        return Objects.hash(id, competenceDescription, volunteer, status);
+    }
+
+    public Organization getOrganization() {
+        return volunteerRequest.getOrganization();
     }
 }

@@ -15,6 +15,4 @@ public class VolunteerOfferDTO {
     private long volunteerId;
     @JsonProperty("volunteer_request_id")
     private long volunteerRequestId;
-    @JsonProperty("organization_id")
-    private long organizationId;
 }

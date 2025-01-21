@@ -56,11 +56,6 @@ public class Organization implements User {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<VolunteerRequest> volunteerRequests = new ArrayList<>();
 
-    // Aggiunta della relazione con VolunteerOffer
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<VolunteerOffer> volunteerOffers = new ArrayList<>();
-
     public void setEmail(String email) {
         if (!DataValidator.isValidEmail(email)) {
             throw new IllegalArgumentException("Email is not valid");
