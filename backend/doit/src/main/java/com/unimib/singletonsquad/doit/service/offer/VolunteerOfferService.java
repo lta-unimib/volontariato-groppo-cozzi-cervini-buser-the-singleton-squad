@@ -38,6 +38,16 @@ public class VolunteerOfferService {
 
     /// REMOVE A OFFER
 
+    public void removeOffer(long offerId, String email) throws Exception {
+        this.checkUserIsRegisteredDatabaseService.isRegistered(email, UserRole.volunteer);
+        VolunteerOffer offer = volunteerOfferDatabaseService.getVolunteerOffer(offerId);
+        if(offer.isVolunteerOffer(email)) {
+            volunteerOfferDatabaseService.deleteVolunteerOffer(offer);
+        } else {
+            throw new IllegalAccessException("Volunteer offer not found");
+        }
+    }
+
     /// UPDATED A OFFER
 
 

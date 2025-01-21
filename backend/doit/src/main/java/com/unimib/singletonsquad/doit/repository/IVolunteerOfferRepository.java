@@ -13,4 +13,6 @@ public interface IVolunteerOfferRepository extends JpaRepository<VolunteerOffer,
     /// NOTA: USARE I NOMI DELLE ENTITà E NON QUELLI DELLE TABELLE
     @Query("SELECT o FROM VolunteerOffer as o where o.volunteer.email = :email")
     List<VolunteerOffer> getAllOffer(@Param("email") String email);
+
+    VolunteerOffer getVolunteerOfferById(Long id);
 }

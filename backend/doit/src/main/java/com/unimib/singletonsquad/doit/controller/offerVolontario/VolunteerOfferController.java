@@ -1,9 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.offerVolontario;
 
-import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
-import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferDatabaseService;
 import com.unimib.singletonsquad.doit.mappers.OfferMapper;
 import com.unimib.singletonsquad.doit.service.offer.VolunteerOfferService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
@@ -30,8 +29,8 @@ public class VolunteerOfferController {
     private final RegisteredUserService registeredUserService;
 
     @PostMapping(value = "/new/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createVolunteerRequest(final HttpServletRequest request,
-                                                    final @RequestBody VolunteerOfferDTO volunteerOfferDTO)
+    public ResponseEntity<?> createVolunteerOffer(final HttpServletRequest request,
+                                                  final @RequestBody VolunteerOfferDTO volunteerOfferDTO)
             throws Exception {
             String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer);
             this.volunteerOfferService.addNewOffer(volunteerOfferDTO, email);
@@ -43,21 +42,24 @@ public class VolunteerOfferController {
 
 
     @DeleteMapping(value = "/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseMessage deleteVolunteer(@PathVariable("idOffer") Long idOffer){
-        //todo aggiungere la verifica
-       // this.volunteerOfferService.deleteOffer(idOffer);
-        return null;
+    public ResponseMessage deleteVolunteerOffer(@PathVariable("idOffer") Long idOffer) throws Exception {
+        ResponseMessage responseMessage;
+        String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer);
+        volunteerOfferService.removeOffer(idOffer, email);
+        responseMessage = new ResponseMessage.Builder("volunteer offer removed").status(HttpStatus.OK).build();
+        return responseMessage;
     }
 
     @GetMapping("/all/")
-    public ResponseEntity<ResponseMessage> getAll() throws Exception {
+    public ResponseEntity<ResponseMessage> getAllVolunteerOffers() throws Exception {
         ResponseMessage responseMessage;
         String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer);
-        List<VolunteerOffer> volunteerOffers = volunteerOfferService.getAllVolunteerOffers(email);
+
         List<VolunteerOfferDTO> volunteerOfferDTOS = new ArrayList<>();
-        for (VolunteerOffer v : volunteerOffers) {
+        for (VolunteerOffer v : volunteerOfferService.getAllVolunteerOffers(email)) {
             volunteerOfferDTOS.add(OfferMapper.toOfferDTO(v));
         }
+
         responseMessage = new ResponseMessage.Builder("get all volunteer offers").data(volunteerOfferDTOS).build();
         return ResponseEntity.ok(responseMessage);
     }

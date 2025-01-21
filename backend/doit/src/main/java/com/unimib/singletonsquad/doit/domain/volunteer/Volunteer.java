@@ -63,6 +63,10 @@ public class Volunteer implements User {
         this.email = email;
     }
 
+    public boolean isVolunteerEmail(String email) {
+        return this.email.equals(email);
+    }
+
     private static boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@" +
                 "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[a-z]{2,})$";

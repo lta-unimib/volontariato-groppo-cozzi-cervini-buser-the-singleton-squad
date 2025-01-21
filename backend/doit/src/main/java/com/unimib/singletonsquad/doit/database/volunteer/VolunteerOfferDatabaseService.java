@@ -22,4 +22,12 @@ public class VolunteerOfferDatabaseService {
     public List<VolunteerOffer> getAllVolunteerOffers(final String email) {
         return this.volunteerOfferRepository.getAllOffer(email);
     }
+
+    public void deleteVolunteerOffer(VolunteerOffer offer) throws Exception {
+        volunteerOfferRepository.delete(offer);
+    }
+
+    public VolunteerOffer getVolunteerOffer(final long id) throws Exception {
+        return volunteerOfferRepository.getVolunteerOfferById(id);
+    }
 }
