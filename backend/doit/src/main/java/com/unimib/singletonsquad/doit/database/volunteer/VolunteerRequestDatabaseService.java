@@ -72,6 +72,12 @@ public class VolunteerRequestDatabaseService {
         return this.cityRepository.getCityInfo(city);
     }
 
+    public VolunteerRequest decreaseCapacity(VolunteerRequest volunteerRequest) {
+        VolunteerRequest temp = this.getSpecificRequest(volunteerRequest.getId());
+        temp.setCapacity(temp.getCapacity() -1);
+        return this.repository.save(temp);
+    }
+
 
 
 }
