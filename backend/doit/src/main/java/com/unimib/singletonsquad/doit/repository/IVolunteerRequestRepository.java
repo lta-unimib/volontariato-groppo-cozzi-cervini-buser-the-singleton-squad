@@ -12,7 +12,7 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
     Optional<VolunteerRequest> findById(long id);
     void deleteById(long id);
     boolean existsById(long id);
-    List<VolunteerRequest> findByOrganization_Email(long volunteerId);
+    List<VolunteerRequest> findByOrganization_Email(String email);
 
     @Query(value = "SELECT * FROM nome_tabella WHERE capacita > 0 AND  (end_date_time IS NULL OR end_date_time < :oggi)", nativeQuery = true)
     List<VolunteerRequest> getAllRequest(@Param("oggi") LocalDate oggi);
