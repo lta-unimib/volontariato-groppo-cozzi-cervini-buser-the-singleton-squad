@@ -25,11 +25,10 @@ import java.util.Objects;
 @RequestMapping("/offer")
 public class VolunteerOfferController {
     private final VolunteerOfferService volunteerOfferService;
-    private final UserVerify userVerify;
     private final RegisteredUserService registeredUserService;
 
     @PostMapping(value = "/new/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createVolunteerOffer(final HttpServletRequest request,
+    public ResponseEntity<ResponseMessage> createVolunteerOffer(final HttpServletRequest request,
                                                   final @RequestBody VolunteerOfferDTO volunteerOfferDTO)
             throws Exception {
             String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer);
@@ -42,12 +41,13 @@ public class VolunteerOfferController {
 
 
     @DeleteMapping(value = "/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseMessage deleteVolunteerOffer(@PathVariable("idOffer") Long idOffer) throws Exception {
+    public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable("idOffer") Long idOffer)
+            throws Exception {
         ResponseMessage responseMessage;
         String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer);
         volunteerOfferService.removeOffer(idOffer, email);
         responseMessage = new ResponseMessage.Builder("volunteer offer removed").status(HttpStatus.OK).build();
-        return responseMessage;
+        return ResponseEntity.ok(responseMessage);
     }
 
     @GetMapping("/all/")
@@ -59,8 +59,8 @@ public class VolunteerOfferController {
         for (VolunteerOffer v : volunteerOfferService.getAllVolunteerOffers(email)) {
             volunteerOfferDTOS.add(OfferMapper.toOfferDTO(v));
         }
-
-        responseMessage = new ResponseMessage.Builder("get all volunteer offers").data(volunteerOfferDTOS).build();
+        responseMessage = ResponseMessageUtil.createResponse("get all volunteer offers", HttpStatus.OK,
+                volunteerOfferDTOS);
         return ResponseEntity.ok(responseMessage);
     }
 

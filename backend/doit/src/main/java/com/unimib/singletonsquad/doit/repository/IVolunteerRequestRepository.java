@@ -15,7 +15,7 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
     boolean existsById(long id);
     List<VolunteerRequest> findByOrganization_Email(String email);
 
-    @Query(value = "SELECT v FROM VolunteerRequest AS v WHERE TO_TIMESTAMP(v.endDateTime, 'YYYY-MM-DD\"T\"HH24:MI:SS') > :oggi AND v.capacity > 0")
+    @Query(value = "SELECT v FROM VolunteerRequest AS v WHERE :oggi <= TO_TIMESTAMP(v.endDateTime, 'YYYY-MM-DD\"T\"HH24:MI:SS') AND v.capacity > 0")
     List<VolunteerRequest> getAllRequest(@Param("oggi") LocalDateTime oggi);
 
 }
