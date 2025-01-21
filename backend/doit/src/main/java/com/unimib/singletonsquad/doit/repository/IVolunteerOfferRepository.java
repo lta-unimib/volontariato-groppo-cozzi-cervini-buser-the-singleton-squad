@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IVolunteerOfferRepository extends JpaRepository<VolunteerOffer, Integer> {
     VolunteerOffer save(VolunteerOffer offer);
@@ -15,4 +16,6 @@ public interface IVolunteerOfferRepository extends JpaRepository<VolunteerOffer,
     List<VolunteerOffer> getAllOffer(@Param("email") String email);
 
     VolunteerOffer getVolunteerOfferById(Long id);
+
+    Optional<VolunteerOffer> findById(Long id);
 }
