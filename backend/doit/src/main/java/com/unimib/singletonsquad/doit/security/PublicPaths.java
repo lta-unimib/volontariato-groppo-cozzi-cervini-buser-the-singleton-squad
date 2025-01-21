@@ -5,6 +5,7 @@ public enum PublicPaths {
     FAVICON("/favicon.ico"),
     ERROR("/error"),
     REGISTRATION("/registration/**"),
+    TEST_REQUEST("/request/test/**"),
     LOGIN("/login/**");
 
     private final String path;

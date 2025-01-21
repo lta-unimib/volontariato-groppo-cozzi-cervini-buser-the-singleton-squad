@@ -2,8 +2,8 @@ package com.unimib.singletonsquad.doit.service.authentication;
 
 import com.unimib.singletonsquad.doit.dto.AuthDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserNotRegisteredGeneralException;
-import com.unimib.singletonsquad.doit.database.organization.OrganizationService;
-import com.unimib.singletonsquad.doit.database.volunteer.VolunteerService;
+import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
+import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationUserService {
 
-    private final VolunteerService volunteerService;
-    private final OrganizationService organizationService;
+    private final VolunteerDatabaseService volunteerService;
+    private final OrganizationDatabaseService organizationService;
     private final AuthenticationSetUp authenticationSetUp;
 
 

@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.domain.volunteer;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.unimib.singletonsquad.doit.domain.common.Address;
+import com.unimib.singletonsquad.doit.domain.common.Availability;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
 import jakarta.persistence.*;
@@ -42,6 +43,11 @@ public class VolunteerRequest {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> volunteerCategories;
 
+    //todo aggiunta relazione con Offer
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "volunteer_offer_id")
+    private List<VolunteerOffer> volunteerOffer;
+
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {
@@ -53,14 +59,5 @@ public class VolunteerRequest {
 
     public boolean hasCategory(String category) {
         return volunteerCategories.contains(category);
-    }
-
-    public boolean hasCategories(List<String> categories) {
-        for (String category : categories) {
-            if (volunteerCategories.contains(category)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -20,7 +20,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import java.util.NoSuchElementException;
-;
+
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -118,12 +118,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, message);
     }
 
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseMessage> handleGenericException(Exception ex) {
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Internal server error: %s", ex.getMessage()));
     }
 
-    // Build the error response
+    /// Build the error response
     private ResponseEntity<ResponseMessage> buildErrorResponse(HttpStatus status, String message) {
         ResponseMessage messageResponse = ResponseMessageUtil.createResponse(message, status, null);
         return new ResponseEntity<>(messageResponse, status);

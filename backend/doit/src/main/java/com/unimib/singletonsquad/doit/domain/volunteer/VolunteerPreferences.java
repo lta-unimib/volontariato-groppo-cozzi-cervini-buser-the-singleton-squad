@@ -1,5 +1,7 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unimib.singletonsquad.doit.domain.common.Availability;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,12 +17,14 @@ public class VolunteerPreferences {
     @Id
     @Column(nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     private String city;
     @ElementCollection
+    @JsonProperty("preferences")
     private List<String> categories;
     @OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "availability_id") // La colonna di join che riferisce la tabella availability
+    @JoinColumn(name = "availability_id")
     private Availability availability;
 
     @Override
@@ -29,5 +33,18 @@ public class VolunteerPreferences {
                 "city='" + city + '\'' +
                 ", volunteerCategories=" + categories +
                 '}';
+    }
+
+    public boolean hasCategories(List<String> categories) {
+        for (String category : categories) {
+            if (categories.contains(category)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasAvailability(String start, String end) {
+        return this.availability.matching(start, end);
     }
 }

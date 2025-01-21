@@ -5,7 +5,7 @@ import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
-import com.unimib.singletonsquad.doit.database.volunteer.VolunteerService;
+import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class RegistrationVolunteerService {
 
     private final VolunteerMapper volunteerMapper;
-    private final VolunteerService volunteerService;
+    private final VolunteerDatabaseService volunteerService;
     private final AuthenticationSetUp authenticationSetUp;
 
 

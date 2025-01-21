@@ -36,11 +36,9 @@ public class RegisterController {
     }
 
     private String registerEntity(Object dto) throws Exception {
-        if (dto instanceof VolunteerDTO) {
-            VolunteerDTO volunteer = (VolunteerDTO) dto;
+        if (dto instanceof VolunteerDTO volunteer) {
             return registerVolunteerService.registerVolunteer(volunteer);
-        } else if (dto instanceof OrganizationDTO) {
-            OrganizationDTO organization = (OrganizationDTO) dto;
+        } else if (dto instanceof OrganizationDTO organization) {
             return registerOrganizationService.registerOrganization(organization);
         } else {
             throw new InvalidDTOParameterGeneral(HttpStatus.PRECONDITION_FAILED, "Unsupported DTO type");

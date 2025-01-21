@@ -1,20 +1,27 @@
 package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
-import com.unimib.singletonsquad.doit.database.organization.OrganizationService;
+import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
+@AllArgsConstructor
 public class VolunteerRequestMapper {
 
-    @Autowired
-    private AddressMapper addressMapper;
+    private final AddressMapper addressMapper;
+    private final OrganizationDatabaseService organizationService;
 
-    @Autowired
-    private OrganizationService organizationService;
+
+    /** FIXME PER IL REFATCOTING PASSARE DIRETTAMENTE LE ORGANIZAZZIONI E NON LE EMAIL !!!!w
+     */
 
     public VolunteerRequest updateVolunteerRequest(VolunteerRequestDTO requestDTO, Long requestId, String organizationEmail)
             throws Exception {
@@ -39,6 +46,7 @@ public class VolunteerRequestMapper {
         volunteerRequest.setStartDateTime(requestDTO.getStartDate());
         volunteerRequest.setEndDateTime(requestDTO.getEndDate());
         volunteerRequest.setTitle(requestDTO.getTitle());
+        volunteerRequest.setVolunteerOffer(new ArrayList<>());
         volunteerRequest.setOrganization(getOrganizationByEmail(organizationEmail));
         volunteerRequest.setVolunteerCategories(requestDTO.getCategories());
 
