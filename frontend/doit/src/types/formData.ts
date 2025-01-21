@@ -15,7 +15,7 @@ export interface BaseUserData extends BaseFormData {
 export interface OrganizationFormData extends BaseUserData {
     organizationName: string;
     VATNumber?: string;
-    webSite?: string;
+    website?: string;
     role?: string;
 }
 

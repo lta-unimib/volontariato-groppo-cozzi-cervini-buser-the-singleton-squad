@@ -1,6 +1,6 @@
 "use client"
 
-import { makeApiRequest } from '@/utils/apiUtils';
+import { makePostRequest, makeUpdateRequest } from '@/utils/apiUtils';
 import { VolunteerFormData, OrganizationFormData } from "@/types/formData";
 
 type FormType = "volunteer" | "organization";
@@ -11,10 +11,21 @@ interface RegistrationResponse {
     user?: string;
 }
 
+const makeRegistrationRequest = async (formType: FormType, formData: FormData) => {
+    const endpoint = `/registration/${formType}/`;
+    return makePostRequest<RegistrationResponse>(endpoint, formData);
+};
+
+const makeEditRequest = async (formType: FormType, formData: FormData) => {
+    const endpoint = `/update/${formType}/`;
+    return makeUpdateRequest<RegistrationResponse>(endpoint, formData);
+};
+
 export const useFormSubmission = (formType: FormType, isEditing: boolean) => ({
     handleSubmit: async (formData: FormData) => {
-        const endpoint = isEditing ? `/update/${formType}/` : `/registration/${formType}/`;
-        const response = await makeApiRequest<RegistrationResponse>(endpoint, formData);
+        const response = isEditing
+            ? await makeEditRequest(formType, formData)
+            : await makeRegistrationRequest(formType, formData);
 
         if (!isEditing && response.status === 200 && response.data) {
             if (response.data.authToken) {

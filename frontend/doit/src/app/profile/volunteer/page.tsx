@@ -15,9 +15,10 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { AvailabilityData } from "@/types/availabilityData";
 import { VolunteerFormData } from "@/types/formData";
 
-interface VolunteerApiResponse {
-    status: number;
-    data: VolunteerFormData;
+interface ApiResponse {
+    message: string;
+    data: Request[];
+    status: string;
 }
 
 export default function Home() {
@@ -29,10 +30,10 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await makeGetRequest<VolunteerApiResponse>("/profile/volunteer/");
+                const response = await makeGetRequest<ApiResponse>("/profile/volunteer/");
 
                 if (response.status === 200 && response.data) {
-                    setUserProfile(response.data.data);
+                    setUserProfile(response.data as unknown as VolunteerFormData);
                 } else {
                     setError("Failed to fetch user profile");
                 }
@@ -105,7 +106,6 @@ export default function Home() {
                 return "Availability not specified";
         }
     };
-
 
     const selectedDays = useMemo(() => {
         return date && userProfile?.availability

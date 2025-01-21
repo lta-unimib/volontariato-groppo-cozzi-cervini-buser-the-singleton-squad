@@ -15,32 +15,15 @@ import { useFormValidation } from "@/app/form/organization/hooks/useFormValidati
 import { useFormFocus } from "@/app/form/organization/hooks/useFormFocus";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
 import { useSearchParams } from "next/navigation";
-import { router } from "next/client";
 
 export function OrganizationForm() {
     const searchParams = useSearchParams();
     const isEditing = searchParams.get('mode') === 'edit';
     const { formData, updateField, setFormData } = useFormData();
     const { handleSubmit } = useFormSubmission("organization", isEditing);
-    const { validationState, isValid } = useFormValidation(formData);
+    const { validationState, isValid } = useFormValidation(formData, isEditing);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
     const [showPassword, setShowPassword] = useState(false);
-
-    useEffect(() => {
-        if (isEditing) {
-            (async () => {
-                try {
-                    const response = await fetch('/api/profile/organization/');
-                    if (response.ok) {
-                        const userData = await response.json();
-                        setFormData(userData.data);
-                    }
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                }
-            })();
-        }
-    }, [isEditing, setFormData]);
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -54,7 +37,6 @@ export function OrganizationForm() {
 
             const response = await handleSubmit(finalFormData);
             if (response.status === 200) {
-                await router.push('/dashboard/organization');
                 return { success: true };
             }
             return {
@@ -156,8 +138,8 @@ export function OrganizationForm() {
                     isFocused={focusState.webSiteFocused}
                     onFocus={() => handleFocus("webSite")}
                     onBlur={() => handleBlur("webSite")}
-                    onChange={(e) => updateField("webSite", e.target.value)}
-                    value={formData.webSite}
+                    onChange={(e) => updateField("website", e.target.value)}
+                    value={formData.website}
                 />
             </div>
         </BaseForm>

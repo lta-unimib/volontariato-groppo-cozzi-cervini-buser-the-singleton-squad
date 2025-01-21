@@ -11,7 +11,7 @@ const initialFormData: OrganizationFormData = {
     preferences: [],
     description: "",
     VATNumber: "",
-    webSite: "",
+    website: "",
     role: 'organization'
 };
 

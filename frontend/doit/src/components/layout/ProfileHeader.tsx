@@ -21,7 +21,7 @@ export const ProfileHeader = ({
     const router = useRouter();
 
     const handleEdit = () => {
-        router.push(`/form/${role}`);
+        router.push(`/form/${role.toLowerCase()}?mode=edit`);
     };
 
     return (

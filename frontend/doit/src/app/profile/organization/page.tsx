@@ -12,9 +12,10 @@ import { makeGetRequest } from "@/utils/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { OrganizationFormData } from "@/types/formData";
 
-interface OrganizationApiResponse {
-    status: number;
-    data: OrganizationFormData;
+interface ApiResponse {
+    message: string;
+    data: Request[];
+    status: string;
 }
 
 export default function Home() {
@@ -25,10 +26,10 @@ export default function Home() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await makeGetRequest<OrganizationApiResponse>("/profile/organization/");
+                const response = await makeGetRequest<ApiResponse>("/profile/organization/");
 
                 if (response.status === 200 && response.data) {
-                    setOrganizationProfile(response.data.data);
+                    setOrganizationProfile(response.data as unknown as OrganizationFormData);
                 } else {
                     setError("Failed to fetch organization profile");
                 }
@@ -93,8 +94,8 @@ export default function Home() {
                         </div>
 
                         <ScrollArea className="flex-1 p-4 md:px-8">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                <div className="space-y-4 lg:space-y-4">
+                            <div className="hidden lg:grid lg:grid-cols-2 gap-4">
+                                <div className="space-y-4">
                                     <Card className="rounded-2xl">
                                         <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">About</h3>
@@ -104,23 +105,12 @@ export default function Home() {
 
                                     <Card className="rounded-2xl">
                                         <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground mb-4">Areas of Interest</h3>
-                                            <div className="text-sm text-muted-foreground mb-4">
-                                                <RoundCheckboxSelector
-                                                    initialSelected={organizationProfile.preferences}
-                                                />
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-
-                                    <Card className="rounded-2xl">
-                                        <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
                                             <ul className="text-sm text-muted-foreground mt-2">
                                                 <li>Email: <a href={`mailto:${organizationProfile.email}`}>{organizationProfile.email}</a></li>
                                                 <li>
-                                                    Website: <a href={formatWebsiteUrl(organizationProfile.webSite ?? "")} target="_blank" rel="noopener noreferrer">
-                                                    {organizationProfile.webSite}
+                                                    Website: <a href={formatWebsiteUrl(organizationProfile.website ?? "")} target="_blank" rel="noopener noreferrer">
+                                                    {organizationProfile.website}
                                                 </a>
                                                 </li>
                                                 <li>VAT Number: {organizationProfile.VATNumber}</li>
@@ -129,17 +119,53 @@ export default function Home() {
                                     </Card>
                                 </div>
 
-                                <div className="space-y-4">
-                                    {/* Additional section for future features */}
-                                    <Card className="rounded-2xl">
+                                <div>
+                                    <Card className="rounded-2xl h-full">
                                         <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground">Organization Statistics</h3>
-                                            <p className="text-sm text-muted-foreground mt-2">
-                                                This section will display organization statistics and metrics.
-                                            </p>
+                                            <h3 className="text-xl font-semibold text-foreground mb-4">Areas of Interest</h3>
+                                            <div className="text-sm text-muted-foreground mb-4">
+                                                <RoundCheckboxSelector
+                                                    initialSelected={organizationProfile.preferences}
+                                                />
+                                            </div>
                                         </CardContent>
                                     </Card>
                                 </div>
+                            </div>
+
+                            <div className="space-y-4 lg:hidden">
+                                <Card className="rounded-2xl">
+                                    <CardContent className="pt-6">
+                                        <h3 className="text-xl font-semibold text-foreground">About</h3>
+                                        <p className="text-sm text-muted-foreground mt-2">{organizationProfile.description}</p>
+                                    </CardContent>
+                                </Card>
+
+                                <Card className="rounded-2xl">
+                                    <CardContent className="pt-6">
+                                        <h3 className="text-xl font-semibold text-foreground mb-4">Areas of Interest</h3>
+                                        <div className="text-sm text-muted-foreground mb-4">
+                                            <RoundCheckboxSelector
+                                                initialSelected={organizationProfile.preferences}
+                                            />
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                <Card className="rounded-2xl">
+                                    <CardContent className="pt-6">
+                                        <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
+                                        <ul className="text-sm text-muted-foreground mt-2">
+                                            <li>Email: <a href={`mailto:${organizationProfile.email}`}>{organizationProfile.email}</a></li>
+                                            <li>
+                                                Website: <a href={formatWebsiteUrl(organizationProfile.website ?? "")} target="_blank" rel="noopener noreferrer">
+                                                {organizationProfile.website}
+                                            </a>
+                                            </li>
+                                            <li>VAT Number: {organizationProfile.VATNumber}</li>
+                                        </ul>
+                                    </CardContent>
+                                </Card>
                             </div>
                         </ScrollArea>
                     </div>

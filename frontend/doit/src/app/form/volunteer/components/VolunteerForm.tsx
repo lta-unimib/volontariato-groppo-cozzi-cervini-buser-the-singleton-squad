@@ -15,32 +15,15 @@ import { useFormValidation } from "@/app/form/volunteer/hooks/useFormValidation"
 import { useFormFocus } from "@/app/form/volunteer/hooks/useFormFocus";
 import bcryptjs from "bcryptjs";
 import { useSearchParams } from "next/navigation";
-import { router } from "next/client";
 
 export function VolunteerForm() {
     const searchParams = useSearchParams();
     const isEditing = searchParams.get('mode') === 'edit';
     const { formData, updateField, setFormData } = useFormData();
     const { handleSubmit } = useFormSubmission("volunteer", isEditing);
-    const { validationState, isValid } = useFormValidation(formData);
+    const { validationState, isValid } = useFormValidation(formData, isEditing);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
     const [showPassword, setShowPassword] = useState(false);
-
-    useEffect(() => {
-        if (isEditing) {
-            (async () => {
-                try {
-                    const response = await fetch('/api/profile/volunteer/');
-                    if (response.ok) {
-                        const userData = await response.json();
-                        setFormData(userData.data);
-                    }
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                }
-            })();
-        }
-    }, [isEditing, setFormData]);
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -54,7 +37,6 @@ export function VolunteerForm() {
 
             const response = await handleSubmit(finalFormData);
             if (response.status === 200) {
-                await router.push('/dashboard/volunteer');
                 return { success: true };
             }
             return {
