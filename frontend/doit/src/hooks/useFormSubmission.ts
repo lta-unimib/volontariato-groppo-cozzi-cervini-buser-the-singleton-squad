@@ -17,7 +17,7 @@ const makeRegistrationRequest = async (formType: FormType, formData: FormData) =
 };
 
 const makeEditRequest = async (formType: FormType, formData: FormData) => {
-    const endpoint = `/update/${formType}/`;
+    const endpoint = `/profile/${formType}/`;
     return makeUpdateRequest<RegistrationResponse>(endpoint, formData);
 };
 

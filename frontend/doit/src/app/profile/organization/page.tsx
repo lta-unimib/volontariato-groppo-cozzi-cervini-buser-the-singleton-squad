@@ -78,7 +78,13 @@ export default function Home() {
             <Page>
                 <div className="flex w-full min-h-screen">
                     <div className="w-[var(--sidebar-width)]">
-                        <SidebarLayout menuItems={organizationMenuItems} header={""} side={"left"} variant={"floating"} collapsible={"icon"}>
+                        <SidebarLayout
+                            menuItems={organizationMenuItems}
+                            header={""}
+                            side={"left"}
+                            variant={"floating"}
+                            collapsible={"icon"}
+                        >
                             <div />
                         </SidebarLayout>
                     </div>
@@ -90,6 +96,7 @@ export default function Home() {
                                 role={organizationProfile.role ?? "Organization"}
                                 city={organizationProfile.city}
                                 imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                                profileData={organizationProfile}
                             />
                         </div>
 
@@ -126,6 +133,7 @@ export default function Home() {
                                             <div className="text-sm text-muted-foreground mb-4">
                                                 <RoundCheckboxSelector
                                                     initialSelected={organizationProfile.preferences}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                         </CardContent>

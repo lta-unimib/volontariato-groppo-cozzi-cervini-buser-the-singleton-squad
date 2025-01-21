@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MdOutlineBusiness, MdOutlineEmail, MdOutlinePassword } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import bcryptjs from 'bcryptjs';
 import { CityPicker } from "@/components/ui/city/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
@@ -14,50 +13,39 @@ import { useFormData } from "@/app/form/organization/hooks/useFormData";
 import { useFormValidation } from "@/app/form/organization/hooks/useFormValidation";
 import { useFormFocus } from "@/app/form/organization/hooks/useFormFocus";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
-import { useSearchParams } from "next/navigation";
+import { useFormInitialization } from '@/hooks/useFormInizialization';
 
 export function OrganizationForm() {
-    const searchParams = useSearchParams();
-    const isEditing = searchParams.get('mode') === 'edit';
     const { formData, updateField, setFormData } = useFormData();
-    const { handleSubmit } = useFormSubmission("organization", isEditing);
+
+    const {
+        isEditing,
+        showPassword,
+        setShowPassword,
+        initialDataLoaded,
+        handleSubmit
+    } = useFormInitialization({
+        setFormDataAction: setFormData,
+        formData
+    });
+
+    const { handleSubmit: handleSubmitFn } = useFormSubmission("organization", isEditing);
     const { validationState, isValid } = useFormValidation(formData, isEditing);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
-    const [showPassword, setShowPassword] = useState(false);
 
-    const onSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            let finalFormData = { ...formData };
 
-            if (!isEditing) {
-                const salt = await bcryptjs.genSalt(10);
-                finalFormData.password = await bcryptjs.hash(formData.password, salt);
-            }
-
-            const response = await handleSubmit(finalFormData);
-            if (response.status === 200) {
-                return { success: true };
-            }
-            return {
-                success: false,
-                message: response.message || `Error ${response.status}`
-            };
-
-        } catch (error) {
-            console.error("Error during form submission:", error);
-            return { success: false, message: "Submission failed" };
-        }
-    };
+    if (!initialDataLoaded && isEditing) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <BaseForm
-            onSubmitAction={onSubmit}
+            onSubmitAction={(e) => handleSubmit(e, handleSubmitFn)}
             isValid={isValid()}
             redirectTo={isEditing ? "../../../profile/organization" : "../../../dashboard/organization"}
         >
             <IconInput
-                value={formData.organizationName}
+                value={formData.organizationName || ""}
                 onChange={(e) => updateField("organizationName", e.target.value)}
                 placeholder="Nome Organizzazione"
                 icon={<MdOutlineBusiness />}
@@ -66,7 +54,7 @@ export function OrganizationForm() {
             {!isEditing && (
                 <>
                     <IconInput
-                        value={formData.email}
+                        value={formData.email || ""}
                         onChange={(e) => updateField("email", e.target.value)}
                         placeholder="Email"
                         type="email"
@@ -79,7 +67,7 @@ export function OrganizationForm() {
 
                     <div className="relative">
                         <IconInput
-                            value={formData.password}
+                            value={formData.password || ""}
                             onChange={(e) => updateField("password", e.target.value)}
                             placeholder="Password"
                             type={showPassword ? "text" : "password"}
@@ -105,18 +93,21 @@ export function OrganizationForm() {
             )}
 
             <CityPicker
-                value={formData.city}
+                value={formData.city || ""}
                 onChangeAction={(city: string) => updateField("city", city)}
             />
 
             <RoundCheckboxSelector
                 onChangeAction={(preferences: string[]) => updateField("preferences", preferences)}
+                initialSelected={formData.preferences}
+                key={JSON.stringify(formData.preferences)}
+                readOnly={false}
             />
 
             <Textarea
                 placeholder="Descrizione dell'organizzazione"
                 className="rounded-2xl min-h-[100px]"
-                value={formData.description}
+                value={formData.description || ""}
                 onChange={(e) => updateField("description", e.target.value)}
             />
 
@@ -129,7 +120,7 @@ export function OrganizationForm() {
                     onFocus={() => handleFocus("VATNumber")}
                     onBlur={() => handleBlur("VATNumber")}
                     onChange={(e) => updateField("VATNumber", e.target.value)}
-                    value={formData.VATNumber}
+                    value={formData.VATNumber || ""}
                 />
                 <Input
                     placeholder="Sito Web (opzionale)"
@@ -139,7 +130,7 @@ export function OrganizationForm() {
                     onFocus={() => handleFocus("webSite")}
                     onBlur={() => handleBlur("webSite")}
                     onChange={(e) => updateField("website", e.target.value)}
-                    value={formData.website}
+                    value={formData.website || ""}
                 />
             </div>
         </BaseForm>

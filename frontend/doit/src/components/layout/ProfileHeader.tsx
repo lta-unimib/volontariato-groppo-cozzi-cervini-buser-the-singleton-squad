@@ -1,7 +1,12 @@
+"use client";
+
 import { Button } from "@/components/ui/Button";
 import { MdOutlineEdit } from "react-icons/md";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
+import {OrganizationFormData, VolunteerFormData} from "@/types/formData";
+
+type ProfileData = VolunteerFormData | OrganizationFormData;
 
 interface ProfileHeaderProps {
     name: string;
@@ -9,6 +14,7 @@ interface ProfileHeaderProps {
     city: string;
     imageUrl: string;
     isAvailable?: boolean;
+    profileData: ProfileData;
 }
 
 export const ProfileHeader = ({
@@ -17,11 +23,13 @@ export const ProfileHeader = ({
                                   city,
                                   imageUrl,
                                   isAvailable,
+                                  profileData,
                               }: ProfileHeaderProps) => {
     const router = useRouter();
 
     const handleEdit = () => {
-        router.push(`/form/${role.toLowerCase()}?mode=edit`);
+        const encodedData = encodeURIComponent(JSON.stringify(profileData));
+        router.push(`/form/${role.toLowerCase()}?mode=edit&data=${encodedData}`);
     };
 
     return (

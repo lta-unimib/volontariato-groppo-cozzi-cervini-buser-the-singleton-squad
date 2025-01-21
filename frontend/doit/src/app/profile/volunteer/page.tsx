@@ -23,7 +23,7 @@ interface ApiResponse {
 
 export default function Home() {
     const [date] = useState<Date | undefined>(new Date());
-    const [userProfile, setUserProfile] = useState<VolunteerFormData | null>(null);
+    const [volunteerProfile, setVolunteerProfile] = useState<VolunteerFormData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -33,7 +33,7 @@ export default function Home() {
                 const response = await makeGetRequest<ApiResponse>("/profile/volunteer/");
 
                 if (response.status === 200 && response.data) {
-                    setUserProfile(response.data as unknown as VolunteerFormData);
+                    setVolunteerProfile(response.data as unknown as VolunteerFormData);
                 } else {
                     setError("Failed to fetch user profile");
                 }
@@ -108,11 +108,10 @@ export default function Home() {
     };
 
     const selectedDays = useMemo(() => {
-        return date && userProfile?.availability
-            ? getSelectedDays(userProfile.availability, date)
+        return date && volunteerProfile?.availability
+            ? getSelectedDays(volunteerProfile.availability, date)
             : [];
-    }, [date, userProfile]);
-
+    }, [date, volunteerProfile]);
 
     const isAvailable = selectedDays.some((d) => d.toDateString() === new Date().toDateString());
 
@@ -128,7 +127,7 @@ export default function Home() {
         );
     }
 
-    if (error || !userProfile) {
+    if (error || !volunteerProfile) {
         return (
             <div className="flex flex-col lg:flex-row w-full">
                 <Page>
@@ -145,7 +144,13 @@ export default function Home() {
             <Page>
                 <div className="flex w-full min-h-screen">
                     <div className="w-[var(--sidebar-width)]">
-                        <SidebarLayout menuItems={volunteerMenuItems} header={""} side={"left"} variant={"floating"} collapsible={"icon"}>
+                        <SidebarLayout
+                            menuItems={volunteerMenuItems}
+                            header={""}
+                            side={"left"}
+                            variant={"floating"}
+                            collapsible={"icon"}
+                        >
                             <div />
                         </SidebarLayout>
                     </div>
@@ -153,11 +158,12 @@ export default function Home() {
                     <div className="flex-1 flex flex-col pb-28 md:pb-4">
                         <div className="p-4 md:px-8">
                             <ProfileHeader
-                                name={`${userProfile.firstName} ${userProfile.lastName}`}
-                                role={userProfile.role ?? "Volunteer"}
-                                city={userProfile.city}
+                                name={`${volunteerProfile.firstName} ${volunteerProfile.lastName}`}
+                                role="Volunteer"
+                                city={volunteerProfile.city}
                                 imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
                                 isAvailable={isAvailable}
+                                profileData={volunteerProfile}
                             />
                         </div>
 
@@ -167,7 +173,7 @@ export default function Home() {
                                     <Card className="rounded-2xl">
                                         <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">About</h3>
-                                            <p className="text-sm text-muted-foreground mt-2">{userProfile.description}</p>
+                                            <p className="text-sm text-muted-foreground mt-2">{volunteerProfile.description}</p>
                                         </CardContent>
                                     </Card>
 
@@ -176,7 +182,8 @@ export default function Home() {
                                             <h3 className="text-xl font-semibold text-foreground mb-4">Preferences</h3>
                                             <div className="text-sm text-muted-foreground mb-4">
                                                 <RoundCheckboxSelector
-                                                    initialSelected={userProfile.preferences}
+                                                    initialSelected={volunteerProfile.preferences}
+                                                    readOnly={true}
                                                 />
                                             </div>
                                         </CardContent>
@@ -186,7 +193,7 @@ export default function Home() {
                                         <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
                                             <ul className="text-sm text-muted-foreground mt-2">
-                                                <li>Email: <a href={`mailto:${userProfile.email}`}>{userProfile.email}</a></li>
+                                                <li>Email: <a href={`mailto:${volunteerProfile.email}`}>{volunteerProfile.email}</a></li>
                                             </ul>
                                         </CardContent>
                                     </Card>
@@ -196,7 +203,7 @@ export default function Home() {
                                     <CardContent className="pt-6">
                                         <h3 className="text-xl font-semibold text-foreground mb-4">Availability</h3>
                                         <div className="text-sm text-muted-foreground mb-4">
-                                            {formatAvailability(userProfile.availability)}
+                                            {formatAvailability(volunteerProfile.availability)}
                                         </div>
                                         <div className="flex justify-center">
                                             <Card className="rounded-2xl w-full flex items-center justify-center">

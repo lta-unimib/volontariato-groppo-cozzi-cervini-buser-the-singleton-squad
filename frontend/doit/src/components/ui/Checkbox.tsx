@@ -7,9 +7,14 @@ import { useState, useId } from "react";
 interface RoundCheckboxSelectorProps {
     readonly onChangeAction?: (selectedValues: string[]) => void;
     readonly initialSelected?: string[];
+    readonly readOnly?: boolean;
 }
 
-export function RoundCheckboxSelector({ onChangeAction, initialSelected }: RoundCheckboxSelectorProps) {
+export function RoundCheckboxSelector({
+                                          onChangeAction,
+                                          initialSelected,
+                                          readOnly = false
+                                      }: RoundCheckboxSelectorProps) {
     const options = [
         { id: "supporto_anziani", label: "Supporto Anziani" },
         { id: "supporto_bambini", label: "Supporto Bambini" },
@@ -21,11 +26,8 @@ export function RoundCheckboxSelector({ onChangeAction, initialSelected }: Round
     const componentId = useId();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(initialSelected || []);
 
-    // Determine if the component should be in read-only mode
-    const isReadOnly = initialSelected !== undefined;
-
     const handleCheckboxChange = (optionId: string) => {
-        if (isReadOnly) return;
+        if (readOnly) return;
 
         const updatedSelected = selectedOptions.includes(optionId)
             ? selectedOptions.filter((id) => id !== optionId)
@@ -46,7 +48,7 @@ export function RoundCheckboxSelector({ onChangeAction, initialSelected }: Round
                             return (
                                 <div
                                     key={uniqueOptionId}
-                                    className={`flex items-center space-x-2 py-2 ${isReadOnly ? '' : 'cursor-pointer'}`}
+                                    className={`flex items-center space-x-2 py-2 ${readOnly ? '' : 'cursor-pointer'}`}
                                 >
                                     <input
                                         type="checkbox"
@@ -54,13 +56,13 @@ export function RoundCheckboxSelector({ onChangeAction, initialSelected }: Round
                                         checked={isSelected}
                                         onChange={() => handleCheckboxChange(option.id)}
                                         className="hidden peer"
-                                        disabled={isReadOnly}
+                                        disabled={readOnly}
                                         aria-label={option.label}
                                     />
                                     <label
                                         htmlFor={uniqueOptionId}
                                         className={`relative w-4 h-4 rounded-full border ${
-                                            isReadOnly
+                                            readOnly
                                                 ? isSelected
                                                     ? 'border-primary'
                                                     : 'border-gray-200'
@@ -75,7 +77,7 @@ export function RoundCheckboxSelector({ onChangeAction, initialSelected }: Round
                                     </label>
                                     <Label
                                         htmlFor={uniqueOptionId}
-                                        className={`${isReadOnly ? '' : 'cursor-pointer'} text-sm font-normal`}
+                                        className={`${readOnly ? '' : 'cursor-pointer'} text-sm font-normal`}
                                     >
                                         {option.label}
                                     </Label>
