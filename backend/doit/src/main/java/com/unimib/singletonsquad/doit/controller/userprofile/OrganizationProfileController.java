@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.controller.userprofile;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
+import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.profile.UserProfileService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
@@ -25,7 +26,7 @@ public class OrganizationProfileController extends UserProfileController {
         String email = super.validateTokenAndGetEmail(request, UserRole.organization);
         Organization organization = this.userProfileService.getOrganizationInfo(email);
         String messageResponse = String.format("getting info for %s", email);
-        return super.sendResponseMessage(messageResponse, HttpStatus.OK, organization);
+        return super.sendResponseMessage(messageResponse, HttpStatus.OK, OrganizationMapper.mapToOrganizationDTO(organization));
     }
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
