@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.exception.common;
 
 import com.unimib.singletonsquad.doit.exception.auth.*;
+import com.unimib.singletonsquad.doit.exception.resource.InvalidDateException;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;
@@ -117,11 +118,15 @@ public class GlobalExceptionHandler {
         String message = String.format("Request method '%s' is not supported", ex.getMethod());
         return buildErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, message);
     }
-
+    @ExceptionHandler(InvalidDateException.class)
+    public ResponseEntity<ResponseMessage> handleInvalidDate(InvalidDateException ex) {
+        String message = String.format("Invalid date: %s", ex.getMessage());
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, message);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseMessage> handleGenericException(Exception ex) {
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Internal server error: %s", ex.getMessage()));
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, String.format("Internal server error: %s", ex.getMessage()));
     }
 
     /// Build the error response
