@@ -25,14 +25,12 @@ public class VolunteerOffer {
 
     // Relazione con Volunteer
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "volunteer_id", nullable = false)
     private Volunteer volunteer;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "volunteer_request_id", nullable = false)
     @JsonIgnore
     private VolunteerRequest volunteerRequest;
 

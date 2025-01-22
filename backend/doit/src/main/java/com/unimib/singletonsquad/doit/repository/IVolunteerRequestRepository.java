@@ -17,13 +17,12 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
 
     /// Ritorna tutte e che non è registrato ORDINATE PER DATA DECRESCENTE
     /// Da usare per L'algoritmo di Sorting
-    @Query(value = "SELECT v FROM VolunteerRequest AS v JOIN v.volunteerOffers as o WHERE :oggi <= v.endDateTime AND v.capacity > 0  AND o.volunteer.email != :userEmail ORDER BY v.startDateTime")
+    @Query("SELECT v FROM VolunteerRequest v WHERE :oggi <= v.endDateTime AND v.capacity > 0 AND NOT EXISTS (SELECT o FROM v.volunteerOffers o WHERE o.volunteer.email = :userEmail) ORDER BY v.startDateTime")
     List<VolunteerRequest> getAllRequestNotRegistered(@Param("oggi") LocalDateTime oggi, @Param("userEmail") String userEmail);
 
     /// Ritorna tutte le requeste a cui è registrato e che non sono terminate
-    @Query(value = "SELECT v FROM VolunteerRequest As v JOIN v.volunteerOffers as o WHERE :oggi <= v.endDateTime AND v.capacity > 0 AND o.volunteer.email = :userEmail ORDER BY v.startDateTime")
+    @Query(value = "SELECT v FROM VolunteerRequest As v JOIN v.volunteerOffers as o WHERE :oggi <= v.endDateTime AND v.capacity > 0 AND o.volunteer.email = :userEmail ORDER BY v.endDateTime")
     List<VolunteerRequest> getAllRequestRegistered(@Param("oggi") LocalDateTime oggi, @Param("userEmail") String userEmail);
-
 
 
     /// Deve ritornare tutti gli eventi ai quali l'utente ha partecipato e che non ha ancora votato

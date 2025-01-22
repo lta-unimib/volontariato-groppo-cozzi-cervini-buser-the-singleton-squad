@@ -29,6 +29,7 @@ public class VolunteerOfferService {
     /// ADD NEW OFFER
     ///TODO implementare che ID del JSON è lo stesso dell'email
     public void addNewOffer(VolunteerOfferDTO volunteerOfferDTO, String email) throws Exception {
+        System.out.println("DEBUG => "+volunteerOfferDTO);
         Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformations(email, UserRole.volunteer);
         VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(volunteerOfferDTO.getVolunteerRequestId());
         VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteerOfferDTO, volunteer, volunteerRequest);

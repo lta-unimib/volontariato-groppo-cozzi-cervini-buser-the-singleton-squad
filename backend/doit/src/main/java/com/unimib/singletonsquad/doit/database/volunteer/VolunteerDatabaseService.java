@@ -63,7 +63,7 @@ public class VolunteerDatabaseService {
 
     public void revokeFavouriteOrganization(String email, String organizationName) {
         Volunteer volunteer = findVolunteerByEmail(email);
-        Organization organization = organizationDatabaseService.getOrganizationByName(organizationName)
+        Organization organization = organizationDatabaseService.getOrganizationByName(organizationName);
         volunteer.removeOrganizationFromFavourite(organization);
         volunteerRepository.save(volunteer);
     }
