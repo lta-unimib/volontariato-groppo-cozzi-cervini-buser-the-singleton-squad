@@ -1,18 +1,14 @@
 "use client"
 
-import * as React from "react"
+import type * as React from "react"
 import { DayPicker } from "react-day-picker"
 import { cn } from "@/lib/utils"
 import { calendarVariants } from "@/utils/calendarUtils"
+import type { DateRange } from "react-day-picker"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
-function Calendar({
-                      className,
-                      classNames,
-                      showOutsideDays = true,
-                      ...props
-                  }: CalendarProps) {
+function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
     return (
         <DayPicker
             showOutsideDays={showOutsideDays}
@@ -48,4 +44,4 @@ function Calendar({
 
 Calendar.displayName = "Calendar"
 
-export { Calendar }
+export { Calendar, type DateRange }

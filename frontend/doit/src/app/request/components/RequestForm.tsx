@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
@@ -11,14 +9,20 @@ import AddressDialog from "@/app/request/components/AddressDialog";
 import { Input } from "@/components/ui/Input";
 import { useFormValidation } from "@/app/request/hooks/useFormValidation";
 import { useFormFocus } from "@/app/request/hooks/useFormFocus";
-import {TimePicker} from "@/app/request/components/TimePicker";
-import {Card, CardContent} from "@/components/ui/Card";
+import { TimePicker } from "@/app/request/components/TimePicker";
+import { Card, CardContent } from "@/components/ui/Card";
 
 export function RequestForm() {
     const { formData, updateField } = useFormData();
     const { handleSubmit } = useRequestFormSubmission();
     const { validationState, isValid } = useFormValidation(formData);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
+
+    const handleDateRangeUpdate = (fromDate: Date, toDate: Date) => {
+        const fromDateStr = fromDate.toISOString().split('T')[0];
+        const toDateStr = toDate.toISOString().split('T')[0];
+        updateField("timeRange", [fromDateStr, toDateStr] as [string, string]);
+    };
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,7 +59,7 @@ export function RequestForm() {
                 />
 
                 <DatePickerDialog
-                    onSaveAction={(date) => updateField("date", date.toDateString())}
+                    onSaveAction={handleDateRangeUpdate}
                 />
 
                 <Card className="rounded-2xl">
@@ -74,7 +78,6 @@ export function RequestForm() {
                     </CardContent>
                 </Card>
 
-
                 <AddressDialog
                     onSaveAction={(address) => updateField("address", address)}
                 />
@@ -85,8 +88,8 @@ export function RequestForm() {
 
                 <RoundCheckboxSelector
                     onChangeAction={(frequency) => updateField("frequency", frequency)}
-                    optionType = "frequency"
-                    isSingleSelect = {true}
+                    optionType="frequency"
+                    isSingleSelect={true}
                 />
 
                 <Textarea

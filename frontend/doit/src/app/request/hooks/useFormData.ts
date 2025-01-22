@@ -5,7 +5,7 @@ import { RequestFormData } from '@/types/formData';
 
 const initialFormData: RequestFormData = {
     title: "",
-    date: "",
+    timeRange: ["", ""],
     address: {
         street: "",
         number: "",
