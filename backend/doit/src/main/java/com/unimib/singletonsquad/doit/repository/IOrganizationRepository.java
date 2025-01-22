@@ -15,5 +15,4 @@ public interface IOrganizationRepository extends JpaRepository<Organization, Lon
     boolean existsByEmail(String email);
     Optional<Organization> findByEmail(String email);
     void deleteByEmail(String email);
-
 }

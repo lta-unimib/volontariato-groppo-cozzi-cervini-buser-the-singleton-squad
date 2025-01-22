@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.repository;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import jakarta.validation.constraints.Email;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

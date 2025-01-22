@@ -25,6 +25,10 @@ public class OrganizationDatabaseService {
         return organizationRepository.findById(id);
     }
 
+    public Optional<Organization> getOrganizationByName(String organizationName) {
+        return Optional.of(organizationRepository.findByName(organizationName));
+    }
+
     public Optional<Organization> findOrganizationByEmail(String email) {
         return organizationRepository.findByEmail(email);
     }

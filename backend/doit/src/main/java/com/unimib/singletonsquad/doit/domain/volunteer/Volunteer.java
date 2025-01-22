@@ -3,6 +3,7 @@ package com.unimib.singletonsquad.doit.domain.volunteer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unimib.singletonsquad.doit.domain.common.User;
+import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,6 +56,15 @@ public class Volunteer implements User {
     @JsonIgnore
     private List<VolunteerOffer> volunteerOffers;
 
+    @ManyToMany
+    @JoinTable(
+            name = "volunteer_favorite_organizations",
+            joinColumns = @JoinColumn(name = "volunteer_id"),
+            inverseJoinColumns = @JoinColumn(name = "organization_id")
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Organization> favoriteOrganizations;
+
     public Volunteer() {}
 
     public void setEmail(String email) throws Exception {
@@ -71,6 +82,16 @@ public class Volunteer implements User {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@" +
                 "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[a-z]{2,})$";
         return email.matches(EMAIL_PATTERN);
+    }
+
+    public void removeOrganizationFromFavourite(Organization organization) {
+        favoriteOrganizations.remove(organization);
+    }
+
+    public void addOrganizationToFavourite(Organization organization) {
+        if (!favoriteOrganizations.contains(organization)) {
+            favoriteOrganizations.add(organization);
+        }
     }
 
     @Override
