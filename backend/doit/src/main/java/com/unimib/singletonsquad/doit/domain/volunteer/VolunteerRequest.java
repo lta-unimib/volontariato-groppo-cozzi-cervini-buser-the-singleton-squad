@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -40,8 +41,8 @@ public class VolunteerRequest {
     private Address address;
 
     private String volunteerType;
-    private String startDateTime;
-    private String endDateTime;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "organization_id", nullable = false)

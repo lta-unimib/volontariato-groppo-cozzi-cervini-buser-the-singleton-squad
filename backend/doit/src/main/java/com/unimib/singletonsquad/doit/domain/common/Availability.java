@@ -6,6 +6,8 @@ import com.unimib.singletonsquad.doit.converter.ListObjectConverter;
 import com.unimib.singletonsquad.doit.utils.data.DataConverter;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -32,9 +34,7 @@ public class Availability{
     @Column(name = "data", columnDefinition = "TEXT")
     private List<String> data;
 
-    public boolean matching(String start, String end) {
-        LocalDateTime startDateTime = LocalDateTime.parse(start);
-        LocalDateTime endDateTime = LocalDateTime.parse(end);
+    public boolean matching(LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         switch (mode) {
             case "daily": {
