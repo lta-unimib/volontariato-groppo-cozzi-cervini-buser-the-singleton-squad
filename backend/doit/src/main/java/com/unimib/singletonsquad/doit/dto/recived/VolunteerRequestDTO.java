@@ -1,9 +1,6 @@
 package com.unimib.singletonsquad.doit.dto.recived;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
-import io.micrometer.common.lang.Nullable;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,10 +37,5 @@ public class VolunteerRequestDTO {
 
     @NotNull
     private String endTime;
-
-    @Nullable
-    @JsonSerialize(using = OrganizationNameSerializer.class)
-    private Organization organization;
-
 
 }

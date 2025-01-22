@@ -38,18 +38,6 @@ public class VolunteerOfferController {
 
     }
 
-    /**
-     modifica enpint --> sia user che organizzazione richieste dell'organizzazione
-
-
-     ENDPOINT ORGANIZZAZIONI PREFERIRE DELL'UTENTE
-            /favorite/organization/save/
-                                  /
-
-     ENDPOIT --> tutti i volontari che partecipando ad un
-                determinato evento
-
-     */
 
 
     /// TODO RIFARLO CHE IN BASE ALL RUOLO ESTRAE COSA FARE

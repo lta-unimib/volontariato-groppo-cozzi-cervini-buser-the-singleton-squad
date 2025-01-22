@@ -52,17 +52,15 @@ public class VolunteerRequest {
     private Organization organization;
 
     @ElementCollection
-    @CollectionTable(name = "volunteer_request_categories", joinColumns = @JoinColumn(name = "volunteer_request_id"))
+    @CollectionTable(name = "volunteer_request_categories")
     @Column(name = "category")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> volunteerCategories;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "volunteer_offer_id")
     private List<VolunteerOffer> volunteerOffers;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "feedback_volunteer_request_id")
     private List<FeedbackVolunteerRequest> feedbackVolunteerRequests;
 
 

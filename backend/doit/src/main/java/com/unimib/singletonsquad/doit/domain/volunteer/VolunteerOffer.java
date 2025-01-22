@@ -23,9 +23,6 @@ public class VolunteerOffer {
     @Column(nullable = false, unique = true)
     private Long id;
 
-    @Column(nullable = false)
-    private String competenceDescription;
-
     // Relazione con Volunteer
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "volunteer_id", nullable = false)
@@ -49,14 +46,13 @@ public class VolunteerOffer {
         if (!(o instanceof VolunteerOffer)) return false;
         VolunteerOffer that = (VolunteerOffer) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(competenceDescription, that.competenceDescription) &&
                 Objects.equals(volunteer, that.volunteer) &&
                 status == that.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, competenceDescription, volunteer, status);
+        return Objects.hash(id, volunteer, status);
     }
 
     public Organization getOrganization() {

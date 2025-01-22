@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,14 +23,13 @@ public class FeedbackVolunteerRequest {
 
     /// Aggiungerlo anche nello user
     @ManyToOne
-    @Column(nullable = false, name = "volunteer_id")
     @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
 
 
     /// aggiungerlo anche nella VolunteerRequest
     @ManyToOne
-    @Column(nullable = false, name = "volunteer_request_id")
+    @JoinColumn(nullable = false, name = "volunteer_request_id")
     private VolunteerRequest volunteerRequest;
 
 
