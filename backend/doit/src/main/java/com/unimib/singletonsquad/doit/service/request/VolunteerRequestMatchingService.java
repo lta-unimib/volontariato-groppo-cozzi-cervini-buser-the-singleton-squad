@@ -23,7 +23,7 @@ public class VolunteerRequestMatchingService {
 
     public List<VolunteerRequest> getVolunteerRequestBasedOnPreferences(Volunteer volunteer) throws Exception {
         double[] volunteerCoordinates = getVolunteerCoordinate(volunteer);
-        List<VolunteerRequest> requestSaved = this.volunteerRequestDatabaseService.getAllRequest();
+        List<VolunteerRequest> requestSaved = this.volunteerRequestDatabaseService.getAllRequestTimeSorted();
         List<RequestMatchDTO> requestsToBeSorted = new ArrayList<>();
         int[] points = new int[requestSaved.size()];
 
@@ -38,7 +38,6 @@ public class VolunteerRequestMatchingService {
         return ParallelSort.sortRequestByVote(requestsToBeSorted);
     }
 
-
     private CityInfo getVolunteerCityInfo(final String volunteerCity) throws Exception {
         return getCityInfo(volunteerCity);
     }
@@ -47,9 +46,6 @@ public class VolunteerRequestMatchingService {
         CityInfo temp = getVolunteerCityInfo(volunteer.getVolunteerPreferences().getCity());
         return new double[]{temp.getLatitude(), temp.getLongitude()};
     }
-
-
-
 
     private CityInfo getCityInfo(String city) throws Exception {
         return this.volunteerRequestDatabaseService.getCityInfo(city);

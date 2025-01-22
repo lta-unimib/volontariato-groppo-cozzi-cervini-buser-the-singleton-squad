@@ -16,4 +16,6 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
     @Query(value = "SELECT v FROM VolunteerRequest AS v WHERE :oggi <= v.endDateTime AND v.capacity > 0")
     List<VolunteerRequest> getAllRequest(@Param("oggi") LocalDateTime oggi);
 
+    @Query(value = "SELECT v FROM VolunteerRequest AS v WHERE :oggi <= v.endDateTime AND v.capacity > 0 ORDER BY v.startDateTime")
+    List<VolunteerRequest> getAllRequestTimeSorted(@Param("oggi") LocalDateTime oggi);
 }

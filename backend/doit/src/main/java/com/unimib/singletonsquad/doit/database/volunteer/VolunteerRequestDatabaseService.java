@@ -54,6 +54,10 @@ public class VolunteerRequestDatabaseService {
     public List<VolunteerRequest> getAllRequest() {
         return repository.getAllRequest(LocalDateTime.now());
     }
+    public List<VolunteerRequest> getAllRequestTimeSorted() {
+        return repository.getAllRequestTimeSorted(LocalDateTime.now());
+    }
+
 
     private void validateRequestExists(Long id) {
         if (!repository.existsById(id)) {
