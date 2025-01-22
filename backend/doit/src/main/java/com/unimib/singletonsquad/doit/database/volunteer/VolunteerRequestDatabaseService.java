@@ -2,21 +2,15 @@ package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.database.common.CityInfoDatabaseService;
 import com.unimib.singletonsquad.doit.domain.common.CityInfo;
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.RequestMatchDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.IVolunteerRequestRepository;
-import com.unimib.singletonsquad.doit.utils.common.ParallelSort;
-import com.unimib.singletonsquad.doit.utils.data.DistanceCalculator;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

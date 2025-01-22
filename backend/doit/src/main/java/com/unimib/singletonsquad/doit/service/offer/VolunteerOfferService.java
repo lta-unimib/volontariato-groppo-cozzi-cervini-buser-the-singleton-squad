@@ -4,7 +4,7 @@ import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferDatabaseS
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.VolunteerOfferDTO;
+import com.unimib.singletonsquad.doit.dto.recived.VolunteerOfferDTO;
 import com.unimib.singletonsquad.doit.mappers.OfferMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

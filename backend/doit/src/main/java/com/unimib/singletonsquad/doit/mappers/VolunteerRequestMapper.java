@@ -2,8 +2,9 @@ package com.unimib.singletonsquad.doit.mappers;
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
+import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -60,21 +61,23 @@ public class VolunteerRequestMapper {
         return volunteerRequest;
     }
 
-    public static VolunteerRequestDTO mapToVolunteerRequestDTO(VolunteerRequest volunteerRequest) {
-        VolunteerRequestDTO volunteerRequestDTO = new VolunteerRequestDTO();
-        volunteerRequestDTO.setTitle(volunteerRequest.getTitle());
-        volunteerRequestDTO.setVolunteerCapacity(volunteerRequest.getCapacity());
-        volunteerRequestDTO.setDescription(volunteerRequest.getDetailedDescription());
-        volunteerRequestDTO.setCategories(volunteerRequest.getVolunteerCategories());
-        volunteerRequestDTO.setFrequency(volunteerRequest.getFrequency());
-        volunteerRequestDTO.setAddress(AddressMapper.createAddressDTO(volunteerRequest.getAddress()));
+    public static VolunteerRequestSendDTO mapToVolunteerRequestDTO(VolunteerRequest volunteerRequest) {
+        VolunteerRequestSendDTO requestDTO = new VolunteerRequestSendDTO();
+        requestDTO.setId(volunteerRequest.getId());
+        requestDTO.setTitle(volunteerRequest.getTitle());
+        requestDTO.setVolunteerCapacity(volunteerRequest.getCapacity());
+        requestDTO.setDescription(volunteerRequest.getDetailedDescription());
+
+        requestDTO.setCategories(volunteerRequest.getVolunteerCategories());
+        requestDTO.setFrequency(volunteerRequest.getFrequency());
+        requestDTO.setAddress(AddressMapper.createAddressDTO(volunteerRequest.getAddress()));
         String[] start = extractDateTime(volunteerRequest.getStartDateTime());
         String[] end = extractDateTime(volunteerRequest.getEndDateTime());
-        volunteerRequestDTO.setStartTime(start[1]);
-        volunteerRequestDTO.setEndTime(end[1]);
-        volunteerRequestDTO.setTimeRange(List.of(start[0], end[0]));
-        volunteerRequestDTO.setOrganization(volunteerRequest.getOrganization());
-        return volunteerRequestDTO;
+        requestDTO.setStartTime(start[1]);
+        requestDTO.setEndTime(end[1]);
+        requestDTO.setTimeRange(List.of(start[0], end[0]));
+        requestDTO.setOrganization(volunteerRequest.getOrganization());
+        return requestDTO;
     }
 
 

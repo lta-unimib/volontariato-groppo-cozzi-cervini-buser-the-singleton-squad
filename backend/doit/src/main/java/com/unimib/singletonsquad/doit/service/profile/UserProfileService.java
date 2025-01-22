@@ -4,8 +4,8 @@ import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabase
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
-import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
+import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;

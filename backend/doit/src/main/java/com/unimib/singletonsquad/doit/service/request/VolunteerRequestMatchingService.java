@@ -5,7 +5,7 @@ import com.unimib.singletonsquad.doit.domain.common.CityInfo;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.RequestMatchDTO;
+import com.unimib.singletonsquad.doit.dto.recived.RequestMatchDTO;
 import com.unimib.singletonsquad.doit.utils.common.ParallelSort;
 import com.unimib.singletonsquad.doit.utils.data.DistanceCalculator;
 import lombok.AllArgsConstructor;

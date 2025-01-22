@@ -4,7 +4,7 @@ import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseServic
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;

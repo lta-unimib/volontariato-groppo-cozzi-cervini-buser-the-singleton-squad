@@ -1,9 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
 import com.fasterxml.jackson.databind.JsonNode;;
-import com.unimib.singletonsquad.doit.dto.AuthDTO;
-import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
+import com.unimib.singletonsquad.doit.dto.recived.AuthDTO;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
-import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;

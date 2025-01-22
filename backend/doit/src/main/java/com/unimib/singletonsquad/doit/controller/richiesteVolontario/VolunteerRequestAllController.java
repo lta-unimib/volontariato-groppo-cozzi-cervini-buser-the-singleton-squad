@@ -1,7 +1,8 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
@@ -33,7 +34,7 @@ public class VolunteerRequestAllController {
     public ResponseEntity<?> getVolunteerRequest(final HttpServletRequest request) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
         List<VolunteerRequest> volunteerRequestSortedList = this.volunteerRequestService.getAllRequestSorted(email);
-        List<VolunteerRequestDTO> volunteerRequestDTOS = new ArrayList<>();
+        List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
         for (VolunteerRequest volunteerRequest : volunteerRequestSortedList) {
             volunteerRequestDTOS.add(VolunteerRequestMapper.mapToVolunteerRequestDTO(volunteerRequest));
         }
@@ -45,7 +46,7 @@ public class VolunteerRequestAllController {
     public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
         List<VolunteerRequest> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
-        List<VolunteerRequestDTO> volunteerRequestDTOS = new ArrayList<>();
+        List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
         for (VolunteerRequest volunteerRequest : volunteerRequestList) {
             volunteerRequestDTOS.add(VolunteerRequestMapper.mapToVolunteerRequestDTO(volunteerRequest));
         }
