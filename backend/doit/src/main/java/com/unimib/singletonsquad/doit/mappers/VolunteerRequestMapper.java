@@ -73,7 +73,7 @@ public class VolunteerRequestMapper {
         volunteerRequestDTO.setStartTime(start[1]);
         volunteerRequestDTO.setEndTime(end[1]);
         volunteerRequestDTO.setTimeRange(List.of(start[0], end[0]));
-        volunteerRequestDTO.setOrganization(OrganizationMapper.mapToOrganizationDTO(volunteerRequest.getOrganization()));
+        volunteerRequestDTO.setOrganization(volunteerRequest.getOrganization());
         return volunteerRequestDTO;
     }
 
