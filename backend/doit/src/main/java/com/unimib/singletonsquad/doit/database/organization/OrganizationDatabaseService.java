@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.database.organization;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
+import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.IOrganizationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,39 +17,38 @@ public class OrganizationDatabaseService {
     private final IOrganizationRepository organizationRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     public Organization save(Organization organization) {
         return organizationRepository.save(organization);
     }
 
-    public Optional<Organization> findOrganizationById(Long id) {
-        return organizationRepository.findById(id);
+    public Organization findOrganizationById(Long id) {
+        return organizationRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found for ID: " + id));
     }
 
-    public Optional<Organization> getOrganizationByName(String organizationName) {
-        return Optional.of(organizationRepository.findByName(organizationName));
+    public Organization getOrganizationByName(String organizationName) {
+        return Optional.ofNullable(organizationRepository.findByName(organizationName))
+                .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found with name: " + organizationName));
     }
 
-    public Optional<Organization> findOrganizationByEmail(String email) {
-        return organizationRepository.findByEmail(email);
+    public Organization findOrganizationByEmail(String email) {
+        return organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found for email: " + email));
     }
 
     public boolean authenticateOrganization(String email, String rawPassword) {
-        Optional<Organization> organizationOptional = organizationRepository.findByEmail(email);
-        if (organizationOptional.isPresent()) {
-            Organization organization = organizationOptional.get();
-            return passwordEncoder.matches(rawPassword, organization.getPassword());
-        } else {
-            return false;
-        }
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found for email: " + email));
+        return passwordEncoder.matches(rawPassword, organization.getPassword());
     }
-
 
     public boolean findOrganizationByName(String name) {
         return organizationRepository.findByName(name) != null;
     }
 
     public void deleteOrganization(String email) {
-        this.organizationRepository.deleteByEmail(email);
+        Organization organization = organizationRepository.findByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found for email: " + email));
+        organizationRepository.delete(organization);
     }
 }

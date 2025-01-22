@@ -6,15 +6,12 @@ import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
 import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
-import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -33,70 +30,47 @@ public class UserProfileService {
 
 
     public VolunteerDTO getVolunteerInfo(Long idVolunteer) throws Exception {
-        Optional<Volunteer> volunteer = this.volunteerDatabaseService.findVolunteerById(idVolunteer);
-        if(volunteer.isEmpty())
-            throw new RecordNotFoundGeneralException("Volunteer not found");
-        return VolunteerMapper.toVolunteerDTO(volunteer.get());
+        Volunteer volunteer = this.volunteerDatabaseService.findVolunteerById(idVolunteer);
+        return VolunteerMapper.toVolunteerDTO(volunteer);
 
     }
 
-
     public Organization getOrganizationInfo(Long idOrganization) {
-        Optional<Organization> organization = this.organizationDatabaseService.findOrganizationById(idOrganization);
-        if(organization.isEmpty())
-            throw new RecordNotFoundGeneralException("Organization not found");
-        return organization.get();
+        return this.organizationDatabaseService.findOrganizationById(idOrganization);
     }
 
 
     public void updateVolunteerInfo(String email, @NotNull VolunteerDTO volunteer) throws Exception {
-        Optional<Volunteer> volunteerData = this.volunteerDatabaseService.findVolunteerByEmail(email);
-        if(volunteerData.isEmpty())
-            throw new RecordNotFoundGeneralException("Volunteer not exists");
-        Volunteer tobesaved = this.volunteerMapper.updateVolunteer(volunteer, volunteerData.get());
+        Volunteer volunteerData = this.volunteerDatabaseService.findVolunteerByEmail(email);
+        Volunteer tobesaved = this.volunteerMapper.updateVolunteer(volunteer, volunteerData);
         this.volunteerDatabaseService.save(tobesaved);
 
     }
     public void updateOrganizationInfo(String email, @NotNull OrganizationDTO organization) throws Exception {
-        Optional<Organization> organizationData = this.organizationDatabaseService.findOrganizationByEmail(email);
-        if(organizationData.isEmpty())
-            throw new RecordNotFoundGeneralException("Organization not exists");
-        Organization tobeSaved = this.organizationMapper.updateOrganizationInfos(organizationData.get(), organization);
+        Organization organizationData = this.organizationDatabaseService.findOrganizationByEmail(email);
+        Organization tobeSaved = this.organizationMapper.updateOrganizationInfos(organizationData, organization);
         this.organizationDatabaseService.save(tobeSaved);
     }
 
     public void deleteVolunteer(String email) {
-        Optional<Volunteer> volunteerData = this.volunteerDatabaseService.findVolunteerByEmail(email);
-        if(volunteerData.isEmpty())
-            throw new RecordNotFoundGeneralException("Volunteer not exists");
+        this.volunteerDatabaseService.findVolunteerByEmail(email);
         this.volunteerDatabaseService.deleteVolunteer(email);
     }
     public void deleteOrganization(String email) {
-        Optional<Organization> organizationData = this.organizationDatabaseService.findOrganizationByEmail(email);
-        if(organizationData.isEmpty())
-            throw new RecordNotFoundGeneralException("Organization not exists");
+        this.organizationDatabaseService.findOrganizationByEmail(email);
         this.organizationDatabaseService.deleteOrganization(email);
     }
 
     public void updateVolunteerPassword(String email, String password) throws Exception {
-        Optional<Volunteer> volunteerOptional = volunteerDatabaseService.findVolunteerByEmail(email);
-        if(volunteerOptional.isEmpty()) {
-            throw new RecordNotFoundGeneralException("Volunteer not found");
-        } else {
-            Volunteer volunteer = volunteerOptional.get();
+        Volunteer volunteer = volunteerDatabaseService.findVolunteerByEmail(email);
             volunteer.setPassword(password);
             this.volunteerDatabaseService.save(volunteer);
         }
-    }
 
     public void updateOrganizationPassword(String email, String password) throws Exception {
-        Optional<Organization> organizationOptional = organizationDatabaseService.findOrganizationByEmail(email);
-        if(organizationOptional.isEmpty()) {
-            throw new RecordNotFoundGeneralException("Volunteer not found");
-        } else {
-           Organization organization = organizationOptional.get();
+           Organization organization = this.organizationDatabaseService.findOrganizationByEmail(email);
             organization.setPassword(password);
            this.organizationDatabaseService.save(organization);
         }
-    }
 }
+

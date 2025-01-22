@@ -38,7 +38,7 @@ public class VolunteerRequestDatabaseService {
         repository.save(volunteerRequest);
     }
 
-
+    /// Get a specific request
     public VolunteerRequest getSpecificRequest(Long idRequest) {
         return repository.findById(idRequest)
                 .orElseThrow(() -> new RecordNotFoundGeneralException(
@@ -71,6 +71,11 @@ public class VolunteerRequestDatabaseService {
         VolunteerRequest temp = this.getSpecificRequest(volunteerRequest.getId());
         temp.setCapacity(temp.getCapacity() -1);
         return this.repository.save(temp);
+    }
+
+    /// get All request not registered
+    public List<VolunteerRequest> getAllRequestNotRegistered(String email) {
+        return this.repository.getAllRequestNotRegistered(LocalDateTime.now(), email);
     }
 
     /// getAllRequestRegistered

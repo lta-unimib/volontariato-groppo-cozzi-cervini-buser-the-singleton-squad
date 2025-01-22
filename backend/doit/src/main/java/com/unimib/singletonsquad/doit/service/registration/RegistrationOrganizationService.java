@@ -34,7 +34,7 @@ public class RegistrationOrganizationService {
     }
 
     private boolean isAlreadyRegistered(final String email) {
-        return (this.organizationService.findOrganizationByEmail(email).isPresent());
+        return this.organizationService.findOrganizationByEmail(email) != null;
     };
 
     private boolean nameIsAlreadyTaken(final String name) {

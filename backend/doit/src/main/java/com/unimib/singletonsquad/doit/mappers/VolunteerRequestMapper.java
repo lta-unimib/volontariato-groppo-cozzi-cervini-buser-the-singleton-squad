@@ -49,13 +49,12 @@ public class VolunteerRequestMapper {
         volunteerRequest.setVolunteerCategories(requestDTO.getCategories());
         volunteerRequest.setCapacity(requestDTO.getVolunteerCapacity());
         volunteerRequest.setDetailedDescription(requestDTO.getDescription());
-        volunteerRequest.setOrganization(getOrganizationByEmail(organizationEmail));
+        volunteerRequest.setOrganization(this.organizationService.findOrganizationByEmail(organizationEmail));
         volunteerRequest.setVolunteerOffers(new ArrayList<>());
         LocalDateTime[] hours = setTimeRangeAndStartTime(requestDTO.getTimeRange(),
                 requestDTO.getStartTime(), requestDTO.getEndTime());
         volunteerRequest.setStartDateTime(hours[0]);
         volunteerRequest.setEndDateTime(hours[1]);
-        volunteerRequest.setFrequency(requestDTO.getFrequency());
         volunteerRequest.setFeedbackVolunteerRequests(new ArrayList<>());
         return volunteerRequest;
     }
@@ -68,7 +67,6 @@ public class VolunteerRequestMapper {
         requestDTO.setDescription(volunteerRequest.getDetailedDescription());
 
         requestDTO.setCategories(volunteerRequest.getVolunteerCategories());
-        requestDTO.setFrequency(volunteerRequest.getFrequency());
         requestDTO.setAddress(AddressMapper.createAddressDTO(volunteerRequest.getAddress()));
         String[] start = extractDateTime(volunteerRequest.getStartDateTime());
         String[] end = extractDateTime(volunteerRequest.getEndDateTime());
@@ -80,10 +78,7 @@ public class VolunteerRequestMapper {
     }
 
 
-    private Organization getOrganizationByEmail(String email) throws Exception {
-        return organizationService.findOrganizationByEmail(email)
-                .orElseThrow(() -> new Exception("Organization not found with email: " + email));
-    }
+
 
 
     /// === SUPPORT METHOD ===

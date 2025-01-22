@@ -1,12 +1,10 @@
 package com.unimib.singletonsquad.doit.database.volunteer;
-
 import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
-import com.unimib.singletonsquad.doit.repository.IOrganizationRepository;
 import com.unimib.singletonsquad.doit.repository.IVolunteerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,12 +24,14 @@ public class VolunteerDatabaseService {
     private final OrganizationDatabaseService organizationDatabaseService;
     private final PasswordEncoder passwordEncoder;
 
-    public Optional<Volunteer> findVolunteerById(long id) {
-        return volunteerRepository.findById(id);
+    public Volunteer findVolunteerById(long id) {
+        return volunteerRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found with ID: " + id));
     }
 
     public Volunteer findVolunteerByEmail(String email) {
-        return volunteerRepository.findByEmail(email).orElseThrow( () -> {throw new RecordNotFoundGeneralException("Volunteer not found");});
+        return volunteerRepository.findByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found for email: " + email));
     }
 
     public Volunteer save(Volunteer volunteer) {
@@ -39,52 +39,40 @@ public class VolunteerDatabaseService {
     }
 
     public boolean authenticateVolunteer(String email, String rawPassword) {
-        Optional<Volunteer> volunteerOptional = volunteerRepository.findByEmail(email);
-        if (volunteerOptional.isPresent()) {
-            Volunteer volunteer = volunteerOptional.get();
-            return passwordEncoder.matches(rawPassword, volunteer.getPassword());
-        } else {
-            return false;
-        }
+        Volunteer volunteer = volunteerRepository.findByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found for email: " + email));
+        return passwordEncoder.matches(rawPassword, volunteer.getPassword());
     }
 
     public void deleteVolunteer(String email) {
-        this.volunteerRepository.deleteByEmail(email);
+        Volunteer volunteer = volunteerRepository.findByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found for email: " + email));
+        volunteerRepository.delete(volunteer);
     }
 
     public List<OrganizationDTO> getFavouriteOrganizations(String email) {
-        Optional<Volunteer> volunteer = volunteerRepository.findByEmail(email);
-        if(volunteer.isEmpty()) {
-            throw new RecordNotFoundGeneralException("Volunteer not found");
-        }
+        Volunteer volunteer = volunteerRepository.findByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found for email: " + email));
         List<OrganizationDTO> favouriteOrganizations = new ArrayList<>();
-        for (Organization organization : volunteer.get().getFavoriteOrganizations()) {
+        for (Organization organization : volunteer.getFavoriteOrganizations()) {
             favouriteOrganizations.add(OrganizationMapper.mapToOrganizationDTO(organization));
         }
         return favouriteOrganizations;
     }
 
+
     public void revokeFavouriteOrganization(String email, String organizationName) {
-        Optional<Volunteer>  volunteerOptional= volunteerRepository.findByEmail(email);
-        if(volunteerOptional.isEmpty()) {
-            throw new RecordNotFoundGeneralException("Volunteer not found");
-        }
-        Optional<Organization> organization = organizationDatabaseService.getOrganizationByName(organizationName);
-        if(organization.isPresent()) {
-            volunteerOptional.get().removeOrganizationFromFavourite(organization.get());
-            volunteerRepository.save(volunteerOptional.get());
-        }
+        Volunteer volunteer = findVolunteerByEmail(email);
+        Organization organization = organizationDatabaseService.getOrganizationByName(organizationName)
+        volunteer.removeOrganizationFromFavourite(organization);
+        volunteerRepository.save(volunteer);
     }
 
     public void addFavouriteOrganization(String email, String organizationName) {
-        Optional<Volunteer>  volunteerOptional= volunteerRepository.findByEmail(email);
-        if(volunteerOptional.isEmpty()) {
-            throw new RecordNotFoundGeneralException("Volunteer not found");
-        }
-        Optional<Organization> organization = organizationDatabaseService.getOrganizationByName(organizationName);
-        if(organization.isPresent()) {
-            volunteerOptional.get().addOrganizationToFavourite(organization.get());
-            volunteerRepository.save(volunteerOptional.get());
-        }
+        Volunteer volunteer = volunteerRepository.findByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found for email: " + email));
+        Organization organization = organizationDatabaseService.getOrganizationByName(organizationName);
+        volunteer.addOrganizationToFavourite(organization);
+        volunteerRepository.save(volunteer);
     }
 }

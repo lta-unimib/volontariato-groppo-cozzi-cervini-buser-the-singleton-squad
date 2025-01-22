@@ -48,10 +48,8 @@ public class RegisteredUserService {
     public User getUserInformations(final String email, final UserRole userRole) throws Exception {
         this.isRegistered(email, userRole);
         return switch (userRole) {
-            case volunteer -> this.volunteerDatabaseService.findVolunteerByEmail(email)
-                    .orElseThrow(() -> new RecordNotFoundGeneralException(String.format("Volunteer %s not found", email)));
-            case organization -> this.organizationDatabaseService.findOrganizationByEmail(email)
-                    .orElseThrow(() -> new RecordNotFoundGeneralException(String.format("Organization %s not found", email)));
+            case volunteer -> this.volunteerDatabaseService.findVolunteerByEmail(email);
+            case organization -> this.organizationDatabaseService.findOrganizationByEmail(email);
             default -> throw new RoleInfoNotFoundException(String.format("Role %s not found", userRole));
         };
     }
@@ -97,12 +95,12 @@ public class RegisteredUserService {
     private void isRegistered(@NotNull final String email, final UserRole role) throws Exception {
         switch (role) {
             case volunteer:
-                if (this.volunteerDatabaseService.findVolunteerByEmail(email).isEmpty()) {
+                if (this.volunteerDatabaseService.findVolunteerByEmail(email) == null) {
                     throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", email));
                 }
                 break;
             case organization:
-                if (this.organizationDatabaseService.findOrganizationByEmail(email).isEmpty()) {
+                if (this.organizationDatabaseService.findOrganizationByEmail(email) == null) {
                     throw new RecordNotFoundGeneralException(String.format("Organization %s not found", email));
                 }
                 break;
