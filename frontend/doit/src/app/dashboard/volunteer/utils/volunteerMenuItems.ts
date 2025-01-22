@@ -12,7 +12,7 @@ export const volunteerMenuItems = [
         className: "md:inline hidden"
     },
     {
-        title: "Messaggi",
+        title: "Organizzazioni",
         url: "/message/volunteer",
         icon: MdOutlineInbox,
         className: "md:inline hidden"

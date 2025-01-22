@@ -1,44 +1,44 @@
-"use client";
+"use client"
 
+import { Page } from "@/components/layout/Page";
 import { organizationMenuItems } from "@/app/dashboard/organization/utils/organizationMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
-import { Page } from "@/components/layout/Page";
+import RequestCard from "@/components/ui/RequestCard";
+import { ScrollArea } from "@/components/ui/ScrollArea";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useEffect, useState } from "react";
+import { makeGetRequest } from "@/utils/apiUtils";
 import { MdOutlineAdd } from "react-icons/md";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
-import { ScrollArea } from "@/components/ui/ScrollArea";
-import { cn } from "@/lib/utils";
-import RequestCard from "@/components/ui/RequestCard";
-import { useEffect, useState } from "react";
-import { makeGetRequest } from "@/utils/apiUtils";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface Address {
-    id: number;
-    streetAddress: string;
+    street: string;
     city: string;
     postalCode: string;
-    houseNumber: string;
-    additionalInformation: string;
+    number: string;
+    additionalInfo: string;
 }
 
 interface Organization {
     name: string;
     email: string;
+    website: string;
+    VATNumber: string;
 }
 
 interface Request {
-    id: number;
+    id: string;
     title: string;
-    detailedDescription: string;
-    capacity: number;
+    description: string;
+    volunteerCapacity: string;
     address: Address;
-    volunteerType: string | null;
-    startDateTime: string;
-    endDateTime: string | null;
+    startTime: string;
+    endTime: string;
     organization: Organization;
-    volunteerCategories: string[];
-    city: string;
+    categories: string[];
+    timeRange: [string, string];
+    frequency: string[];
 }
 
 interface ApiResponse {
@@ -47,26 +47,40 @@ interface ApiResponse {
     status: string;
 }
 
-export default function Home() {
-    const router = useRouter();
+const formatDateRange = (timeRange: [string, string]) => {
+    const months = [
+        'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
+        'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'
+    ];
+
+    const [start, end] = timeRange.map(date => {
+        const d = new Date(date);
+        return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    });
+
+    return `${start} - ${end}`;
+};
+
+export default function OrganizationHome() {
     const [requests, setRequests] = useState<Request[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await makeGetRequest<ApiResponse>('/request/all/organization/');
+                const response = await makeGetRequest<ApiResponse>("/request/all/organization/");
 
                 if (response.status === 200 && Array.isArray(response.data)) {
                     setRequests(response.data as Request[]);
-                    console.log('Requests:', response.data);
+                    console.log("Organization Requests:", response.data);
                 } else {
-                    setError('Failed to fetch requests');
+                    setError("Failed to fetch requests");
                 }
             } catch (error) {
-                console.error('Error fetching requests:', error);
-                setError('An error occurred while fetching requests');
+                console.error("Error fetching requests:", error);
+                setError("An error occurred while fetching requests");
             } finally {
                 setLoading(false);
             }
@@ -75,7 +89,7 @@ export default function Home() {
 
     return (
         <Page>
-            <div className="flex w-full h-screen">
+            <div className="flex w-full min-h-screen">
                 <div className="w-[var(--sidebar-width)]">
                     <SidebarLayout
                         menuItems={organizationMenuItems}
@@ -88,7 +102,7 @@ export default function Home() {
                     </SidebarLayout>
                 </div>
 
-                <div className="flex-1 flex flex-col">
+                <div className="relative flex-1 flex flex-col">
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         <div className="space-y-4">
                             {loading ? (
@@ -109,27 +123,27 @@ export default function Home() {
                                         key={request.id}
                                         organization={request.organization.name}
                                         title={request.title}
-                                        location={`${request.address.streetAddress}, ${request.address.city}`}
-                                        date={request.startDateTime}
+                                        location={`${request.address.street}, ${request.address.city}`}
+                                        date={formatDateRange(request.timeRange)}
                                         image="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                                        role="organization"
+                                        requestData={request}
                                     />
                                 ))
                             )}
                         </div>
                     </ScrollArea>
 
-                    <Button
-                        variant="default"
-                        className={cn(
-                            "fixed transform z-50 p-4 rounded-full !h-20 !w-20",
-                            "left-1/2 -translate-x-1/2 bottom-36",
-                            "md:left-auto md:right-4 md:-translate-x-0 md:bottom-4"
-                        )}
-                        size="icon"
-                        onClick={() => router.push("../request/")}
-                    >
-                        <MdOutlineAdd className="!h-6 !w-6" />
-                    </Button>
+                    <div className="absolute bottom-4 pb-32 md:pb-4 left-1/2 -translate-x-1/2 flex justify-center w-full">
+                        <Button
+                            variant="default"
+                            className="p-4 rounded-full !h-20 !w-20"
+                            size="icon"
+                            onClick={() => router.push("../request/")}
+                        >
+                            <MdOutlineAdd className="!h-6 !w-6" />
+                        </Button>
+                    </div>
                 </div>
             </div>
         </Page>

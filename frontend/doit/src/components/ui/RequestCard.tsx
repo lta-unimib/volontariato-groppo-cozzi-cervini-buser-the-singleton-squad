@@ -1,26 +1,40 @@
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
 import React from "react";
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface LayoutProps {
-    organization: string,
-    title: string,
-    location: string,
-    date: string,
-    image: string
+    organization: string;
+    title: string;
+    location: string;
+    date: string;
+    image: string;
+    role: string;
+    requestData: any;
     children?: React.ReactNode;
 }
-
-import Image from 'next/image';
 
 export default function RequestCard({
                                         organization,
                                         title,
                                         location,
                                         date,
-                                        image
+                                        image,
+                                        role,
+                                        requestData
                                     }: LayoutProps) {
+    const router = useRouter();
+
+    const handleClick = () => {
+        const encodedData = encodeURIComponent(JSON.stringify({ ...requestData, role }));
+        router.push(`/detailed?data=${encodedData}`);
+    };
+
     return (
-        <Card className="flex items-stretch gap-4 rounded-2xl">
+        <Card
+            className="flex items-stretch gap-4 rounded-2xl cursor-pointer hover:shadow-md transition-shadow"
+            onClick={handleClick}
+        >
             <div className="flex-1">
                 <CardHeader className="pb-4 md:pb-6">
                     <CardDescription className="text-sm md:text-base">{organization}</CardDescription>
@@ -28,7 +42,7 @@ export default function RequestCard({
                 </CardHeader>
 
                 <CardFooter>
-                    <div className="flex flex-col gap-1 md:gap-2 ">
+                    <div className="flex flex-col gap-1 md:gap-2">
                         <div className="flex items-center">
                             <CardDescription className="text-xs md:text-sm">{location}</CardDescription>
                         </div>

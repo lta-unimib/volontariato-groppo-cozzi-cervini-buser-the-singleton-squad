@@ -21,11 +21,12 @@ import { useAddressFormValidation } from '@/app/request/hooks/useAddressFormVali
 
 interface AddressDialogProps {
     onSaveAction: (data: AddressData) => void;
+    initialAddress?: AddressData;
 }
 
-const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
+const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddress }) => {
     const [open, setOpen] = React.useState(false);
-    const [savedAddress, setSavedAddress] = React.useState<AddressData | null>(null);
+    const [savedAddress, setSavedAddress] = React.useState<AddressData | null>(initialAddress || null);
     const { addressData, updateField, resetForm } = useAddressFormData();
     const { focusState, handleFocus, handleBlur } = useAddressFormFocus();
     const { validationState, isValid } = useAddressFormValidation(addressData);
@@ -47,7 +48,6 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction }) => {
             setSavedAddress(addressData);
             onSaveAction(addressData);
             setOpen(false);
-            resetForm();
         }
     };
 

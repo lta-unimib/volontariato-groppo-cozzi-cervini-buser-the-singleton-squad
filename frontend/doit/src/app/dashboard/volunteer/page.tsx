@@ -10,31 +10,32 @@ import { useEffect, useState } from "react";
 import { makeGetRequest } from "@/utils/apiUtils";
 
 interface Address {
-    id: number;
-    streetAddress: string;
+    street: string;
     city: string;
     postalCode: string;
-    houseNumber: string;
-    additionalInformation: string;
+    number: string;
+    additionalInfo: string;
 }
 
 interface Organization {
     name: string;
     email: string;
+    website: string;
+    VATNumber: string;
 }
 
 interface Request {
-    id: number;
+    id: string;
     title: string;
-    detailedDescription: string;
-    capacity: number;
+    description: string;
+    volunteerCapacity: string;
     address: Address;
-    volunteerType: string | null;
-    startDateTime: string;
-    endDateTime: string | null;
+    startTime: string;
+    endTime: string;
     organization: Organization;
-    volunteerCategories: string[];
-    city: string;
+    categories: string[];
+    timeRange: [string, string];
+    frequency: string[];
 }
 
 interface ApiResponse {
@@ -43,8 +44,22 @@ interface ApiResponse {
     status: string;
 }
 
+const formatDateRange = (timeRange: [string, string]) => {
+    const months = [
+        'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
+        'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'
+    ];
+
+    const [start, end] = timeRange.map(date => {
+        const d = new Date(date);
+        return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    });
+
+    return `${start} - ${end}`;
+};
+
 export default function Home() {
-    const [offers, setOffers] = useState<Request[]>([]);
+    const [requests, setRequests] = useState<Request[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -54,7 +69,7 @@ export default function Home() {
                 const response = await makeGetRequest<ApiResponse>("/request/all/");
 
                 if (response.status === 200 && Array.isArray(response.data)) {
-                    setOffers(response.data as Request[]);
+                    setRequests(response.data as Request[]);
                     console.log("Offers:", response.data);
                 } else {
                     setError("Failed to fetch offers");
@@ -94,19 +109,21 @@ export default function Home() {
                                 <div className="flex items-center justify-center h-full">
                                     {error}
                                 </div>
-                            ) : offers.length === 0 ? (
+                            ) : requests.length === 0 ? (
                                 <div className="flex items-center justify-center h-full">
                                     No offers found
                                 </div>
                             ) : (
-                                offers.map((offer) => (
+                                requests.map((request) => (
                                     <RequestCard
-                                        key={offer.id}
-                                        organization={offer.organization.name}
-                                        title={offer.title}
-                                        location={`${offer.address.streetAddress}, ${offer.address.city}`}
-                                        date={offer.startDateTime}
+                                        key={request.id}
+                                        organization={request.organization.name}
+                                        title={request.title}
+                                        location={`${request.address.street}, ${request.address.city}`}
+                                        date={formatDateRange(request.timeRange)}
                                         image="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                                        role="volunteer"
+                                        requestData={request}
                                     />
                                 ))
                             )}

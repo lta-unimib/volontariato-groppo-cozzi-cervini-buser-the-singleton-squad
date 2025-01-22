@@ -1,67 +1,67 @@
 import * as React from "react"
-import { format, isBefore, startOfDay, isAfter } from "date-fns"
+import { format, isBefore, startOfDay, isAfter, parse } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { Calendar, type DateRange } from "@/components/ui/date/Calendar"
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/Dialog"
 import DateSelector from "@/app/request/components/DateSelector"
 
-export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (from: Date, to: Date) => void }) {
-    const [dateRange, setDateRange] = React.useState<DateRange | undefined>(undefined)
-    const [currentMonth, setCurrentMonth] = React.useState<Date | undefined>(undefined)
-    const [isOpen, setIsOpen] = React.useState(false)
-    const [error, setError] = React.useState<string | null>(null)
+interface DatePickerDialogProps {
+    onSaveAction: (from: Date, to: Date) => void;
+    initialDates?: [string, string];
+}
+
+export function DatePickerDialog({ onSaveAction, initialDates }: DatePickerDialogProps) {
+    const [dateRange, setDateRange] = React.useState<DateRange | undefined>(
+        initialDates ? {
+            from: parse(initialDates[0], 'yyyy-MM-dd', new Date()),
+            to: parse(initialDates[1], 'yyyy-MM-dd', new Date())
+        } : undefined
+    );
+    const [currentMonth, setCurrentMonth] = React.useState<Date | undefined>(
+        initialDates ? parse(initialDates[0], 'yyyy-MM-dd', new Date()) : undefined
+    );
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [error, setError] = React.useState<string | null>(null);
 
     const updateAllStates = (range: DateRange | undefined) => {
-        const today = startOfDay(new Date())
+        const today = startOfDay(new Date());
         if (range?.from && isBefore(range.from, today)) {
-            setError("Non è possibile selezionare una data di inizio precedente a oggi")
+            setError("Non è possibile selezionare una data di inizio precedente a oggi");
         } else if (range?.from && range?.to && isAfter(range.from, range.to)) {
-            setError("La data di inizio non può essere successiva alla data di fine")
+            setError("La data di inizio non può essere successiva alla data di fine");
         } else {
-            setError(null)
+            setError(null);
         }
-        setDateRange(range)
-        setCurrentMonth(range?.from || range?.to)
-    }
+        setDateRange(range);
+        setCurrentMonth(range?.from || range?.to);
+    };
 
-    const years = Array.from({ length: 124 }, (_, i) => new Date().getFullYear() - i)
-
+    const years = Array.from({ length: 124 }, (_, i) => new Date().getFullYear() - i);
     const months = [
-        "Gennaio",
-        "Febbraio",
-        "Marzo",
-        "Aprile",
-        "Maggio",
-        "Giugno",
-        "Luglio",
-        "Agosto",
-        "Settembre",
-        "Ottobre",
-        "Novembre",
-        "Dicembre",
-    ]
+        "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
+        "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"
+    ];
 
-    const isDateRangeValid =
-        dateRange?.from &&
-        dateRange?.to &&
+    const isDateRangeValid = dateRange?.from && dateRange?.to &&
         !isBefore(dateRange.from, startOfDay(new Date())) &&
-        !isBefore(dateRange.to, dateRange.from)
+        !isBefore(dateRange.to, dateRange.from);
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button
                     variant={"outline"}
-                    className={`w-full justify-start text-left font-normal rounded-full ${dateRange?.from && dateRange?.to ? "text-foreground" : "text-muted-foreground"}`}
-                    onClick={() => setIsOpen(true)}
+                    className={`w-full justify-start text-left font-normal rounded-full ${
+                        dateRange?.from && dateRange?.to ? "text-foreground" : "text-muted-foreground"
+                    }`}
                 >
                     <CalendarIcon className="mr-2 h-5 w-5" />
                     <span>
-            {dateRange?.from && dateRange?.to
-                ? `${format(dateRange.from, "dd/MM/yyyy")} - ${format(dateRange.to, "dd/MM/yyyy")}`
-                : "Seleziona il periodo"}
-          </span>
+                        {dateRange?.from && dateRange?.to
+                            ? `${format(dateRange.from, "dd/MM/yyyy")} - ${format(dateRange.to, "dd/MM/yyyy")}`
+                            : "Seleziona il periodo"}
+                    </span>
                 </Button>
             </DialogTrigger>
 
@@ -84,9 +84,7 @@ export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (fro
                     <Calendar
                         mode="range"
                         selected={dateRange}
-                        onSelect={(newRange) => {
-                            updateAllStates(newRange)
-                        }}
+                        onSelect={updateAllStates}
                         month={currentMonth}
                         onMonthChange={setCurrentMonth}
                         initialFocus
@@ -101,9 +99,9 @@ export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (fro
                     <Button
                         variant="outline"
                         onClick={() => {
-                            setDateRange(undefined)
-                            setError(null)
-                            setIsOpen(false)
+                            setDateRange(undefined);
+                            setError(null);
+                            setIsOpen(false);
                         }}
                         className="w-full sm:w-auto rounded-full"
                     >
@@ -113,8 +111,8 @@ export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (fro
                     <Button
                         onClick={() => {
                             if (dateRange?.from && dateRange?.to && isDateRangeValid) {
-                                onSaveAction(dateRange.from, dateRange.to)
-                                setIsOpen(false)
+                                onSaveAction(dateRange.from, dateRange.to);
+                                setIsOpen(false);
                             }
                         }}
                         className="w-full sm:w-auto rounded-full"
@@ -125,5 +123,5 @@ export function DatePickerDialog({ onSaveAction }: { readonly onSaveAction: (fro
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

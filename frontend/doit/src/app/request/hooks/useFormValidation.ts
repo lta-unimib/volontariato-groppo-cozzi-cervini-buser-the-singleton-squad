@@ -1,8 +1,6 @@
 import { RequestFormData } from "@/types/formData";
 import {
-    validateDate,
     validateCategories,
-    validateActivities,
     validateDescription,
     validateVolunteerCapacity
 } from "@/app/request/utils/formValidation";
@@ -10,7 +8,6 @@ import {
 export const useFormValidation = (formData: RequestFormData) => {
     const validationState = {
         areCategoriesValid: validateCategories(formData.categories),
-        areActivitiesValid: validateActivities(formData.frequency),
         isDescriptionValid: validateDescription(formData.description),
         isCapacityValid: validateVolunteerCapacity(formData.volunteerCapacity)
     };

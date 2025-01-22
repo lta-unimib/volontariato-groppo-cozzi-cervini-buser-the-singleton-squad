@@ -1,151 +1,64 @@
 "use client"
 
-import React, { useState, useMemo, useEffect } from "react";
+import React from "react";
 import { Page } from "@/components/layout/Page";
-import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
-import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { Calendar } from "@/components/ui/date/Calendar";
 import { Card, CardContent } from "@/components/ui/Card";
-import { addMonths, eachDayOfInterval, getDay, startOfMonth } from "date-fns";
-import { ProfileHeader } from "@/components/layout/ProfileHeader";
+import { RequestHeader } from "@/components/layout/RequestPageHeader";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
-import { makeGetRequest } from "@/utils/apiUtils";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { AvailabilityData } from "@/types/availabilityData";
-import { VolunteerFormData } from "@/types/formData";
-
-interface ApiResponse {
-    message: string;
-    data: Request[];
-    status: string;
-}
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
-    const [date] = useState<Date | undefined>(new Date());
-    const [volunteerProfile, setVolunteerProfile] = useState<VolunteerFormData | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const searchParams = useSearchParams();
+    const encodedData = searchParams.get('data');
+    const requestData = encodedData ? JSON.parse(decodeURIComponent(encodedData)) : null;
 
-
-    const getSelectedDays = (availability: AvailabilityData, currentMonth: Date): Date[] => {
-        const startOfCurrentMonth = startOfMonth(currentMonth);
-        const endOfPreview = addMonths(startOfCurrentMonth, 12);
-        switch (availability.mode) {
-            case "daily":
-                if (!availability.timeRange) return [];
-                return eachDayOfInterval({
-                    start: startOfCurrentMonth,
-                    end: endOfPreview
-                });
-            case "weekly":
-                if (!availability.timeRange) return [];
-                const availableDays = availability.timeRange.map((day) => {
-                    const dayMapping: { [key: string]: number } = {
-                        'Domenica': 0,
-                        'Luned\u00EC': 1,
-                        'Marted\u00EC': 2,
-                        'Mercoled\u00EC': 3,
-                        'Gioved\u00EC': 4,
-                        'Venerd\u00EC': 5,
-                        'Sabato': 6
-                    };
-                    return dayMapping[day];
-                });
-                return eachDayOfInterval({
-                    start: startOfCurrentMonth,
-                    end: endOfPreview
-                }).filter(date => availableDays.includes(getDay(date)));
-            case "monthly":
-                if (!availability.timeRange) return [];
-                const [startDate, endDate] = availability.timeRange.map((dateStr) => new Date(dateStr));
-                return eachDayOfInterval({
-                    start: startOfCurrentMonth,
-                    end: endOfPreview
-                }).filter(date => date.getDate() >= startDate.getDate() && date.getDate() <= endDate.getDate());
-            default:
-                return [];
-        }
-    };
-
-    const formatAvailability = (availability?: AvailabilityData) => {
-        if (!availability) return "Availability not specified";
-
-        switch (availability.mode) {
-            case "daily":
-                return availability.timeRange
-                    ? `Available daily from ${availability.timeRange[0]} to ${availability.timeRange[1]}`
-                    : "Availability not specified";
-            case "weekly":
-                return availability.timeRange
-                    ? `Available every: ${availability.timeRange.join(", ")}`
-                    : "Availability not specified";
-            case "monthly":
-                if (!availability.timeRange) return "Availability not specified";
-                const [startDate, endDate] = availability.timeRange.map(dateStr => new Date(dateStr));
-                return `Available monthly from day ${startDate.getDate()} to day ${endDate.getDate()}`;
-            default:
-                return "Availability not specified";
-        }
-    };
-
-    const selectedDays = useMemo(() => {
-        return date && volunteerProfile?.availability
-            ? getSelectedDays(volunteerProfile.availability, date)
-            : [];
-    }, [date, volunteerProfile]);
-
-    const isAvailable = selectedDays.some((d) => d.toDateString() === new Date().toDateString());
-
-    if (loading) {
-        return (
-            <div className="flex flex-col lg:flex-row w-full">
-                <Page>
-                    <div className="flex w-full min-h-screen items-center justify-center">
-                        <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
-                    </div>
-                </Page>
-            </div>
-        );
+    if (!requestData) {
+        return <div>No data available</div>;
     }
 
-    if (error || !volunteerProfile) {
-        return (
-            <div className="flex flex-col lg:flex-row w-full">
-                <Page>
-                    <div className="flex w-full min-h-screen items-center justify-center">
-                        {error || "Failed to load user profile"}
-                    </div>
-                </Page>
-            </div>
-        );
-    }
+    const formatWebsiteUrl = (url: string) => {
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            return `https://${url}`;
+        }
+        return url;
+    };
+
+    const getDateRange = (startDate: Date, endDate: Date) => {
+        const dates = [];
+        const currentDate = new Date(startDate);
+        while (currentDate <= endDate) {
+            dates.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return dates;
+    };
+
+    const formatDate = (date: Date) => {
+        return date.toLocaleDateString('it-IT', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        });
+    };
+
+    const [startDate, endDate] = requestData.timeRange.map((dateStr: string | number | Date) => new Date(dateStr));
+    const selectedDates = getDateRange(startDate, endDate);
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
             <Page>
                 <div className="flex w-full min-h-screen">
-                    <div className="w-[var(--sidebar-width)]">
-                        <SidebarLayout
-                            menuItems={volunteerMenuItems}
-                            header={""}
-                            side={"left"}
-                            variant={"floating"}
-                            collapsible={"icon"}
-                        >
-                            <div />
-                        </SidebarLayout>
-                    </div>
-
-                    <div className="flex-1 flex flex-col pb-28 md:pb-4">
+                    <div className="flex-1 flex flex-col pb-12 md:pb-4">
                         <div className="p-4 md:px-8">
-                            <ProfileHeader
-                                name={`${volunteerProfile.firstName} ${volunteerProfile.lastName}`}
-                                role="Volunteer"
-                                city={volunteerProfile.city}
+                            <RequestHeader
+                                title={`${requestData.title}`}
+                                organizationName={`${requestData.organization.name}`}
+                                address={`${requestData.address.street} ${requestData.address.number}, ${requestData.address.city}`}
                                 imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
-                                isAvailable={isAvailable}
-                                profileData={volunteerProfile}
+                                requestData={requestData}
+                                role={requestData.role}
                             />
                         </div>
 
@@ -155,7 +68,7 @@ export default function Home() {
                                     <Card className="rounded-2xl">
                                         <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">About</h3>
-                                            <p className="text-sm text-muted-foreground mt-2">{volunteerProfile.description}</p>
+                                            <p className="text-sm text-muted-foreground mt-2">{requestData.description}</p>
                                         </CardContent>
                                     </Card>
 
@@ -164,35 +77,44 @@ export default function Home() {
                                             <h3 className="text-xl font-semibold text-foreground mb-4">Preferences</h3>
                                             <div className="text-sm text-muted-foreground mb-4">
                                                 <RoundCheckboxSelector
-                                                    initialSelected={volunteerProfile.preferences}
+                                                    initialSelected={requestData.categories}
                                                     readOnly={true}
                                                 />
                                             </div>
                                         </CardContent>
                                     </Card>
 
-                                    <Card className="rounded-2xl">
-                                        <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
-                                            <ul className="text-sm text-muted-foreground mt-2">
-                                                <li>Email: <a href={`mailto:${volunteerProfile.email}`}>{volunteerProfile.email}</a></li>
-                                            </ul>
-                                        </CardContent>
-                                    </Card>
+                                    {requestData.role === "volunteer" &&
+                                        <Card className="rounded-2xl">
+                                            <CardContent className="pt-6">
+                                                <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
+                                                <ul className="text-sm text-muted-foreground mt-2">
+                                                    <li>Email: <a href={`mailto:${requestData.organization.email}`}>{requestData.organization.email}</a></li>
+                                                    <li>
+                                                        Website: <a href={formatWebsiteUrl(requestData.organization.website ?? "")} target="_blank" rel="noopener noreferrer">
+                                                        {requestData.organization.website}
+                                                    </a>
+                                                    </li>
+                                                    <li>VAT Number: {requestData.organization.VATNumber}</li>
+                                                </ul>
+                                            </CardContent>
+                                        </Card>
+                                    }
                                 </div>
-
                                 <Card className="rounded-2xl">
                                     <CardContent className="pt-6">
-                                        <h3 className="text-xl font-semibold text-foreground mb-4">Availability</h3>
-                                        <div className="text-sm text-muted-foreground mb-4">
-                                            {formatAvailability(volunteerProfile.availability)}
+                                        <h3 className="text-xl font-semibold text-foreground mb-4">Date</h3>
+                                        <div className="mb-4">
+                                            <p className="text-sm text-muted-foreground">
+                                                L'evento si svolgerà dal {formatDate(startDate)} al {formatDate(endDate)}.
+                                            </p>
                                         </div>
                                         <div className="flex justify-center">
                                             <Card className="rounded-2xl w-full flex items-center justify-center">
                                                 <CardContent className="flex pt-6 items-center justify-center">
                                                     <Calendar
                                                         mode="multiple"
-                                                        selected={selectedDays}
+                                                        selected={selectedDates}
                                                         className="rounded-2xl p-4"
                                                     />
                                                 </CardContent>

@@ -17,7 +17,6 @@ export function RoundCheckboxSelector({
                                           initialSelected,
                                           readOnly = false,
                                           isSingleSelect = false,
-                                          optionType = "categories",
                                       }: RoundCheckboxSelectorProps) {
     const categories = [
         { id: "supporto_anziani", label: "Supporto Anziani" },
@@ -26,14 +25,6 @@ export function RoundCheckboxSelector({
         { id: "ripetizioni", label: "Ripetizioni" },
         { id: "caritas", label: "Caritas" },
     ];
-
-    const frequency = [
-        { id: "daily", label: "Daily" },
-        { id: "weekly", label: "Weekly" },
-        { id: "monthly", label: "Monthly" },
-    ];
-
-    const options = optionType === "categories" ? categories : frequency;
 
     const componentId = useId();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(initialSelected || []);
@@ -59,7 +50,7 @@ export function RoundCheckboxSelector({
             <CardContent className="p-4">
                 <ScrollArea className="h-28">
                     <div className="space-y-1">
-                        {options.map((option) => {
+                        {categories.map((option) => {
                             const uniqueOptionId = `${componentId}-${option.id}`;
                             const isSelected = selectedOptions.includes(option.id);
 
