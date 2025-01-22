@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter
@@ -44,7 +45,7 @@ public class VolunteerPreferences {
         return false;
     }
 
-    public boolean hasAvailability(String start, String end) {
+    public boolean hasAvailability(LocalDateTime start, LocalDateTime end) {
         return this.availability.matching(start, end);
     }
 }

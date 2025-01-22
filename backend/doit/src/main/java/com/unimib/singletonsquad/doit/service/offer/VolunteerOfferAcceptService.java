@@ -44,8 +44,8 @@ public class VolunteerOfferAcceptService {
     }
 
     private void checkStartDateAndEndDate(VolunteerRequest volunteerRequest) throws Exception {
-        LocalDateTime startDate = LocalDateTime.parse(volunteerRequest.getStartDateTime());
-        LocalDateTime endDate = LocalDateTime.parse(volunteerRequest.getEndDateTime());
+        LocalDateTime startDate = volunteerRequest.getStartDateTime();
+        LocalDateTime endDate = volunteerRequest.getEndDateTime();
         LocalDateTime now = LocalDateTime.now();
 
         if ((now.isEqual(startDate) || now.isAfter(startDate)) &&
