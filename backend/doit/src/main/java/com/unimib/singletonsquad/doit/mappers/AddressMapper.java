@@ -16,4 +16,14 @@ public class AddressMapper {
         address.setAdditionalInformation(addressDTO.getAdditionalInfo());
         return address;
     }
+
+    public static AddressDTO createAddressDTO(Address address){
+        AddressDTO addressDTO = new AddressDTO();
+        addressDTO.setCity(address.getCity());
+        addressDTO.setStreet(address.getStreetAddress());
+        addressDTO.setPostalCode(address.getPostalCode());
+        addressDTO.setNumber(address.getHouseNumber());
+        addressDTO.setAdditionalInfo(address.getAdditionalInformation());
+        return addressDTO;
+    }
 }

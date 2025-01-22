@@ -1,6 +1,8 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
+import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,7 +33,11 @@ public class VolunteerRequestAllController {
     public ResponseEntity<?> getVolunteerRequest(final HttpServletRequest request) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
         List<VolunteerRequest> volunteerRequestSortedList = this.volunteerRequestService.getAllRequestSorted(email);
-        ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestSortedList);
+        List<VolunteerRequestDTO> volunteerRequestDTOS = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : volunteerRequestSortedList) {
+            volunteerRequestDTOS.add(VolunteerRequestMapper.mapToVolunteerRequestDTO(volunteerRequest));
+        }
+        ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestDTOS);
         return ResponseEntity.ok().body(message);
     }
 
@@ -38,7 +45,11 @@ public class VolunteerRequestAllController {
     public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
         List<VolunteerRequest> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
-        ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization", HttpStatus.OK, volunteerRequestList);
+        List<VolunteerRequestDTO> volunteerRequestDTOS = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : volunteerRequestList) {
+            volunteerRequestDTOS.add(VolunteerRequestMapper.mapToVolunteerRequestDTO(volunteerRequest));
+        }
+        ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization", HttpStatus.OK, volunteerRequestDTOS);
         return ResponseEntity.ok().body(message);
     }
 }

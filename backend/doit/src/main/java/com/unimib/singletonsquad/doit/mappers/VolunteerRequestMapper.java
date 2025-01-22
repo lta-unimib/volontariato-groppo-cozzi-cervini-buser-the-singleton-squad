@@ -73,6 +73,24 @@ public class VolunteerRequestMapper {
 
         return volunteerRequest;
     }
+
+    public static VolunteerRequestDTO mapToVolunteerRequestDTO(VolunteerRequest volunteerRequest) {
+        VolunteerRequestDTO volunteerRequestDTO = new VolunteerRequestDTO();
+        volunteerRequestDTO.setTitle(volunteerRequest.getTitle());
+        volunteerRequestDTO.setVolunteerCapacity(volunteerRequest.getCapacity());
+        volunteerRequestDTO.setDescription(volunteerRequest.getDetailedDescription());
+        volunteerRequestDTO.setCategories(volunteerRequest.getVolunteerCategories());
+        volunteerRequestDTO.setFrequency(List.of(volunteerRequest.getVolunteerType()));
+        volunteerRequestDTO.setAddress(AddressMapper.createAddressDTO(volunteerRequest.getAddress()));
+        String[] start = extractDateTime(volunteerRequest.getStartDateTime());
+        String[] end = extractDateTime(volunteerRequest.getEndDateTime());
+        volunteerRequestDTO.setStartTime(start[1]);
+        volunteerRequestDTO.setEndTime(end[1]);
+        volunteerRequestDTO.setTimeRange(List.of(start[0], end[0]));
+        return volunteerRequestDTO;
+    }
+
+
     private Organization getOrganizationByEmail(String email) throws Exception {
         return organizationService.findOrganizationByEmail(email)
                 .orElseThrow(() -> new Exception("Organization not found with email: " + email));

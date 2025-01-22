@@ -51,12 +51,10 @@ public class VolunteerOfferAcceptService {
         if ((now.isEqual(startDate) || now.isAfter(startDate)) &&
                 (now.isEqual(endDate) || now.isBefore(endDate))) {
             System.out.println("L'ora corrente è compresa tra la data di inizio e la data di fine.");
-            return;
         } else {
             System.out.println("L'ora corrente NON è compresa tra la data di inizio e la data di fine.");
             throw new InvalidDateException(HttpStatus.BAD_REQUEST,"Non è possibile accettare la richiesta in quanto è scaduta");
         }
-
     }
     private void changeStatusAndSave(VolunteerOffer volunteerOffer, VolunteerRequest volunteerRequest) throws Exception {
         volunteerOffer.setVolunteerRequest(volunteerRequest);
