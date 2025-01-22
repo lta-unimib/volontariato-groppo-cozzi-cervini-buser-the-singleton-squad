@@ -29,7 +29,7 @@ public class VolunteerOfferController {
     public ResponseEntity<ResponseMessage> createVolunteerOffer(final HttpServletRequest request,
                                                   final @RequestBody VolunteerOfferDTO volunteerOfferDTO)
             throws Exception {
-            String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer);
+            String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
             this.volunteerOfferService.addNewOffer(volunteerOfferDTO, email);
 
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer offer saved", HttpStatus.OK);
@@ -38,20 +38,34 @@ public class VolunteerOfferController {
     }
 
 
-    @DeleteMapping(value = "/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable("idOffer") Long idOffer)
+    @DeleteMapping(value = "/{idOffer}/organization/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseMessage> deleteVolunteerOfferOrganization(@PathVariable("idOffer") Long idOffer,
+                                                                final HttpServletRequest request)
             throws Exception {
         ResponseMessage responseMessage;
-        String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer);
+        String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
         volunteerOfferService.removeOffer(idOffer, email);
         responseMessage = new ResponseMessage.Builder("volunteer offer removed").status(HttpStatus.OK).build();
         return ResponseEntity.ok(responseMessage);
     }
 
-    @GetMapping("/all/")
-    public ResponseEntity<ResponseMessage> getAllVolunteerOffers() throws Exception {
+    @DeleteMapping("/{idOffer}/volunteer/")
+    public ResponseEntity<ResponseMessage> deleteVolunteerOfferVolunteer(@PathVariable("idOffer") Long idOffer,
+                                                                final HttpServletRequest request)
+            throws Exception {
         ResponseMessage responseMessage;
-        String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer);
+        String emailVolunteer = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
+        volunteerOfferService.cancelVolunteerOffer(idOffer, emailVolunteer);
+        responseMessage = new ResponseMessage.Builder("volunteer offer removed").status(HttpStatus.OK).build();
+        return ResponseEntity.ok(responseMessage);
+    }
+
+
+
+    @GetMapping("/all/")
+    public ResponseEntity<ResponseMessage> getAllVolunteerOffers(final HttpServletRequest request) throws Exception {
+        ResponseMessage responseMessage;
+        String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
 
         List<VolunteerOfferDTO> volunteerOfferDTOS = new ArrayList<>();
         for (VolunteerOffer v : volunteerOfferService.getAllVolunteerOffers(email)) {

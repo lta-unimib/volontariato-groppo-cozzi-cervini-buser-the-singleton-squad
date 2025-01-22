@@ -5,6 +5,7 @@ import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,8 +32,8 @@ public class VolunteerOfferAcceptController {
     /// AGGIUNGERE NELLA RICHIESTA NELL'OFFERTA LA LISTA L'OFFERTA
     /// TODO CONTROLLARE CHE LA START DATE >=OGGI
     @PostMapping(value = "/accept/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> acceptOffer(@PathVariable Long idOffer) throws Exception {
-        String organizationEmail = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization);
+    public ResponseEntity<?> acceptOffer(final @PathVariable Long idOffer, final HttpServletRequest request) throws Exception {
+        String organizationEmail = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
         this.acceptService.acceptVolunteerOffer(idOffer, organizationEmail);
         return ResponseEntity.ok().body("accepted");
     }

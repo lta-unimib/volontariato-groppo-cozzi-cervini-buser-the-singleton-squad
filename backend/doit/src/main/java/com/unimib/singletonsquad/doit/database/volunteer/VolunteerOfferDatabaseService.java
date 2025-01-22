@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
+import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.IVolunteerOfferRepository;
 import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
 import lombok.AllArgsConstructor;
@@ -25,8 +26,11 @@ public class VolunteerOfferDatabaseService {
         return this.volunteerOfferRepository.getAllOffer(email);
     }
 
-    public Optional<VolunteerOffer> getVolunteerOffer(final Long id) throws Exception {
-        return this.volunteerOfferRepository.findById(id);
+    public VolunteerOffer getVolunteerOffer(final Long id) throws Exception {
+        Optional<VolunteerOffer> optional = this.volunteerOfferRepository.findById(id);
+        if (optional.isEmpty())
+            throw new RecordNotFoundGeneralException("Volunteer offer not found");
+        return optional.get();
     }
 
 
@@ -34,7 +38,5 @@ public class VolunteerOfferDatabaseService {
         volunteerOfferRepository.delete(offer);
     }
 
-    public VolunteerOffer getVolunteerOffer(final long id) throws Exception {
-        return volunteerOfferRepository.getVolunteerOfferById(id);
-    }
+
 }

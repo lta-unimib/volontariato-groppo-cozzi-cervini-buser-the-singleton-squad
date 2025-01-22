@@ -24,10 +24,7 @@ public class VolunteerOfferAcceptService {
 
 
     public void acceptVolunteerOffer(Long idOffer, String organizationEmail) throws Exception {
-        Optional<VolunteerOffer> volunteerOfferOptional = volunteerOfferDatabaseService.getVolunteerOffer(idOffer);
-        if(volunteerOfferOptional.isEmpty())
-            throw new RecordNotFoundGeneralException("Volunteer offer not found");
-        VolunteerOffer volunteerOffer  = volunteerOfferOptional.get();
+        VolunteerOffer volunteerOffer  = volunteerOfferDatabaseService.getVolunteerOffer(idOffer);
         checkStartDateAndEndDate(volunteerOffer.getVolunteerRequest());
         checkOrganizationEmail(organizationEmail, volunteerOffer);
         checkRequestCapacity(volunteerOffer);

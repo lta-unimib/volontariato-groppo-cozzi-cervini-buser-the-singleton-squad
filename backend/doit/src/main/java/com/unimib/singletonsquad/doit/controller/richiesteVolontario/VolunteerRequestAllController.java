@@ -2,8 +2,8 @@ package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
+import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
-import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,12 +23,12 @@ import java.util.List;
 public class VolunteerRequestAllController {
 
     private final VolunteerRequestService volunteerRequestService;
-    private final UserVerify userVerify;
+    private final RegisteredUserService registeredUserService;
 
 
     @GetMapping(value = "/")
     public ResponseEntity<?> getVolunteerRequest(final HttpServletRequest request) throws Exception {
-        String email = this.userVerify.validateUserRoleFromToken(request, UserRole.volunteer);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
         List<VolunteerRequest> volunteerRequestSortedList = this.volunteerRequestService.getAllRequestSorted(email);
         ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestSortedList);
         return ResponseEntity.ok().body(message);
@@ -36,7 +36,7 @@ public class VolunteerRequestAllController {
 
     @GetMapping(value = "/organization/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
-        String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
         List<VolunteerRequest> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
         ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization", HttpStatus.OK, volunteerRequestList);
         return ResponseEntity.ok().body(message);

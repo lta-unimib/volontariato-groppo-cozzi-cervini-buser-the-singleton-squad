@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.userprofile;
 
+import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
-import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,10 +17,10 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor(force = true)
 public abstract class UserProfileController {
     @Autowired
-    private final UserVerify userVerify;
+    private final RegisteredUserService userVerify;
 
-    protected String validateTokenAndGetEmail(final HttpServletRequest request, final UserRole userRole) {
-        return this.userVerify.validateUserRoleFromToken(request, userRole);
+    protected String validateTokenAndGetEmail(final HttpServletRequest request, final UserRole userRole) throws Exception {
+        return this.userVerify.getUserEmailAndIsRegistered(userRole, request);
     }
 
     protected ResponseMessage sendResponseMessage(final String message, HttpStatus status, Object data) {

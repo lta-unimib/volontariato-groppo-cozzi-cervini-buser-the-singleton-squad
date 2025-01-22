@@ -39,7 +39,7 @@ public class OrganizationProfileController extends UserProfileController {
 
     @DeleteMapping(value = "/")
     @Override
-    public ResponseMessage deleteUser(final HttpServletRequest request){
+    public ResponseMessage deleteUser(final HttpServletRequest request) throws Exception {
         String email = super.validateTokenAndGetEmail(request, UserRole.organization);
         this.userProfileService.deleteOrganization(email);
         String messageResponse = String.format("deleted user %s", email);
