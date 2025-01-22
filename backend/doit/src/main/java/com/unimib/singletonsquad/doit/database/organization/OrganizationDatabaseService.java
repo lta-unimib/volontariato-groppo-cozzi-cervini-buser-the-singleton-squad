@@ -22,7 +22,7 @@ public class OrganizationDatabaseService {
     }
 
     public Optional<Organization> findOrganizationById(Long id) {
-        return organizationRepository.findById((long) id);
+        return organizationRepository.findById(id);
     }
 
     public Optional<Organization> findOrganizationByEmail(String email) {
