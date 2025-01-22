@@ -52,8 +52,14 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddr
     };
 
     const getDisplayText = () => {
-        if (savedAddress) {
-            let text = `${savedAddress.street} ${savedAddress.number}, ${savedAddress.city}, ${savedAddress.postalCode}`;
+        if (savedAddress && (savedAddress.street || savedAddress.number || savedAddress.city || savedAddress.postalCode || savedAddress.additionalInfo)) {
+            let text = `${savedAddress.street || ''} ${savedAddress.number || ''}`.trim();
+            if (savedAddress.city) {
+                text += `, ${savedAddress.city}`;
+            }
+            if (savedAddress.postalCode) {
+                text += `, ${savedAddress.postalCode}`;
+            }
             if (savedAddress.additionalInfo) {
                 text += `, ${savedAddress.additionalInfo}`;
             }
@@ -61,6 +67,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddr
         }
         return "Inserisci indirizzo";
     };
+
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>

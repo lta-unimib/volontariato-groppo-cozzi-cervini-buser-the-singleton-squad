@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { BaseForm } from "@/components/ui/form/BaseForm";
@@ -14,8 +14,27 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { useRequestFormInitialization } from '@/app/request/hooks/useRequestFormInizialization';
 
 export function RequestForm() {
+    const [idRequest, setIdRequest] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const data = urlParams.get('data');
+
+        if (data) {
+            try {
+                const parsedData = JSON.parse(decodeURIComponent(data));
+                const id = parsedData.id;
+                setIdRequest(id);
+            } catch (error) {
+                console.error("Errore durante il parsing dei dati:", error);
+            }
+        } else {
+            console.log("Parametro 'data' non trovato nella query string.");
+        }
+    }, []);
+
+
     const { formData, updateField, setFormData } = useFormData();
-    const { handleSubmit: handleSubmitFn } = useRequestFormSubmission();
     const { validationState, isValid } = useFormValidation(formData);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
 
@@ -27,6 +46,8 @@ export function RequestForm() {
         setFormDataAction: setFormData,
         formData
     });
+
+    const { handleSubmit: handleSubmitFn } = useRequestFormSubmission(isEditing, idRequest);
 
     const handleDateRangeUpdate = (fromDate: Date, toDate: Date) => {
         const fromDateStr = fromDate.toISOString().split('T')[0];
@@ -48,13 +69,13 @@ export function RequestForm() {
                 <Input
                     placeholder="Titolo"
                     className="rounded-full"
-                    value={formData.title || ''}
+                    value={isEditing ? formData.title : undefined}
                     onChange={(e) => updateField("title", e.target.value)}
                 />
 
                 <DatePickerDialog
                     onSaveAction={handleDateRangeUpdate}
-                    initialDates={formData.timeRange}
+                    initialDates={isEditing ? formData.timeRange : undefined}
                 />
 
                 <Card className="rounded-2xl">
@@ -63,13 +84,13 @@ export function RequestForm() {
                             <TimePicker
                                 label="Seleziona inizio"
                                 onChange={(time) => updateField("startTime", time)}
-                                initialTime={formData.startTime}
+                                initialTime={isEditing ? formData.startTime : undefined}
                             />
 
                             <TimePicker
                                 label="Seleziona fine"
                                 onChange={(time) => updateField("endTime", time)}
-                                initialTime={formData.endTime}
+                                initialTime={isEditing ? formData.endTime : undefined}
                             />
                         </div>
                     </CardContent>
@@ -77,26 +98,26 @@ export function RequestForm() {
 
                 <AddressDialog
                     onSaveAction={(address) => updateField("address", address)}
-                    initialAddress={formData.address}
+                    initialAddress={isEditing ? formData.address : undefined}
                 />
 
                 <RoundCheckboxSelector
                     onChangeAction={(categories) => updateField("categories", categories)}
-                    initialSelected={formData.categories}
+                    initialSelected={isEditing ? formData.categories : []}
                     key={JSON.stringify(formData.categories)}
                 />
 
                 <Textarea
                     placeholder="Descrizione della richiesta di volontariato"
                     className="rounded-2xl min-h-[100px]"
-                    value={formData.description || ''}
+                    value={isEditing ? formData.description : undefined}
                     onChange={(e) => updateField("description", e.target.value)}
                 />
 
                 <Input
                     placeholder="Capacità massima di volontari"
                     className="rounded-full"
-                    value={formData.volunteerCapacity || ''}
+                    value={isEditing ? formData.volunteerCapacity : undefined}
                     onChange={(e) => updateField("volunteerCapacity", e.target.value)}
                     isInvalid={!validationState.isCapacityValid}
                     isFocused={focusState.volunteerCapacityFocused}

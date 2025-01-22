@@ -33,7 +33,6 @@ export interface RequestFormData {
     endTime: string;
     address: AddressData;
     categories: string[];
-    frequency: string[];
     description: string;
     volunteerCapacity: string;
 }

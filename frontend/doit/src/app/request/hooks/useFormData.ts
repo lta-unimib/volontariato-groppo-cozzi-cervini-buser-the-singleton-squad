@@ -14,7 +14,6 @@ const initialFormData: RequestFormData = {
         additionalInfo: ""
     },
     categories: [],
-    frequency: [],
     description: "",
     volunteerCapacity: "",
     startTime: "",

@@ -11,6 +11,7 @@ import { makeGetRequest } from "@/utils/apiUtils";
 import { MdOutlineAdd } from "react-icons/md";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
+import SearchBar from "@/components/ui/SearchBar";
 
 interface Address {
     street: string;
@@ -38,7 +39,6 @@ interface Request {
     organization: Organization;
     categories: string[];
     timeRange: [string, string];
-    frequency: string[];
 }
 
 interface ApiResponse {
@@ -102,7 +102,7 @@ export default function OrganizationHome() {
                     </SidebarLayout>
                 </div>
 
-                <div className="relative flex-1 flex flex-col">
+                <div className="relative w-full flex-1 flex flex-col">
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         <div className="space-y-4">
                             {loading ? (
