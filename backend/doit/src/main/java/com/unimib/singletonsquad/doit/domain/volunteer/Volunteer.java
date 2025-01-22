@@ -55,8 +55,12 @@ public class Volunteer implements User {
     @JsonIgnore
     private List<VolunteerOffer> volunteerOffers;
 
-    @ManyToMany(mappedBy = "org_category")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany
+    @JoinTable(
+            name = "favorite_organizations",
+            joinColumns = @JoinColumn(name = "volunteer_id"),
+            inverseJoinColumns = @JoinColumn(name = "organization_id")
+    )
     private List<Organization> favoriteOrganizations;
 
     public Volunteer() {}

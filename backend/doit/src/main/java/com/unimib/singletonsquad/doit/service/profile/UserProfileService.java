@@ -81,5 +81,9 @@ public class UserProfileService {
     public Organization getOrganizationByName(String name) {
         return this.organizationDatabaseService.findOrganizationByName(name);
     }
+
+    public Volunteer getVolunteerInfoByEmail(String email) {
+        return this.volunteerDatabaseService.findVolunteerByEmail(email);
+    }
 }
 

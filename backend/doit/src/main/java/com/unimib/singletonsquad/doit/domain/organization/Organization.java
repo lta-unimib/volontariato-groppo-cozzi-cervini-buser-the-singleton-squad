@@ -44,12 +44,6 @@ public class Organization implements User {
     private String city;
 
     @ElementCollection
-    @Column(name = "categories")
-    @CollectionTable(
-            name = "organization_categories",
-            joinColumns = @JoinColumn(name = "organization_id")
-    )
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> categories = new ArrayList<>();
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)

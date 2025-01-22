@@ -1,7 +1,10 @@
 package com.unimib.singletonsquad.doit.controller.userprofile;
 
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
+import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.profile.UserProfileService;
+import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/profile/volunteer")
 public class VolunteerProfileController  extends UserProfileController {
 
+    //FIXME === ASSOLUTAMENTE DA FIXARE ======
     private final UserProfileService userProfileService;
+    private final RegisteredUserService registeredUserService;
 
     /// GET VOLUNTEER INFORMATION
     @GetMapping(value = "/{idVolunteer}/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,6 +32,19 @@ public class VolunteerProfileController  extends UserProfileController {
         String messageResponse = String.format("getting info for %s", idVolunteer);
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, volunteerDTO);
     }
+
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseMessage getVolunteerInformation(final HttpServletRequest request) throws Exception{
+        String email = this.registeredUserService.getUserEmail(request);
+        Volunteer volunteer =this.userProfileService.getVolunteerInfoByEmail(email);
+        VolunteerDTO volunteerDTO = VolunteerMapper.toVolunteerDTO(volunteer);
+        String messageResponse = String.format("getting info for %s", email);
+        return super.sendResponseMessage(messageResponse, HttpStatus.OK, volunteerDTO);
+    }
+
+
+
+
 
     /// UPDATE VOLUNTEER INFOS
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
