@@ -16,7 +16,8 @@ public class OrganizationNameSerializer extends JsonSerializer<Organization> {
             Map<String, Object> orgDetails = new HashMap<>();
             orgDetails.put("name", organization.getName());
             orgDetails.put("email", organization.getEmail());
-
+            orgDetails.put("website", organization.getWebsite());
+            orgDetails.put("VATNumber", organization.getVATNumber());
             gen.writeObject(orgDetails);
         } else {
             gen.writeNull();

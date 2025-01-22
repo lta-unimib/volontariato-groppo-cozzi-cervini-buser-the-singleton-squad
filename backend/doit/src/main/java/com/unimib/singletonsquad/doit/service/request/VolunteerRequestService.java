@@ -1,7 +1,6 @@
 package com.unimib.singletonsquad.doit.service.request;
 
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
-import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
@@ -76,7 +75,7 @@ public class VolunteerRequestService {
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA
     public void addVolunteerOffer(Long idRequest, VolunteerOffer volunteerOffer) throws Exception{
         VolunteerRequest request = getSpecificRequest(idRequest);
-        request.getVolunteerOffer().add(volunteerOffer);
+        request.getVolunteerOffers().add(volunteerOffer);
         this.volunteerRequestDatabaseService.save(request);
 
     }

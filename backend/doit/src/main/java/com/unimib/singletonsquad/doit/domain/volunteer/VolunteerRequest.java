@@ -40,7 +40,9 @@ public class VolunteerRequest {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
 
-    private String volunteerType;
+    @ElementCollection
+    private List<String> frequency;
+
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
 
@@ -57,10 +59,6 @@ public class VolunteerRequest {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "volunteer_offer_id")
-    private List<VolunteerOffer> volunteerOffer;
-
-    @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<VolunteerOffer> volunteerOffers;
 
     public void setCapacity(int capacity) {
