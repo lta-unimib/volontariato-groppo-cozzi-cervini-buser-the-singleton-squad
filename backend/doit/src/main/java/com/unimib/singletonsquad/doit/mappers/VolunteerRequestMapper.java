@@ -7,7 +7,6 @@ import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabase
 import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

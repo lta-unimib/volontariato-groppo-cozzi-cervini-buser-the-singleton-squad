@@ -19,7 +19,7 @@ public class AuthenticationController {
     private final AuthenticationUserService authenticationUserService;
 
     @PostMapping(value = "/volunteer/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> authenticateVolunteer(@RequestBody final AuthDTO auth) throws Exception{
+    public ResponseEntity<ResponseMessage> authenticateVolunteer(@RequestBody final AuthDTO auth) throws Exception {
         String token = this.authenticationUserService.authenticate(auth, String.valueOf(UserRole.volunteer));
         ResponseMessage message = this.createMessageResponse(String.valueOf(UserRole.organization), token);
         return ResponseEntity.ok().body(message);
@@ -27,7 +27,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/organization/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> authenticateOrganization(@RequestBody final AuthDTO auth) throws Exception{
+    public ResponseEntity<ResponseMessage> authenticateOrganization(@RequestBody final AuthDTO auth) throws Exception {
         String token = this.authenticationUserService.authenticate(auth, String.valueOf(UserRole.organization));
         ResponseMessage message = this.createMessageResponse(String.valueOf(UserRole.organization), token);
         return ResponseEntity.ok().body(message);

@@ -5,6 +5,7 @@ import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
@@ -12,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,22 +57,34 @@ public class VolunteerRequestService {
         return this.volunteerRequestDatabaseService.getSpecificRequest(idRequest);
     }
 
-    public List<VolunteerRequest> getAllRequestByOrganizationEmail(String email) {
-        return this.volunteerRequestDatabaseService.getAllRequestByEmail(email);
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestByEmail(email);
+        return getRequestSendDTOList(tempLista);
     }
 
     public List<VolunteerRequest> getAllRequest() {
         return this.volunteerRequestDatabaseService.getAllRequest();
     }
 
-    public List<VolunteerRequest> getAllRequestSorted(@NotNull final String volunteerEmail)
+    public List<VolunteerRequestSendDTO> getAllRequestSorted(@NotNull final String volunteerEmail)
             throws Exception{
         Optional<Volunteer> volunteer = volunteerDatabaseService.findVolunteerByEmail(volunteerEmail);
         if(volunteer.isEmpty())
             throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", volunteerEmail));
 
-        return this.volunteerRequestMatchingService.getVolunteerRequestBasedOnPreferences(volunteer.get());
+        List<VolunteerRequest> listaTemp = this.volunteerRequestMatchingService.getVolunteerRequestBasedOnPreferences(volunteer.get());
+        return getRequestSendDTOList(listaTemp);
     }
+
+
+    private List<VolunteerRequestSendDTO> getRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) {
+        List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
+        for (VolunteerRequest volunteersingle : volunteerRequest) {
+            volunteerRequestDTOS.add(VolunteerRequestMapper.mapToVolunteerRequestDTO(volunteersingle));
+        }
+        return volunteerRequestDTOS;
+    }
+
 
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA
     public void addVolunteerOffer(Long idRequest, VolunteerOffer volunteerOffer) throws Exception{
