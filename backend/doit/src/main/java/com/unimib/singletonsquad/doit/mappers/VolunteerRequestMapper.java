@@ -66,13 +66,14 @@ public class VolunteerRequestMapper {
         volunteerRequestDTO.setVolunteerCapacity(volunteerRequest.getCapacity());
         volunteerRequestDTO.setDescription(volunteerRequest.getDetailedDescription());
         volunteerRequestDTO.setCategories(volunteerRequest.getVolunteerCategories());
-        volunteerRequestDTO.setFrequency(List.of(volunteerRequest.getVolunteerType()));
+        volunteerRequestDTO.setFrequency(volunteerRequest.getFrequency());
         volunteerRequestDTO.setAddress(AddressMapper.createAddressDTO(volunteerRequest.getAddress()));
         String[] start = extractDateTime(volunteerRequest.getStartDateTime());
         String[] end = extractDateTime(volunteerRequest.getEndDateTime());
         volunteerRequestDTO.setStartTime(start[1]);
         volunteerRequestDTO.setEndTime(end[1]);
         volunteerRequestDTO.setTimeRange(List.of(start[0], end[0]));
+        volunteerRequestDTO.setOrganization(OrganizationMapper.mapToOrganizationDTO(volunteerRequest.getOrganization()));
         return volunteerRequestDTO;
     }
 

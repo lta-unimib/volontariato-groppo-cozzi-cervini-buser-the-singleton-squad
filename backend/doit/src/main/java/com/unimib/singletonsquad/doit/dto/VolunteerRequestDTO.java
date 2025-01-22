@@ -37,4 +37,6 @@ public class VolunteerRequestDTO {
     @NotNull
     private String endTime;
 
+    private OrganizationDTO organization;
+
 }

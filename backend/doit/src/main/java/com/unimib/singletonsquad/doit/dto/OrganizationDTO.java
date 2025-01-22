@@ -29,4 +29,5 @@ public class OrganizationDTO{
     private String webSite;
     @JsonProperty("role")
     private String role;
+
 }
