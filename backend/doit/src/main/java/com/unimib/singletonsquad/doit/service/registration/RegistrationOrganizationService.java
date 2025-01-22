@@ -34,11 +34,24 @@ public class RegistrationOrganizationService {
     }
 
     private boolean isAlreadyRegistered(final String email) {
-        return this.organizationService.findOrganizationByEmail(email) != null;
+        try{
+            this.organizationService.findOrganizationByEmail(email);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+
     };
 
     private boolean nameIsAlreadyTaken(final String name) {
-        return this.organizationService.findOrganizationByName(name);
+        try {
+            this.organizationService.findOrganizationByName(name);
+            System.out.println("Name is already taken");
+            return true;
+        }catch(Exception e){
+            System.out.println("Name is not already taken");
+            return false;
+        }
     }
 
 

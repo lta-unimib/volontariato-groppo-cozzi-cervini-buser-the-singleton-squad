@@ -56,7 +56,8 @@ public class RegisteredUserService {
 
     /// JUST CHECK THE ROLE
     public void checkRole(@NotNull final HttpServletRequest request) throws Exception {
-        String roleFromRequest = this.getUserEmailFromToken(request, null);
+        String token = jwtUtils.getTokenFromRequest(request);
+        String roleFromRequest = this.extractRoleFromToken(token);
         if(!isValidRole(roleFromRequest))
             throw new InvalidRoleGeneralException(String.format("Invalid role %s", roleFromRequest));
     }
@@ -66,7 +67,6 @@ public class RegisteredUserService {
     private String getUserEmailFromToken(HttpServletRequest request, UserRole roleDesired) throws Exception {
         String token = jwtUtils.getTokenFromRequest(request);
         String roleFromToken = extractRoleFromToken(token);
-
         if (!isValidRole(roleFromToken)) {
             throw new InvalidRoleGeneralException("Invalid user role: " + roleFromToken);
         }

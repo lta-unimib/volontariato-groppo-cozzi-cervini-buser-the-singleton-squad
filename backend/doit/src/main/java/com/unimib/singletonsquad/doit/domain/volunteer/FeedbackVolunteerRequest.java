@@ -23,16 +23,10 @@ public class FeedbackVolunteerRequest {
 
     /// Aggiungerlo anche nello user
     @ManyToOne
-    @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
-
-
     /// aggiungerlo anche nella VolunteerRequest
     @ManyToOne
-    @JoinColumn(nullable = false, name = "volunteer_request_id")
     private VolunteerRequest volunteerRequest;
-
-
 }
 
 /*

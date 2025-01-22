@@ -29,15 +29,16 @@ public class UserProfileService {
     private final OrganizationMapper organizationMapper;
 
 
-    public VolunteerDTO getVolunteerInfo(Long idVolunteer) throws Exception {
+    public VolunteerDTO getVolunteerInfoById(Long idVolunteer) throws Exception {
         Volunteer volunteer = this.volunteerDatabaseService.findVolunteerById(idVolunteer);
         return VolunteerMapper.toVolunteerDTO(volunteer);
 
     }
 
-    public Organization getOrganizationInfo(Long idOrganization) {
-        return this.organizationDatabaseService.findOrganizationById(idOrganization);
+    public Organization getOrganizationByEmail(String email) throws Exception {
+        return this.organizationDatabaseService.findOrganizationByEmail(email);
     }
+
 
 
     public void updateVolunteerInfo(String email, @NotNull VolunteerDTO volunteer) throws Exception {
@@ -72,5 +73,13 @@ public class UserProfileService {
             organization.setPassword(password);
            this.organizationDatabaseService.save(organization);
         }
+
+    public Organization getOrganizationInfoById(Long id) {
+        return this.organizationDatabaseService.findOrganizationById(id);
+    }
+
+    public Organization getOrganizationByName(String name) {
+        return this.organizationDatabaseService.findOrganizationByName(name);
+    }
 }
 

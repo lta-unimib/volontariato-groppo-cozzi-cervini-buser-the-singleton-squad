@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -63,7 +62,7 @@ public class VolunteerDatabaseService {
 
     public void revokeFavouriteOrganization(String email, String organizationName) {
         Volunteer volunteer = findVolunteerByEmail(email);
-        Organization organization = organizationDatabaseService.getOrganizationByName(organizationName);
+        Organization organization = organizationDatabaseService.findOrganizationByName(organizationName);
         volunteer.removeOrganizationFromFavourite(organization);
         volunteerRepository.save(volunteer);
     }
@@ -71,7 +70,7 @@ public class VolunteerDatabaseService {
     public void addFavouriteOrganization(String email, String organizationName) {
         Volunteer volunteer = volunteerRepository.findByEmail(email)
                 .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found for email: " + email));
-        Organization organization = organizationDatabaseService.getOrganizationByName(organizationName);
+        Organization organization = organizationDatabaseService.findOrganizationByName(organizationName);
         volunteer.addOrganizationToFavourite(organization);
         volunteerRepository.save(volunteer);
     }

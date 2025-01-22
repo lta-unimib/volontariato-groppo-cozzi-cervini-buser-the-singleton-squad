@@ -1,8 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.userprofile;
 
 import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
-import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
-import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.profile.UserProfileService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
@@ -25,7 +23,7 @@ public class VolunteerProfileController  extends UserProfileController {
                                                    final @PathVariable("idVolunteer") Long idVolunteer)
             throws Exception{
         super.checkUserRequest(request);
-        VolunteerDTO volunteerDTO = this.userProfileService.getVolunteerInfo(idVolunteer);
+        VolunteerDTO volunteerDTO = this.userProfileService.getVolunteerInfoById(idVolunteer);
         String messageResponse = String.format("getting info for %s", idVolunteer);
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, volunteerDTO);
     }

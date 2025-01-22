@@ -31,7 +31,13 @@ public class RegistrationVolunteerService {
     }
 
     private boolean isAlreadyRegistered(final String email) {
-        return this.volunteerService.findVolunteerByEmail(email) !=null;
+         try{
+             this.volunteerService.findVolunteerByEmail(email);
+             return true;
+         }
+         catch(Exception e){
+             return false;
+         }
     }
 }
 

@@ -23,7 +23,6 @@ public class VolunteerOffer {
     @Column(nullable = false, unique = true)
     private Long id;
 
-    // Relazione con Volunteer
     @ManyToOne(fetch = FetchType.LAZY)
     private Volunteer volunteer;
 

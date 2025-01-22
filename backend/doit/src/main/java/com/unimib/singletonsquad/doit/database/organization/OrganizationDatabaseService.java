@@ -26,7 +26,7 @@ public class OrganizationDatabaseService {
                 .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found for ID: " + id));
     }
 
-    public Organization getOrganizationByName(String organizationName) {
+    public Organization findOrganizationByName(String organizationName) {
         return Optional.ofNullable(organizationRepository.findByName(organizationName))
                 .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found with name: " + organizationName));
     }
@@ -40,10 +40,6 @@ public class OrganizationDatabaseService {
         Organization organization = organizationRepository.findByEmail(email)
                 .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found for email: " + email));
         return passwordEncoder.matches(rawPassword, organization.getPassword());
-    }
-
-    public boolean findOrganizationByName(String name) {
-        return organizationRepository.findByName(name) != null;
     }
 
     public void deleteOrganization(String email) {

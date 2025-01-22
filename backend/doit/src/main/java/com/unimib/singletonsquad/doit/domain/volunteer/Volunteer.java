@@ -48,7 +48,6 @@ public class Volunteer implements User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_volunteer_preferences")
     private VolunteerPreferences volunteerPreferences;
 
     @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,12 +55,7 @@ public class Volunteer implements User {
     @JsonIgnore
     private List<VolunteerOffer> volunteerOffers;
 
-    @ManyToMany
-    @JoinTable(
-            name = "volunteer_favorite_organizations",
-            joinColumns = @JoinColumn(name = "volunteer_id"),
-            inverseJoinColumns = @JoinColumn(name = "organization_id")
-    )
+    @ManyToMany(mappedBy = "org_category")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Organization> favoriteOrganizations;
 

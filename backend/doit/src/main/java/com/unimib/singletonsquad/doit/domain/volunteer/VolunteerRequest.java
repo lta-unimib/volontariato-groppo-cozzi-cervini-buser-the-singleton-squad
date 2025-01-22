@@ -36,7 +36,6 @@ public class VolunteerRequest {
     private int capacity;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "address_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
 
@@ -44,7 +43,6 @@ public class VolunteerRequest {
     private LocalDateTime endDateTime;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "organization_id", nullable = false)
     @JsonSerialize(using = OrganizationNameSerializer.class)
     private Organization organization;
 

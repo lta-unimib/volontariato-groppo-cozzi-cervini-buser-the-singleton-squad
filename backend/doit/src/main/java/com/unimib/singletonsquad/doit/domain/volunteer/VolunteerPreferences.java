@@ -25,7 +25,6 @@ public class VolunteerPreferences {
     @JsonProperty("preferences")
     private List<String> categories;
     @OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "availability_id") // La colonna di join che riferisce la tabella availability
     private Availability availability;
 
     @Override
