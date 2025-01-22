@@ -56,7 +56,7 @@ public class VolunteerRequestMapper {
         volunteerRequest.setStartDateTime(hours[0]);
         volunteerRequest.setEndDateTime(hours[1]);
         volunteerRequest.setFrequency(requestDTO.getFrequency());
-
+        volunteerRequest.setFeedbackVolunteerRequests(new ArrayList<>());
         return volunteerRequest;
     }
 

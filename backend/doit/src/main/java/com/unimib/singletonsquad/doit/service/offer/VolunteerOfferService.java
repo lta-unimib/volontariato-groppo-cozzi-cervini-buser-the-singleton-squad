@@ -32,7 +32,11 @@ public class VolunteerOfferService {
         VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(volunteerOfferDTO.getVolunteerRequestId());
         VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteerOfferDTO, volunteer, volunteerRequest);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
+        this.volunteerRequestControllerService.addVolunteerOffer(volunteerRequest.getId(), volunteerOffer);
     }
+
+
+
 
     /// REMOVE A OFFER --> ORGANIZATION
     public void removeOffer(long offerId, String email) throws Exception {

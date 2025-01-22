@@ -12,14 +12,14 @@ public class OfferMapper {
         volunteerOffer.setVolunteer(volunteer);
         volunteerOffer.setVolunteerRequest(volunteerRequest);
         volunteerOffer.setStatus(Status.PENDING);
-        volunteerOffer.setCompetenceDescription(volunteerOfferDTO.getVolunteerDescription());
+        volunteerOffer.setVoted(false);
         return volunteerOffer;
     }
 
+    /// DI CAMBIARLO E FARLO IN UNA CLASSE SPECIFICA
     public static VolunteerOfferDTO toOfferDTO(VolunteerOffer volunteerOffer) {
         VolunteerOfferDTO dto = new VolunteerOfferDTO();
         dto.setVolunteerId(volunteerOffer.getVolunteer().getId());
-        dto.setVolunteerDescription(volunteerOffer.getCompetenceDescription());
         dto.setVolunteerRequestId(volunteerOffer.getVolunteerRequest().getId());
         return dto;
     }

@@ -2,7 +2,9 @@ package com.unimib.singletonsquad.doit.controller.userprofile;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
+import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
+import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.profile.UserProfileService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
@@ -18,14 +20,17 @@ import org.springframework.web.bind.annotation.*;
 public class OrganizationProfileController extends UserProfileController {
 
     private final UserProfileService userProfileService;
+    private final JWTUtils jwtUtils;
 
+    @GetMapping(value = "/{idOrganization}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseMessage getUser(final HttpServletRequest request, final @PathVariable("idOrganization") Long id) throws Exception{
+        String token = jwtUtils.getTokenFromRequest(request);
+        String role = jwtUtils.extractClaimByName(token, "role").toString();
+        if(!role.equalsIgnoreCase("organization") || role.equalsIgnoreCase("volunteer"))
+            throw new InvalidRoleGeneralException("Invalid role");
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Override
-    public ResponseMessage getUser(final HttpServletRequest request) throws Exception{
-        String email = super.validateTokenAndGetEmail(request, UserRole.organization);
-        Organization organization = this.userProfileService.getOrganizationInfo(email);
-        String messageResponse = String.format("getting info for %s", email);
+        Organization organization = this.userProfileService.getOrganizationInfo(id);
+        String messageResponse = String.format("getting info for %s", id);
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, OrganizationMapper.mapToOrganizationDTO(organization));
     }
 
@@ -38,7 +43,6 @@ public class OrganizationProfileController extends UserProfileController {
     }
 
     @DeleteMapping(value = "/")
-    @Override
     public ResponseMessage deleteUser(final HttpServletRequest request) throws Exception {
         String email = super.validateTokenAndGetEmail(request, UserRole.organization);
         this.userProfileService.deleteOrganization(email);

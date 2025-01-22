@@ -27,8 +27,6 @@ public class VolunteerRequestMatchingService {
         List<RequestMatchDTO> requestsToBeSorted = new ArrayList<>();
         int[] points = new int[requestSaved.size()];
 
-        System.out.println("DEBUG REQUESTS SAVED: "+requestSaved.size());
-
         for(int i =0; i < points.length; i++){
             VolunteerRequest request = requestSaved.get(i);
             points[i] = addPointToRequest(volunteer.getVolunteerPreferences(),

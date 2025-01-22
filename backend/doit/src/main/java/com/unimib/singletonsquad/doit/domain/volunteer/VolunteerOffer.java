@@ -39,6 +39,10 @@ public class VolunteerOffer {
     @JsonIgnore
     private VolunteerRequest volunteerRequest;
 
+    /// indica se gli è stato assegnato il voto o meno
+    private boolean voted;
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

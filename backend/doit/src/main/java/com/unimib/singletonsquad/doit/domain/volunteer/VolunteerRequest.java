@@ -61,6 +61,11 @@ public class VolunteerRequest {
     @JoinColumn(name = "volunteer_offer_id")
     private List<VolunteerOffer> volunteerOffers;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "feedback_volunteer_request_id")
+    private List<FeedbackVolunteerRequest> feedbackVolunteerRequests;
+
+
     public void setCapacity(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Capacity must be a positive integer");

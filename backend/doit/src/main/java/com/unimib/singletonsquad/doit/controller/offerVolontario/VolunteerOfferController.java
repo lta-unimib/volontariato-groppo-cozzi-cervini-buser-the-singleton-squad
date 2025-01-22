@@ -25,6 +25,7 @@ public class VolunteerOfferController {
     private final VolunteerOfferService volunteerOfferService;
     private final RegisteredUserService registeredUserService;
 
+    /// L'UTENTE ACCETTA LA RICHIESTA DI VOLONTARIATO
     @PostMapping(value = "/new/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> createVolunteerOffer(final HttpServletRequest request,
                                                   final @RequestBody VolunteerOfferDTO volunteerOfferDTO)
@@ -37,7 +38,21 @@ public class VolunteerOfferController {
 
     }
 
+    /**
+     modifica enpint --> sia user che organizzazione richieste dell'organizzazione
 
+
+     ENDPOINT ORGANIZZAZIONI PREFERIRE DELL'UTENTE
+            /favorite/organization/save/
+                                  /
+
+     ENDPOIT --> tutti i volontari che partecipando ad un
+                determinato evento
+
+     */
+
+
+    /// TODO RIFARLO CHE IN BASE ALL RUOLO ESTRAE COSA FARE
     @DeleteMapping(value = "/{idOffer}/organization/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> deleteVolunteerOfferOrganization(@PathVariable("idOffer") Long idOffer,
                                                                 final HttpServletRequest request)
@@ -76,5 +91,4 @@ public class VolunteerOfferController {
         return ResponseEntity.ok(responseMessage);
     }
 
-    /// ACCEPT A REQUEST FTOM USER
 }

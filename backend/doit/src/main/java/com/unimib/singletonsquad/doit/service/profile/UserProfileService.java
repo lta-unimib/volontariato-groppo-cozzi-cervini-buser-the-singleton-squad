@@ -11,6 +11,7 @@ import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -31,8 +32,8 @@ public class UserProfileService {
     private final OrganizationMapper organizationMapper;
 
 
-    public VolunteerDTO getVolunteerInfo(String email) throws Exception {
-        Optional<Volunteer> volunteer = this.volunteerDatabaseService.findVolunteerByEmail(email);
+    public VolunteerDTO getVolunteerInfo(Long idVolunteer) throws Exception {
+        Optional<Volunteer> volunteer = this.volunteerDatabaseService.findVolunteerById(idVolunteer);
         if(volunteer.isEmpty())
             throw new RecordNotFoundGeneralException("Volunteer not found");
         return VolunteerMapper.toVolunteerDTO(volunteer.get());
@@ -40,8 +41,8 @@ public class UserProfileService {
     }
 
 
-    public Organization getOrganizationInfo(String email) {
-        Optional<Organization> organization = this.organizationDatabaseService.findOrganizationByEmail(email);
+    public Organization getOrganizationInfo(Long idOrganization) {
+        Optional<Organization> organization = this.organizationDatabaseService.findOrganizationById(idOrganization);
         if(organization.isEmpty())
             throw new RecordNotFoundGeneralException("Organization not found");
         return organization.get();

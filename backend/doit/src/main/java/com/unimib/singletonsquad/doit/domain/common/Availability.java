@@ -38,7 +38,6 @@ public class Availability{
 
         switch (mode) {
             case "daily": {
-                System.out.println("Checking for daily Availability");
                 LocalTime startTime = startDateTime.toLocalTime();
                 LocalTime endTime = endDateTime.toLocalTime();
                 if(data.get(0) != null && data.get(1) != null) {
@@ -51,7 +50,6 @@ public class Availability{
                 return false;
             }
             case "weekly": {
-                System.out.println("Weekly Availability");
                 LocalDateTime localDateTime = startDateTime;
 
                 while(localDateTime.isBefore(endDateTime)) {
@@ -65,7 +63,6 @@ public class Availability{
                 break;
             }
             case "monthly": {
-                System.out.println("Checking for monthly Availability");
                 LocalDateTime availableTimeStart = LocalDateTime.parse(data.get(0).replaceAll("Z", ""));
                 LocalDateTime availableTimeEnd = LocalDateTime.parse(data.get(1).replaceAll("Z", ""));
                 return availableTimeStart.isBefore(startDateTime) && availableTimeEnd.isAfter(endDateTime);

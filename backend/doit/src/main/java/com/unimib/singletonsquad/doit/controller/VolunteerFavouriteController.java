@@ -5,10 +5,13 @@ import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
 import com.unimib.singletonsquad.doit.service.profile.UserProfileService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +26,11 @@ public class VolunteerFavouriteController {
     private final RegisteredUserService registeredUserService;
 
     @GetMapping("/organization/all/")
-    public ResponseEntity<List<?>> getFavouriteOrganizations(final HttpServletRequest request) throws Exception {
+    public ResponseEntity<ResponseMessage> getFavouriteOrganizations(final HttpServletRequest request) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
         List<OrganizationDTO> favouriteOrganizations = volunteerDatabaseService.getFavouriteOrganizations(email);
-        return ResponseEntity.ok(favouriteOrganizations);
+        ResponseMessage message = ResponseMessageUtil.createResponse( "getting all",HttpStatus.OK, favouriteOrganizations);
+        return ResponseEntity.ok(message);
     }
 
     @DeleteMapping("/organization/")
