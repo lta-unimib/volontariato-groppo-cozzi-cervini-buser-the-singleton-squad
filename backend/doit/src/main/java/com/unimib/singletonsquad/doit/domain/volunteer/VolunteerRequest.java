@@ -59,7 +59,7 @@ public class VolunteerRequest {
     @JoinColumn(name = "volunteer_offer_id")
     private List<VolunteerOffer> volunteerOffer;
 
-    @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<VolunteerOffer> volunteerOffers;
 

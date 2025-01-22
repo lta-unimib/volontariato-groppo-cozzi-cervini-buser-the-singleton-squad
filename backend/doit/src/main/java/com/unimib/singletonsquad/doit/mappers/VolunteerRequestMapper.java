@@ -43,6 +43,7 @@ public class VolunteerRequestMapper {
                                                        VolunteerRequest volunteerRequest,
                                                        String organizationEmail) throws Exception {
 
+        System.out.println("DEBUG => " +requestDTO);
 
        Address address = this.addressMapper.createAddress(requestDTO.getAddress());
         volunteerRequest.setTitle(requestDTO.getTitle());
@@ -84,13 +85,12 @@ public class VolunteerRequestMapper {
         LocalDate localDate = LocalDate.parse(date);
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH);
         LocalTime localTime = LocalTime.parse(time, timeFormatter);
-
-        // Combina data e tempo
+        System.out.println("DEBUG => " + localTime);
         return LocalDateTime.of(localDate, localTime);
     }
     private LocalDateTime[] setTimeRangeAndStartTime(List<String> timeRange, String startTime, String endTime)
             throws Exception {
-        if (timeRange != null && !timeRange.isEmpty() && timeRange.size()!=2
+        if (timeRange != null && !timeRange.isEmpty() && timeRange.size()==2
                 && startTime != null && !startTime.isEmpty()
                 && endTime != null  && !endTime.isEmpty()) {
             return new LocalDateTime[]{
@@ -104,6 +104,7 @@ public class VolunteerRequestMapper {
     private static String[] extractDateTime(LocalDateTime dateTime) {
         String date = dateTime.toLocalDate().toString(); // Formato "yyyy-MM-dd"
         String time = dateTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH));
+        System.out.println("DEBUG => " + date);
         return new String[]{date, time};
     }
 }
