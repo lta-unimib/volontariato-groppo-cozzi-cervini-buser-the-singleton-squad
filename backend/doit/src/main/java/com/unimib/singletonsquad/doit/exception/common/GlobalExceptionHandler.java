@@ -124,6 +124,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, message);
     }
 
+    @ExceptionHandler(IllegalAccessException.class)
+    public ResponseEntity<ResponseMessage> handleIllegalAccessException(IllegalAccessException ex) {
+        String message = String.format("IllegalAccessException: %s", ex.getMessage());
+        return buildErrorResponse(HttpStatus.FORBIDDEN, message);
+    }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseMessage> handleGenericException(Exception ex) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, String.format("Internal server error: %s", ex.getMessage()));

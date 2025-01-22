@@ -29,6 +29,9 @@ public class Address {
     @Column(nullable = true)
     private String additionalInformation;
 
+
+
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

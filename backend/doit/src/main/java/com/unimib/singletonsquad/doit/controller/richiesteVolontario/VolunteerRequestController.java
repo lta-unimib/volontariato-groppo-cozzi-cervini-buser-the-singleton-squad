@@ -4,6 +4,7 @@ import com.unimib.singletonsquad.doit.database.common.CityInfoDatabaseService;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
+import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.authentication.UserVerify;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
@@ -24,7 +25,7 @@ public class VolunteerRequestController {
 
     private final VolunteerRequestService volunteerRequestControllerService;
     private final UserVerify userVerify;
-    private final CityInfoDatabaseService test;
+    private final RegisteredUserService registeredUserService;
 
 
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,8 +49,8 @@ public class VolunteerRequestController {
     @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request)
     throws Exception {
-            String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
-            this.volunteerRequestControllerService.deleteVolunteerRequest(idRequest);
+            String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization);
+            this.volunteerRequestControllerService.deleteVolunteerRequest(idRequest, email);
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request deleted", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
     }
@@ -65,19 +66,5 @@ public class VolunteerRequestController {
     }
 
     /// Restituisce tutte le richieste ordinate
-    @GetMapping(value = "/all/")
-    public ResponseEntity<?> getVolunteerRequest(final HttpServletRequest request) throws Exception {
-        String email = this.userVerify.validateUserRoleFromToken(request, UserRole.volunteer);
-        List<VolunteerRequest> volunteerRequestSortedList = this.volunteerRequestControllerService.getAllRequestSorted(email);
-        ResponseMessage message = ResponseMessageUtil.createResponse("get all requests", HttpStatus.OK, volunteerRequestSortedList);
-        return ResponseEntity.ok().body(message);
-    }
 
-    @GetMapping(value = "/all/organization/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
-        String email = this.userVerify.validateUserRoleFromToken(request, UserRole.organization);
-        List<VolunteerRequest> volunteerRequestList = this.volunteerRequestControllerService.getAllRequestByOrganizationEmail(email);
-        ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization", HttpStatus.OK, volunteerRequestList);
-        return ResponseEntity.ok().body(message);
-    }
 }

@@ -42,7 +42,11 @@ public class VolunteerRequestMapper {
         volunteerRequest.setDetailedDescription(requestDTO.getDetailedDescription());
         volunteerRequest.setCapacity(requestDTO.getVolunteerCapacity());
         volunteerRequest.setAddress(addressMapper.createAddress(requestDTO.getAddress()));
-        volunteerRequest.setVolunteerType(requestDTO.getVolunteerType().getFirst());
+        if (requestDTO.getVolunteerType() != null && !requestDTO.getVolunteerType().isEmpty()) {
+            volunteerRequest.setVolunteerType(requestDTO.getVolunteerType().get(0));
+        } else {
+            throw new IllegalArgumentException("Volunteer type list is null or empty");
+        }
         volunteerRequest.setStartDateTime(requestDTO.getStartDate());
         volunteerRequest.setEndDateTime(requestDTO.getEndDate());
         volunteerRequest.setTitle(requestDTO.getTitle());

@@ -34,7 +34,7 @@ public class VolunteerRequest {
     @Column(nullable = false, name = "capacity")
     private int capacity;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
