@@ -9,8 +9,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class VolunteerOfferDTO {
-    @JsonProperty("volunteer_id")
-    private long volunteerId;
     @JsonProperty("volunteer_request_id")
     private long volunteerRequestId;
 }

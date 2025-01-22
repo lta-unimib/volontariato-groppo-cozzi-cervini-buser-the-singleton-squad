@@ -19,7 +19,6 @@ public class OfferMapper {
     /// DI CAMBIARLO E FARLO IN UNA CLASSE SPECIFICA
     public static VolunteerOfferDTO toOfferDTO(VolunteerOffer volunteerOffer) {
         VolunteerOfferDTO dto = new VolunteerOfferDTO();
-        dto.setVolunteerId(volunteerOffer.getVolunteer().getId());
         dto.setVolunteerRequestId(volunteerOffer.getVolunteerRequest().getId());
         return dto;
     }
