@@ -24,9 +24,6 @@ public class VolunteerRequestDTO {
     private List<String> categories;
 
     @NotNull
-    private List<String> frequency;
-
-    @NotNull
     private String description;
 
     @NotNull

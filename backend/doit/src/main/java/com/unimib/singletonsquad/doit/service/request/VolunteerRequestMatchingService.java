@@ -21,9 +21,8 @@ public class VolunteerRequestMatchingService {
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
 
 
-    public List<VolunteerRequest> getVolunteerRequestBasedOnPreferences(Volunteer volunteer) throws Exception {
+    public List<VolunteerRequest> getVolunteerRequestBasedOnPreferences(Volunteer volunteer, List<VolunteerRequest> requestSaved) throws Exception {
         double[] volunteerCoordinates = getVolunteerCoordinate(volunteer);
-        List<VolunteerRequest> requestSaved = this.volunteerRequestDatabaseService.getAllRequestTimeSorted();
         List<RequestMatchDTO> requestsToBeSorted = new ArrayList<>();
         int[] points = new int[requestSaved.size()];
 

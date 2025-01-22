@@ -40,9 +40,6 @@ public class VolunteerRequest {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
 
-    @ElementCollection
-    private List<String> frequency;
-
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
 

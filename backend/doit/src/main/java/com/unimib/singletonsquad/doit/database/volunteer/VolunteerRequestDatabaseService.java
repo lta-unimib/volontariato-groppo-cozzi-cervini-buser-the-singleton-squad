@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,24 +21,23 @@ public class VolunteerRequestDatabaseService {
     private final IVolunteerRequestRepository repository;
     private final CityInfoDatabaseService cityRepository;
 
-
+    /// Save a Request Into the database
     public VolunteerRequest save(VolunteerRequest volunteerRequest) {
         return repository.save(volunteerRequest);
     }
 
-    public Optional<VolunteerRequest> findRequestById(Long id) {
-        return repository.findById(id);
-    }
-
+    /// Delete a Request
     public void deleteRequestById(Long id) throws RecordNotFoundGeneralException {
         validateRequestExists(id);
         repository.deleteById(id);
     }
 
+    /// Update a request
     public void updateRequest(VolunteerRequest volunteerRequest, Long id) throws RecordNotFoundGeneralException {
         validateRequestExists(id);
         repository.save(volunteerRequest);
     }
+
 
     public VolunteerRequest getSpecificRequest(Long idRequest) {
         return repository.findById(idRequest)
@@ -47,15 +45,14 @@ public class VolunteerRequestDatabaseService {
                         "VolunteerRequest not found with id " + idRequest));
     }
 
-    public List<VolunteerRequest> getAllRequestByEmail(String email) {
+    /// Get all Request di un'organizzazone email
+    public List<VolunteerRequest> getAllRequestOrganizationByEmail(String email) {
         return repository.findByOrganization_Email(email);
     }
 
-    public List<VolunteerRequest> getAllRequest() {
-        return repository.getAllRequest(LocalDateTime.now());
-    }
-    public List<VolunteerRequest> getAllRequestTimeSorted() {
-        return repository.getAllRequestTimeSorted(LocalDateTime.now());
+    /// Get all request di un'organizzaione name
+    public List<VolunteerRequest> getAllRequestOrganizationByName(String name) {
+        return this.repository.findByOrganization_Name(name);
     }
 
 
@@ -76,6 +73,18 @@ public class VolunteerRequestDatabaseService {
         return this.repository.save(temp);
     }
 
+    /// getAllRequestRegistered
+    public List<VolunteerRequest> getAllRequestRegistered(String email) {
+        return this.repository.getAllRequestRegistered(LocalDateTime.now(), email);
+    }
 
+    /// getAllRequestNotVoted
+    public List<VolunteerRequest> getAllRequestNotVoted(@NotNull String volunteerEmail) {
+        return this.repository.getAllRequestNotVoted(LocalDateTime.now(), volunteerEmail);
+    }
 
+    /// getALlRequestVoted
+    public List<VolunteerRequest> getALlRequestVoted(@NotNull String volunteerEmail) {
+        return this.repository.getALlRequestVoted(LocalDateTime.now(), volunteerEmail);
+    }
 }

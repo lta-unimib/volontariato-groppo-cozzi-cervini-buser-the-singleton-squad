@@ -30,8 +30,8 @@ public class VolunteerDatabaseService {
         return volunteerRepository.findById(id);
     }
 
-    public Optional<Volunteer> findVolunteerByEmail(String email) {
-        return volunteerRepository.findByEmail(email);
+    public Volunteer findVolunteerByEmail(String email) {
+        return volunteerRepository.findByEmail(email).orElseThrow( () -> {throw new RecordNotFoundGeneralException("Volunteer not found");});
     }
 
     public Volunteer save(Volunteer volunteer) {

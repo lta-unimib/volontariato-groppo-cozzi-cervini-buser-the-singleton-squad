@@ -57,26 +57,15 @@ public class VolunteerRequestService {
         return this.volunteerRequestDatabaseService.getSpecificRequest(idRequest);
     }
 
-    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) {
-        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestByEmail(email);
+
+    /// GET ALL ORGANIZATION VOLUNTEER REQUEST
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationName(String name) {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByName(name);
         return getRequestSendDTOList(tempLista);
     }
 
-    public List<VolunteerRequest> getAllRequest() {
-        return this.volunteerRequestDatabaseService.getAllRequest();
-    }
 
-    public List<VolunteerRequestSendDTO> getAllRequestSorted(@NotNull final String volunteerEmail)
-            throws Exception{
-        Optional<Volunteer> volunteer = volunteerDatabaseService.findVolunteerByEmail(volunteerEmail);
-        if(volunteer.isEmpty())
-            throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", volunteerEmail));
-
-        List<VolunteerRequest> listaTemp = this.volunteerRequestMatchingService.getVolunteerRequestBasedOnPreferences(volunteer.get());
-        return getRequestSendDTOList(listaTemp);
-    }
-
-
+    /// FIXME INSERIRLO IN UN MAPPER DTO APPOSITO
     private List<VolunteerRequestSendDTO> getRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) {
         List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
         for (VolunteerRequest volunteersingle : volunteerRequest) {

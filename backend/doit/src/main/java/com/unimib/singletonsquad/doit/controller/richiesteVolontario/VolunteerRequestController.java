@@ -23,7 +23,7 @@ public class VolunteerRequestController {
     private final VolunteerRequestService volunteerRequestControllerService;
     private final RegisteredUserService registeredUserService;
 
-
+    /// Inserire una nuova richiesta
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)
             throws Exception {
@@ -33,6 +33,7 @@ public class VolunteerRequestController {
         return ResponseEntity.ok().body(message);
     }
 
+    /// Ottenere una specifica richiesta
     @GetMapping(value = "/{idRequest}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getSpecificRequest(final @PathVariable("idRequest") Long idRequest, final HttpServletRequest request)
             throws Exception {
@@ -42,6 +43,7 @@ public class VolunteerRequestController {
        return ResponseEntity.ok().body(message);
     }
 
+    /// Cancellare una specifica richiesta
     @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request)
     throws Exception {
@@ -51,6 +53,7 @@ public class VolunteerRequestController {
             return ResponseEntity.ok().body(message);
     }
 
+    /// Modificare una richiesta
     @PutMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request,
                                                     final @RequestBody VolunteerRequestDTO volunteerRequestDTO)
