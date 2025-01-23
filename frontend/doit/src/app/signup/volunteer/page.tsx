@@ -8,7 +8,7 @@ export default function VolunteerSignUp() {
     const handleBack = useBack();
 
     return (
-        <div>
+        <div className={`w-full h-screen flex flex-col`}>
             <div className="block md:hidden">
                 <FormHeader
                     title="Registra un volontario"

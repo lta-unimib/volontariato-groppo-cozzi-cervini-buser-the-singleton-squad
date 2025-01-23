@@ -16,3 +16,8 @@ export interface AddressFormData {
     postalCode: string;
     additionalInfo?: string;
 }
+
+export interface AddressDialogProps {
+    onSaveAction: (data: AddressFormData) => void;
+    initialAddress?: AddressFormData;
+}

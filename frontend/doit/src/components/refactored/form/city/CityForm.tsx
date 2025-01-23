@@ -6,7 +6,7 @@ import { useCitySearch } from "@/hooks/refactored/form/city/useCitySearch";
 import { useKeyboardNavigation } from "@/hooks/refactored/form/city/useKeyboardNavigation";
 import { CityPickerProps, CityFormData } from "@/types/refactored/form/city/cityFormData";
 
-export function CityPicker({ value, onChangeAction, showCap = false }: CityPickerProps) {
+export function CityForm({ value, onChangeAction, showCap = false }: CityPickerProps) {
     const [selectedCity, setSelectedCity] = useState<string>(value);
     const inputRef = useRef<HTMLInputElement>(null);
 

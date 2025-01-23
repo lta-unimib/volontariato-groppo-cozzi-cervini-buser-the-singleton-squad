@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ScrollArea } from "@/components/ui/ScrollArea";
-import { Calendar } from "@/components/ui/date/Calendar";
+import { Calendar } from "@/components/refactored/form/availability/Calendar";
 import { Card, CardContent } from "@/components/ui/Card";
 import { RequestHeader } from "@/components/ui/RequestPageHeader";
 import { useSearchParams } from "next/navigation";

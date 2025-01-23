@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft } from "lucide-react";
 import {makeDeleteRequest, makePostRequest} from "@/utils/refactored/api/apiUtils";
 import {useEffect, useState} from "react";
-import {RequestFormData} from "@/types/refactored/form/requestFormData";
+import {RequestFormData} from "@/types/refactored/form/request/requestFormData";
 import {useBack} from "@/hooks/refactored/useBack";
 
 interface RequestHeaderProps {

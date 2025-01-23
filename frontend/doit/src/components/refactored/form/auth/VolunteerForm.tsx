@@ -1,17 +1,17 @@
 "use client";
 
 import React from "react";
-import { CityPicker } from "@/components/refactored/form/city/CityPicker";
+import { CityForm } from "@/components/refactored/form/city/CityForm";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { BaseForm } from "@/components/refactored/form/BaseForm";
 import { useFormSubmission } from '@/hooks/refactored/form/useFormSubmission';
-import { AvailabilityDialog } from '@/components/ui/AvailabilityPicker';
+import { AvailabilityDialog } from '@/components/refactored/form/availability/AvailabilityForm';
 import { MdOutlineEmail, MdOutlinePassword, MdOutlinePerson } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useVolunteerFormValidation } from "@/hooks/refactored/form/validator/useVolunteerFormValidator";
-import { useRegistrationFormFocus } from "@/hooks/refactored/form/useRegistrationFormFocus";
-import { useFormInitialization } from '@/hooks/useFormInizialization';
+import { useFormFocus } from "@/hooks/refactored/form/useFormFocus";
+import { useFormInitialization } from '@/hooks/refactored/form/useFormInizialization';
 import {Input} from "@/components/refactored/Input";
 import {VolunteerFormData} from "@/types/refactored/form/auth/volunteerFormData";
 import { useFormData } from "@/hooks/refactored/form/useFormData";
@@ -31,6 +31,7 @@ export function VolunteerForm() {
     };
 
     const { formData, updateField, setFormData } = useFormData(initialFormData);
+    console.log("Initial FormData:", formData);
 
     const {
         isEditing,
@@ -43,9 +44,9 @@ export function VolunteerForm() {
         formData
     });
 
-    const { handleSubmit: handleSubmitFn } = useFormSubmission("volunteer", isEditing ? "volunteer" : undefined);
+    const { handleSubmit: handleSubmitFn } = useFormSubmission("volunteer", undefined, isEditing);
     const { validationState, isValid } = useVolunteerFormValidation(formData, isEditing);
-    const { focusState, handleFocus, handleBlur } = useRegistrationFormFocus();
+    const { focusState, handleFocus, handleBlur } = useFormFocus();
 
     if (!initialDataLoaded && isEditing) {
         return <div>Loading...</div>;
@@ -118,7 +119,7 @@ export function VolunteerForm() {
                     onSaveAction={(availability) => updateField('availability', availability)}
                     initialSelected={formData.availability}
                 />
-                <CityPicker
+                <CityForm
                     value={formData.city || ''}
                     onChangeAction={(selectedCity) => updateField("city", selectedCity)}
                 />

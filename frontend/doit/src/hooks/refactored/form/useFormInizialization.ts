@@ -3,11 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import bcryptjs from 'bcryptjs';
 import { useSearchParams } from "next/navigation";
-
-interface FormInitializationProps {
-    setFormDataAction: (data: any) => void;
-    formData: any;
-}
+import {FormInitializationProps} from "@/types/refactored/form/baseFormData";
 
 export function useFormInitialization({setFormDataAction, formData }: FormInitializationProps) {
     const searchParams = useSearchParams();
@@ -58,6 +54,8 @@ export function useFormInitialization({setFormDataAction, formData }: FormInitia
             return { success: false, message: "Submission failed" };
         }
     };
+
+    console.log(isEditing);
 
     return {
         isEditing,

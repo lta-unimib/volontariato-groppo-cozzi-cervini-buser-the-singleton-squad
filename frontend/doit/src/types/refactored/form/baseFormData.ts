@@ -1,27 +1,29 @@
-import {FormEvent, ReactNode} from "react";
+import { FormEvent, ReactNode } from "react";
 
 /**
  * @interface BaseFormData
  * Represents the basic form data for user registration or login.
- * Contains the user's email, password, and a description.
  *
- * @param email The user's email address.
- * @param password The user's password.
- * @param description A brief description of the user.
+ * Contains the user's email, password, and an optional description.
+ *
+ * @property {string} email - The user's email address.
+ * @property {string} password - The user's password.
+ * @property {string} description - A brief description of the user.
  */
 export interface BaseFormData {
-    readonly description: string;
     readonly email: string;
     readonly password: string;
+    readonly description: string;
 }
 
 /**
  * @interface BaseUserData
- * Extends BaseFormData with additional user-specific fields.
- * Includes the user's city and preferences.
+ * Extends `BaseFormData` by adding user-specific fields.
  *
- * @param city The city where the user lives.
- * @param preferences The user's preferences as an array of strings.
+ * Includes the user's city of residence and personal preferences.
+ *
+ * @property {string} city - The city where the user lives.
+ * @property {string[]} preferences - An array of user-selected preferences.
  */
 export interface BaseUserData extends BaseFormData {
     readonly city: string;
@@ -29,16 +31,15 @@ export interface BaseUserData extends BaseFormData {
 }
 
 /**
- * Interface representing the structure of a successful form submission response.
- *
- * This interface outlines the response structure after a form submission is processed.
- * It contains information about the success of the submission, an optional message,
- * and an optional URL for redirection.
- *
  * @interface SuccessResponse
- * @property {boolean} success - Indicates whether the form submission was successful.
- * @property {string | undefined} [message] - An optional message that provides more details on the result of the submission (e.g., success message or error description).
- * @property {string | undefined} [redirectUrl] - An optional URL where the user should be redirected after a successful submission (e.g., a confirmation or result page).
+ * Represents the structure of a response after form submission.
+ *
+ * Contains information on whether the operation was successful,
+ * an optional message, and an optional redirect URL in case of success.
+ *
+ * @property {boolean} success - Indicates whether the operation was successful.
+ * @property {string} [message] - An optional message with details about the submission result.
+ * @property {string} [redirectUrl] - An optional URL for redirection after a successful submission.
  */
 export interface SuccessResponse {
     readonly success: boolean;
@@ -47,22 +48,19 @@ export interface SuccessResponse {
 }
 
 /**
- * Props for the BaseForm component.
- *
- * This interface defines the properties that the BaseForm component expects when rendered.
- * It handles form submission, validation, and provides customizable options for child elements,
- * submit button text, and styling.
- *
  * @interface BaseFormProps
- * @property {(e: FormEvent) => Promise<SuccessResponse>} onSubmitAction - The callback function that handles the form submission. It should return a `SuccessResponse` indicating whether the submission was successful, along with an optional message or redirect URL.
- * @property {boolean} isValid - A boolean indicating whether the form is currently valid based on the validation logic. It is used to enable/disable the submit button.
- * @property {ReactNode} children - The content of the form, typically containing input fields, labels, and buttons. This allows the form to be flexible and reusable.
- * @property {string} [redirectTo] - An optional URL where the user will be redirected after a successful form submission. This is useful for confirming actions or navigating to a new page.
- * @property {string} [submitText] - Optional text to display on the submit button. Defaults to a standard "Submit" if not provided.
- * @property {string} [className] - Optional custom class name for styling the form container. It allows for easy customization of the form's outer appearance.
- * @property {string} [buttonClassName] - Optional custom class name for styling the submit button. It allows customization of the button's appearance.
+ * Defines the properties accepted by the `BaseForm` component.
+ *
+ * This interface manages form validation, submission, and appearance customization.
+ *
+ * @property {(e: FormEvent) => Promise<SuccessResponse>} onSubmitAction - Callback function for form submission, returning a `SuccessResponse`.
+ * @property {boolean} isValid - Indicates whether the form is valid (enables/disables the submit button).
+ * @property {ReactNode} children - Form content, typically including input fields and buttons.
+ * @property {string} [redirectTo] - Optional URL for redirection after a successful submission.
+ * @property {string} [submitText] - Customizable text for the submit button (default: "Submit").
+ * @property {string} [className] - Optional CSS class for styling the form container.
+ * @property {string} [buttonClassName] - Optional CSS class for styling the submit button.
  */
-
 export interface BaseFormProps {
     readonly onSubmitAction: (e: FormEvent) => Promise<SuccessResponse>;
     readonly isValid: boolean;
@@ -71,4 +69,19 @@ export interface BaseFormProps {
     readonly submitText?: string;
     readonly className?: string;
     readonly buttonClassName?: string;
+}
+
+/**
+ * @interface FormInitializationProps
+ * Defines the properties required for form initialization.
+ *
+ * This interface is used to set the initial form data
+ * and track changes to input fields.
+ *
+ * @property {(data: any) => void} setFormDataAction - Function to update the form data.
+ * @property {any} formData - The current state of the form data.
+ */
+export interface FormInitializationProps {
+    readonly setFormDataAction: (data: any) => void;
+    readonly formData: any;
 }

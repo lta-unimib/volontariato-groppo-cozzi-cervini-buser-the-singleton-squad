@@ -174,7 +174,7 @@ export default function VolunteerDashboard() {
     );
 
     return (
-        <div>
+        <div className={`w-full h-screen flex flex-col`}>
             <div className="flex w-full min-h-screen">
                 <div className="w-[var(--sidebar-width)]">
                     <SidebarLayout

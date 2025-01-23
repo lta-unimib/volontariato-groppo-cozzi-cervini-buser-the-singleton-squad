@@ -3,7 +3,7 @@ import {
     validateDescription,
     validateVolunteerCapacity
 } from "@/app/request/utils/formValidation";
-import {RequestFormData} from "@/types/refactored/form/requestFormData";
+import {RequestFormData} from "@/types/refactored/form/request/requestFormData";
 
 export const useFormValidation = (formData: RequestFormData) => {
     const validationState = {

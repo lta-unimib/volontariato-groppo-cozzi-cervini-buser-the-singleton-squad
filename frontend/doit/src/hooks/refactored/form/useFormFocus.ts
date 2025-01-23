@@ -1,17 +1,22 @@
 import { useState } from "react";
 
-type VolunteerFocusFields = "email" | "password";
-type OrganizationFocusFields = "VATNumber" | "webSite" | "email" | "password";
-type FocusFields = VolunteerFocusFields | OrganizationFocusFields;
-type FocusState = Record<`${FocusFields}Focused`, boolean>;
+type FocusFields = "street" | "number" | "city" | "postalCode" | "additionalInfo"
+    | "VATNumber" | "webSite" | "email" | "password";
 
-export const useRegistrationFormFocus = () => {
-    const [focusState, setFocusState] = useState<FocusState>({
+export const useFormFocus = () => {
+    const initialFocusState = {
+        streetFocused: false,
+        numberFocused: false,
+        cityFocused: false,
+        postalCodeFocused: false,
+        additionalInfoFocused: false,
         VATNumberFocused: false,
         webSiteFocused: false,
         emailFocused: false,
         passwordFocused: false,
-    });
+    };
+
+    const [focusState, setFocusState] = useState(initialFocusState);
 
     const handleFocus = (field: FocusFields) => {
         setFocusState((prev) => ({ ...prev, [`${field}Focused`]: true }));

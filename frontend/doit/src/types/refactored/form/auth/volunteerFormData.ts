@@ -1,4 +1,4 @@
-import { AvailabilityFormData } from "../../availabilityFormData";
+import { AvailabilityFormData } from "../availability/availabilityFormData";
 import { BaseUserData } from "../baseFormData";
 
 /**

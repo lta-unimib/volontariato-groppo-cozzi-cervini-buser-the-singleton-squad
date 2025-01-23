@@ -1,8 +1,24 @@
 import { useState, useCallback, useEffect } from 'react';
-import { AvailabilityMode, AvailabilityFormData } from "@/types/refactored/availabilityFormData";
+import { AvailabilityMode, AvailabilityFormData } from "@/types/refactored/form/availability/availabilityFormData";
 import { DateRange } from "react-day-picker";
 
-export const useAvailabilityDialog = (
+const extractDateRange = (timeRange: any): DateRange => {
+    if (Array.isArray(timeRange)) {
+        return { from: new Date(timeRange[0]), to: new Date(timeRange[1]) };
+    }
+    return { from: undefined, to: undefined };
+};
+
+const modeHandlers = {
+    daily: ({ selectedTimeRange }: { selectedTimeRange: string[] }) => (selectedTimeRange.length === 2 ? selectedTimeRange : undefined),
+    weekly: ({ selectedWeekDays }: { selectedWeekDays: string[] }) => (selectedWeekDays.length > 0 ? selectedWeekDays : undefined),
+    monthly: ({ selectedDateRange }: { selectedDateRange: DateRange }) => {
+        const { from, to } = selectedDateRange;
+        return from && to ? [from.toISOString().substring(0, 10), to.toISOString().substring(0, 10)] : undefined;
+    }
+};
+
+export const useAvailabilityForm = (
     onSave: (data: AvailabilityFormData) => void,
     defaultValue?: AvailabilityFormData
 ) => {
@@ -16,10 +32,7 @@ export const useAvailabilityDialog = (
     );
     const [selectedDateRange, setSelectedDateRange] = useState<DateRange>(() => {
         if (defaultValue?.mode === 'monthly' && Array.isArray(defaultValue.timeRange)) {
-            return {
-                from: new Date(defaultValue.timeRange[0]),
-                to: new Date(defaultValue.timeRange[1])
-            };
+            return extractDateRange(defaultValue.timeRange);
         }
         return { from: undefined, to: undefined };
     });
@@ -31,11 +44,8 @@ export const useAvailabilityDialog = (
                 setSelectedTimeRange(defaultValue.timeRange as string[]);
             } else if (defaultValue.mode === 'weekly') {
                 setSelectedWeekDays(defaultValue.timeRange as string[]);
-            } else if (defaultValue.mode === 'monthly' && Array.isArray(defaultValue.timeRange)) {
-                setSelectedDateRange({
-                    from: new Date(defaultValue.timeRange[0]),
-                    to: new Date(defaultValue.timeRange[1])
-                });
+            } else if (defaultValue.mode === 'monthly') {
+                setSelectedDateRange(extractDateRange(defaultValue.timeRange));
             }
         }
     }, [defaultValue]);
@@ -52,19 +62,11 @@ export const useAvailabilityDialog = (
     }, [resetSelections]);
 
     const handleSave = useCallback(() => {
-        let selectedData: [string, string] | string[] | undefined;
-
-        if (selectedMode === 'daily') {
-            selectedData = selectedTimeRange.length === 2 ? selectedTimeRange as [string, string] : undefined;
-        } else if (selectedMode === 'weekly') {
-            selectedData = selectedWeekDays.length > 0 ? selectedWeekDays : undefined;
-        } else {
-            const { from, to } = selectedDateRange;
-            if (from && to) {
-                selectedData = [from.toISOString().substring(0, 10), to.toISOString().substring(0, 10)];
-            }
-        }
-
+        const selectedData = modeHandlers[selectedMode]({
+            selectedTimeRange,
+            selectedWeekDays,
+            selectedDateRange
+        });
         if (selectedData) {
             onSave({ mode: selectedMode, timeRange: selectedMode === 'weekly' ? selectedWeekDays : selectedData });
         }
@@ -78,11 +80,8 @@ export const useAvailabilityDialog = (
                 setSelectedTimeRange(defaultValue.timeRange as string[]);
             } else if (defaultValue.mode === 'weekly') {
                 setSelectedWeekDays(defaultValue.timeRange as string[]);
-            } else if (defaultValue.mode === 'monthly' && Array.isArray(defaultValue.timeRange)) {
-                setSelectedDateRange({
-                    from: new Date(defaultValue.timeRange[0]),
-                    to: new Date(defaultValue.timeRange[1])
-                });
+            } else if (defaultValue.mode === 'monthly') {
+                setSelectedDateRange(extractDateRange(defaultValue.timeRange));
             }
         } else {
             resetSelections();

@@ -8,7 +8,7 @@ export default function NewRequest() {
     const handleBack = useBack();
 
     return (
-        <div>
+        <div className={`w-full h-screen flex flex-col`}>
             <div className="block lg:hidden">
                 <FormHeader
                     title="Nuova richiesta"

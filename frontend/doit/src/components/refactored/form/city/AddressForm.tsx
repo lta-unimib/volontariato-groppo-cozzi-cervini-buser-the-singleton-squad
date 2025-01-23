@@ -1,35 +1,43 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
-    DialogTrigger
-} from "@/components/ui/Dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/refactored/Input";
-import { CityPicker } from '@/components/refactored/form/city/CityPicker';
 import { MdOutlineHome } from "react-icons/md";
 import { cn } from "@/utils/cnUtils";
-import { AddressFormData } from '@/types/refactored/addressFormData';
-import { useAddressFormData } from '@/app/request/hooks/useAddressFormData';
-import { useAddressFormFocus } from '@/app/request/hooks/useAddressFormFocus';
-import { useAddressFormValidation } from '@/app/request/hooks/useAddressFormValidation';
+import { AddressFormData } from '@/types/refactored/form/city/addressFormData';
+import { useFormData } from "@/hooks/refactored/form/useFormData";
+import { useFormFocus } from "@/hooks/refactored/form/useFormFocus";
+import { useAddressFormValidator } from '@/hooks/refactored/form/validator/useAddressFormValidator';
+import { CityForm } from '@/components/refactored/form/city/CityForm';
 
 interface AddressDialogProps {
     onSaveAction: (data: AddressFormData) => void;
     initialAddress?: AddressFormData;
 }
 
-const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddress }) => {
+const AddressForm: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddress }) => {
     const [open, setOpen] = React.useState(false);
     const [savedAddress, setSavedAddress] = React.useState<AddressFormData | null>(initialAddress || null);
-    const { addressData, setAddressData, updateField, resetForm } = useAddressFormData();
-    const { focusState, handleFocus, handleBlur } = useAddressFormFocus();
-    const { validationState, isValid } = useAddressFormValidation(addressData);
+
+    const initialAddressData: AddressFormData = {
+        street: "",
+        number: "",
+        city: "",
+        postalCode: "",
+        additionalInfo: "",
+    };
+
+    const {
+        formData: addressData,
+        updateField,
+        setFormData: setAddressData,
+        resetForm
+    } = useFormData<AddressFormData>(initialAddressData);
+
+    const { focusState, handleFocus, handleBlur } = useFormFocus();
+    const { validationState, isValid } = useAddressFormValidator(addressData);
 
     useEffect(() => {
         if (initialAddress) {
@@ -74,7 +82,6 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddr
         }
         return "Inserisci indirizzo";
     };
-
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -123,7 +130,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddr
                         onBlur={() => handleBlur("number")}
                     />
 
-                    <CityPicker
+                    <CityForm
                         value={addressData.city}
                         onChangeAction={handleCityChange}
                         showCap={true}
@@ -179,4 +186,4 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddr
     );
 };
 
-export default AddressDialog;
+export default AddressForm;

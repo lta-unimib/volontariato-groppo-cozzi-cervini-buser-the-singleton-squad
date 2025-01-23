@@ -3,15 +3,15 @@
 import React from "react";
 import { MdOutlineBusiness, MdOutlineEmail, MdOutlinePassword } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { CityPicker } from "@/components/refactored/form/city/CityPicker";
+import { CityForm } from "@/components/refactored/form/city/CityForm";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { Input } from "@/components/refactored/Input";
 import { BaseForm } from "@/components/refactored/form/BaseForm";
 import { useOrganizationFormValidation } from "@/hooks/refactored/form/validator/useOrganizationFormValidator";
-import { useRegistrationFormFocus } from "@/hooks/refactored/form/useRegistrationFormFocus";
+import { useFormFocus } from "@/hooks/refactored/form/useFormFocus";
 import { useFormSubmission } from "@/hooks/refactored/form/useFormSubmission";
-import { useFormInitialization } from '@/hooks/useFormInizialization';
+import { useFormInitialization } from '@/hooks/refactored/form/useFormInizialization';
 import {OrganizationFormData} from "@/types/refactored/form/auth/organizationFormData";
 import { useFormData } from "@/hooks/refactored/form/useFormData";
 
@@ -30,6 +30,7 @@ export function OrganizationForm() {
     };
 
     const { formData, updateField, setFormData } = useFormData(initialFormData);
+    console.log("Initial FormData:", formData);
 
     const {
         isEditing,
@@ -42,9 +43,9 @@ export function OrganizationForm() {
         formData
     });
 
-    const { handleSubmit: handleSubmitFn } = useFormSubmission("organization", isEditing ? "organization" : undefined);
+    const { handleSubmit: handleSubmitFn } = useFormSubmission("organization", undefined, isEditing);
     const { validationState, isValid } = useOrganizationFormValidation(formData, isEditing);
-    const { focusState, handleFocus, handleBlur } = useRegistrationFormFocus();
+    const { focusState, handleFocus, handleBlur } = useFormFocus();
 
 
     if (!initialDataLoaded && isEditing) {
@@ -106,7 +107,7 @@ export function OrganizationForm() {
                     </>
                 )}
 
-                <CityPicker
+                <CityForm
                     value={formData.city || ""}
                     onChangeAction={(city: string) => updateField("city", city)}
                 />

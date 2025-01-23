@@ -33,7 +33,7 @@ export const ProfileHeader = ({
 
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(profileData));
-        router.push(`/form/${role.toLowerCase()}?mode=edit&data=${encodedData}`);
+        router.push(`/signup/${role.toLowerCase()}?mode=edit&data=${encodedData}`);
     };
 
     const handleDelete = async () => {

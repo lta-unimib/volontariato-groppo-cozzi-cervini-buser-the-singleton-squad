@@ -3,13 +3,13 @@ import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { BaseForm } from "@/components/refactored/form/BaseForm";
 import { useRequestFormSubmission } from '@/app/request/hooks/useRequestFormSubmission';
-import { DatePickerDialog } from "@/app/request/components/DatePicker";
+import { DatePickerDialog } from "@/components/refactored/form/availability/DatePicker";
 import { useFormData } from "@/app/request/hooks/useFormData";
-import AddressDialog from "@/app/request/components/AddressDialog";
+import AddressForm from "@/components/refactored/form/city/AddressForm";
 import { Input } from "@/components/refactored/Input";
 import { useFormValidation } from "@/app/request/hooks/useFormValidation";
 import { useFormFocus } from "@/app/request/hooks/useFormFocus";
-import { TimePicker } from "@/app/request/components/TimePicker";
+import { TimePicker } from "@/components/refactored/form/availability/TimePicker";
 import { Card, CardContent } from "@/components/ui/Card";
 import { useRequestFormInitialization } from '@/app/request/hooks/useRequestFormInizialization';
 
@@ -96,7 +96,7 @@ export function RequestForm() {
                     </CardContent>
                 </Card>
 
-                <AddressDialog
+                <AddressForm
                     onSaveAction={(address) => updateField("address", address)}
                     initialAddress={isEditing ? formData.address : undefined}
                 />

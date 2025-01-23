@@ -1,4 +1,4 @@
-import { AddressFormData } from "../addressFormData";
+import { AddressFormData } from "../city/addressFormData";
 
 /**
  * @interface RequestFormData

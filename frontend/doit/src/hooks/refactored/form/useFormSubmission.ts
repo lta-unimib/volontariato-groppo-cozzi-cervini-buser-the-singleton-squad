@@ -27,13 +27,25 @@ const makeLoginRequest = async (loginUserType: LoginType, formData: LoginFormDat
     return makePostRequest<AuthResponse>(endpoint, formData);
 };
 
-export const useFormSubmission = (formType: FormType, loginUserType?: LoginType, isEditing: boolean = false) => ({
+export const useFormSubmission = (formType: FormType, loginUserType?: LoginType, isEditing?: boolean) => ({
     handleSubmit: async (formData: FormData) => {
-        const response = formType === "login" && loginUserType
-            ? await makeLoginRequest(loginUserType, formData as LoginFormData)
-            : isEditing
+        let response;
+
+        console.log("isEditing value:", isEditing);
+        console.log("loginType value:", loginUserType);
+        console.log("formData:", formData);
+
+        if (formType === "login") {
+            if (!loginUserType) {
+                throw new Error("loginUserType is required when formType is 'login'.");
+            }
+            response = await makeLoginRequest(loginUserType, formData as LoginFormData);
+        } else {
+            response = isEditing
                 ? await makeEditRequest(formType, formData)
                 : await makeRegistrationRequest(formType, formData);
+
+        }
 
         if (response.status === 200 && response.data) {
             const { authToken, user } = response.data;
