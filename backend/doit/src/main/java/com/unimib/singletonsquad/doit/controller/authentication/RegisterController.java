@@ -45,11 +45,10 @@ public class RegisterController {
         }
     }
 
-    private ResponseEntity<?> register(Object dto) throws Exception {
+    private ResponseEntity<ResponseMessage> register(Object dto) throws Exception {
         String token = registerEntity(dto);
         JsonNode tokenJson = ResponseMessageUtil.createJsonNode("authToken", token);
-        ResponseMessage message = ResponseMessageUtil.createResponse("Registration successful", HttpStatus.OK, tokenJson);
-        return ResponseEntity.ok().body(message);
+        return  ResponseMessageUtil.createResponseSuccess("Registration successful", HttpStatus.OK, tokenJson);
     }
 
 

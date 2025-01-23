@@ -19,7 +19,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
-
 import java.util.NoSuchElementException;
 
 
@@ -138,7 +137,7 @@ public class GlobalExceptionHandler {
 
     /// Build the error response
     private ResponseEntity<ResponseMessage> buildErrorResponse(HttpStatus status, String message) {
-        ResponseMessage messageResponse = ResponseMessageUtil.createResponse(message, status, null);
+        ResponseMessage messageResponse = ResponseMessageUtil.createOnlyResponseMessage(message, status, null);
         return new ResponseEntity<>(messageResponse, status);
     }
 }

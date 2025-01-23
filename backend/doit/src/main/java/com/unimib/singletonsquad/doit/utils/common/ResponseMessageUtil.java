@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public class ResponseMessageUtil {
 
@@ -13,14 +14,20 @@ public class ResponseMessageUtil {
         return tokenJson.put(value, message);
     }
 
-    public static ResponseMessage createResponse(String message, HttpStatus status, Object data) {
+    private static ResponseMessage createResponseMessage(String message, HttpStatus status, Object data) {
         return new ResponseMessage.Builder(message)
                 .data(data)
                 .status(status)
                 .build();
     }
 
-    public static ResponseMessage createResponse(String message, HttpStatus status) {
-        return createResponse(message, status, null);
+
+    public static ResponseEntity<ResponseMessage> createResponseSuccess(String message, HttpStatus status, Object data) {
+        ResponseMessage response = createResponseMessage(message, status, data);
+        return  ResponseEntity.status(status).body(response);
+    }
+
+    public static ResponseMessage createOnlyResponseMessage(String message, HttpStatus status, Object data) {
+        return createResponseMessage(message, status, data);
     }
 }

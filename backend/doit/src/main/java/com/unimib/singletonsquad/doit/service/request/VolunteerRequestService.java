@@ -65,10 +65,6 @@ public class VolunteerRequestService {
         return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
     }
 
-
-
-
-
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA
     public void addVolunteerOffer(Long idRequest, VolunteerOffer volunteerOffer) throws Exception{
         VolunteerRequest request = getSpecificRequest(idRequest);
