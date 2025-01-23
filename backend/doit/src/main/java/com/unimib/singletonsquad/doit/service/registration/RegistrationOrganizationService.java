@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.service.registration;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.dto.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
@@ -34,11 +34,24 @@ public class RegistrationOrganizationService {
     }
 
     private boolean isAlreadyRegistered(final String email) {
-        return (this.organizationService.findOrganizationByEmail(email).isPresent());
+        try{
+            this.organizationService.findOrganizationByEmail(email);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+
     };
 
     private boolean nameIsAlreadyTaken(final String name) {
-        return this.organizationService.findOrganizationByName(name);
+        try {
+            this.organizationService.findOrganizationByName(name);
+            System.out.println("Name is already taken");
+            return true;
+        }catch(Exception e){
+            System.out.println("Name is not already taken");
+            return false;
+        }
     }
 
 

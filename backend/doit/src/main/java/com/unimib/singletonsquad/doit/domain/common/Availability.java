@@ -6,6 +6,8 @@ import com.unimib.singletonsquad.doit.converter.ListObjectConverter;
 import com.unimib.singletonsquad.doit.utils.data.DataConverter;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -32,22 +34,25 @@ public class Availability{
     @Column(name = "data", columnDefinition = "TEXT")
     private List<String> data;
 
-    public boolean matching(String start, String end) {
-        LocalDateTime startDateTime = LocalDateTime.parse(start);
-        LocalDateTime endDateTime = LocalDateTime.parse(end);
+    /// FIXME: NON è POSSIBILE SALVARE LOCALTIME STARTTIME AND ENDTIME
+    ///FIXE AL POSTO DELLE STIRNGHE ???
+
+    public boolean matching(LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         switch (mode) {
             case "daily": {
-                System.out.println("Checking for daily Availability");
                 LocalTime startTime = startDateTime.toLocalTime();
                 LocalTime endTime = endDateTime.toLocalTime();
-                LocalTime availableTimeStart = LocalTime.parse(data.get(0));
-                LocalTime availableTimeEnd = LocalTime.parse(data.get(1));
-
-                return availableTimeStart.isAfter(startTime) && availableTimeEnd.isBefore(endTime);
+                if(data.get(0) != null && data.get(1) != null) {
+                    LocalTime availableTimeStart = LocalTime.parse(data.get(0));
+                    LocalTime availableTimeEnd = LocalTime.parse(data.get(1));
+                    if(startTime != null && endTime != null) {
+                        return availableTimeStart.isAfter(startTime) && availableTimeEnd.isBefore(endTime);
+                    }
+                }
+                return false;
             }
             case "weekly": {
-                System.out.println("Weekly Availability");
                 LocalDateTime localDateTime = startDateTime;
 
                 while(localDateTime.isBefore(endDateTime)) {
@@ -61,7 +66,6 @@ public class Availability{
                 break;
             }
             case "monthly": {
-                System.out.println("Checking for monthly Availability");
                 LocalDateTime availableTimeStart = LocalDateTime.parse(data.get(0).replaceAll("Z", ""));
                 LocalDateTime availableTimeEnd = LocalDateTime.parse(data.get(1).replaceAll("Z", ""));
                 return availableTimeStart.isBefore(startDateTime) && availableTimeEnd.isAfter(endDateTime);

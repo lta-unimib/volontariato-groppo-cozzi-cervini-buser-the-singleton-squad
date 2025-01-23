@@ -5,7 +5,7 @@ import com.unimib.singletonsquad.doit.domain.common.CityInfo;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.RequestMatchDTO;
+import com.unimib.singletonsquad.doit.dto.recived.RequestMatchDTO;
 import com.unimib.singletonsquad.doit.utils.common.ParallelSort;
 import com.unimib.singletonsquad.doit.utils.data.DistanceCalculator;
 import lombok.AllArgsConstructor;
@@ -21,13 +21,10 @@ public class VolunteerRequestMatchingService {
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
 
 
-    public List<VolunteerRequest> getVolunteerRequestBasedOnPreferences(Volunteer volunteer) throws Exception {
+    public List<VolunteerRequest> getVolunteerRequestBasedOnPreferences(Volunteer volunteer, List<VolunteerRequest> requestSaved) throws Exception {
         double[] volunteerCoordinates = getVolunteerCoordinate(volunteer);
-        List<VolunteerRequest> requestSaved = this.volunteerRequestDatabaseService.getAllRequest();
         List<RequestMatchDTO> requestsToBeSorted = new ArrayList<>();
         int[] points = new int[requestSaved.size()];
-
-        System.out.println("DEBUG REQUESTS SAVED: "+requestSaved.size());
 
         for(int i =0; i < points.length; i++){
             VolunteerRequest request = requestSaved.get(i);
@@ -38,7 +35,6 @@ public class VolunteerRequestMatchingService {
         return ParallelSort.sortRequestByVote(requestsToBeSorted);
     }
 
-
     private CityInfo getVolunteerCityInfo(final String volunteerCity) throws Exception {
         return getCityInfo(volunteerCity);
     }
@@ -47,9 +43,6 @@ public class VolunteerRequestMatchingService {
         CityInfo temp = getVolunteerCityInfo(volunteer.getVolunteerPreferences().getCity());
         return new double[]{temp.getLatitude(), temp.getLongitude()};
     }
-
-
-
 
     private CityInfo getCityInfo(String city) throws Exception {
         return this.volunteerRequestDatabaseService.getCityInfo(city);

@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.utils.common;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.RequestMatchDTO;
+import com.unimib.singletonsquad.doit.dto.recived.RequestMatchDTO;
 
 import java.util.Comparator;
 import java.util.List;

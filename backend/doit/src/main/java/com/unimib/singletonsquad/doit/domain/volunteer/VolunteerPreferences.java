@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter
@@ -24,7 +25,6 @@ public class VolunteerPreferences {
     @JsonProperty("preferences")
     private List<String> categories;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "availability_id")
     private Availability availability;
 
     @Override
@@ -44,7 +44,7 @@ public class VolunteerPreferences {
         return false;
     }
 
-    public boolean hasAvailability(String start, String end) {
+    public boolean hasAvailability(LocalDateTime start, LocalDateTime end) {
         return this.availability.matching(start, end);
     }
 }

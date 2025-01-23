@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.service.registration;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
+import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
@@ -31,7 +31,13 @@ public class RegistrationVolunteerService {
     }
 
     private boolean isAlreadyRegistered(final String email) {
-        return (this.volunteerService.findVolunteerByEmail(email).isPresent());
+         try{
+             this.volunteerService.findVolunteerByEmail(email);
+             return true;
+         }
+         catch(Exception e){
+             return false;
+         }
     }
 }
 

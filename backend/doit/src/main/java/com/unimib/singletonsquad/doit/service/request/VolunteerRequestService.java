@@ -1,70 +1,78 @@
 package com.unimib.singletonsquad.doit.service.request;
 
-import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
-import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.VolunteerRequestDTO;
-import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
+import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class VolunteerRequestService {
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
     private final VolunteerRequestMapper volunteerRequestMapper;
-    private final VolunteerRequestMatchingService volunteerRequestMatchingService;
-    private final VolunteerDatabaseService volunteerDatabaseService;
 
 
-    public void deleteVolunteerRequest(final Long requestId) throws Exception {
+    /// DELETE VOLUNTEER REQUEST
+    public void deleteVolunteerRequest(final Long requestId, final Organization organization) throws Exception {
+        VolunteerRequest request = this.getSpecificRequest(requestId);
+        checkOrganizationRequest(request, organization);
         this.volunteerRequestDatabaseService.deleteRequestById(requestId);
     }
 
-    public void updateVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, final Long id, final String email)
+    /// UPDATE VOLUNTEER REQUEST
+    public void updateVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, final Long id, final Organization organization)
             throws Exception {
-            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(volunteerRequestDTO, id, email);
+            VolunteerRequest request = this.getSpecificRequest(id);
+            checkOrganizationRequest(request, organization);
+            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO , organization);
             this.volunteerRequestDatabaseService.updateRequest(temp, id);
     }
 
-    public void createVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, String email)
+    /// CREATE VOLUNTEER REQUEST
+    public void createVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, Organization organization)
             throws Exception {
-            VolunteerRequest temp = this.volunteerRequestMapper.createRequestVolunteer(volunteerRequestDTO, email);
+            VolunteerRequest temp = this.volunteerRequestMapper.createVolunteerRequest(volunteerRequestDTO, organization);
             this.volunteerRequestDatabaseService.save(temp);
     }
 
+    /// SUPPORT METHOD
     public VolunteerRequest getSpecificRequest(Long idRequest) throws Exception {
         return this.volunteerRequestDatabaseService.getSpecificRequest(idRequest);
     }
 
-    public List<VolunteerRequest> getAllRequestByOrganizationEmail(String email) {
-        return this.volunteerRequestDatabaseService.getAllRequestByEmail(email);
+    /// check id request is equal to organization email
+    private void checkOrganizationRequest(final VolunteerRequest volunteerRequest, Organization organization) throws Exception
+    {
+        if (!organization.getEmail().equals(volunteerRequest.getOrganization().getEmail()))
+            throw new IllegalAccessException("Organization email does not match");
     }
 
-    public List<VolunteerRequest> getAllRequest() {
-        return this.volunteerRequestDatabaseService.getAllRequest();
+    /// GET ALL ORGANIZATION VOLUNTEER REQUEST
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationName(String name) {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByName(name);
+        return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
     }
 
-    public List<VolunteerRequest> getAllRequestSorted(@NotNull final String volunteerEmail)
-            throws Exception{
-        Optional<Volunteer> volunteer = volunteerDatabaseService.findVolunteerByEmail(volunteerEmail);
-        if(volunteer.isEmpty())
-            throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", volunteerEmail));
-
-        return this.volunteerRequestMatchingService.getVolunteerRequestBasedOnPreferences(volunteer.get());
+    /// GET ALL ORGANIZATION BY EMAIL
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
+        return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
     }
+
+
+
+
 
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA
     public void addVolunteerOffer(Long idRequest, VolunteerOffer volunteerOffer) throws Exception{
         VolunteerRequest request = getSpecificRequest(idRequest);
-        request.getVolunteerOffer().add(volunteerOffer);
+        request.getVolunteerOffers().add(volunteerOffer);
         this.volunteerRequestDatabaseService.save(request);
 
     }

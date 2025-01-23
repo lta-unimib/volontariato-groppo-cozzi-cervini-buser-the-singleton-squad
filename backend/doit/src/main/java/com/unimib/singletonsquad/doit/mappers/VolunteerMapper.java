@@ -1,16 +1,10 @@
 package com.unimib.singletonsquad.doit.mappers;
 
-import com.unimib.singletonsquad.doit.domain.common.ProfilePicture;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
-import com.unimib.singletonsquad.doit.dto.AddressDTO;
-import com.unimib.singletonsquad.doit.dto.AvailabilityDTO;
-import com.unimib.singletonsquad.doit.dto.VolunteerDTO;
+import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 @Component
 @AllArgsConstructor

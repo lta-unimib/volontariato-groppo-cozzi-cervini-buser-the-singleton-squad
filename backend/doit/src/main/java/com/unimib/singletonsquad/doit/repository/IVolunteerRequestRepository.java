@@ -4,8 +4,6 @@ import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.List;
@@ -14,8 +12,26 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
     void deleteById(long id);
     boolean existsById(long id);
     List<VolunteerRequest> findByOrganization_Email(String email);
+    List<VolunteerRequest> findByOrganization_Name(String name);
 
-    @Query(value = "SELECT v FROM VolunteerRequest AS v WHERE TO_TIMESTAMP(v.endDateTime, 'YYYY-MM-DD\"T\"HH24:MI:SS') > :oggi AND v.capacity > 0")
-    List<VolunteerRequest> getAllRequest(@Param("oggi") LocalDateTime oggi);
+
+    /// Ritorna tutte e che non è registrato ORDINATE PER DATA DECRESCENTE
+    /// Da usare per L'algoritmo di Sorting
+    @Query("SELECT v FROM VolunteerRequest v WHERE :oggi <= v.endDateTime AND v.capacity > 0 AND NOT EXISTS (SELECT o FROM v.volunteerOffers o WHERE o.volunteer.email = :userEmail) ORDER BY v.startDateTime")
+    List<VolunteerRequest> getAllRequestNotRegistered(@Param("oggi") LocalDateTime oggi, @Param("userEmail") String userEmail);
+
+    /// Ritorna tutte le requeste a cui è registrato e che non sono terminate
+    @Query(value = "SELECT v FROM VolunteerRequest As v JOIN v.volunteerOffers as o WHERE :oggi <= v.endDateTime AND v.capacity > 0 AND o.volunteer.email = :userEmail ORDER BY v.endDateTime")
+    List<VolunteerRequest> getAllRequestRegistered(@Param("oggi") LocalDateTime oggi, @Param("userEmail") String userEmail);
+
+
+    /// Deve ritornare tutti gli eventi ai quali l'utente ha partecipato e che non ha ancora votato
+    @Query(value = "SELECT DISTINCT v FROM VolunteerRequest as v JOIN v.volunteerOffers as o on o.volunteer.email = :emailUser where o.voted = FALSE AND v.endDateTime < :oggi ORDER BY v.startDateTime")
+    List<VolunteerRequest> getAllRequestNotVoted(@Param("oggi") LocalDateTime oggi, @Param("emailUser") String emailUser);
+
+    /// Ritorna tutti gli eventi a cui è partecipato e che ha votato
+    @Query(value = "SELECT DISTINCT v FROM VolunteerRequest AS v JOIN v.volunteerOffers as o on  o.volunteer.email = :emailUser where o.voted = TRUE AND v.endDateTime < :oggi ORDER BY v.startDateTime")
+    List<VolunteerRequest> getALlRequestVoted(@Param("oggi") LocalDateTime oggi, @Param("emailUser") String emailUser);
 
 }
+

@@ -7,12 +7,12 @@ import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
 import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -25,33 +25,45 @@ public class VolunteerRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
+
+    @Column(nullable = false, name = "title")
     private String title;
+
+    @Column(nullable = false, name = "detailed_description")
     private String detailedDescription;
+
+    @Column(nullable = false, name = "capacity")
     private int capacity;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
-    private String volunteerType;
-    private String startDateTime;
-    private String endDateTime;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "organization_id", nullable = false)
+
+    @Column(nullable = false)
+    private LocalDateTime startDateTime;
+
+    @Column(nullable = false)
+    private LocalDateTime endDateTime;
+
+    @ManyToOne
     @JsonSerialize(using = OrganizationNameSerializer.class)
     private Organization organization;
+
     @ElementCollection
     @CollectionTable(name = "volunteer_request_categories", joinColumns = @JoinColumn(name = "volunteer_request_id"))
     @Column(name = "category")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> volunteerCategories;
 
-    //todo aggiunta relazione con Offer
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "volunteer_offer_id")
-    private List<VolunteerOffer> volunteerOffer;
+    private List<VolunteerOffer> volunteerOffers;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FeedbackVolunteerRequest> feedbackVolunteerRequests;
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {
-            throw new IllegalArgumentException("Capacity must be a positive number");
+            throw new IllegalArgumentException("Capacity must be a positive integer");
         } else {
             this.capacity = capacity;
         }

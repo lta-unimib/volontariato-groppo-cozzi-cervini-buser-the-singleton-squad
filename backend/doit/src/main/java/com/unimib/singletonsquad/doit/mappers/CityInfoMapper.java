@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.common.CityInfo;
-import com.unimib.singletonsquad.doit.dto.CityInfoDTO;
+import com.unimib.singletonsquad.doit.dto.recived.CityInfoDTO;
 import org.springframework.stereotype.Component;
 
 @Component

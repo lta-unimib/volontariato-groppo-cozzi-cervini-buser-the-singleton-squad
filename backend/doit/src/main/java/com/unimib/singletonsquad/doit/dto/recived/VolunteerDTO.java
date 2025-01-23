@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.dto;
+package com.unimib.singletonsquad.doit.dto.recived;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -10,23 +10,23 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class OrganizationDTO{
-    @JsonProperty("organizationName")
+public class VolunteerDTO  {
+    @JsonProperty("firstName")
     private String name;
+    @JsonProperty("lastName")
+    private String surname;
     @JsonProperty("email")
     private String email;
     @JsonProperty("password")
     private String password;
-    @JsonProperty("VATNumber")
-    private String vatNumber;
-    @JsonProperty("city")
-    private String city;
     @JsonProperty("description")
     private String description;
+    @JsonProperty("city")
+    private String city;
     @JsonProperty("preferences")
-    private List<String> preferences;
-    @JsonProperty("webSite")
-    private String webSite;
+    private List<String> favCategories;
+    @JsonProperty("availability")
+    private AvailabilityDTO availability;
     @JsonProperty("role")
     private String role;
 }

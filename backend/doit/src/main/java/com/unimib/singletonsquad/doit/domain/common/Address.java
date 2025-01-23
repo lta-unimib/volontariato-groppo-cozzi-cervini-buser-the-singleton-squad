@@ -25,9 +25,13 @@ public class Address {
     private String city;
     @Column(nullable = false)
     private String postalCode;
+    @Column(nullable = false)
     private String houseNumber;
     @Column(nullable = true)
     private String additionalInformation;
+
+
+
 
     @Override
     public boolean equals(Object o) {
