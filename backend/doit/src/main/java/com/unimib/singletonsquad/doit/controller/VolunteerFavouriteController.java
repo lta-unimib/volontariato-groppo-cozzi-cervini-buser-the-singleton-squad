@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.controller;
 
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
-import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.received.OrganizationDTO;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;

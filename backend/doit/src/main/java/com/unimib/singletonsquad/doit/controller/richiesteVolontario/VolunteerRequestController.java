@@ -2,7 +2,7 @@ package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;

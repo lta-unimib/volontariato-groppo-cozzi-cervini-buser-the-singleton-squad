@@ -1,8 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.offerVolontario;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerOfferDTO;
-import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
 import com.unimib.singletonsquad.doit.mappers.OfferMapper;
 import com.unimib.singletonsquad.doit.service.offer.VolunteerOfferService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;

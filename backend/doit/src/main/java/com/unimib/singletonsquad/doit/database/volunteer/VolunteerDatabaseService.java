@@ -2,7 +2,7 @@ package com.unimib.singletonsquad.doit.database.volunteer;
 import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.received.OrganizationDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.repository.IVolunteerRepository;

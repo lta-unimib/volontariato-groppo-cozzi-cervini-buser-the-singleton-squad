@@ -1,4 +1,4 @@
-package com.unimib.singletonsquad.doit.dto.recived;
+package com.unimib.singletonsquad.doit.dto.received;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -4,7 +4,7 @@ import com.unimib.singletonsquad.doit.domain.common.Status;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerOfferDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
 
 public class OfferMapper {
     public static VolunteerOffer toOffer(VolunteerOfferDTO volunteerOfferDTO, Volunteer volunteer, VolunteerRequest volunteerRequest) {

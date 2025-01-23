@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.service.registration;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;

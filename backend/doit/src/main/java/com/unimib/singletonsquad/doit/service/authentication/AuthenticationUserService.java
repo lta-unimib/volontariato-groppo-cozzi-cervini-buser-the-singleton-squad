@@ -1,6 +1,6 @@
 package com.unimib.singletonsquad.doit.service.authentication;
 
-import com.unimib.singletonsquad.doit.dto.recived.AuthDTO;
+import com.unimib.singletonsquad.doit.dto.received.AuthDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserNotRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;

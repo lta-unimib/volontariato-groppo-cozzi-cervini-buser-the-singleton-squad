@@ -1,6 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
 import com.fasterxml.jackson.databind.JsonNode;;
-import com.unimib.singletonsquad.doit.dto.recived.AuthDTO;
+import com.unimib.singletonsquad.doit.dto.received.AuthDTO;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
