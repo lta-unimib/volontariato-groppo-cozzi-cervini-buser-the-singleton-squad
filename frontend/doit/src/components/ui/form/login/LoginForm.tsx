@@ -15,7 +15,7 @@ import Link from "next/link"
 import { BaseForm } from "@/components/ui/form/BaseForm"
 import { useLoginForm } from "@/hooks/refactored/login/useLoginForm"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import React from "react"
+import React, {useState} from "react"
 import { SuccessResponse } from "@/types/refactored/baseForm"
 import { LoginTypes } from "@/types/refactored/login/loginTypes"
 
@@ -43,11 +43,14 @@ export function LoginForm({
     const { formState, updateFormState, handleSubmit: loginSubmit } = useLoginForm({
         loginApiLink,
         redirectPath,
-    })
+    });
+
+    const [redirecting, setRedirecting] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent): Promise<SuccessResponse> => {
         try {
             await loginSubmit(e);
+            setRedirecting(true);
             return { success: true, redirectUrl: redirectPath };
         } catch (error) {
             return {
@@ -70,7 +73,6 @@ export function LoginForm({
                     <BaseForm
                         onSubmitAction={handleSubmit}
                         isValid={!!formState.email && !!formState.password}
-                        redirectTo={redirectPath}
                         submitText="Accedi"
                         className="p-0"
                         buttonClassName="w-full"
@@ -122,6 +124,9 @@ export function LoginForm({
                             </Link>
                         </div>
                     </BaseForm>
+                    {redirecting && (
+                        <Link href={redirectPath} className="hidden" />
+                    )}
                 </CardContent>
             </Card>
         </div>
