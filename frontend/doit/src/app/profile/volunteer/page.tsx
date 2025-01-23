@@ -9,11 +9,11 @@ import { Calendar } from "@/components/ui/date/Calendar";
 import { Card, CardContent } from "@/components/ui/Card";
 import { addMonths, eachDayOfInterval, getDay, startOfMonth } from "date-fns";
 import { ProfileHeader } from "@/components/layout/ProfileHeader";
-import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { makeGetRequest } from "@/utils/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { AvailabilityData } from "@/types/availabilityData";
 import { VolunteerFormData } from "@/types/formData";
+import { Badge } from "@/components/ui/Badge";
 
 interface ApiResponse {
     message: string;
@@ -26,6 +26,14 @@ export default function Home() {
     const [volunteerProfile, setVolunteerProfile] = useState<VolunteerFormData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const categories = [
+        { id: "supporto_anziani", label: "Supporto Anziani" },
+        { id: "supporto_bambini", label: "Supporto Bambini" },
+        { id: "supporto_disabili", label: "Supporto Disabili" },
+        { id: "ripetizioni", label: "Ripetizioni" },
+        { id: "caritas", label: "Caritas" },
+    ];
 
     useEffect(() => {
         (async () => {
@@ -137,11 +145,15 @@ export default function Home() {
                             <Card className="rounded-2xl">
                                 <CardContent className="pt-6">
                                     <h3 className="text-xl font-semibold text-foreground mb-4">Preferences</h3>
-                                    <div className="text-sm text-muted-foreground mb-4">
-                                        <RoundCheckboxSelector
-                                            initialSelected={volunteerProfile.preferences}
-                                            readOnly={true}
-                                        />
+                                    <div className="flex flex-wrap gap-2">
+                                        {categories
+                                            .filter(category => volunteerProfile.preferences.includes(category.id))
+                                            .map(category => (
+                                                <Badge key={category.id} variant="secondary" className="font-normal">
+                                                    {category.label}
+                                                </Badge>
+                                            ))
+                                        }
                                     </div>
                                 </CardContent>
                             </Card>

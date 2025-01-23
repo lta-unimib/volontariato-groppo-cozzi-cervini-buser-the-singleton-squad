@@ -11,6 +11,7 @@ import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { makeGetRequest } from "@/utils/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { OrganizationFormData } from "@/types/formData";
+import { Badge } from "@/components/ui/Badge";
 
 interface ApiResponse {
     message: string;
@@ -22,6 +23,14 @@ export default function Home() {
     const [organizationProfile, setOrganizationProfile] = useState<OrganizationFormData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const categories = [
+        { id: "supporto_anziani", label: "Supporto Anziani" },
+        { id: "supporto_bambini", label: "Supporto Bambini" },
+        { id: "supporto_disabili", label: "Supporto Disabili" },
+        { id: "ripetizioni", label: "Ripetizioni" },
+        { id: "caritas", label: "Caritas" },
+    ];
 
     useEffect(() => {
         (async () => {
@@ -129,10 +138,15 @@ export default function Home() {
                         <Card className="rounded-2xl">
                             <CardContent className="pt-6">
                                 <h3 className="text-xl font-semibold text-foreground mb-4">Areas of Interest</h3>
-                                <div className="text-sm text-muted-foreground mb-4">
-                                    <RoundCheckboxSelector
-                                        initialSelected={organizationProfile.preferences}
-                                    />
+                                <div className="flex flex-wrap gap-2">
+                                    {categories
+                                        .filter(category => organizationProfile.preferences.includes(category.id))
+                                        .map(category => (
+                                            <Badge key={category.id} variant="secondary" className="font-normal">
+                                                {category.label}
+                                            </Badge>
+                                        ))
+                                    }
                                 </div>
                             </CardContent>
                         </Card>

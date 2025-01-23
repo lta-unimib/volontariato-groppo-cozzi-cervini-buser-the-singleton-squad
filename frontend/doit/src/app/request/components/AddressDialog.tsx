@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -27,9 +27,16 @@ interface AddressDialogProps {
 const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddress }) => {
     const [open, setOpen] = React.useState(false);
     const [savedAddress, setSavedAddress] = React.useState<AddressData | null>(initialAddress || null);
-    const { addressData, updateField, resetForm } = useAddressFormData();
+    const { addressData, setAddressData, updateField, resetForm } = useAddressFormData();
     const { focusState, handleFocus, handleBlur } = useAddressFormFocus();
     const { validationState, isValid } = useAddressFormValidation(addressData);
+
+    useEffect(() => {
+        if (initialAddress) {
+            setAddressData(initialAddress);
+            setSavedAddress(initialAddress);
+        }
+    }, [initialAddress, setAddressData]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
