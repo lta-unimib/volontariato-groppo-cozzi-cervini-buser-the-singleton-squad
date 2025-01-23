@@ -1,6 +1,6 @@
 import React, { useRef, ChangeEvent, useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/refactored/Input";
 import { CityList } from "./CityList";
 import { useCitySearch } from "@/hooks/useCitySearch";
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";

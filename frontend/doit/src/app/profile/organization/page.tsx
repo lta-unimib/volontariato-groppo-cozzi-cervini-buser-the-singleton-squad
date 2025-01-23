@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/ScrollArea";
 import { Card, CardContent } from "@/components/ui/Card";
 import { ProfileHeader } from "@/components/ui/ProfileHeader";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
-import { makeGetRequest } from "@/utils/apiUtils";
+import { makeGetRequest } from "@/utils/refactored/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Badge } from "@/components/ui/Badge";
 import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";

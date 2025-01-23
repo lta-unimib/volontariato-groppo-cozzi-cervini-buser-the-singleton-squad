@@ -5,9 +5,10 @@ import { MdOutlineEdit, MdOutlineDelete } from "react-icons/md"; // Aggiungi MdD
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import {makeDeleteRequest} from "@/utils/apiUtils";
+import {makeDeleteRequest} from "@/utils/refactored/apiUtils";
 import {VolunteerFormData} from "@/types/refactored/model/volunteerFormData";
 import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
+import {useBack} from "@/hooks/refactored/useBack";
 
 type ProfileData = VolunteerFormData | OrganizationFormData;
 
@@ -42,7 +43,7 @@ export const ProfileHeader = ({
         await makeDeleteRequest(endpoint);
     };
 
-    const onBack = () => router.back();
+    const onBack = () => useBack();
 
     return (
         <div className="flex flex-col w-full">

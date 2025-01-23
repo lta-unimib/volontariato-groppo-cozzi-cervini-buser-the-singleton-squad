@@ -9,7 +9,7 @@ import { Calendar } from "@/components/ui/date/Calendar";
 import { Card, CardContent } from "@/components/ui/Card";
 import { addMonths, eachDayOfInterval, getDay, startOfMonth } from "date-fns";
 import { ProfileHeader } from "@/components/ui/ProfileHeader";
-import { makeGetRequest } from "@/utils/apiUtils";
+import { makeGetRequest } from "@/utils/refactored/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { AvailabilityFormData } from "@/types/refactored/model/availabilityFormData";
 import { Badge } from "@/components/ui/Badge";

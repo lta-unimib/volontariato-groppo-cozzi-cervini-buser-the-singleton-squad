@@ -6,9 +6,9 @@ import { VariantProps } from "class-variance-authority"
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 
 import { useIsMobile } from "@/hooks/useMobile"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils"
 import { Button } from "@/components/ui/Button"
-import { Input } from "@/components/ui/Input"
+import { Input } from "@/components/refactored/Input"
 import { Separator } from "@/components/ui/Separator"
 import { Skeleton } from "@/components/ui/sidebar/Skeleton"
 import {
@@ -18,7 +18,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/sidebar/Tooltip"
 import {ComponentRef} from "react";
-import { sidebarMenuButtonVariants } from "@/utils/sidebarUtils";
+import { sidebarMenuButtonVariants } from "@/utils/refactored/sidebarUtils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

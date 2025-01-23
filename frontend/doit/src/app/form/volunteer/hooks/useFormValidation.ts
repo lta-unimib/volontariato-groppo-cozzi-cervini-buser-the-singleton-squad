@@ -1,4 +1,4 @@
-import { validateEmail, validatePassword } from "@/utils/utils/formValidation";
+import { validateEmail, validatePassword } from "@/app/form/volunteer/utils/formValidation";
 import {VolunteerFormData} from "@/types/refactored/model/volunteerFormData";
 
 export const useFormValidation = (formData: VolunteerFormData, isEditing: boolean) => {

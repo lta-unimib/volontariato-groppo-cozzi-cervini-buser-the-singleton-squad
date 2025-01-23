@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils"
 
 export const calendarVariants = {
     baseMonth: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",

@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/Button";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { Calendar } from "@/components/ui/date/Calendar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import { MdCalendarMonth } from "react-icons/md";
-import { useAvailabilityDialog } from '@/hooks/hooks/useAvailabilityDialog';
-import { timeSlots, weekDays, getDisplayText } from '@/utils/utils/formUtils';
-import { isTimeInRange, isAvailabilityValid } from '@/utils/utils/formValidation';
+import { useAvailabilityDialog } from '@/app/form/volunteer/hooks/useAvailabilityDialog';
+import { timeSlots, weekDays, getDisplayText } from '@/app/form/volunteer/utils/formUtils';
+import { isTimeInRange, isAvailabilityValid } from '@/app/form/volunteer/utils/formValidation';
 import { AvailabilityMode, AvailabilityDialogProps } from "@/types/refactored/model/availabilityFormData";
 import { DateRange } from "react-day-picker";
 

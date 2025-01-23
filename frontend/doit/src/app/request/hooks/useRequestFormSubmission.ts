@@ -1,6 +1,6 @@
 "use client"
 
-import { makePostRequest, makeUpdateRequest } from '@/utils/apiUtils';
+import { makePostRequest, makeUpdateRequest } from '@/utils/refactored/apiUtils';
 import {RequestFormData} from "@/types/refactored/model/requestFormData";
 
 const makeRequestSubmission = async (formData: RequestFormData) => {

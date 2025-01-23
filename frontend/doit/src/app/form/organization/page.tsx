@@ -3,7 +3,7 @@
 import { Page } from '@/components/Page';
 import {OrganizationForm} from "@/app/form/organization/components/OrganizationForm";
 import FormHeader from "@/components/ui/FormHeader";
-import {useBack} from "@/hooks/useBack";
+import {useBack} from "@/hooks/refactored/useBack";
 
 export default function Home() {
     const handleBack = useBack();

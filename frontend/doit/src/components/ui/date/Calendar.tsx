@@ -2,8 +2,8 @@
 
 import type * as React from "react"
 import { DayPicker } from "react-day-picker"
-import { cn } from "@/lib/utils"
-import { calendarVariants } from "@/utils/calendarUtils"
+import { cn } from "@/utils/utils"
+import { calendarVariants } from "@/utils/refactored/calendarUtils"
 import type { DateRange } from "react-day-picker"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>

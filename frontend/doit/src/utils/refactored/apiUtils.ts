@@ -11,7 +11,6 @@ interface ApiResponse<T> {
 export async function makePostRequest<T>(
     endpoint: string,
     data?: unknown,
-    options: RequestInit = {}//TODO REMOVE USE DATA INSTEAD
 ): Promise<ApiResponse<T>> {
     try {
         const token = sessionStorage.getItem('authToken');
@@ -20,7 +19,6 @@ export async function makePostRequest<T>(
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
             ...(token && { 'Authorization': `Bearer ${token}` }),
-            ...options.headers
         };
 
         console.log('Making API request to:', `${API_BASE_LINK}${endpoint}`);
@@ -29,7 +27,6 @@ export async function makePostRequest<T>(
 
         const response = await fetch(`${API_BASE_LINK}${endpoint}`, {
             method: 'POST',
-            ...options,
             headers,
             body: JSON.stringify(data)
         });
@@ -56,7 +53,6 @@ export async function makePostRequest<T>(
 
 export async function makeGetRequest<T>(
     endpoint: string,
-    options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
     try {
         const token = sessionStorage.getItem('authToken');
@@ -65,7 +61,6 @@ export async function makeGetRequest<T>(
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
             ...(token && { 'Authorization': `Bearer ${token}` }),
-            ...options.headers
         };
 
         console.log('Making GET request to:', `${API_BASE_LINK}${endpoint}`);
@@ -73,7 +68,6 @@ export async function makeGetRequest<T>(
 
         const response = await fetch(`${API_BASE_LINK}${endpoint}`, {
             method: 'GET',
-            ...options,
             headers
         });
 
@@ -101,7 +95,6 @@ export async function makeUpdateRequest<T>(
     endpoint: string,
     data?: unknown,
     method: 'PUT' | 'PATCH' = 'PUT',
-    options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
     try {
         const token = sessionStorage.getItem('authToken');
@@ -110,7 +103,6 @@ export async function makeUpdateRequest<T>(
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
             ...(token && { 'Authorization': `Bearer ${token}` }),
-            ...options.headers
         };
 
         console.log(`Making ${method} request to:`, `${API_BASE_LINK}${endpoint}`);
@@ -119,7 +111,6 @@ export async function makeUpdateRequest<T>(
 
         const response = await fetch(`${API_BASE_LINK}${endpoint}`, {
             method,
-            ...options,
             headers,
             body: JSON.stringify(data)
         });
@@ -147,7 +138,6 @@ export async function makeUpdateRequest<T>(
 export async function makeDeleteRequest<T>(
     endpoint: string,
     data?: unknown,
-    options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
     try {
         const token = sessionStorage.getItem('authToken');
@@ -156,7 +146,6 @@ export async function makeDeleteRequest<T>(
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
             ...(token && { 'Authorization': `Bearer ${token}` }),
-            ...options.headers
         };
 
         console.log('Making DELETE request to:', `${API_BASE_LINK}${endpoint}`);
@@ -165,7 +154,6 @@ export async function makeDeleteRequest<T>(
 
         const response = await fetch(`${API_BASE_LINK}${endpoint}`, {
             method: 'DELETE',
-            ...options,
             headers,
             body: data ? JSON.stringify(data) : undefined
         });

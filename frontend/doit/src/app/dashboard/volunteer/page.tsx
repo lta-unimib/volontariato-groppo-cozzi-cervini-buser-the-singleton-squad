@@ -7,7 +7,7 @@ import RequestCard from "@/components/ui/RequestCard";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { makeGetRequest } from "@/utils/apiUtils";
+import { makeGetRequest } from "@/utils/refactored/apiUtils";
 import { MdMap } from "react-icons/md";
 import { Button } from "@/components/ui/Button";
 import { GoogleMapsWrapper } from "@/app/dashboard/volunteer/components/GoogleMapsWrapper";

@@ -10,10 +10,10 @@ import {
     DialogTrigger
 } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/refactored/Input";
 import { CityPicker } from '@/components/ui/city/CityPicker';
 import { MdOutlineHome } from "react-icons/md";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import { AddressFormData } from '@/types/refactored/model/addressFormData';
 import { useAddressFormData } from '@/app/request/hooks/useAddressFormData';
 import { useAddressFormFocus } from '@/app/request/hooks/useAddressFormFocus';

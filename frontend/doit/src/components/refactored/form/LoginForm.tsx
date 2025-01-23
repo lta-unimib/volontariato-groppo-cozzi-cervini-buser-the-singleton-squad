@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils"
 import { Button } from "@/components/ui/Button"
 import {
     Card,
@@ -9,49 +9,61 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/Card"
-import { Input } from "@/components/ui/Input"
+import { Input } from "@/components/refactored/Input"
 import { Label } from "@/components/ui/Label"
 import Link from "next/link"
-import { BaseForm } from "@/components/ui/form/BaseForm"
-import { useLoginForm } from "@/hooks/refactored/login/useLoginForm"
+import { BaseForm } from "@/components/refactored/form/BaseForm"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import React, {useState} from "react"
+import React, { useState } from "react"
 import { SuccessResponse } from "@/types/refactored/baseForm"
-import { LoginTypes } from "@/types/refactored/login/loginTypes"
-
-
-/**
- * Login form component with email and password inputs.
- *
- * This component renders a login form with email and password fields, as well as a link to the sign-up page.
- * It also provides functionality for toggling password visibility.
- * @param {string} [className] - Optional additional CSS classes to be applied to the wrapper div.
- * @param signUpHref
- * @param loginApiLink
- * @param redirectPath
- * @param props
- * @returns {React.ReactElement} - The rendered login form.
- */
-
+import { useFormSubmission } from "@/hooks/refactored/useFormSubmission"
+interface LoginFormProps {
+    className?: string;
+    role: "volunteer" | "organization";
+}
 export function LoginForm({
                               className,
-                              signUpHref = "#",
-                              loginApiLink = "#",
-                              redirectPath = "#",
-                              ...props
-                          }: LoginTypes): React.ReactElement {
-    const { formState, updateFormState, handleSubmit: loginSubmit } = useLoginForm({
-        loginApiLink,
-        redirectPath,
+                              role
+                          }: LoginFormProps): React.ReactElement {
+    const [formState, setFormState] = useState({
+        email: "",
+        password: "",
+        showPassword: false
     });
 
-    const [redirecting, setRedirecting] = useState(false);
+    const redirectPath = role === "volunteer"
+        ? "/dashboard/volunteer"
+        : "/dashboard/organization";
 
-    const handleSubmit = async (e: React.FormEvent): Promise<SuccessResponse> => {
+    const signUpHref = role === "volunteer"
+        ? "/form/volunteer/"
+        : "/form/organization/";
+
+    const { handleSubmit: loginSubmit } = useFormSubmission("login", role);
+
+    const updateFormState = (field: string, value: string | boolean) => {
+        setFormState(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const handleSubmit = async (): Promise<SuccessResponse> => {
         try {
-            await loginSubmit(e);
-            setRedirecting(true);
-            return { success: true, redirectUrl: redirectPath };
+            const { email, password } = formState;
+            const response = await loginSubmit({ email, password });
+
+            if (response.status === 200) {
+                return {
+                    success: true,
+                    redirectUrl: redirectPath
+                };
+            }
+
+            return {
+                success: false,
+                message: "Login fallito"
+            };
         } catch (error) {
             return {
                 success: false,
@@ -61,7 +73,7 @@ export function LoginForm({
     }
 
     return (
-        <div className={cn("flex flex-col gap-6", className)} {...props}>
+        <div className={cn("flex flex-col gap-6", className)}>
             <Card className="rounded-2xl">
                 <CardHeader>
                     <CardTitle className="text-2xl">Accesso</CardTitle>
@@ -124,9 +136,6 @@ export function LoginForm({
                             </Link>
                         </div>
                     </BaseForm>
-                    {redirecting && (
-                        <Link href={redirectPath} className="hidden" />
-                    )}
                 </CardContent>
             </Card>
         </div>

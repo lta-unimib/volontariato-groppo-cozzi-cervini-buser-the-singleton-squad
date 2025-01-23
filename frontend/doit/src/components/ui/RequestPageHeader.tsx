@@ -6,9 +6,10 @@ import { MdOutlineEdit, MdOutlineCheck, MdOutlineBookmarkBorder, MdOutlineDelete
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from "lucide-react";
-import {makeDeleteRequest, makePostRequest} from "@/utils/apiUtils";
+import {makeDeleteRequest, makePostRequest} from "@/utils/refactored/apiUtils";
 import {useEffect, useState} from "react";
 import {RequestFormData} from "@/types/refactored/model/requestFormData";
+import {useBack} from "@/hooks/refactored/useBack";
 
 interface RequestHeaderProps {
     title: string;
@@ -85,7 +86,7 @@ export const RequestHeader = ({
         router.push(`/request/?mode=edit&data=${encodedData}`);
     };
 
-    const onBack = () => router.back();
+    const onBack = () => useBack();
 
     return (
         <div className="w-full">
