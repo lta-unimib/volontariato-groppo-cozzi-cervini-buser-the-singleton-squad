@@ -6,6 +6,8 @@ import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { RequestFormData } from "@/types/formData";
 import { ArrowLeft } from "lucide-react";
+import {makeDeleteRequest, makePostRequest} from "@/utils/apiUtils";
+import {useEffect, useState} from "react";
 
 interface RequestHeaderProps {
     title: string;
@@ -16,7 +18,7 @@ interface RequestHeaderProps {
     requestData: RequestFormData;
     role?: 'organization' | 'volunteer';
 }
-
+//TODO ADD WAY TO KNOW IF VOLUNTEER IS ALREADY SUBSCRIBED TO A REQUEST
 export const RequestHeader = ({
                                   title,
                                   organizationName,
@@ -27,16 +29,43 @@ export const RequestHeader = ({
                               }: RequestHeaderProps) => {
     const router = useRouter();
 
-    const handleSubscribe = () => {
-        console.log("Iscritto all'evento");
+    const [idRequest, setIdRequest] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const data = urlParams.get('data');
+
+        if (data) {
+            try {
+                const parsedData = JSON.parse(decodeURIComponent(data));
+                const id = parsedData.id;
+                setIdRequest(id);
+            } catch (error) {
+                console.error("Errore durante il parsing dei dati:", error);
+            }
+        } else {
+            console.log("Parametro 'data' non trovato nella query string.");
+        }
+    }, []);
+
+    const handleSubscribe = async () => {
+        const endpoint = "/offer/new";
+        await makePostRequest (endpoint, idRequest);
+        //TODO CHANGE BUTTON PARTECIPA
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         console.log("Profilo salvato");
+        const endpoint = "/volunteer/favorite/organization"
+        await makePostRequest(endpoint, organizationName);
+        //TODO CHANGE BUTTON SALVA ORGANIZZAZIONE
     };
 
-    const handleDelete = () => {
-        console.log("Profilo eliminato");
+    const handleDelete = async () => {
+        const endpoint = "/request/" + idRequest + "/";
+        await makeDeleteRequest(endpoint);
+        //router.push("/");
+        router.back();//TODO VERIFICA SE ENDPOINT CORRETTO
     };
 
     const handleEdit = () => {
