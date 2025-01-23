@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,18 +15,18 @@ import java.util.List;
 @Entity
 public class MonthlyAvailability extends Availability {
     @Column
-    private LocalDateTime startDate;
+    private LocalDate startDate;
     @Column
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     public void setData(List<String> data) {
-        startDate = LocalDateTime.parse(data.get(0).replace("Z", ""));
-        endDate = LocalDateTime.parse(data.get(1).replace("Z", ""));
+        startDate = LocalDate.parse(data.get(0).replace("Z", ""));
+        endDate = LocalDate.parse(data.get(1).replace("Z", ""));
     }
 
     @Override
     public boolean matching(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        return this.startDate.isBefore(startDateTime) && this.endDate.isAfter(endDateTime);
+        return this.startDate.atStartOfDay().isBefore(startDateTime) && this.endDate.plusDays(1).atStartOfDay().isAfter(endDateTime);
     }
 
     @Override
