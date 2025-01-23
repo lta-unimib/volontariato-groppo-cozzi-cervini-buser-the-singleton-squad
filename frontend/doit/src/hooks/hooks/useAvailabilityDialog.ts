@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
-import { AvailabilityMode, AvailabilityData } from "@/types/availabilityData";
+import { AvailabilityMode, AvailabilityFormData } from "@/types/refactored/model/availabilityFormData";
 import { DateRange } from "react-day-picker";
 
 export const useAvailabilityDialog = (
-    onSave: (data: AvailabilityData) => void,
-    defaultValue?: AvailabilityData
+    onSave: (data: AvailabilityFormData) => void,
+    defaultValue?: AvailabilityFormData
 ) => {
     const [open, setOpen] = useState(false);
     const [selectedMode, setSelectedMode] = useState<AvailabilityMode>(defaultValue?.mode || 'daily');

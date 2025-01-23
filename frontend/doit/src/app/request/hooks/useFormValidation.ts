@@ -1,9 +1,9 @@
-import { RequestFormData } from "@/types/formData";
 import {
     validateCategories,
     validateDescription,
     validateVolunteerCapacity
 } from "@/app/request/utils/formValidation";
+import {RequestFormData} from "@/types/refactored/model/requestFormData";
 
 export const useFormValidation = (formData: RequestFormData) => {
     const validationState = {

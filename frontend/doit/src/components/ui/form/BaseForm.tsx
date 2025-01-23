@@ -1,23 +1,9 @@
 "use client";
 
-import React, { FormEvent, ReactNode, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
-
-interface SuccessResponse {
-    readonly success: boolean;
-    readonly message?: string;
-}
-
-interface BaseFormProps {
-    readonly onSubmitAction: (e: FormEvent) => Promise<SuccessResponse>;
-    readonly isValid: boolean;
-    readonly children: ReactNode;
-    readonly redirectTo?: string;
-    readonly submitText?: string;
-    readonly className?: string;
-    readonly buttonClassName?: string;
-}
+import { BaseFormProps, SuccessResponse } from "@/types/refactored/baseForm";
 
 export function BaseForm({
                              onSubmitAction,
@@ -25,52 +11,59 @@ export function BaseForm({
                              children,
                              redirectTo,
                              submitText = "Submit",
-                             className = "flex flex-col items-center justify-start lg:justify-center sm:min-h-screen",
+                             className = "flex flex-col items-center justify-center min-h-screen",
                              buttonClassName = "w-full bg-primary text-white rounded-full py-2",
                          }: BaseFormProps) {
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
         setError(null);
 
         try {
-            const result = await onSubmitAction(e);
-            console.log("Form Submission Result:", result);
+            const result: SuccessResponse = await onSubmitAction(e);
 
-            if (result.success && redirectTo) {
-                router.push(redirectTo);
+            const redirectUrl = result.redirectUrl || redirectTo;
+
+            if (result.success && redirectUrl) {
+                router.push(redirectUrl);
             } else if (!result.success && result.message) {
                 setError(result.message);
             }
         } catch (error) {
-            console.error("Error in base form submission:", error);
-            setError("An unexpected error occurred. Please try again.");
+            console.error("Form submission error:", error);
+            setError(error instanceof Error ? error.message : "An unexpected error occurred");
         } finally {
             setIsSubmitting(false);
         }
     };
 
     return (
-        <div className={className}>
-            <form onSubmit={handleSubmit} className="flex flex-col space-y-4 w-full max-w-xl p-6">
-                {children}
-                {error && (
-                    <div className="text-destructive text-sm text-center">
-                        {error}
-                    </div>
-                )}
-                <Button
-                    type="submit"
-                    disabled={!isValid || isSubmitting}
-                    className={buttonClassName}
+        <form
+            onSubmit={handleSubmit}
+            className={`flex flex-col space-y-4 w-full max-w-xl h-full ${className}`}
+            noValidate
+        >
+            {children}
+            {error && (
+                <div
+                    role="alert"
+                    className="text-destructive text-sm text-center bg-destructive/10 p-2 rounded"
                 >
-                    {isSubmitting ? "Submitting..." : submitText}
-                </Button>
-            </form>
-        </div>
+                    {error}
+                </div>
+            )}
+            <Button
+                type="submit"
+                disabled={!isValid || isSubmitting}
+                className={buttonClassName}
+                aria-busy={isSubmitting}
+            >
+                {isSubmitting ? "Inviando..." : submitText}
+            </Button>
+        </form>
     );
 }

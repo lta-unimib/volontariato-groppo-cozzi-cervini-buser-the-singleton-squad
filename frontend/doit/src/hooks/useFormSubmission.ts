@@ -1,7 +1,8 @@
 "use client"
 
 import { makePostRequest, makeUpdateRequest } from '@/utils/apiUtils';
-import { VolunteerFormData, OrganizationFormData } from "@/types/formData";
+import {VolunteerFormData} from "@/types/refactored/model/volunteerFormData";
+import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
 
 type FormType = "volunteer" | "organization";
 type FormData = VolunteerFormData | OrganizationFormData;
