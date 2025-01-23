@@ -32,7 +32,6 @@ public class VolunteerProfileController  extends UserProfileController {
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, volunteerDTO);
     }
 
-
     /// UPDATE VOLUNTEER INFOS
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseMessage updateVolunteerInfos(final HttpServletRequest request,

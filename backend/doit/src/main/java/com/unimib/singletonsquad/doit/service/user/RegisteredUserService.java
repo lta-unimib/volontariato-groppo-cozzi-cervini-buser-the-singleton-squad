@@ -93,6 +93,10 @@ public class RegisteredUserService {
         return String.valueOf(jwtUtils.extractClaimByName(token, "role"));
     }
 
+    public UserRole getRoleFromToken(String token) {
+        return UserRole.valueOf(extractRoleFromToken(token));
+    }
+
     private void isRegistered(@NotNull final String email, final UserRole role) throws Exception {
         switch (role) {
             case volunteer:

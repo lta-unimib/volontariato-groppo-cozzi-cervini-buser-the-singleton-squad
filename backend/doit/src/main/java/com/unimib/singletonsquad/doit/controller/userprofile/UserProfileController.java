@@ -27,6 +27,4 @@ public abstract class UserProfileController {
         return ResponseMessageUtil.createResponse(message, HttpStatus.OK, data);
     }
 
-
-
 }

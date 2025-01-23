@@ -59,4 +59,8 @@ public class VolunteerOffer {
     public boolean isVolunteerOffer(String volunteerEmail) {
         return this.volunteer.isVolunteerEmail(volunteerEmail);
     }
+
+    public boolean isOrganizationOffer(String organizationEmail) {
+        return volunteerRequest.getOrganization().getEmail().equals(organizationEmail);
+    }
 }

@@ -36,28 +36,12 @@ public class VolunteerOfferService {
         this.volunteerRequestControllerService.addVolunteerOffer(volunteerRequest.getId(), volunteerOffer);
     }
 
-
-
-
-    /// REMOVE A OFFER --> ORGANIZATION
     public void removeOffer(long offerId, String email) throws Exception {
     VolunteerOffer offer = volunteerOfferDatabaseService.getVolunteerOffer(offerId);
-        if(offer.getOrganization().getEmail().equals(email))
+        if(offer.isOrganizationOffer(email) || offer.isVolunteerOffer(email)) {
             volunteerOfferDatabaseService.deleteVolunteerOffer(offer);
-        else
+        } else
             throw new IllegalAccessException("Dont have the correct email");
-        
-    }
-
-    /// CANCEL A OFFER ---> VOLUNTEER
-    public void cancelVolunteerOffer(Long idOffer, String emailVolunteer) throws Exception {
-        VolunteerOffer offer = volunteerOfferDatabaseService.getVolunteerOffer(idOffer);
-        if(offer.getVolunteer().getEmail().equals(emailVolunteer))
-            volunteerOfferDatabaseService.deleteVolunteerOffer(offer);
-
-        else
-            throw new IllegalAccessException("Dont have the correct email");
-
     }
 
     /// UPDATED A OFFER
