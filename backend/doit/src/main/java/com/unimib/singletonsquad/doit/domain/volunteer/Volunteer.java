@@ -2,16 +2,16 @@ package com.unimib.singletonsquad.doit.domain.volunteer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
+import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -61,7 +61,8 @@ public class Volunteer implements User {
             joinColumns = @JoinColumn(name = "volunteer_id"),
             inverseJoinColumns = @JoinColumn(name = "organization_id")
     )
-    private List<Organization> favoriteOrganizations;
+    @JsonSerialize(using = OrganizationNameSerializer.class)  // Serializzazione personalizzata
+    private List<Organization> favoriteOrganizations = new ArrayList<>();
 
     public Volunteer() {}
 

@@ -24,7 +24,7 @@ public class VolunteerFavouriteController {
     public ResponseEntity<ResponseMessage> getFavouriteOrganizations(final HttpServletRequest request) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
         List<OrganizationDTO> favouriteOrganizations = volunteerFavouriteService.getFavouriteOrganizations(email);
-        return ResponseMessageUtil.createResponseSuccess( "getting all",HttpStatus.OK, favouriteOrganizations);
+        return ResponseMessageUtil.createResponseSuccess( "getting all", HttpStatus.OK, favouriteOrganizations);
     }
 
     @DeleteMapping("/organization/{orgName}/")

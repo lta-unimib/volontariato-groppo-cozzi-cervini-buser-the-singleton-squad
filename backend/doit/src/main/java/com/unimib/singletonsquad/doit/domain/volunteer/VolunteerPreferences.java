@@ -20,10 +20,14 @@ public class VolunteerPreferences {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
+
     private String city;
+
     @ElementCollection
     @JsonProperty("preferences")
     private List<String> categories;
+
+    // Relazione OneToOne con Availability con CascadeType.ALL
     @OneToOne(cascade = CascadeType.ALL)
     private Availability availability;
 

@@ -24,18 +24,20 @@ public class VolunteerOffer {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "volunteer_id")  // La relazione non ha bisogno di cascata
     private Volunteer volunteer;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+    @JoinColumn(name = "volunteer_request_id")  // La relazione non ha bisogno di cascata
     private VolunteerRequest volunteerRequest;
 
-    /// indica se gli è stato assegnato il voto o meno
+    // Indica se gli è stato assegnato il voto o meno
     private boolean voted;
-
 
     @Override
     public boolean equals(Object o) {
@@ -52,14 +54,17 @@ public class VolunteerOffer {
         return Objects.hash(id, volunteer, status);
     }
 
+    // Metodo per ottenere l'organizzazione associata a questa offerta
     public Organization getOrganization() {
         return volunteerRequest.getOrganization();
     }
 
+    // Verifica se l'email del volontario corrisponde a questa offerta
     public boolean isVolunteerOffer(String volunteerEmail) {
         return this.volunteer.isVolunteerEmail(volunteerEmail);
     }
 
+    // Verifica se l'email dell'organizzazione corrisponde a questa offerta
     public boolean isOrganizationOffer(String organizationEmail) {
         return volunteerRequest.getOrganization().getEmail().equals(organizationEmail);
     }
