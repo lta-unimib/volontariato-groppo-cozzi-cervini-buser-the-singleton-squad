@@ -2,15 +2,12 @@ package com.unimib.singletonsquad.doit.controller;
 
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
 import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
-import com.unimib.singletonsquad.doit.service.profile.UserProfileService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

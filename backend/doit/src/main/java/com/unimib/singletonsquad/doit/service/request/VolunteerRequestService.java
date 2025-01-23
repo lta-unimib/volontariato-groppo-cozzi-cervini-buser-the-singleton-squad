@@ -64,6 +64,11 @@ public class VolunteerRequestService {
         return getRequestSendDTOList(tempLista);
     }
 
+    /// GET ALL ORGANIZATION BY EMAIL
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
+        return getRequestSendDTOList(tempLista);
+    }
 
     /// FIXME INSERIRLO IN UN MAPPER DTO APPOSITO
     private List<VolunteerRequestSendDTO> getRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) {

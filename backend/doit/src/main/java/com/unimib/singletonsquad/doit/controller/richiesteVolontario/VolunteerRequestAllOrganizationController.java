@@ -38,4 +38,15 @@ public class VolunteerRequestAllOrganizationController {
                 HttpStatus.OK, volunteerRequestList);
         return ResponseEntity.ok().body(message);
     }
+
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
+        List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
+        ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization: "+email,
+                HttpStatus.OK, volunteerRequestList);
+        return ResponseEntity.ok().body(message);
+    }
+
+
 }
