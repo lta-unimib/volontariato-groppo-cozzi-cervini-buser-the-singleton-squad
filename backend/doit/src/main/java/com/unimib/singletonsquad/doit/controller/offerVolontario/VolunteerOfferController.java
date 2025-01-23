@@ -64,4 +64,12 @@ public class VolunteerOfferController {
         return ResponseMessageUtil.createResponseSuccess(String.format("Accept offer %s", idOffer), HttpStatus.OK, null);
     }
 
+    /// A ORGANIZATION REJECT A VOLUNTEER OFFER
+    @PostMapping(value = "/reject/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseMessage> rejectOffer(final @PathVariable Long idOffer, final HttpServletRequest request) throws Exception {
+        String Email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
+        this.acceptService.rejectVolunteerOffer(idOffer, Email);
+        return ResponseMessageUtil.createResponseSuccess(String.format("Reject offer %s", idOffer), HttpStatus.OK, null);
+    }
+
 }
