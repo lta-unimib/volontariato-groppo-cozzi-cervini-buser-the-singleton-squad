@@ -26,7 +26,7 @@ export default function FavoriteOrganizations() {
         setLoading(true);
         setError(null);
         try {
-            const response = await makeGetRequest<ApiResponse>("/organization/favorites");
+            const response = await makeGetRequest<ApiResponse>("/volunteer/favorite/organizations/");
             if (response?.status === 200 && Array.isArray(response.data)) {
                 setOrganizations(response.data);
             } else {
