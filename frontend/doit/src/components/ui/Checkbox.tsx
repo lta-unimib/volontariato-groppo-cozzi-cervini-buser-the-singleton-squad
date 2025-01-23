@@ -9,7 +9,6 @@ interface RoundCheckboxSelectorProps {
     readonly initialSelected?: string[];
     readonly readOnly?: boolean;
     readonly isSingleSelect?: boolean;
-    readonly optionType?: "categories" | "frequency";
 }
 
 export function RoundCheckboxSelector({

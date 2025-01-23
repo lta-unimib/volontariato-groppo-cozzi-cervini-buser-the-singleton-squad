@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 import { MdOutlineEdit, MdOutlineCheck, MdOutlineBookmarkBorder, MdOutlineDelete } from "react-icons/md";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
@@ -18,14 +19,14 @@ interface RequestHeaderProps {
     requestData: RequestFormData;
     role?: 'organization' | 'volunteer';
 }
-//TODO ADD WAY TO KNOW IF VOLUNTEER IS ALREADY SUBSCRIBED TO A REQUEST
+
 export const RequestHeader = ({
                                   title,
                                   organizationName,
                                   address,
                                   imageUrl,
                                   requestData,
-                                  role
+                                  role,
                               }: RequestHeaderProps) => {
     const router = useRouter();
 
@@ -51,20 +52,18 @@ export const RequestHeader = ({
     const handleSubscribe = async () => {
         const endpoint = "/offer/new";
         await makePostRequest (endpoint, idRequest);
-        //TODO CHANGE BUTTON PARTECIPA
     };
 
     const handleSave = async () => {
         console.log("Profilo salvato");
         const endpoint = "/volunteer/favorite/organization"
         await makePostRequest(endpoint, organizationName);
-        //TODO CHANGE BUTTON SALVA ORGANIZZAZIONE
     };
 
     const handleDelete = async () => {
         const endpoint = `/request/${idRequest}/`;
         await makeDeleteRequest(endpoint);
-        router.back();//TODO VERIFICA SE ENDPOINT CORRETTO
+        router.back();
     };
 
     const handleEdit = () => {
@@ -98,6 +97,15 @@ export const RequestHeader = ({
                     <h2 className="text-2xl font-semibold">{title}</h2>
                     <p className="text-lg text-muted-foreground">{organizationName}</p>
                     <p className="text-sm text-muted-foreground">{address}</p>
+                    {requestData.categories && requestData.categories.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-4">
+                            {requestData.categories.map((category) => (
+                                <Badge key={category} variant="secondary" className="font-normal">
+                                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                                </Badge>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 {role && (
                     <div className="flex gap-2">

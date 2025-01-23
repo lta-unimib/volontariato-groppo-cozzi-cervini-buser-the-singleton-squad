@@ -55,7 +55,7 @@ export default function Home() {
                             <RequestHeader
                                 title={`${requestData.title}`}
                                 organizationName={`${requestData.organization.name}`}
-                                address={`${requestData.address.street} ${requestData.address.number} - ${requestData.address.additionalInfo}, ${requestData.address.city}`}
+                                address={`${requestData.address.street} ${requestData.address.number} ${requestData.address.additionalInfo}, ${requestData.address.city}`}
                                 imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
                                 requestData={requestData}
                                 role={requestData.role}
@@ -69,18 +69,6 @@ export default function Home() {
                                         <CardContent className="pt-6">
                                             <h3 className="text-xl font-semibold text-foreground">About</h3>
                                             <p className="text-sm text-muted-foreground mt-2">{requestData.description}</p>
-                                        </CardContent>
-                                    </Card>
-
-                                    <Card className="rounded-2xl">
-                                        <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground mb-4">Preferences</h3>
-                                            <div className="text-sm text-muted-foreground mb-4">
-                                                <RoundCheckboxSelector
-                                                    initialSelected={requestData.categories}
-                                                    readOnly={true}
-                                                />
-                                            </div>
                                         </CardContent>
                                     </Card>
 
