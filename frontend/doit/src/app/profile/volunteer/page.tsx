@@ -86,27 +86,6 @@ export default function Home() {
         }
     };
 
-    const formatAvailability = (availability?: AvailabilityData) => {
-        if (!availability) return "Availability not specified";
-
-        switch (availability.mode) {
-            case "daily":
-                return availability.timeRange
-                    ? `Available daily from ${availability.timeRange[0]} to ${availability.timeRange[1]}`
-                    : "Availability not specified";
-            case "weekly":
-                return availability.timeRange
-                    ? `Available every: ${availability.timeRange.join(", ")}`
-                    : "Availability not specified";
-            case "monthly":
-                if (!availability.timeRange) return "Availability not specified";
-                const [startDate, endDate] = availability.timeRange.map(dateStr => new Date(dateStr));
-                return `Available monthly from day ${startDate.getDate()} to day ${endDate.getDate()}`;
-            default:
-                return "Availability not specified";
-        }
-    };
-
     const selectedDays = useMemo(() => {
         return date && volunteerProfile?.availability
             ? getSelectedDays(volunteerProfile.availability, date)
@@ -115,29 +94,89 @@ export default function Home() {
 
     const isAvailable = selectedDays.some((d) => d.toDateString() === new Date().toDateString());
 
-    if (loading) {
-        return (
-            <div className="flex flex-col lg:flex-row w-full">
-                <Page>
-                    <div className="flex w-full min-h-screen items-center justify-center">
-                        <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
-                    </div>
-                </Page>
-            </div>
-        );
-    }
+    const renderProfileContent = () => {
+        if (loading) {
+            return (
+                <div className="flex items-center justify-center h-full">
+                    <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
+                </div>
+            );
+        }
 
-    if (error || !volunteerProfile) {
+        if (error || !volunteerProfile) {
+            return (
+                <div className="flex items-center justify-center h-full">
+                    {error || "Failed to load user profile"}
+                </div>
+            );
+        }
+
         return (
-            <div className="flex flex-col lg:flex-row w-full">
-                <Page>
-                    <div className="flex w-full min-h-screen items-center justify-center">
-                        {error || "Failed to load user profile"}
+            <>
+                <div className="p-4 md:px-8">
+                    <ProfileHeader
+                        name={`${volunteerProfile.firstName} ${volunteerProfile.lastName}`}
+                        role="Volunteer"
+                        city={volunteerProfile.city}
+                        imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                        isAvailable={isAvailable}
+                        profileData={volunteerProfile}
+                    />
+                </div>
+
+                <ScrollArea className="flex-1 p-4 md:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="space-y-4">
+                            <Card className="rounded-2xl">
+                                <CardContent className="pt-6">
+                                    <h3 className="text-xl font-semibold text-foreground">About</h3>
+                                    <p className="text-sm text-muted-foreground mt-2">{volunteerProfile.description}</p>
+                                </CardContent>
+                            </Card>
+
+                            <Card className="rounded-2xl">
+                                <CardContent className="pt-6">
+                                    <h3 className="text-xl font-semibold text-foreground mb-4">Preferences</h3>
+                                    <div className="text-sm text-muted-foreground mb-4">
+                                        <RoundCheckboxSelector
+                                            initialSelected={volunteerProfile.preferences}
+                                            readOnly={true}
+                                        />
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            <Card className="rounded-2xl">
+                                <CardContent className="pt-6">
+                                    <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
+                                    <ul className="text-sm text-muted-foreground mt-2">
+                                        <li>Email: <a href={`mailto:${volunteerProfile.email}`}>{volunteerProfile.email}</a></li>
+                                    </ul>
+                                </CardContent>
+                            </Card>
+                        </div>
+
+                        <Card className="rounded-2xl">
+                            <CardContent className="pt-6">
+                                <h3 className="text-xl font-semibold text-foreground mb-4">Availability</h3>
+                                <div className="flex justify-center">
+                                    <Card className="rounded-2xl w-full flex items-center justify-center">
+                                        <CardContent className="flex pt-6 items-center justify-center">
+                                            <Calendar
+                                                mode="multiple"
+                                                selected={selectedDays}
+                                                className="rounded-2xl p-4"
+                                            />
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </CardContent>
+                        </Card>
                     </div>
-                </Page>
-            </div>
+                </ScrollArea>
+            </>
         );
-    }
+    };
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
@@ -156,70 +195,7 @@ export default function Home() {
                     </div>
 
                     <div className="flex-1 flex flex-col pb-28 md:pb-4">
-                        <div className="p-4 md:px-8">
-                            <ProfileHeader
-                                name={`${volunteerProfile.firstName} ${volunteerProfile.lastName}`}
-                                role="Volunteer"
-                                city={volunteerProfile.city}
-                                imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
-                                isAvailable={isAvailable}
-                                profileData={volunteerProfile}
-                            />
-                        </div>
-
-                        <ScrollArea className="flex-1 p-4 md:px-8">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                <div className="space-y-4">
-                                    <Card className="rounded-2xl">
-                                        <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground">About</h3>
-                                            <p className="text-sm text-muted-foreground mt-2">{volunteerProfile.description}</p>
-                                        </CardContent>
-                                    </Card>
-
-                                    <Card className="rounded-2xl">
-                                        <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground mb-4">Preferences</h3>
-                                            <div className="text-sm text-muted-foreground mb-4">
-                                                <RoundCheckboxSelector
-                                                    initialSelected={volunteerProfile.preferences}
-                                                    readOnly={true}
-                                                />
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-
-                                    <Card className="rounded-2xl">
-                                        <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
-                                            <ul className="text-sm text-muted-foreground mt-2">
-                                                <li>Email: <a href={`mailto:${volunteerProfile.email}`}>{volunteerProfile.email}</a></li>
-                                            </ul>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-
-                                <Card className="rounded-2xl">
-                                    <CardContent className="pt-6">
-                                        <h3 className="text-xl font-semibold text-foreground mb-4">Availability</h3>
-                                        <div className="text-sm text-muted-foreground mb-4">
-                                            {formatAvailability(volunteerProfile.availability)}
-                                        </div>
-                                        <div className="flex justify-center">
-                                            <Card className="rounded-2xl w-full flex items-center justify-center">
-                                                <CardContent className="flex pt-6 items-center justify-center">
-                                                    <Calendar
-                                                        mode="multiple"
-                                                        selected={selectedDays}
-                                                        className="rounded-2xl p-4"
-                                                    />
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </ScrollArea>
+                        {renderProfileContent()}
                     </div>
                 </div>
             </Page>

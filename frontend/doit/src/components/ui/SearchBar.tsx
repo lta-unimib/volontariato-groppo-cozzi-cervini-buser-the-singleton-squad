@@ -9,9 +9,10 @@ import { Badge } from "@/components/ui/Badge"
 interface SearchBarProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string;
     onRegisteredToggle?: (enabled: boolean) => void;
+    label?: string;
 }
 
-export default function SearchBar({ className, onRegisteredToggle, ...props }: SearchBarProps) {
+export default function SearchBar({ className, onRegisteredToggle, label = "Iscritto", ...props }: SearchBarProps) {
     const [searchTerm, setSearchTerm] = useState("")
 
     const handleSearch = (e: React.FormEvent) => {
@@ -34,7 +35,7 @@ export default function SearchBar({ className, onRegisteredToggle, ...props }: S
                     </div>
                     <div className="ml-4 flex items-center space-x-2">
                         <Switch onCheckedChange={onRegisteredToggle} aria-label="Abilita ricerca API" />
-                        <span className="text-sm text-muted-foreground">Iscritto</span>
+                        <span className="text-sm text-muted-foreground">{label}</span>
                     </div>
                 </div>
             </form>

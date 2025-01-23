@@ -48,30 +48,114 @@ export default function Home() {
         }
         return url;
     };
+    const renderProfileContent = () => {
+        if (loading) {
+            return (
+                <div className="flex items-center justify-center h-full">
+                    <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
+                </div>
+            );
+        }
 
-    if (loading) {
-        return (
-            <div className="flex flex-col lg:flex-row w-full">
-                <Page>
-                    <div className="flex w-full min-h-screen items-center justify-center">
-                        <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
-                    </div>
-                </Page>
-            </div>
-        );
-    }
+        if (error || !organizationProfile) {
+            return (
+                <div className="flex items-center justify-center h-full">
+                    {error || "Failed to load organization profile"}
+                </div>
+            );
+        }
 
-    if (error || !organizationProfile) {
         return (
-            <div className="flex flex-col lg:flex-row w-full">
-                <Page>
-                    <div className="flex w-full min-h-screen items-center justify-center">
-                        {error || "Failed to load organization profile"}
+            <>
+                <div className="p-4 md:px-8">
+                    <ProfileHeader
+                        name={organizationProfile.organizationName}
+                        role={organizationProfile.role ?? "Organization"}
+                        city={organizationProfile.city}
+                        imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                        profileData={organizationProfile}
+                    />
+                </div>
+
+                <ScrollArea className="flex-1 p-4 md:px-8">
+                    <div className="hidden lg:grid lg:grid-cols-2 gap-4">
+                        <div className="space-y-4">
+                            <Card className="rounded-2xl">
+                                <CardContent className="pt-6">
+                                    <h3 className="text-xl font-semibold text-foreground">About</h3>
+                                    <p className="text-sm text-muted-foreground mt-2">{organizationProfile.description}</p>
+                                </CardContent>
+                            </Card>
+
+                            <Card className="rounded-2xl">
+                                <CardContent className="pt-6">
+                                    <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
+                                    <ul className="text-sm text-muted-foreground mt-2">
+                                        <li>Email: <a href={`mailto:${organizationProfile.email}`}>{organizationProfile.email}</a></li>
+                                        <li>
+                                            Website: <a href={formatWebsiteUrl(organizationProfile.website ?? "")} target="_blank" rel="noopener noreferrer">
+                                            {organizationProfile.website}
+                                        </a>
+                                        </li>
+                                        <li>VAT Number: {organizationProfile.VATNumber}</li>
+                                    </ul>
+                                </CardContent>
+                            </Card>
+                        </div>
+
+                        <div>
+                            <Card className="rounded-2xl h-full">
+                                <CardContent className="pt-6">
+                                    <h3 className="text-xl font-semibold text-foreground mb-4">Areas of Interest</h3>
+                                    <div className="text-sm text-muted-foreground mb-4">
+                                        <RoundCheckboxSelector
+                                            initialSelected={organizationProfile.preferences}
+                                            readOnly={true}
+                                        />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
-                </Page>
-            </div>
+
+                    <div className="space-y-4 lg:hidden">
+                        <Card className="rounded-2xl">
+                            <CardContent className="pt-6">
+                                <h3 className="text-xl font-semibold text-foreground">About</h3>
+                                <p className="text-sm text-muted-foreground mt-2">{organizationProfile.description}</p>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="rounded-2xl">
+                            <CardContent className="pt-6">
+                                <h3 className="text-xl font-semibold text-foreground mb-4">Areas of Interest</h3>
+                                <div className="text-sm text-muted-foreground mb-4">
+                                    <RoundCheckboxSelector
+                                        initialSelected={organizationProfile.preferences}
+                                    />
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="rounded-2xl">
+                            <CardContent className="pt-6">
+                                <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
+                                <ul className="text-sm text-muted-foreground mt-2">
+                                    <li>Email: <a href={`mailto:${organizationProfile.email}`}>{organizationProfile.email}</a></li>
+                                    <li>
+                                        Website: <a href={formatWebsiteUrl(organizationProfile.website ?? "")} target="_blank" rel="noopener noreferrer">
+                                        {organizationProfile.website}
+                                    </a>
+                                    </li>
+                                    <li>VAT Number: {organizationProfile.VATNumber}</li>
+                                </ul>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </ScrollArea>
+            </>
         );
-    }
+    };
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
@@ -90,95 +174,11 @@ export default function Home() {
                     </div>
 
                     <div className="flex-1 flex flex-col pb-28 md:pb-4">
-                        <div className="p-4 md:px-8">
-                            <ProfileHeader
-                                name={organizationProfile.organizationName}
-                                role={organizationProfile.role ?? "Organization"}
-                                city={organizationProfile.city}
-                                imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
-                                profileData={organizationProfile}
-                            />
-                        </div>
-
-                        <ScrollArea className="flex-1 p-4 md:px-8">
-                            <div className="hidden lg:grid lg:grid-cols-2 gap-4">
-                                <div className="space-y-4">
-                                    <Card className="rounded-2xl">
-                                        <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground">About</h3>
-                                            <p className="text-sm text-muted-foreground mt-2">{organizationProfile.description}</p>
-                                        </CardContent>
-                                    </Card>
-
-                                    <Card className="rounded-2xl">
-                                        <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
-                                            <ul className="text-sm text-muted-foreground mt-2">
-                                                <li>Email: <a href={`mailto:${organizationProfile.email}`}>{organizationProfile.email}</a></li>
-                                                <li>
-                                                    Website: <a href={formatWebsiteUrl(organizationProfile.website ?? "")} target="_blank" rel="noopener noreferrer">
-                                                    {organizationProfile.website}
-                                                </a>
-                                                </li>
-                                                <li>VAT Number: {organizationProfile.VATNumber}</li>
-                                            </ul>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-
-                                <div>
-                                    <Card className="rounded-2xl h-full">
-                                        <CardContent className="pt-6">
-                                            <h3 className="text-xl font-semibold text-foreground mb-4">Areas of Interest</h3>
-                                            <div className="text-sm text-muted-foreground mb-4">
-                                                <RoundCheckboxSelector
-                                                    initialSelected={organizationProfile.preferences}
-                                                    readOnly={true}
-                                                />
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </div>
-
-                            <div className="space-y-4 lg:hidden">
-                                <Card className="rounded-2xl">
-                                    <CardContent className="pt-6">
-                                        <h3 className="text-xl font-semibold text-foreground">About</h3>
-                                        <p className="text-sm text-muted-foreground mt-2">{organizationProfile.description}</p>
-                                    </CardContent>
-                                </Card>
-
-                                <Card className="rounded-2xl">
-                                    <CardContent className="pt-6">
-                                        <h3 className="text-xl font-semibold text-foreground mb-4">Areas of Interest</h3>
-                                        <div className="text-sm text-muted-foreground mb-4">
-                                            <RoundCheckboxSelector
-                                                initialSelected={organizationProfile.preferences}
-                                            />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-
-                                <Card className="rounded-2xl">
-                                    <CardContent className="pt-6">
-                                        <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
-                                        <ul className="text-sm text-muted-foreground mt-2">
-                                            <li>Email: <a href={`mailto:${organizationProfile.email}`}>{organizationProfile.email}</a></li>
-                                            <li>
-                                                Website: <a href={formatWebsiteUrl(organizationProfile.website ?? "")} target="_blank" rel="noopener noreferrer">
-                                                {organizationProfile.website}
-                                            </a>
-                                            </li>
-                                            <li>VAT Number: {organizationProfile.VATNumber}</li>
-                                        </ul>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </ScrollArea>
+                        {renderProfileContent()}
                     </div>
                 </div>
             </Page>
         </div>
     );
 }
+

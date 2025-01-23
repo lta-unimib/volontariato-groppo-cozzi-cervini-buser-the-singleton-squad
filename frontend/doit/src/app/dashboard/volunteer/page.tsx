@@ -101,8 +101,8 @@ export default function Home() {
         try {
             const [registered, notVoted, archived] = await Promise.all([
                 makeGetRequest<ApiResponse>("/request/all/volunteer/registered/"),
-                makeGetRequest<ApiResponse>("/request/all/volunteer/registered/notvoted/"),
-                makeGetRequest<ApiResponse>("/request/all/volunteer/registered/archived/")
+                makeGetRequest<ApiResponse>("/request/all/volunteer/notvoted/"),
+                makeGetRequest<ApiResponse>("/request/all/volunteer/archived/")
             ]);
 
             if (registered?.status === 200 && Array.isArray(registered.data)) {
