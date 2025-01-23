@@ -2,11 +2,9 @@ package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.recived.AddressDTO;
 import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
-import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
 import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -29,7 +27,9 @@ public class VolunteerRequestMapper {
      * FIXME PER IL REFATCOTING PASSARE DIRETTAMENTE LE ORGANIZAZZIONI E NON LE EMAIL !!!!
      */
 
+    /// CREATE A NEW VOLUNTEER REQUEST ONLY FROM /request/new/
     public VolunteerRequest createVolunteerRequest(VolunteerRequestDTO volunteerRequestDTO, Organization organization) throws Exception {
+        System.out.println("DEBUG => :" + volunteerRequestDTO);
         VolunteerRequest volunteerRequest = new VolunteerRequest();
         volunteerRequest.setOrganization(organization);
         volunteerRequest.setAddress(this.createNewAddress(volunteerRequestDTO.getAddress()));
@@ -39,11 +39,21 @@ public class VolunteerRequestMapper {
     }
 
 
-    private VolunteerRequest mapCommonFiled(VolunteerRequest volunteerRequest, VolunteerRequestDTO volunteerRequestDTO) throws Exception {
+    /// UPDATE A VOLUNTEER REQUEST ONLY FROM PUT /request/{id}/
+    public VolunteerRequest updateVolunteerRequest(VolunteerRequest toBeUpdated, VolunteerRequestDTO volunteerRequestDTO, Organization organization) throws Exception {
+        toBeUpdated.setVolunteerOffers(toBeUpdated.getVolunteerOffers());
+        toBeUpdated.setFeedbackVolunteerRequests(toBeUpdated.getFeedbackVolunteerRequests());
+        toBeUpdated.setId(toBeUpdated.getId());
+        toBeUpdated.setAddress(updateAddress(toBeUpdated.getAddress(), volunteerRequestDTO.getAddress()));
+        return mapCommonFiled(toBeUpdated, volunteerRequestDTO);
+    }
+
+
+    private static VolunteerRequest mapCommonFiled(VolunteerRequest volunteerRequest, VolunteerRequestDTO volunteerRequestDTO) throws Exception {
         volunteerRequest.setCapacity(volunteerRequestDTO.getVolunteerCapacity());
-        volunteerRequest.setDetailedDescription(volunteerRequest.getDetailedDescription());
-        volunteerRequest.setTitle(volunteerRequest.getTitle());
-        volunteerRequest.setVolunteerCategories(volunteerRequest.getVolunteerCategories());
+        volunteerRequest.setDetailedDescription(volunteerRequestDTO.getDescription());
+        volunteerRequest.setTitle(volunteerRequestDTO.getTitle());
+        volunteerRequest.setVolunteerCategories(volunteerRequestDTO.getCategories());
         LocalDateTime[] hours = setTimeRangeAndStartTime(volunteerRequestDTO.getTimeRange(),
                 volunteerRequestDTO.getStartTime(), volunteerRequestDTO.getEndTime());
         volunteerRequest.setStartDateTime(hours[0]);
@@ -56,66 +66,27 @@ public class VolunteerRequestMapper {
         return this.addressMapper.createAddress(addressDTO);
     }
 
-
-    /// COSE CHE CAMBIANO DI UNA RICHIESTA
-
-/*
-    public VolunteerRequest updateVolunteerRequest(VolunteerRequestDTO requestDTO, Long requestId, String organizationEmail)
-            throws Exception {
-        VolunteerRequest volunteerRequest = new VolunteerRequest();
-        volunteerRequest.setId(requestId);
-        return mapVolunteerRequestFields(requestDTO, volunteerRequest, organizationEmail);
+    private Address updateAddress(Address address, AddressDTO addressDTO) {
+        return this.addressMapper.updateAddress(address, addressDTO);
     }
 
-    public VolunteerRequest createRequestVolunteer(VolunteerRequestDTO requestDTO, String organizationEmail)
-            throws Exception {
-        VolunteerRequest volunteerRequest = new VolunteerRequest();
-        return mapVolunteerRequestFields(requestDTO, volunteerRequest, organizationEmail);
+    public static VolunteerRequestSendDTO mapToVolunteerRequestDTO(VolunteerRequest volunteerRequest) {
+        VolunteerRequestSendDTO requestDTO = new VolunteerRequestSendDTO();
+        requestDTO.setId(volunteerRequest.getId());
+        requestDTO.setTitle(volunteerRequest.getTitle());
+        requestDTO.setVolunteerCapacity(volunteerRequest.getCapacity());
+        requestDTO.setDescription(volunteerRequest.getDetailedDescription());
+
+        requestDTO.setCategories(volunteerRequest.getVolunteerCategories());
+        requestDTO.setAddress(AddressMapper.createAddressDTO(volunteerRequest.getAddress()));
+        String[] start = extractDateTime(volunteerRequest.getStartDateTime());
+        String[] end = extractDateTime(volunteerRequest.getEndDateTime());
+        requestDTO.setStartTime(start[1]);
+        requestDTO.setEndTime(end[1]);
+        requestDTO.setTimeRange(List.of(start[0], end[0]));
+        requestDTO.setOrganization(volunteerRequest.getOrganization());
+        return requestDTO;
     }
-
-    private VolunteerRequest mapVolunteerRequestFields(VolunteerRequestDTO requestDTO,
-                                                       VolunteerRequest volunteerRequest,
-                                                       String organizationEmail) throws Exception {
-        Address address = null;
-
-        if (requestDTO.getAddress() != null) {
-            // Verifica che i campi obbligatori siano presenti
-            if (requestDTO.getAddress().getCity() == null || requestDTO.getAddress().getCity().isEmpty()) {
-                throw new IllegalArgumentException("City is required for Address");
-            }
-            if (requestDTO.getAddress().getStreet() == null || requestDTO.getAddress().getStreet().isEmpty()) {
-                throw new IllegalArgumentException("Street Address is required for Address");
-            }
-            if (requestDTO.getAddress().getPostalCode() == null || requestDTO.getAddress().getPostalCode().isEmpty()) {
-                throw new IllegalArgumentException("Postal Code is required for Address");
-            }
-            if (requestDTO.getAddress().getNumber() == null || requestDTO.getAddress().getNumber().isEmpty()) {
-                throw new IllegalArgumentException("House Number is required for Address");
-            }
-
-            // Creazione dell'oggetto Address
-            address = this.addressMapper.createAddress(requestDTO.getAddress());
-        }
-
-        volunteerRequest.setAddress(address);
-        volunteerRequest.setTitle(requestDTO.getTitle());
-        volunteerRequest.setVolunteerCategories(requestDTO.getCategories());
-        volunteerRequest.setCapacity(requestDTO.getVolunteerCapacity());
-        volunteerRequest.setDetailedDescription(requestDTO.getDescription());
-        volunteerRequest.setOrganization(this.organizationService.findOrganizationByEmail(organizationEmail));
-        volunteerRequest.setVolunteerOffers(new ArrayList<>());
-
-        LocalDateTime[] hours = setTimeRangeAndStartTime(requestDTO.getTimeRange(),
-                requestDTO.getStartTime(), requestDTO.getEndTime());
-        volunteerRequest.setStartDateTime(hours[0]);
-        volunteerRequest.setEndDateTime(hours[1]);
-        volunteerRequest.setFeedbackVolunteerRequests(new ArrayList<>());
-
-        return volunteerRequest;
-    }
-
-
-*/
 
     /// === SUPPORT METHOD ===
     private static LocalDateTime combineDateTime(String date, String time) {
@@ -125,7 +96,7 @@ public class VolunteerRequestMapper {
         return LocalDateTime.of(localDate, localTime);
     }
 
-    private LocalDateTime[] setTimeRangeAndStartTime(List<String> timeRange, String startTime, String endTime)
+    private static LocalDateTime[] setTimeRangeAndStartTime(List<String> timeRange, String startTime, String endTime)
             throws Exception {
         if (timeRange != null && timeRange.size() == 2
                 && startTime != null && !startTime.isEmpty()
@@ -142,4 +113,14 @@ public class VolunteerRequestMapper {
         String time = dateTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH));
         return new String[]{date, time};
     }
+
+    /// FIXME INSERIRLO IN UN MAPPER DTO APPOSITO
+    public static List<VolunteerRequestSendDTO> getRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) {
+        List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
+        for (VolunteerRequest volunteersingle : volunteerRequest) {
+            volunteerRequestDTOS.add(mapToVolunteerRequestDTO(volunteersingle));
+        }
+        return volunteerRequestDTOS;
+    }
+
 }

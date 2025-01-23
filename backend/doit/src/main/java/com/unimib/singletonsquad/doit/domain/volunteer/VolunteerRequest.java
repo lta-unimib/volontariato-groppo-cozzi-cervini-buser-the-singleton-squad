@@ -35,19 +35,22 @@ public class VolunteerRequest {
     @Column(nullable = false, name = "capacity")
     private int capacity;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
 
+    @Column(nullable = false)
     private LocalDateTime startDateTime;
+
+    @Column(nullable = false)
     private LocalDateTime endDateTime;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JsonSerialize(using = OrganizationNameSerializer.class)
     private Organization organization;
 
     @ElementCollection
-    @CollectionTable(name = "volunteer_request_categories")
+    @CollectionTable(name = "volunteer_request_categories", joinColumns = @JoinColumn(name = "volunteer_request_id"))
     @Column(name = "category")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> volunteerCategories;
@@ -57,7 +60,6 @@ public class VolunteerRequest {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedbackVolunteerRequest> feedbackVolunteerRequests;
-
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {
