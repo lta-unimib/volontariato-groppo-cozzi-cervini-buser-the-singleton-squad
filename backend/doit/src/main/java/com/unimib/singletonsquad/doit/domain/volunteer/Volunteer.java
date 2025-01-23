@@ -7,7 +7,7 @@ import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.exception.validation.EmailException;
 import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
-import com.unimib.singletonsquad.doit.utils.data.DataValidator;
+import com.unimib.singletonsquad.doit.utils.data.EmailValidator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -83,7 +83,7 @@ public class Volunteer implements User {
     }
 
     private static boolean isValidEmail(String email) {
-       return DataValidator.isValidEmail(email);
+       return EmailValidator.isValidEmail(email);
     }
 
     public void removeOrganizationFromFavourite(Organization organization) {

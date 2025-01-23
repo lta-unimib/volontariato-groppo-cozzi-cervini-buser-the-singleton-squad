@@ -24,8 +24,26 @@ public class VolunteerOfferAcceptService {
         checkStartDateAndEndDate(volunteerOffer.getVolunteerRequest());
         checkOrganizationEmail(organizationEmail, volunteerOffer);
         checkRequestCapacity(volunteerOffer);
+        checkOfferStatus(volunteerOffer.getStatus(), Status.PENDING);
         VolunteerRequest temp = this.volunteerRequestDatabaseService.decreaseCapacity(volunteerOffer.getVolunteerRequest());
-        changeStatusAndSave(volunteerOffer, temp);
+        changeStatusAndSave(volunteerOffer, temp, Status.ACCEPTED);
+    }
+
+    private void checkOfferStatus(Status statusRequest, Status desired) throws Exception {
+        if (!statusRequest.equals(desired)) {
+            String action = (statusRequest.equals(Status.REJECTED) ? "accept" : "reject");
+            throw new IllegalAccessException(String.format("The requested status is %s cannot %s this offer", statusRequest, action));
+
+        }
+    }
+
+    public void rejectVolunteerOffer(Long idOffer, String email) throws Exception {
+        VolunteerOffer volunteerOffer = volunteerOfferDatabaseService.getVolunteerOffer(idOffer);
+        checkOrganizationEmail(email, volunteerOffer);
+        checkStartDateAndEndDate(volunteerOffer.getVolunteerRequest());
+        checkOfferStatus(volunteerOffer.getStatus(), Status.PENDING);
+        VolunteerRequest temp = this.volunteerRequestDatabaseService.getSpecificRequest(idOffer);
+        changeStatusAndSave(volunteerOffer,temp, Status.REJECTED);
     }
 
 
@@ -49,9 +67,9 @@ public class VolunteerOfferAcceptService {
             throw new InvalidDateException(HttpStatus.BAD_REQUEST,"Non è possibile accettare la richiesta in quanto è scaduta");
     }
 
-    private void changeStatusAndSave(VolunteerOffer volunteerOffer, VolunteerRequest volunteerRequest) throws Exception {
+    private void changeStatusAndSave(VolunteerOffer volunteerOffer, VolunteerRequest volunteerRequest, Status status) throws Exception {
         volunteerOffer.setVolunteerRequest(volunteerRequest);
-        volunteerOffer.setStatus(Status.ACCEPTED);
+        volunteerOffer.setStatus(status);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
     }
 
