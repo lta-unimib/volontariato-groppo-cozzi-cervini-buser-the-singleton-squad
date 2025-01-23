@@ -1,8 +1,8 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
+import com.unimib.singletonsquad.doit.dto.received.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;
 import com.unimib.singletonsquad.doit.exception.resource.InvalidDTOParameterGeneral;
 import com.unimib.singletonsquad.doit.service.registration.RegistrationOrganizationService;
 import com.unimib.singletonsquad.doit.service.registration.RegistrationVolunteerService;
@@ -45,11 +45,10 @@ public class RegisterController {
         }
     }
 
-    private ResponseEntity<?> register(Object dto) throws Exception {
+    private ResponseEntity<ResponseMessage> register(Object dto) throws Exception {
         String token = registerEntity(dto);
         JsonNode tokenJson = ResponseMessageUtil.createJsonNode("authToken", token);
-        ResponseMessage message = ResponseMessageUtil.createResponse("Registration successful", HttpStatus.OK, tokenJson);
-        return ResponseEntity.ok().body(message);
+        return  ResponseMessageUtil.createResponse("Registration successful", HttpStatus.OK, tokenJson);
     }
 
 

@@ -11,9 +11,6 @@ import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.websocket.AuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleInfoNotFoundException;
@@ -28,8 +25,6 @@ public class RegisteredUserService {
     private final VolunteerDatabaseService volunteerDatabaseService;
     private final OrganizationDatabaseService organizationDatabaseService;
     private final JWTUtils jwtUtils;
-
-
 
     /// GET USER EMAL AND CHECK IF IT REGISTERED
     public String getUserEmailAndIsRegistered(final UserRole userRole, HttpServletRequest request) throws Exception {
@@ -54,13 +49,15 @@ public class RegisteredUserService {
         };
     }
 
-    /// JUST CHECK THE ROLE
-    public void checkRole(@NotNull final HttpServletRequest request) throws Exception {
+    public String checkAndGetRoleFromRequest(@NotNull final HttpServletRequest request) throws Exception {
         String token = jwtUtils.getTokenFromRequest(request);
         String roleFromRequest = this.extractRoleFromToken(token);
         if(!isValidRole(roleFromRequest))
             throw new InvalidRoleGeneralException(String.format("Invalid role %s", roleFromRequest));
+
+        return roleFromRequest;
     }
+
 
 
     /// ===== SUPPORT METHOD =======
@@ -85,7 +82,7 @@ public class RegisteredUserService {
     }
 
 
-    private static boolean isValidRole(String role) {
+    public static boolean isValidRole(String role) {
         return VOLUNTEER_ROLE.equalsIgnoreCase(role) || ORGANIZATION_ROLE.equalsIgnoreCase(role);
     }
 

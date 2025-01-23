@@ -1,7 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
-import com.unimib.singletonsquad.doit.security.JWTUtils;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
@@ -39,7 +38,7 @@ public class VolunteerRequestAllOrganizationController {
     @GetMapping(value = "/{organizationName}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request,
                                                                 final @PathVariable("organizationName") String organizationName) throws Exception {
-        this.registeredUserService.checkRole(request);
+        this.registeredUserService.checkAndGetRoleFromRequest(request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationName(organizationName);
         //FIXME INSERIRLO IN UNA CLASSE APPOSITA E SOSTIUTIRLO PER TUTTE LE VOLTE
         ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization: "+organizationName,

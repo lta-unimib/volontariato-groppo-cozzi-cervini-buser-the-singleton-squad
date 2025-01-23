@@ -4,7 +4,7 @@ import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferDatabaseS
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerOfferDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
 import com.unimib.singletonsquad.doit.mappers.OfferMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
@@ -39,9 +39,14 @@ public class VolunteerOfferService {
     public void removeOffer(long offerId, String email) throws Exception {
     VolunteerOffer offer = volunteerOfferDatabaseService.getVolunteerOffer(offerId);
         if(offer.isOrganizationOffer(email) || offer.isVolunteerOffer(email)) {
-            volunteerOfferDatabaseService.deleteVolunteerOffer(offer);
+            removeOfferFromDatabase(offerId);
         } else
             throw new IllegalAccessException("Dont have the correct email");
+    }
+
+    private void removeOfferFromDatabase(Long id) throws Exception {
+        VolunteerOffer offer = this.volunteerOfferDatabaseService.getVolunteerOffer(id);
+        this.volunteerOfferDatabaseService.deleteVolunteerOffer(offer);
     }
 
     /// UPDATED A OFFER

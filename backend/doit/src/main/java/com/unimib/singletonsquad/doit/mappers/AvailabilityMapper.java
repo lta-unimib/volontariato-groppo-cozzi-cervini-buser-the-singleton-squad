@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.common.Availability;
-import com.unimib.singletonsquad.doit.dto.recived.AvailabilityDTO;
+import com.unimib.singletonsquad.doit.dto.received.AvailabilityDTO;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.userprofile;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.received.OrganizationDTO;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.user.UserProfileService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
@@ -27,7 +27,7 @@ public class OrganizationProfileController extends UserProfileController {
 
     @GetMapping("/{nameOrganization}/")
     public ResponseMessage getUserByName(final HttpServletRequest request, final @PathVariable("nameOrganization") String nameOrganization) throws Exception{
-        this.registeredUserService.checkRole(request);
+        this.registeredUserService.checkAndGetRoleFromRequest(request);
         String name = URLDecoder.decode(nameOrganization, "UTF-8");
         Organization organization = (Organization) this.userProfileService.getUserByName(name, userRole);
         String messageResponse = String.format("getting info for %s", name);

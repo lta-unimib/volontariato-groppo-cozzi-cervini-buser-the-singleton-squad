@@ -5,8 +5,8 @@ import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseServic
 import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
+import com.unimib.singletonsquad.doit.dto.received.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;
 import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;

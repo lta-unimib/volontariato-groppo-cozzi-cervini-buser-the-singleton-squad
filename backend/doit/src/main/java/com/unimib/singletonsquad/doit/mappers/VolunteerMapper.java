@@ -2,7 +2,7 @@ package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.common.Address;
-import com.unimib.singletonsquad.doit.dto.recived.AddressDTO;
+import com.unimib.singletonsquad.doit.dto.received.AddressDTO;
 import org.springframework.stereotype.Component;
 
 @Component

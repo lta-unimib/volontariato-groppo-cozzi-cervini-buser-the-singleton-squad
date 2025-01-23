@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.service.registration;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.received.OrganizationDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;

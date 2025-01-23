@@ -2,7 +2,7 @@ package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
@@ -39,7 +39,7 @@ public class VolunteerRequestController {
     @GetMapping(value = "/{idRequest}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getSpecificRequest(final @PathVariable("idRequest") Long idRequest, final HttpServletRequest request)
             throws Exception {
-       this.registeredUserService.checkRole(request);
+       this.registeredUserService.checkAndGetRoleFromRequest(request);
        VolunteerRequest specificRequest = this.volunteerRequestService.getSpecificRequest(idRequest);
        ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request got", HttpStatus.OK, VolunteerRequestMapper.mapToVolunteerRequestDTO(specificRequest));
        return ResponseEntity.ok().body(message);
