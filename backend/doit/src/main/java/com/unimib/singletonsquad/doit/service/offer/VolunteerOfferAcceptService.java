@@ -21,8 +21,6 @@ public class VolunteerOfferAcceptService {
     private final VolunteerOfferDatabaseService volunteerOfferDatabaseService;
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
 
-
-
     public void acceptVolunteerOffer(Long idOffer, String organizationEmail) throws Exception {
         VolunteerOffer volunteerOffer  = volunteerOfferDatabaseService.getVolunteerOffer(idOffer);
         checkStartDateAndEndDate(volunteerOffer.getVolunteerRequest());
@@ -30,9 +28,8 @@ public class VolunteerOfferAcceptService {
         checkRequestCapacity(volunteerOffer);
         VolunteerRequest temp = this.volunteerRequestDatabaseService.decreaseCapacity(volunteerOffer.getVolunteerRequest());
         changeStatusAndSave(volunteerOffer, temp);
-
     }
-    //todo aggiungerlo nel controladvisor
+
     private void checkOrganizationEmail(String organizationEmail, VolunteerOffer volunteer) throws Exception {
         if(!volunteer.getOrganization().getEmail().equals(organizationEmail))
             throw new IllegalAccessException("Organization email not match");
@@ -55,6 +52,7 @@ public class VolunteerOfferAcceptService {
             throw new InvalidDateException(HttpStatus.BAD_REQUEST,"Non è possibile accettare la richiesta in quanto è scaduta");
         }
     }
+
     private void changeStatusAndSave(VolunteerOffer volunteerOffer, VolunteerRequest volunteerRequest) throws Exception {
         volunteerOffer.setVolunteerRequest(volunteerRequest);
         volunteerOffer.setStatus(Status.ACCEPTED);

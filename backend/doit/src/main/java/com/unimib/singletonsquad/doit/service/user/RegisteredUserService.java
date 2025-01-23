@@ -71,6 +71,7 @@ public class RegisteredUserService {
             throw new InvalidRoleGeneralException("Invalid user role: " + roleFromToken);
         }
 
+
         if (roleDesired !=null && !roleFromToken.equalsIgnoreCase(roleDesired.name())) {
             throw new InvalidRoleGeneralException(String.format("Invalid user role: %s", roleDesired));
         }

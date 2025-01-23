@@ -70,11 +70,12 @@ public class VolunteerRequestService {
         return getRequestSendDTOList(tempLista);
     }
 
+
     /// FIXME INSERIRLO IN UN MAPPER DTO APPOSITO
     private List<VolunteerRequestSendDTO> getRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) {
         List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
         for (VolunteerRequest volunteersingle : volunteerRequest) {
-            volunteerRequestDTOS.add(VolunteerRequestMapper.mapToVolunteerRequestDTO(volunteersingle));
+            volunteerRequestDTOS.add(volunteerRequestMapper.;
         }
         return volunteerRequestDTOS;
     }

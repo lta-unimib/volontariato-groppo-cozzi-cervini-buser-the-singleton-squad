@@ -2,14 +2,15 @@ package com.unimib.singletonsquad.doit.dto.recived;
 
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class VolunteerRequestDTO {
     @NotNull
     private String title;
@@ -34,5 +35,6 @@ public class VolunteerRequestDTO {
 
     @NotNull
     private String endTime;
+
 
 }

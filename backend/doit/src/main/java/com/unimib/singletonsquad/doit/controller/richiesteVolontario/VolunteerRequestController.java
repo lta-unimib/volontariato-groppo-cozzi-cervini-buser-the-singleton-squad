@@ -63,6 +63,5 @@ public class VolunteerRequestController {
             ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request updated", HttpStatus.OK);
             return ResponseEntity.ok().body(message);
     }
-    /// Restituisce tutte le richieste ordinate
 
 }

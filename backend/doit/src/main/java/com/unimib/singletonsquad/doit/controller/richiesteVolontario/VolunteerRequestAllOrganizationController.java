@@ -20,12 +20,20 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/request/all")
+@RequestMapping("/request/all/organization")
 public class VolunteerRequestAllOrganizationController {
 
     private final VolunteerRequestService volunteerRequestService;
     private final RegisteredUserService registeredUserService;
 
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
+        List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
+        ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization: "+email,
+                HttpStatus.OK, volunteerRequestList);
+        return ResponseEntity.ok().body(message);
+    }
 
     /// Get all Organization Request by his name
     @GetMapping(value = "/{organizationName}/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,14 +47,6 @@ public class VolunteerRequestAllOrganizationController {
         return ResponseEntity.ok().body(message);
     }
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
-        List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
-        ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization: "+email,
-                HttpStatus.OK, volunteerRequestList);
-        return ResponseEntity.ok().body(message);
-    }
 
 
 }
