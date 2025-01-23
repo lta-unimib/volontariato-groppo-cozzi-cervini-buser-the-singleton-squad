@@ -23,7 +23,7 @@ public class UserProfileService {
     private final OrganizationDatabaseService organizationDatabaseService;
     private final VolunteerMapper volunteerMapper;
     private final OrganizationMapper organizationMapper;
-    private static final String Error_Message_Email = "Unsupported user role";
+    private static final String ERROR_MESSAGE_EMAIL = "Unsupported user role";
 
     public User getUserInfoById(Long id, UserRole role) throws InvalidRoleGeneralException {
         switch (role) {
@@ -32,7 +32,7 @@ public class UserProfileService {
             case ORGANIZATION:
                 return this.organizationDatabaseService.findOrganizationById(id);
             default:
-                throw new InvalidRoleGeneralException(Error_Message_Email);
+                throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
         }
     }
 
@@ -43,7 +43,7 @@ public class UserProfileService {
             case ORGANIZATION:
                 return this.organizationDatabaseService.findOrganizationByEmail(email);
             default:
-                throw new InvalidRoleGeneralException(Error_Message_Email);
+                throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
         }
     }
 
@@ -51,9 +51,9 @@ public class UserProfileService {
         if(role == UserRole.VOLUNTEER)
                 return this.organizationDatabaseService.findOrganizationByName(username);
         else if(role == UserRole.ORGANIZATION)
-                throw new InvalidRoleGeneralException(Error_Message_Email);
+                throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
         else
-            throw new InvalidRoleGeneralException(Error_Message_Email);
+            throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
     }
 
 
@@ -70,7 +70,7 @@ public class UserProfileService {
                 this.organizationDatabaseService.save(organization);
                 break;
             default:
-                throw new InvalidRoleGeneralException(Error_Message_Email);
+                throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
         }
     }
 
@@ -89,7 +89,7 @@ public class UserProfileService {
                 this.organizationDatabaseService.save(toBeSavedOrg);
                 break;
             default:
-                throw new InvalidRoleGeneralException(Error_Message_Email);
+                throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
         }
     }
 
@@ -102,7 +102,7 @@ public class UserProfileService {
                 this.organizationDatabaseService.deleteOrganization(email);
                 break;
             default:
-                throw new InvalidRoleGeneralException(Error_Message_Email);
+                throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
         }
     }
 

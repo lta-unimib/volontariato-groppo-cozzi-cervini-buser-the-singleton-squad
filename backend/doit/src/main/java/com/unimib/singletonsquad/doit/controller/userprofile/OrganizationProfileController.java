@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URLDecoder;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/profile/organization")
+@AllArgsConstructor
 public class OrganizationProfileController extends UserProfileController {
 
     private final UserProfileService userProfileService;

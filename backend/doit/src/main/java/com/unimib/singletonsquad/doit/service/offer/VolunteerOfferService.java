@@ -28,7 +28,7 @@ public class VolunteerOfferService {
 
     /// ADD NEW OFFER
     public void addNewOffer(Long requestId, String email) throws Exception {
-        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformations(email, UserRole.volunteer);
+        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformations(email, UserRole.VOLUNTEER);
         VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(requestId);
         VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteer, volunteerRequest);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
