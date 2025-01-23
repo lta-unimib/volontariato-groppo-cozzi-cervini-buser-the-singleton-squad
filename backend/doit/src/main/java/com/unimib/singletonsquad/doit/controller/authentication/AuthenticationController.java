@@ -29,6 +29,6 @@ public class AuthenticationController {
     private ResponseEntity<ResponseMessage> createMessageResponse( @PathVariable final String role, final String token){
         JsonNode tokenJson = ResponseMessageUtil.createJsonNode("authToken", token);
         String messageResponse = String.format("Successfully authenticated %s", role);
-        return ResponseMessageUtil.createResponse(messageResponse, HttpStatus.OK, tokenJson);
+        return ResponseMessageUtil.createResponseSuccess(messageResponse, HttpStatus.OK, tokenJson);
     }
 }

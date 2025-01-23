@@ -138,7 +138,7 @@ public class GlobalExceptionHandler {
 
     /// Build the error response
     private ResponseEntity<ResponseMessage> buildErrorResponse(HttpStatus status, String message) {
-        ResponseMessage messageResponse = ResponseMessageUtil.createResponse(message, status, null);
+        ResponseMessage messageResponse = ResponseMessageUtil.createResponseSuccess(message, status, null);
         return new ResponseEntity<>(messageResponse, status);
     }
 }

@@ -26,10 +26,10 @@ public class VolunteerFavouriteController {
     public ResponseEntity<ResponseMessage> getFavouriteOrganizations(final HttpServletRequest request) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
         List<OrganizationDTO> favouriteOrganizations = volunteerDatabaseService.getFavouriteOrganizations(email);
-        ResponseMessage message = ResponseMessageUtil.createResponse( "getting all",HttpStatus.OK, favouriteOrganizations);
-        return ResponseEntity.ok(message);
+        return ResponseMessageUtil.createResponseSuccess( "getting all",HttpStatus.OK, favouriteOrganizations);
     }
 
+    /// FIXME PASSARE IL NOME DELL'ORGANIZZAZIONE COME PARAMENTRO
     @DeleteMapping("/organization/")
     public ResponseEntity<?> deleteFavouriteOrganization(
             final HttpServletRequest request,

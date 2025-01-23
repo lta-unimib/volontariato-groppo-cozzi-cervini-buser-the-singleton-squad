@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +25,7 @@ public class VolunteerProfileController  extends UserProfileController {
 
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseMessage getVolunteerInformation(final HttpServletRequest request) throws Exception{
+    public ResponseEntity<ResponseMessage> getVolunteerInformation(final HttpServletRequest request) throws Exception{
         String email = this.registeredUserService.getUserEmail(request);
         Volunteer volunteer = (Volunteer) this.userProfileService.getUserByEmail(email, UserRole.volunteer);
         VolunteerDTO volunteerDTO = VolunteerMapper.toVolunteerDTO(volunteer);
@@ -34,8 +35,8 @@ public class VolunteerProfileController  extends UserProfileController {
 
     /// UPDATE VOLUNTEER INFOS
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseMessage updateVolunteerInfos(final HttpServletRequest request,
-                                                final @RequestBody VolunteerDTO volunteer)
+    public ResponseEntity<ResponseMessage> updateVolunteerInfos(final HttpServletRequest request,
+                                                               final @RequestBody VolunteerDTO volunteer)
             throws Exception{
         String email = super.validateTokenAndGetEmail(request, UserRole.volunteer);;
         this.userProfileService.updateUserInfo(email, volunteer, UserRole.volunteer);
@@ -45,7 +46,7 @@ public class VolunteerProfileController  extends UserProfileController {
 
     /// DELETE VOLUNTEER
     @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseMessage deleteUser(final HttpServletRequest request) throws Exception {
+    public ResponseEntity<ResponseMessage> deleteUser(final HttpServletRequest request) throws Exception {
         String email = super.validateTokenAndGetEmail(request, UserRole.volunteer);
         this.userProfileService.deleteUser(email, UserRole.volunteer);
         String messageResponse = String.format("deleted user %s", email);

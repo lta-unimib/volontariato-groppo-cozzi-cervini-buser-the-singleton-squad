@@ -3,6 +3,7 @@ package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/request")
@@ -31,8 +33,7 @@ public class VolunteerRequestController {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
         Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.organization);
         this.volunteerRequestService.createVolunteerRequest(volunteerRequestDTO, organization);
-        ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request created", HttpStatus.OK);
-        return ResponseEntity.ok().body(message);
+        return ResponseMessageUtil.createResponseSuccess("volunteer request created", HttpStatus.OK, null);
     }
 
     /// Ottenere una specifica richiesta
@@ -41,8 +42,8 @@ public class VolunteerRequestController {
             throws Exception {
        this.registeredUserService.checkAndGetRoleFromRequest(request);
        VolunteerRequest specificRequest = this.volunteerRequestService.getSpecificRequest(idRequest);
-       ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request got", HttpStatus.OK, VolunteerRequestMapper.mapToVolunteerRequestDTO(specificRequest));
-       return ResponseEntity.ok().body(message);
+       VolunteerRequestSendDTO requestDTO = VolunteerRequestMapper.mapToVolunteerRequestDTO(specificRequest);
+       return ResponseMessageUtil.createResponseSuccess("volunteer request got", HttpStatus.OK,requestDTO);
     }
 
     /// Cancellare una specifica richiesta
@@ -51,9 +52,8 @@ public class VolunteerRequestController {
     throws Exception {
             String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
         Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.organization);
-            this.volunteerRequestService.deleteVolunteerRequest(idRequest, organization);
-            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request deleted", HttpStatus.OK);
-            return ResponseEntity.ok().body(message);
+        this.volunteerRequestService.deleteVolunteerRequest(idRequest, organization);
+        return ResponseMessageUtil.createResponseSuccess("volunteer request deleted", HttpStatus.OK, null);
     }
 
     /// Modificare una richiesta
@@ -64,8 +64,7 @@ public class VolunteerRequestController {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
         Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.organization);
         this.volunteerRequestService.updateVolunteerRequest(volunteerRequestDTO, idRequest, organization);
-            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request updated", HttpStatus.OK);
-            return ResponseEntity.ok().body(message);
+        return ResponseMessageUtil.createResponseSuccess("volunteer request updated", HttpStatus.OK, null);
     }
 
 }

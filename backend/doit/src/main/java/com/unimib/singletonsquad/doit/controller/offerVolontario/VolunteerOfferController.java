@@ -33,7 +33,7 @@ public class VolunteerOfferController {
             throws Exception {
             String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
             this.volunteerOfferService.addNewOffer(volunteerOfferDTO, email);
-            return  ResponseMessageUtil.createResponse("volunteer offer saved", HttpStatus.OK, null);
+            return  ResponseMessageUtil.createResponseSuccess("volunteer offer saved", HttpStatus.OK, null);
 
     }
 
@@ -44,7 +44,7 @@ public class VolunteerOfferController {
         UserRole role = UserRole.valueOf(this.registeredUserService.checkAndGetRoleFromRequest(request));
         String email = this.registeredUserService.getUserEmailAndIsRegistered(role, request);
         this.volunteerOfferService.removeOffer(idOffer, email);
-        return ResponseMessageUtil.createResponse("volunteer offer deleted", HttpStatus.OK, null);
+        return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
     }
 
     /// GET ALL VOLUNTEER OFFER
@@ -53,7 +53,7 @@ public class VolunteerOfferController {
         String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
         List<VolunteerOffer> volunteerOffers = this.volunteerOfferService.getAllVolunteerOffers(email);
         List<VolunteerOfferDTO> volunteerOfferDTOS = VolunteerOfferMapper.getListVolunteerOfferDTO(volunteerOffers);
-        return ResponseMessageUtil.createResponse("get all volunteer offers", HttpStatus.OK, volunteerOfferDTOS);
+        return ResponseMessageUtil.createResponseSuccess("get all volunteer offers", HttpStatus.OK, volunteerOfferDTOS);
     }
 
     /// A ORGANIZATION ACCEPT A VOLUNTEER OFFER
@@ -61,7 +61,7 @@ public class VolunteerOfferController {
     public ResponseEntity<ResponseMessage> acceptOffer(final @PathVariable Long idOffer, final HttpServletRequest request) throws Exception {
         String organizationEmail = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
         this.acceptService.acceptVolunteerOffer(idOffer, organizationEmail);
-        return ResponseMessageUtil.createResponse(String.format("Accept offer %s", idOffer), HttpStatus.OK, null);
+        return ResponseMessageUtil.createResponseSuccess(String.format("Accept offer %s", idOffer), HttpStatus.OK, null);
     }
 
 }

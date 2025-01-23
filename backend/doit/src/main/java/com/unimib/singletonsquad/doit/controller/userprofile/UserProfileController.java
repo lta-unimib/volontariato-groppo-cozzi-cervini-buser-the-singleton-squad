@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
@@ -23,8 +24,8 @@ public abstract class UserProfileController {
     }
 
     /// TODO CREARE UN METODO IN ResponseMessageUtil --> SEND OK RESPONSE CHE TORNA UNA RESPONSEENTITY<ResponseMessage></ResponseMessage>
-    protected ResponseMessage sendResponseMessage(final String message, HttpStatus status, Object data) {
-        return ResponseMessageUtil.createResponse(message, HttpStatus.OK, data);
+    protected ResponseEntity<ResponseMessage> sendResponseMessage(final String message, HttpStatus status, Object data) {
+        return ResponseMessageUtil.createResponseSuccess(message, HttpStatus.OK, data);
     }
 
 }

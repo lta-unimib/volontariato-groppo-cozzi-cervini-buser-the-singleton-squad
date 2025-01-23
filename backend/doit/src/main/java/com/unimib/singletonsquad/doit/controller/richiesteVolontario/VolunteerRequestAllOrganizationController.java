@@ -4,7 +4,6 @@ import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
-import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -25,13 +24,13 @@ public class VolunteerRequestAllOrganizationController {
     private final VolunteerRequestService volunteerRequestService;
     private final RegisteredUserService registeredUserService;
 
+    /// Get all Organization through its email-token
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
-        ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization: "+email,
+        return ResponseMessageUtil.createResponseSuccess("get all request by organization: "+email,
                 HttpStatus.OK, volunteerRequestList);
-        return ResponseEntity.ok().body(message);
     }
 
     /// Get all Organization Request by his name
@@ -40,10 +39,8 @@ public class VolunteerRequestAllOrganizationController {
                                                                 final @PathVariable("organizationName") String organizationName) throws Exception {
         this.registeredUserService.checkAndGetRoleFromRequest(request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationName(organizationName);
-        //FIXME INSERIRLO IN UNA CLASSE APPOSITA E SOSTIUTIRLO PER TUTTE LE VOLTE
-        ResponseMessage message = ResponseMessageUtil.createResponse("get all request by organization: "+organizationName,
+        return ResponseMessageUtil.createResponseSuccess("get all request by organization: "+organizationName,
                 HttpStatus.OK, volunteerRequestList);
-        return ResponseEntity.ok().body(message);
     }
 
 

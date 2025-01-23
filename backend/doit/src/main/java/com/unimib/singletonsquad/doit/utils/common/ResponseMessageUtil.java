@@ -22,7 +22,7 @@ public class ResponseMessageUtil {
     }
 
 
-    public static ResponseEntity<ResponseMessage> createResponse(String message, HttpStatus status, Object data) {
+    public static ResponseEntity<ResponseMessage> createResponseSuccess(String message, HttpStatus status, Object data) {
         ResponseMessage response = createResponseMessage(message, status, data);
         return  ResponseEntity.status(status).body(response);
     }
