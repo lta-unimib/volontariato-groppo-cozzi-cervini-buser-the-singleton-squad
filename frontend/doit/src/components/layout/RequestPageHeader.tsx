@@ -32,6 +32,20 @@ export const RequestHeader = ({
 
     const [idRequest, setIdRequest] = useState<string | undefined>(undefined);
 
+    const categories = [
+        { id: "supporto_anziani", label: "Supporto Anziani" },
+        { id: "supporto_bambini", label: "Supporto Bambini" },
+        { id: "supporto_disabili", label: "Supporto Disabili" },
+        { id: "ripetizioni", label: "Ripetizioni" },
+        { id: "caritas", label: "Caritas" },
+    ];
+
+    const getCategoryLabel = (categoryId: string) => {
+        const category = categories.find(cat => cat.id === categoryId);
+        return category ? category.label : categoryId;
+    };
+
+
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const data = urlParams.get('data');
@@ -99,11 +113,15 @@ export const RequestHeader = ({
                     <p className="text-sm text-muted-foreground">{address}</p>
                     {requestData.categories && requestData.categories.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-4">
-                            {requestData.categories.map((category) => (
-                                <Badge key={category} variant="secondary" className="font-normal">
-                                    {category.charAt(0).toUpperCase() + category.slice(1)}
-                                </Badge>
-                            ))}
+                            {requestData.categories && requestData.categories.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mt-3 mb-3 md:mb-0">
+                                    {requestData.categories.map((category) => (
+                                        <Badge key={category} variant="secondary" className="font-normal">
+                                            {getCategoryLabel(category)}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
