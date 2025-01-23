@@ -51,7 +51,7 @@ public class CityInfoDatabaseService {
     private CityInfo createCityInfo(CityInfoDTO cityInfoDTO) {
         return this.cityInfoMapper.mapToCityInfo(cityInfoDTO);
     }
-    private CityInfo saveDtoIntoDatabase(@NotNull final CityInfoDTO response) throws Exception {
+    private CityInfo saveDtoIntoDatabase(@NotNull final CityInfoDTO response){
         CityInfo temp = this.createCityInfo(response);
         return this.saveCityInfo(temp);
     }

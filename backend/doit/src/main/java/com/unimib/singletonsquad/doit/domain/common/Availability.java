@@ -33,9 +33,6 @@ public class Availability{
     @Column(name = "data", columnDefinition = "TEXT")
     private List<String> data;
 
-    /// FIXME: NON è POSSIBILE SALVARE LOCALTIME STARTTIME AND ENDTIME
-    ///FIXE AL POSTO DELLE STIRNGHE ???
-
     public boolean matching(LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         switch (mode) {
