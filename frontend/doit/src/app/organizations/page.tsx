@@ -1,6 +1,6 @@
 "use client";
 
-import { Page } from "@/components/layout/Page";
+import { Page } from "@/components/Page";
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";

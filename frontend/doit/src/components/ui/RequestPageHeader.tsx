@@ -64,13 +64,13 @@ export const RequestHeader = ({
     }, []);
 
     const handleSubscribe = async () => {
-        const endpoint = "/offer/new";
+        const endpoint = "/offer/new/";
         await makePostRequest (endpoint, idRequest);
     };
 
     const handleSave = async () => {
         console.log("Profilo salvato");
-        const endpoint = "/volunteer/favorite/organization"
+        const endpoint = "/volunteer/favorite/organization/"
         await makePostRequest(endpoint, organizationName);
     };
 
