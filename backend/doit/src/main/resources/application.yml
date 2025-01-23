@@ -11,3 +11,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+
+api:
+  opencage:
+    key: f076219cc61b45e3a724963a338ff555
+security:
+  jwt:
+    secret-key: 3d3e383c39e98f0f9b5c984d54d57e6d6ab11e1b3e3b6897727e2b1f89c97c53a6d8f5088c9a56f568e1b6b637022bd3

@@ -3,11 +3,11 @@ package com.unimib.singletonsquad.doit.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -19,7 +19,8 @@ import java.util.function.Function;
 @Component
 public class JWTUtils {
 
-    private final String secretKey = "3d3e383c39e98f0f9b5c984d54d57e6d6ab11e1b3e3b6897727e2b1f89c97c53a6d8f5088c9a56f568e1b6b637022bd3";
+    @Value("${security.jwt.secret-key}")
+    private  String secretKey;
 
     private final long jwtExpiration = 300000000;
 
@@ -36,10 +37,6 @@ public class JWTUtils {
 
     public String generateToken(Map<String, Object> extraClaims, String username) {
         return buildToken(extraClaims, username, jwtExpiration);
-    }
-
-    public String generateRefreshToken(String username) {
-        return buildToken(new HashMap<>(), username, refreshExpiration);
     }
 
     private String buildToken(Map<String, Object> extraClaims, String username, long expiration) {
