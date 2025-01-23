@@ -109,6 +109,7 @@ export default function OrganizationHome() {
                 <div className="relative w-full flex-1 flex flex-col">
                     <SearchBar
                         className="mt-12 md:mt-0 p-4 md:px-8"
+                        label={"Terminate"}
                         onRegisteredToggle={handleRegisteredToggle}
                     />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
@@ -123,7 +124,7 @@ export default function OrganizationHome() {
                                 </div>
                             ) : requests.length === 0 ? (
                                 <div className="flex items-center justify-center h-full">
-                                    No requests found
+                                    Nessuna richiesta trovata
                                 </div>
                             ) : (
                                 requests.map((request) => (

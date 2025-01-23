@@ -55,7 +55,7 @@ export default function Home() {
                             <RequestHeader
                                 title={`${requestData.title}`}
                                 organizationName={`${requestData.organization.name}`}
-                                address={`${requestData.address.street} ${requestData.address.number}, ${requestData.address.city}`}
+                                address={`${requestData.address.street} ${requestData.address.number} - ${requestData.address.additionalInfo}, ${requestData.address.city}`}
                                 imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
                                 requestData={requestData}
                                 role={requestData.role}

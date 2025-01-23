@@ -1,8 +1,6 @@
 "use client";
 
-import { MdOutlineInbox } from "react-icons/md";
-import { MdOutlinePostAdd } from "react-icons/md";
-import { MdOutlineAccountCircle } from "react-icons/md";
+import { MdOutlineReviews, MdOutlinePostAdd, MdOutlineAccountCircle } from "react-icons/md";
 
 export const organizationMenuItems = [
     {
@@ -13,8 +11,8 @@ export const organizationMenuItems = [
     },
     {
         title: "Recensioni",
-        url: "/message/organization",
-        icon: MdOutlineInbox,
+        url: "/reviews/organization",
+        icon: MdOutlineReviews,
         className: "md:inline hidden"
 
     },

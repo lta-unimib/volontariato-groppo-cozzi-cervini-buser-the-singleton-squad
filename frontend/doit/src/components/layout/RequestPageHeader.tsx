@@ -62,9 +62,8 @@ export const RequestHeader = ({
     };
 
     const handleDelete = async () => {
-        const endpoint = "/request/" + idRequest + "/";
+        const endpoint = `/request/${idRequest}/`;
         await makeDeleteRequest(endpoint);
-        //router.push("/");
         router.back();//TODO VERIFICA SE ENDPOINT CORRETTO
     };
 
