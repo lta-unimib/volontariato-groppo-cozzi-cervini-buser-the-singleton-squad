@@ -6,21 +6,23 @@ import com.google.gson.JsonParser;
 import com.unimib.singletonsquad.doit.exception.resource.HttpGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.utils.common.HttpClientServiceUtil;
-import io.netty.handler.codec.http2.Http2Exception;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-@AllArgsConstructor
 @Service
 public class CityInfoHTTPService {
     private final HttpClientServiceUtil http;
+    private final String apiKey;
 
-    @Value("${api.opencage.key}")
-    private String apiKey;
+    @Autowired
+    public CityInfoHTTPService(HttpClientServiceUtil http, @Value("${api.opencage.key}") String apiKey) {
+        this.http = http;
+        this.apiKey = apiKey;
+    }
 
     public double[] getCoordinatesFromOpenCage(String address) throws Exception {
         String url = String.format("https://api.opencagedata.com/geocode/v1/json?q=%s&key=%s&countrycode=IT",
