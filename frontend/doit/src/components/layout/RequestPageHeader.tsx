@@ -81,8 +81,8 @@ export const RequestHeader = ({
 
     const handleSave = async () => {
         console.log("Profilo salvato");
-        const endpoint = "/volunteer/favorite/organization/"
-        await makePostRequest(endpoint, organizationName);
+        const endpoint = "/volunteer/favorite/organization/" + organizationName+"/";
+        await makePostRequest(endpoint);
     };
 
     const onBack = () => router.back();
