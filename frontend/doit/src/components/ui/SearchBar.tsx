@@ -10,9 +10,24 @@ interface SearchBarProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string;
     onRegisteredToggle?: (enabled: boolean) => void;
     label?: string;
+    showToggle?: boolean;
+    showFilters?: boolean;
+    filters?: string[];
+    onFilterClick?: (filter: string) => void;
+    disabled?: boolean;
 }
 
-export default function SearchBar({ className, onRegisteredToggle, label = "Iscritto", ...props }: SearchBarProps) {
+export default function SearchBar({
+                                      className,
+                                      onRegisteredToggle,
+                                      label = "Iscritto",
+                                      showToggle = true,
+                                      showFilters = true,
+                                      filters = ["Filtro 1", "Filtro 2", "Filtro 3", "Filtro 4"],
+                                      onFilterClick,
+                                      disabled = false,
+                                      ...props
+                                  }: SearchBarProps) {
     const [searchTerm, setSearchTerm] = useState("")
 
     const handleSearch = (e: React.FormEvent) => {
@@ -33,26 +48,32 @@ export default function SearchBar({ className, onRegisteredToggle, label = "Iscr
                         />
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={20} />
                     </div>
-                    <div className="ml-4 flex items-center space-x-2">
-                        <Switch onCheckedChange={onRegisteredToggle} aria-label="Abilita ricerca API" />
-                        <span className="text-sm text-muted-foreground">{label}</span>
-                    </div>
+                    {showToggle && (
+                        <div className="ml-4 flex items-center space-x-2">
+                            <Switch
+                                onCheckedChange={onRegisteredToggle}
+                                aria-label="Abilita ricerca API"
+                                disabled={disabled}
+                            />
+                            <span className="text-sm text-muted-foreground">{label}</span>
+                        </div>
+                    )}
                 </div>
             </form>
-            <div className="flex flex-wrap gap-2">
-                <Badge variant="outline" className="cursor-pointer font-normal hover:bg-muted">
-                    Filtro 1
-                </Badge>
-                <Badge variant="outline" className="cursor-pointer font-normal hover:bg-muted">
-                    Filtro 2
-                </Badge>
-                <Badge variant="outline" className="cursor-pointer font-normal hover:bg-muted">
-                    Filtro 3
-                </Badge>
-                <Badge variant="outline" className="cursor-pointer font-normal hover:bg-muted">
-                    Filtro 4
-                </Badge>
-            </div>
+            {showFilters && (
+                <div className="flex flex-wrap gap-2">
+                    {filters.map((filter) => (
+                        <Badge
+                            key={filter}
+                            variant="outline"
+                            className="cursor-pointer font-normal hover:bg-muted"
+                            onClick={() => onFilterClick && onFilterClick(filter)}
+                        >
+                            {filter}
+                        </Badge>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

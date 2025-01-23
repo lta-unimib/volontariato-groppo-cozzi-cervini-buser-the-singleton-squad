@@ -36,9 +36,9 @@ export const ProfileHeader = ({
 
     const handleDelete = async () => {
         console.log("Profilo eliminato");
-        const endpoint = "profile/volunteer/";
-        await makeDeleteRequest(endpoint);
+        const endpoint = `/profile/${role.toLowerCase()}/`;
         router.push("/");
+        await makeDeleteRequest(endpoint);
     };
 
     const onBack = () => router.back();
