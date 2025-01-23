@@ -23,8 +23,6 @@ public class VolunteerRequestAllModeController {
     private final RegisteredUserService registeredUserService;
     private final VolunteerRequestModeService volunteerRequestModeService;
 
-    /// TODO FARLO IN UN SERVICE A PARTE
-    /// FIXME: controllare e modificare
     @GetMapping(value = "/sorted/")
     public ResponseEntity<?> getVolunteerRequest(final HttpServletRequest request) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);

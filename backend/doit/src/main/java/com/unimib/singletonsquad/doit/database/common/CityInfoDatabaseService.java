@@ -47,6 +47,7 @@ public class CityInfoDatabaseService {
         }
         return saved;
     }
+
     /// Serve per convertire i parametri della chiamata HTTP in una città
     private CityInfo createCityInfo(CityInfoDTO cityInfoDTO) {
         return this.cityInfoMapper.mapToCityInfo(cityInfoDTO);
@@ -57,7 +58,7 @@ public class CityInfoDatabaseService {
     }
     private CityInfo getCityAndSave(@NotNull final String cityName) throws Exception {
         ///due to API can just get 1 request per second
-        //Thread.sleep(1000);
+        Thread.sleep(800);
         double[] coords = this.http.getCoordinatesFromOpenCage(cityName);
         CityInfoDTO cityInfoDTO = new CityInfoDTO();
         cityInfoDTO.setCityName(cityName);
