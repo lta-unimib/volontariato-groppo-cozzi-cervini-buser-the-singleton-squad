@@ -4,8 +4,7 @@ import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferDatabaseS
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
-import com.unimib.singletonsquad.doit.mappers.VolunteerOfferMapper;
+import com.unimib.singletonsquad.doit.mappers.OfferMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
@@ -28,10 +27,10 @@ public class VolunteerOfferService {
     }
 
     /// ADD NEW OFFER
-    public void addNewOffer(VolunteerOfferDTO volunteerOfferDTO, String email) throws Exception {
+    public void addNewOffer(Long requestId, String email) throws Exception {
         Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformations(email, UserRole.volunteer);
-        VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(volunteerOfferDTO.getVolunteerRequestId());
-        VolunteerOffer volunteerOffer = VolunteerOfferMapper.toOffer(volunteerOfferDTO, volunteer, volunteerRequest);
+        VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(requestId);
+        VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteer, volunteerRequest);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
         this.volunteerRequestControllerService.addVolunteerOffer(volunteerRequest.getId(), volunteerOffer);
     }

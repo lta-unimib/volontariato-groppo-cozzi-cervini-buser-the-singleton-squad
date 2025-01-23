@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 type PageProps = {
@@ -6,7 +8,7 @@ type PageProps = {
 
 export function Page({ children }: PageProps) {
     return (
-        <div className="w-full h-screen flex flex-col bg-[var(--neutral-color-neutral-100)]">
+        <div className={`w-full h-screen flex flex-col bg-background`}>
             {children}
         </div>
     );

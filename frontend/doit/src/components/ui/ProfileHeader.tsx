@@ -5,8 +5,9 @@ import { MdOutlineEdit, MdOutlineDelete } from "react-icons/md"; // Aggiungi MdD
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { OrganizationFormData, VolunteerFormData } from "@/types/formData";
 import {makeDeleteRequest} from "@/utils/apiUtils";
+import {VolunteerFormData} from "@/types/refactored/model/volunteerFormData";
+import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
 
 type ProfileData = VolunteerFormData | OrganizationFormData;
 

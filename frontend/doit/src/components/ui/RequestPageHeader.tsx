@@ -5,10 +5,10 @@ import { Badge } from "@/components/ui/Badge";
 import { MdOutlineEdit, MdOutlineCheck, MdOutlineBookmarkBorder, MdOutlineDelete } from "react-icons/md";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { RequestFormData } from "@/types/formData";
 import { ArrowLeft } from "lucide-react";
 import {makeDeleteRequest, makePostRequest} from "@/utils/apiUtils";
 import {useEffect, useState} from "react";
+import {RequestFormData} from "@/types/refactored/model/requestFormData";
 
 interface RequestHeaderProps {
     title: string;
@@ -63,17 +63,6 @@ export const RequestHeader = ({
         }
     }, []);
 
-    const handleSubscribe = async () => {
-        const endpoint = "/offer/new";
-        await makePostRequest (endpoint, idRequest);
-    };
-
-    const handleSave = async () => {
-        console.log("Profilo salvato");
-        const endpoint = "/volunteer/favorite/organization/"
-        await makePostRequest(endpoint, organizationName);
-    };
-
     const handleDelete = async () => {
         const endpoint = `/request/${idRequest}/`;
         await makeDeleteRequest(endpoint);
@@ -83,6 +72,17 @@ export const RequestHeader = ({
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(requestData));
         router.push(`/request/?mode=edit&data=${encodedData}`);
+    };
+
+    const handleSubscribe = async () => {
+        const endpoint = "/offer/subscribe/" + idRequest + "/";
+        await makePostRequest (endpoint, idRequest);
+    };
+
+    const handleSave = async () => {
+        console.log("Profilo salvato");
+        const endpoint = "/volunteer/favorite/organization/" + organizationName+"/";
+        await makePostRequest(endpoint);
     };
 
     const onBack = () => router.back();

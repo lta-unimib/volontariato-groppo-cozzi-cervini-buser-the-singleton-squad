@@ -1,17 +1,17 @@
 "use client"
 
 import React, { useState, useEffect } from "react";
-import { Page } from "@/components/layout/Page";
+import { Page } from "@/components/Page";
 import { organizationMenuItems } from "@/app/dashboard/organization/utils/organizationMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { Card, CardContent } from "@/components/ui/Card";
-import { ProfileHeader } from "@/components/layout/ProfileHeader";
+import { ProfileHeader } from "@/components/ui/ProfileHeader";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { makeGetRequest } from "@/utils/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { OrganizationFormData } from "@/types/formData";
 import { Badge } from "@/components/ui/Badge";
+import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
 
 interface ApiResponse {
     message: string;

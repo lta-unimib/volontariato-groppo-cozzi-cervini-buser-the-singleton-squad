@@ -1,15 +1,15 @@
 "use client";
 
-import { Page } from "@/components/layout/Page";
+import { Page } from "@/components/Page";
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { makeGetRequest } from "@/utils/apiUtils";
-import { OrganizationFormData } from "@/types/formData";
 import OrganizationCard from "@/app/organizations/components/OrganizationCard";
 import SearchBar from "@/components/ui/SearchBar";
+import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
 
 interface ApiResponse {
     message: string;
@@ -26,7 +26,7 @@ export default function FavoriteOrganizations() {
         setLoading(true);
         setError(null);
         try {
-            const response = await makeGetRequest<ApiResponse>("/organization/favorites");
+            const response = await makeGetRequest<ApiResponse>("/volunteer/favorite/organizations/");
             if (response?.status === 200 && Array.isArray(response.data)) {
                 setOrganizations(response.data);
             } else {

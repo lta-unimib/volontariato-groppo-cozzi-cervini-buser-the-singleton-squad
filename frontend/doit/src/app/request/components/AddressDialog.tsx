@@ -14,19 +14,19 @@ import { Input } from "@/components/ui/Input";
 import { CityPicker } from '@/components/ui/city/CityPicker';
 import { MdOutlineHome } from "react-icons/md";
 import { cn } from "@/lib/utils";
-import { AddressData } from '@/types/addressData';
+import { AddressFormData } from '@/types/refactored/model/addressFormData';
 import { useAddressFormData } from '@/app/request/hooks/useAddressFormData';
 import { useAddressFormFocus } from '@/app/request/hooks/useAddressFormFocus';
 import { useAddressFormValidation } from '@/app/request/hooks/useAddressFormValidation';
 
 interface AddressDialogProps {
-    onSaveAction: (data: AddressData) => void;
-    initialAddress?: AddressData;
+    onSaveAction: (data: AddressFormData) => void;
+    initialAddress?: AddressFormData;
 }
 
 const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddress }) => {
     const [open, setOpen] = React.useState(false);
-    const [savedAddress, setSavedAddress] = React.useState<AddressData | null>(initialAddress || null);
+    const [savedAddress, setSavedAddress] = React.useState<AddressFormData | null>(initialAddress || null);
     const { addressData, setAddressData, updateField, resetForm } = useAddressFormData();
     const { focusState, handleFocus, handleBlur } = useAddressFormFocus();
     const { validationState, isValid } = useAddressFormValidation(addressData);
@@ -40,7 +40,7 @@ const AddressDialog: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddr
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        updateField(name as keyof AddressData, value);
+        updateField(name as keyof AddressFormData, value);
     };
 
     const handleCityChange = (selectedCity: string, selectedCap?: string) => {

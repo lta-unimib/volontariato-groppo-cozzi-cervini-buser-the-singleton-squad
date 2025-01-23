@@ -1,7 +1,7 @@
 "use client"
 
+import { OrganizationFormData } from "@/types/refactored/model/organizationFormData";
 import { useState } from "react";
-import { OrganizationFormData } from "@/types/formData";
 
 const initialFormData: OrganizationFormData = {
     organizationName: "",

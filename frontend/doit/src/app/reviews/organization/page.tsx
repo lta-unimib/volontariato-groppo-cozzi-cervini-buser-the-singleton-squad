@@ -1,6 +1,6 @@
 "use client";
 
-import {Page} from "@/components/layout/Page";
+import {Page} from "@/components/Page";
 import {organizationMenuItems} from "@/app/dashboard/organization/utils/organizationMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 

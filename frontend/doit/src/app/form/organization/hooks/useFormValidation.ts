@@ -1,5 +1,5 @@
-import { OrganizationFormData } from "@/types/formData";
 import { validateVATNumber, validateWebSite, validateEmail, validatePassword } from "@/app/form/organization/utils/formValidation";
+import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
 
 export const useFormValidation = (formData: OrganizationFormData, isEditing: boolean) => {
     const isVATValid = !formData.VATNumber || validateVATNumber(formData.VATNumber);

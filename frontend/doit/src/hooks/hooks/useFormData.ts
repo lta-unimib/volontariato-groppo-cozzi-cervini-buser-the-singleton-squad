@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from 'react';
-import { VolunteerFormData } from '@/types/formData';
+import {VolunteerFormData} from "@/types/refactored/model/volunteerFormData";
 
 const initialFormData: VolunteerFormData = {
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    availability: undefined,
+    availability: {mode: "daily", timeRange:[]},
     city: "",
     preferences: [],
     description: "",

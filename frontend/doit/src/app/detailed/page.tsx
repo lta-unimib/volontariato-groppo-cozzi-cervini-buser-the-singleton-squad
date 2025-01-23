@@ -1,11 +1,11 @@
 "use client"
 
 import React from "react";
-import { Page } from "@/components/layout/Page";
+import { Page } from "@/components/Page";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { Calendar } from "@/components/ui/date/Calendar";
 import { Card, CardContent } from "@/components/ui/Card";
-import { RequestHeader } from "@/components/layout/RequestPageHeader";
+import { RequestHeader } from "@/components/ui/RequestPageHeader";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { useSearchParams } from "next/navigation";
 

@@ -27,12 +27,12 @@ public class VolunteerOfferController {
 
 
     /// L'UTENTE ACCETTA LA RICHIESTA DI VOLONTARIATO
-    @PostMapping(value = "/new/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/subscribe/{requestId}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> createVolunteerOffer(final HttpServletRequest request,
-                                                  final @RequestBody VolunteerOfferDTO volunteerOfferDTO)
+                                                  final @PathVariable String requestId)
             throws Exception {
             String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
-            this.volunteerOfferService.addNewOffer(volunteerOfferDTO, email);
+            this.volunteerOfferService.addNewOffer(Long.parseLong(requestId), email);
             return  ResponseMessageUtil.createResponseSuccess("volunteer offer saved", HttpStatus.OK, null);
 
     }
