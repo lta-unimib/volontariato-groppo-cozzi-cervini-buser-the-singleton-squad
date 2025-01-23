@@ -1,6 +1,6 @@
 "use client"
 
-import {VolunteerForm} from "@/components/refactored/form/VolunteerForm";
+import {VolunteerForm} from "@/components/refactored/form/auth/VolunteerForm";
 import FormHeader from "@/components/ui/FormHeader";
 import {useBack} from "@/hooks/refactored/useBack";
 

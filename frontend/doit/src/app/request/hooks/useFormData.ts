@@ -1,6 +1,6 @@
 "use client";
 
-import { RequestFormData } from '@/types/refactored/model/requestFormData';
+import { RequestFormData } from '@/types/refactored/form/requestFormData';
 import { useState } from 'react';
 
 const initialFormData: RequestFormData = {

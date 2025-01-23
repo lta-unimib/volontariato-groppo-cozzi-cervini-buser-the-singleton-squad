@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { AddressFormData } from '@/types/refactored/model/addressFormData';
+import { AddressFormData } from '@/types/refactored/addressFormData';
 
 const initialAddressData: AddressFormData = {
     street: "",

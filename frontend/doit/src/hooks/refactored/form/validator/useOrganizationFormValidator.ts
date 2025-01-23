@@ -1,4 +1,4 @@
-import { OrganizationFormData } from "@/types/refactored/model/organizationFormData";
+import { OrganizationFormData } from "@/types/refactored/form/auth/organizationFormData";
 import {
     validateEmail,
     validatePassword,

@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/refactored/Input";
-import { CityPicker } from '@/components/refactored/city/CityPicker';
+import { CityPicker } from '@/components/refactored/form/city/CityPicker';
 import { MdOutlineHome } from "react-icons/md";
 import { cn } from "@/utils/utils";
-import { AddressFormData } from '@/types/refactored/model/addressFormData';
+import { AddressFormData } from '@/types/refactored/addressFormData';
 import { useAddressFormData } from '@/app/request/hooks/useAddressFormData';
 import { useAddressFormFocus } from '@/app/request/hooks/useAddressFormFocus';
 import { useAddressFormValidation } from '@/app/request/hooks/useAddressFormValidation';

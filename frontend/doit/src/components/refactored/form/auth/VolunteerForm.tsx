@@ -1,32 +1,33 @@
 "use client";
 
 import React from "react";
-import { MdOutlineBusiness, MdOutlineEmail, MdOutlinePassword } from "react-icons/md";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { CityPicker } from "@/components/refactored/city/CityPicker";
+import { CityPicker } from "@/components/refactored/form/city/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
-import { Input } from "@/components/refactored/Input";
 import { BaseForm } from "@/components/refactored/form/BaseForm";
-import { useOrganizationFormValidation } from "@/hooks/refactored/useOrganizationFormValidator";
-import { useRegistrationFormFocus } from "@/hooks/refactored/useRegistrationFormFocus";
-import { useFormSubmission } from "@/hooks/refactored/useFormSubmission";
+import { useFormSubmission } from '@/hooks/refactored/form/useFormSubmission';
+import { AvailabilityDialog } from '@/components/ui/AvailabilityPicker';
+import { MdOutlineEmail, MdOutlinePassword, MdOutlinePerson } from "react-icons/md";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useVolunteerFormValidation } from "@/hooks/refactored/form/validator/useVolunteerFormValidator";
+import { useRegistrationFormFocus } from "@/hooks/refactored/form/useRegistrationFormFocus";
 import { useFormInitialization } from '@/hooks/useFormInizialization';
-import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
-import { useFormData } from "@/hooks/refactored/useFormData";
+import {Input} from "@/components/refactored/Input";
+import {VolunteerFormData} from "@/types/refactored/form/auth/volunteerFormData";
+import { useFormData } from "@/hooks/refactored/form/useFormData";
 
-export function OrganizationForm() {
+export function VolunteerForm() {
 
-    const initialFormData: OrganizationFormData = {
-        organizationName: "",
+    const initialFormData: VolunteerFormData = {
+        firstName: "",
+        lastName: "",
         email: "",
         password: "",
+        availability: {mode: "daily", timeRange:[]},
         city: "",
         preferences: [],
         description: "",
-        VATNumber: "",
-        website: "",
-        role: 'organization'
+        role: 'volunteer'
     };
 
     const { formData, updateField, setFormData } = useFormData(initialFormData);
@@ -42,10 +43,9 @@ export function OrganizationForm() {
         formData
     });
 
-    const { handleSubmit: handleSubmitFn } = useFormSubmission("organization", isEditing ? "organization" : undefined);
-    const { validationState, isValid } = useOrganizationFormValidation(formData, isEditing);
+    const { handleSubmit: handleSubmitFn } = useFormSubmission("volunteer", isEditing ? "volunteer" : undefined);
+    const { validationState, isValid } = useVolunteerFormValidation(formData, isEditing);
     const { focusState, handleFocus, handleBlur } = useRegistrationFormFocus();
-
 
     if (!initialDataLoaded && isEditing) {
         return <div>Loading...</div>;
@@ -56,19 +56,27 @@ export function OrganizationForm() {
             <BaseForm
                 onSubmitAction={(e) => handleSubmit(e, handleSubmitFn)}
                 isValid={isValid()}
-                redirectTo={isEditing ? "../../../profile/organization" : "../../../dashboard/organization"}
+                redirectTo={isEditing ? "../../../profile/volunteer" : "../../../dashboard/volunteer"}
             >
-                <Input
-                    value={formData.organizationName || ""}
-                    onChange={(e) => updateField("organizationName", e.target.value)}
-                    placeholder="Nome Organizzazione"
-                    icon={<MdOutlineBusiness />}
-                />
+                <div className="flex flex-col w-full md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                    <Input
+                        value={formData.firstName || ''}
+                        onChange={(e) => updateField("firstName", e.target.value)}
+                        placeholder="Nome"
+                        icon={<MdOutlinePerson />}
+                    />
+                    <Input
+                        value={formData.lastName || ''}
+                        onChange={(e) => updateField("lastName", e.target.value)}
+                        placeholder="Cognome"
+                        icon={<MdOutlinePerson />}
+                    />
+                </div>
 
                 {!isEditing && (
                     <>
                         <Input
-                            value={formData.email || ""}
+                            value={formData.email || ''}
                             onChange={(e) => updateField("email", e.target.value)}
                             placeholder="Email"
                             type="email"
@@ -81,7 +89,7 @@ export function OrganizationForm() {
 
                         <div className="relative w-full">
                             <Input
-                                value={formData.password || ""}
+                                value={formData.password || ''}
                                 onChange={(e) => updateField("password", e.target.value)}
                                 placeholder="Password"
                                 type={showPassword ? "text" : "password"}
@@ -106,45 +114,24 @@ export function OrganizationForm() {
                     </>
                 )}
 
-                <CityPicker
-                    value={formData.city || ""}
-                    onChangeAction={(city: string) => updateField("city", city)}
+                <AvailabilityDialog
+                    onSaveAction={(availability) => updateField('availability', availability)}
+                    initialSelected={formData.availability}
                 />
-
+                <CityPicker
+                    value={formData.city || ''}
+                    onChangeAction={(selectedCity) => updateField("city", selectedCity)}
+                />
                 <RoundCheckboxSelector
-                    onChangeAction={(preferences: string[]) => updateField("preferences", preferences)}
+                    onChangeAction={(preferences: string[]) => updateField('preferences', preferences)}
                     initialSelected={formData.preferences}
                 />
-
                 <Textarea
-                    placeholder="Descrizione dell'organizzazione"
+                    placeholder="Descrizione dell'utente"
                     className="rounded-2xl min-h-[100px]"
-                    value={formData.description || ""}
-                    onChange={(e) => updateField("description", e.target.value)}
+                    value={formData.description || ''}
+                    onChange={(e) => updateField('description', e.target.value)}
                 />
-
-                <div className="flex flex-col w-full md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                    <Input
-                        placeholder="Partita IVA (opzionale)"
-                        className="rounded-3xl pl-4"
-                        isInvalid={!validationState.isVATValid}
-                        isFocused={focusState.VATNumberFocused}
-                        onFocus={() => handleFocus("VATNumber")}
-                        onBlur={() => handleBlur("VATNumber")}
-                        onChange={(e) => updateField("VATNumber", e.target.value)}
-                        value={formData.VATNumber || ""}
-                    />
-                    <Input
-                        placeholder="Sito Web (opzionale)"
-                        className="rounded-3xl pl-4"
-                        isInvalid={!validationState.isWebsiteValid}
-                        isFocused={focusState.webSiteFocused}
-                        onFocus={() => handleFocus("webSite")}
-                        onBlur={() => handleBlur("webSite")}
-                        onChange={(e) => updateField("website", e.target.value)}
-                        value={formData.website || ""}
-                    />
-                </div>
             </BaseForm>
         </div>
     );

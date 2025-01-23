@@ -1,6 +1,6 @@
 "use client"
 
-import {OrganizationForm} from "@/components/refactored/form/OrganizationForm";
+import {OrganizationForm} from "@/components/refactored/form/auth/OrganizationForm";
 import FormHeader from "@/components/ui/FormHeader";
 import {useBack} from "@/hooks/refactored/useBack";
 

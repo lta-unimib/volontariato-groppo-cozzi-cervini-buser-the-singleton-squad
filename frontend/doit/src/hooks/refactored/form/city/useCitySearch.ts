@@ -1,29 +1,24 @@
 import { useState, useEffect } from 'react';
-import { CityData } from '@/types/cityData';
+import { CityFormData } from '@/types/refactored/form/city/cityFormData';
 
 export const useCitySearch = () => {
-    const [cities, setCities] = useState<CityData[]>([]);
+    const [cities, setCities] = useState<CityFormData[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     useEffect(() => {
-        let isMounted = true;
-
         const fetchCities = async () => {
             try {
                 const response = await fetch(`https://axqvoqvbfjpaamphztgd.functions.supabase.co/comuni/lombardia`);
 
-                if (!isMounted) return;
-
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    setError(`HTTP error! status: ${response.status}`);
+                    return;
                 }
 
-                const data: CityData[] = await response.json();
-                if (!isMounted) return;
+                const data: CityFormData[] = await response.json();
                 setCities(data);
             } catch (err) {
-                if (!isMounted) return;
                 const errorMessage = err instanceof Error
                     ? err.message
                     : "Failed to fetch cities. Please try again later.";
@@ -32,8 +27,14 @@ export const useCitySearch = () => {
             }
         };
 
-        fetchCities();
-        return () => { isMounted = false; };
+        fetchCities().catch(err => {
+            console.error('Error during fetching cities:', err);
+        });
+
+        return () => {
+            setCities([]);
+            setError(null);
+        };
     }, []);
 
     const filteredCities = cities.filter((city) =>

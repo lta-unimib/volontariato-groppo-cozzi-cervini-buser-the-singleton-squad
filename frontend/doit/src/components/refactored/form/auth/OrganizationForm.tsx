@@ -1,33 +1,32 @@
 "use client";
 
 import React from "react";
-import { CityPicker } from "@/components/refactored/city/CityPicker";
+import { MdOutlineBusiness, MdOutlineEmail, MdOutlinePassword } from "react-icons/md";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { CityPicker } from "@/components/refactored/form/city/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
+import { Input } from "@/components/refactored/Input";
 import { BaseForm } from "@/components/refactored/form/BaseForm";
-import { useFormSubmission } from '@/hooks/refactored/useFormSubmission';
-import { AvailabilityDialog } from '@/components/ui/AvailabilityPicker';
-import { MdOutlineEmail, MdOutlinePassword, MdOutlinePerson } from "react-icons/md";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useVolunteerFormValidation } from "@/hooks/refactored/useVolunteerFormValidator";
-import { useRegistrationFormFocus } from "@/hooks/refactored/useRegistrationFormFocus";
+import { useOrganizationFormValidation } from "@/hooks/refactored/form/validator/useOrganizationFormValidator";
+import { useRegistrationFormFocus } from "@/hooks/refactored/form/useRegistrationFormFocus";
+import { useFormSubmission } from "@/hooks/refactored/form/useFormSubmission";
 import { useFormInitialization } from '@/hooks/useFormInizialization';
-import {Input} from "@/components/refactored/Input";
-import {VolunteerFormData} from "@/types/refactored/model/volunteerFormData";
-import { useFormData } from "@/hooks/refactored/useFormData";
+import {OrganizationFormData} from "@/types/refactored/form/auth/organizationFormData";
+import { useFormData } from "@/hooks/refactored/form/useFormData";
 
-export function VolunteerForm() {
+export function OrganizationForm() {
 
-    const initialFormData: VolunteerFormData = {
-        firstName: "",
-        lastName: "",
+    const initialFormData: OrganizationFormData = {
+        organizationName: "",
         email: "",
         password: "",
-        availability: {mode: "daily", timeRange:[]},
         city: "",
         preferences: [],
         description: "",
-        role: 'volunteer'
+        VATNumber: "",
+        website: "",
+        role: 'organization'
     };
 
     const { formData, updateField, setFormData } = useFormData(initialFormData);
@@ -43,9 +42,10 @@ export function VolunteerForm() {
         formData
     });
 
-    const { handleSubmit: handleSubmitFn } = useFormSubmission("volunteer", isEditing ? "volunteer" : undefined);
-    const { validationState, isValid } = useVolunteerFormValidation(formData, isEditing);
+    const { handleSubmit: handleSubmitFn } = useFormSubmission("organization", isEditing ? "organization" : undefined);
+    const { validationState, isValid } = useOrganizationFormValidation(formData, isEditing);
     const { focusState, handleFocus, handleBlur } = useRegistrationFormFocus();
+
 
     if (!initialDataLoaded && isEditing) {
         return <div>Loading...</div>;
@@ -56,27 +56,19 @@ export function VolunteerForm() {
             <BaseForm
                 onSubmitAction={(e) => handleSubmit(e, handleSubmitFn)}
                 isValid={isValid()}
-                redirectTo={isEditing ? "../../../profile/volunteer" : "../../../dashboard/volunteer"}
+                redirectTo={isEditing ? "../../../profile/organization" : "../../../dashboard/organization"}
             >
-                <div className="flex flex-col w-full md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                    <Input
-                        value={formData.firstName || ''}
-                        onChange={(e) => updateField("firstName", e.target.value)}
-                        placeholder="Nome"
-                        icon={<MdOutlinePerson />}
-                    />
-                    <Input
-                        value={formData.lastName || ''}
-                        onChange={(e) => updateField("lastName", e.target.value)}
-                        placeholder="Cognome"
-                        icon={<MdOutlinePerson />}
-                    />
-                </div>
+                <Input
+                    value={formData.organizationName || ""}
+                    onChange={(e) => updateField("organizationName", e.target.value)}
+                    placeholder="Nome Organizzazione"
+                    icon={<MdOutlineBusiness />}
+                />
 
                 {!isEditing && (
                     <>
                         <Input
-                            value={formData.email || ''}
+                            value={formData.email || ""}
                             onChange={(e) => updateField("email", e.target.value)}
                             placeholder="Email"
                             type="email"
@@ -89,7 +81,7 @@ export function VolunteerForm() {
 
                         <div className="relative w-full">
                             <Input
-                                value={formData.password || ''}
+                                value={formData.password || ""}
                                 onChange={(e) => updateField("password", e.target.value)}
                                 placeholder="Password"
                                 type={showPassword ? "text" : "password"}
@@ -114,24 +106,45 @@ export function VolunteerForm() {
                     </>
                 )}
 
-                <AvailabilityDialog
-                    onSaveAction={(availability) => updateField('availability', availability)}
-                    initialSelected={formData.availability}
-                />
                 <CityPicker
-                    value={formData.city || ''}
-                    onChangeAction={(selectedCity) => updateField("city", selectedCity)}
+                    value={formData.city || ""}
+                    onChangeAction={(city: string) => updateField("city", city)}
                 />
+
                 <RoundCheckboxSelector
-                    onChangeAction={(preferences: string[]) => updateField('preferences', preferences)}
+                    onChangeAction={(preferences: string[]) => updateField("preferences", preferences)}
                     initialSelected={formData.preferences}
                 />
+
                 <Textarea
-                    placeholder="Descrizione dell'utente"
+                    placeholder="Descrizione dell'organizzazione"
                     className="rounded-2xl min-h-[100px]"
-                    value={formData.description || ''}
-                    onChange={(e) => updateField('description', e.target.value)}
+                    value={formData.description || ""}
+                    onChange={(e) => updateField("description", e.target.value)}
                 />
+
+                <div className="flex flex-col w-full md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                    <Input
+                        placeholder="Partita IVA (opzionale)"
+                        className="rounded-3xl pl-4"
+                        isInvalid={!validationState.isVATValid}
+                        isFocused={focusState.VATNumberFocused}
+                        onFocus={() => handleFocus("VATNumber")}
+                        onBlur={() => handleBlur("VATNumber")}
+                        onChange={(e) => updateField("VATNumber", e.target.value)}
+                        value={formData.VATNumber || ""}
+                    />
+                    <Input
+                        placeholder="Sito Web (opzionale)"
+                        className="rounded-3xl pl-4"
+                        isInvalid={!validationState.isWebsiteValid}
+                        isFocused={focusState.webSiteFocused}
+                        onFocus={() => handleFocus("webSite")}
+                        onBlur={() => handleBlur("webSite")}
+                        onChange={(e) => updateField("website", e.target.value)}
+                        value={formData.website || ""}
+                    />
+                </div>
             </BaseForm>
         </div>
     );

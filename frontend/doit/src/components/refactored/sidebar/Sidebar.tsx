@@ -5,18 +5,18 @@ import { Slot } from "@radix-ui/react-slot"
 import { VariantProps } from "class-variance-authority"
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 
-import { useIsMobile } from "@/hooks/refactored/useMobile"
+import { useIsMobile } from "@/hooks/refactored/sidebar/useMobile"
 import { cn } from "@/utils/utils"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/refactored/Input"
 import { Separator } from "@/components/ui/Separator"
-import { Skeleton } from "@/components/ui/sidebar/Skeleton"
+import { Skeleton } from "@/components/refactored/sidebar/Skeleton"
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/sidebar/Tooltip"
+} from "@/components/refactored/sidebar/Tooltip"
 import {ComponentRef} from "react";
 import { sidebarMenuButtonVariants } from "@/utils/refactored/ui/sidebarUtils";
 

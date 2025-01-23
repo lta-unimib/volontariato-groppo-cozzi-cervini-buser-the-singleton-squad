@@ -6,9 +6,9 @@ import { MdOutlineEdit, MdOutlineCheck, MdOutlineBookmarkBorder, MdOutlineDelete
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from "lucide-react";
-import {makeDeleteRequest, makePostRequest} from "@/utils/refactored/apiUtils";
+import {makeDeleteRequest, makePostRequest} from "@/utils/refactored/api/apiUtils";
 import {useEffect, useState} from "react";
-import {RequestFormData} from "@/types/refactored/model/requestFormData";
+import {RequestFormData} from "@/types/refactored/form/requestFormData";
 import {useBack} from "@/hooks/refactored/useBack";
 
 interface RequestHeaderProps {

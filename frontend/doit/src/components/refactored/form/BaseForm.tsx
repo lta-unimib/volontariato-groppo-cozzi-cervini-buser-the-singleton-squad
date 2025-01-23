@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Button } from "@/components/ui/Button";
-import { useFormHandler } from "@/hooks/refactored/useFormHandler";
-import { BaseFormProps } from "@/types/refactored/baseForm";
+import { useFormHandler } from "@/hooks/refactored/form/useFormHandler";
+import { BaseFormProps } from "@/types/refactored/form/baseFormData";
 
 export function BaseForm({
                              onSubmitAction,
@@ -26,7 +26,7 @@ export function BaseForm({
             {error && (
                 <div
                     role="alert"
-                    className="text-destructive text-sm text-center bg-destructive/10 p-2 rounded"
+                    className="text-destructive text-sm text-center p-2"
                 >
                     {error}
                 </div>

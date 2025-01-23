@@ -15,9 +15,9 @@ import Link from "next/link"
 import { BaseForm } from "@/components/refactored/form/BaseForm"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import React, { useState } from "react"
-import { SuccessResponse } from "@/types/refactored/baseForm"
-import { useFormSubmission } from "@/hooks/refactored/useFormSubmission"
-import { LoginFormProps } from "@/types/refactored/model/loginFormData"
+import { SuccessResponse } from "@/types/refactored/form/baseFormData"
+import { useFormSubmission } from "@/hooks/refactored/form/useFormSubmission"
+import { LoginFormProps } from "@/types/refactored/form/auth/loginFormData"
 
 export function LoginForm({
                               className,
@@ -34,8 +34,8 @@ export function LoginForm({
         : "/dashboard/organization";
 
     const signUpHref = role === "volunteer"
-        ? "/form/volunteer/"
-        : "/form/organization/";
+        ? "/signup/volunteer/"
+        : "/signup/organization/";
 
     const { handleSubmit: loginSubmit } = useFormSubmission("login", role);
 

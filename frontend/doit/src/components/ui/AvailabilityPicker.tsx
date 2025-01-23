@@ -8,7 +8,7 @@ import { cn } from "@/utils/utils";
 import { MdCalendarMonth } from "react-icons/md";
 import { useAvailabilityDialog } from '@/hooks/useAvailabilityDialog';
 import { timeSlots, weekDays, getDisplayText } from '@/utils/formUtils';
-import { AvailabilityMode, AvailabilityDialogProps } from "@/types/refactored/model/availabilityFormData";
+import { AvailabilityMode, AvailabilityDialogProps } from "@/types/refactored/availabilityFormData";
 import { DateRange } from "react-day-picker";
 import {isAvailabilityValid, isTimeInRange} from '@/utils/refactored/validation/registrationFormValidation';
 

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { AvailabilityMode, AvailabilityFormData } from "@/types/refactored/model/availabilityFormData";
+import { AvailabilityMode, AvailabilityFormData } from "@/types/refactored/availabilityFormData";
 import { DateRange } from "react-day-picker";
 
 export const useAvailabilityDialog = (

@@ -8,7 +8,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem
-} from "@/components/ui/sidebar/Sidebar";
+} from "@/components/refactored/sidebar/Sidebar";
 import type { ComponentProps } from "react";
 import React, { useState, useEffect } from "react";
 

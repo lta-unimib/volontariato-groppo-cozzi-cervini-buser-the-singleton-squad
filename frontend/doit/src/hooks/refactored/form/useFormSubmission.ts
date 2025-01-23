@@ -1,7 +1,7 @@
-import { makePostRequest, makeUpdateRequest } from '@/utils/refactored/apiUtils';
-import { VolunteerFormData } from "@/types/refactored/model/volunteerFormData";
-import { OrganizationFormData } from "@/types/refactored/model/organizationFormData";
-import { LoginFormData } from "@/types/refactored/model/loginFormData";
+import { makePostRequest, makeUpdateRequest } from '@/utils/refactored/api/apiUtils';
+import { VolunteerFormData } from "@/types/refactored/form/auth/volunteerFormData";
+import { OrganizationFormData } from "@/types/refactored/form/auth/organizationFormData";
+import { LoginFormData } from "@/types/refactored/form/auth/loginFormData";
 
 type FormType = "volunteer" | "organization" | "login";
 type LoginType = "volunteer" | "organization";

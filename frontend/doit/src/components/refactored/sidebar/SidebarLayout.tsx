@@ -1,8 +1,8 @@
 "use client"
 
 import React from "react";
-import { SidebarProvider, SidebarTrigger, Sidebar } from "@/components/ui/sidebar/Sidebar";
-import { AppSidebar } from "@/components/ui/sidebar/AppSidebar";
+import { SidebarProvider, SidebarTrigger, Sidebar } from "@/components/refactored/sidebar/Sidebar";
+import { AppSidebar } from "@/components/refactored/sidebar/AppSidebar";
 import type { ComponentProps } from "react";
 
 interface MenuItem {

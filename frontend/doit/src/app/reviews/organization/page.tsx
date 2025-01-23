@@ -1,7 +1,7 @@
 "use client";
 
 import {organizationMenuItems} from "@/app/dashboard/organization/utils/organizationMenuItems";
-import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
+import SidebarLayout from "@/components/refactored/sidebar/SidebarLayout";
 
 export default function OrganizationReviews() {
     return (

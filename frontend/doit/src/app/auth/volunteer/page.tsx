@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/refactored/form/LoginForm"
+import { LoginForm } from "@/components/refactored/form/auth/LoginForm"
 
 export default function VolunteerLogin() {
     return (

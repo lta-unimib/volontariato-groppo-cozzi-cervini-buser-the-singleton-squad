@@ -1,13 +1,5 @@
+import { UseKeyboardNavigationProps } from '@/types/refactored/form/city/cityFormData';
 import { useState, KeyboardEvent } from 'react';
-import { CityData } from '@/types/cityData';
-
-interface UseKeyboardNavigationProps {
-    filteredCities: CityData[];
-    onCitySelect: (city: CityData) => void;
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
-    setSelectedCity: (city: string) => void;
-}
 
 export const useKeyboardNavigation = ({
                                           filteredCities,
@@ -17,25 +9,26 @@ export const useKeyboardNavigation = ({
                                       }: UseKeyboardNavigationProps) => {
     const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        const maxIndex = filteredCities.length - 1;
+    const maxIndex = filteredCities.length - 1;
 
+    const updateHighlightedIndex = (newIndex: number) => {
+        setHighlightedIndex(Math.max(0, Math.min(newIndex, maxIndex)));
+    };
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         switch (e.key) {
             case 'ArrowDown':
                 e.preventDefault();
-                setHighlightedIndex(prev => Math.min(prev + 1, maxIndex));
+                updateHighlightedIndex(highlightedIndex + 1);
                 break;
             case 'ArrowUp':
                 e.preventDefault();
-                setHighlightedIndex(prev => Math.max(prev - 1, 0));
+                updateHighlightedIndex(highlightedIndex - 1);
                 break;
             case 'Enter':
                 e.preventDefault();
-                if (highlightedIndex >= 0 && highlightedIndex <= maxIndex) {
-                    onCitySelect(filteredCities[highlightedIndex]);
-                } else if (filteredCities.length === 1) {
-                    onCitySelect(filteredCities[0]);
-                }
+                const cityToSelect = filteredCities[highlightedIndex >= 0 ? highlightedIndex : 0];
+                onCitySelect(cityToSelect);
                 break;
             case 'Escape':
                 e.preventDefault();

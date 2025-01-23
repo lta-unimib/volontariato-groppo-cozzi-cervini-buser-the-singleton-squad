@@ -2,15 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { organizationMenuItems } from "@/app/dashboard/organization/utils/organizationMenuItems";
-import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
+import SidebarLayout from "@/components/refactored/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { Card, CardContent } from "@/components/ui/Card";
 import { ProfileHeader } from "@/components/ui/ProfileHeader";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
-import { makeGetRequest } from "@/utils/refactored/apiUtils";
+import { makeGetRequest } from "@/utils/refactored/api/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Badge } from "@/components/ui/Badge";
-import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
+import {OrganizationFormData} from "@/types/refactored/form/auth/organizationFormData";
 
 interface ApiResponse {
     message: string;

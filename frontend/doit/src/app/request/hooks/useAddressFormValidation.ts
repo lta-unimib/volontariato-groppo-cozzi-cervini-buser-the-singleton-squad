@@ -1,4 +1,4 @@
-import { AddressFormData } from "@/types/refactored/model/addressFormData";
+import { AddressFormData } from "@/types/refactored/addressFormData";
 import {
     validateStreet,
     validateNumber,

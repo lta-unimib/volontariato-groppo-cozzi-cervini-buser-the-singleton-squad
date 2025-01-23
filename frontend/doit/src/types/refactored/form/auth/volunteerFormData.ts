@@ -1,5 +1,5 @@
-import { AvailabilityFormData } from "./availabilityFormData";
-import { BaseUserData } from "./baseFormData";
+import { AvailabilityFormData } from "../../availabilityFormData";
+import { BaseUserData } from "../baseFormData";
 
 /**
  * @interface VolunteerFormData

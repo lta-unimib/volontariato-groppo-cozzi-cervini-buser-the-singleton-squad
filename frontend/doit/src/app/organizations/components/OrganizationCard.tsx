@@ -2,7 +2,7 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import React from "react";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
+import {OrganizationFormData} from "@/types/refactored/form/auth/organizationFormData";
 
 interface OrganizationCardProps {
     organizationData: OrganizationFormData;

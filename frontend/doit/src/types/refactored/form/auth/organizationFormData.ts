@@ -1,4 +1,4 @@
-import {BaseUserData} from "@/types/refactored/model/baseFormData";
+import {BaseUserData} from "@/types/refactored/form/baseFormData";
 
 /**
  * @interface OrganizationFormData

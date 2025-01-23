@@ -1,14 +1,14 @@
 "use client";
 
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
-import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
+import SidebarLayout from "@/components/refactored/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { makeGetRequest } from "@/utils/refactored/apiUtils";
+import { makeGetRequest } from "@/utils/refactored/api/apiUtils";
 import OrganizationCard from "@/app/organizations/components/OrganizationCard";
 import SearchBar from "@/components/ui/SearchBar";
-import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
+import {OrganizationFormData} from "@/types/refactored/form/auth/organizationFormData";
 
 interface ApiResponse {
     message: string;

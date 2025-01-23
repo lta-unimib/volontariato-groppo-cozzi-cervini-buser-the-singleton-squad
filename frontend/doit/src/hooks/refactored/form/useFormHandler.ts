@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SuccessResponse } from "@/types/refactored/baseForm";
+import { SuccessResponse } from "@/types/refactored/form/baseFormData";
 
 export const useFormHandler = (onSubmitAction: (e: React.FormEvent) => Promise<SuccessResponse>, redirectTo?: string) => {
     const router = useRouter();

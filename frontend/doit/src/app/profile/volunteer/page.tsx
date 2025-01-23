@@ -2,17 +2,17 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
-import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
+import SidebarLayout from "@/components/refactored/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { Calendar } from "@/components/ui/date/Calendar";
 import { Card, CardContent } from "@/components/ui/Card";
 import { addMonths, eachDayOfInterval, getDay, startOfMonth } from "date-fns";
 import { ProfileHeader } from "@/components/ui/ProfileHeader";
-import { makeGetRequest } from "@/utils/refactored/apiUtils";
+import { makeGetRequest } from "@/utils/refactored/api/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { AvailabilityFormData } from "@/types/refactored/model/availabilityFormData";
+import { AvailabilityFormData } from "@/types/refactored/availabilityFormData";
 import { Badge } from "@/components/ui/Badge";
-import { VolunteerFormData } from "@/types/refactored/model/volunteerFormData";
+import { VolunteerFormData } from "@/types/refactored/form/auth/volunteerFormData";
 
 interface ApiResponse {
     message: string;
