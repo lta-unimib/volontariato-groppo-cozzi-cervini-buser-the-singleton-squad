@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.management.relation.RoleInfoNotFoundException;
 import java.util.List;
 
 @RestController
@@ -32,21 +33,21 @@ public class VolunteerRequestAllModeController {
     }
 
     @GetMapping(value = "/registered/")
-    public ResponseEntity<ResponseMessage> getRegisteredUser(final HttpServletRequest request) throws Exception {
+    public ResponseEntity<ResponseMessage> getRegisteredUser(final HttpServletRequest request) throws RoleInfoNotFoundException {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         List<VolunteerRequestSendDTO> volunteerRequestSortedList = this.volunteerRequestModeService.getAllRequestRegistered(email);
         return ResponseMessageUtil.createResponseSuccess("get all requests registered", HttpStatus.OK, volunteerRequestSortedList);
     }
 
     @GetMapping(value = "/notvoted/")
-    public ResponseEntity<ResponseMessage> getNotVotedUser(final HttpServletRequest request) throws Exception {
+    public ResponseEntity<ResponseMessage> getNotVotedUser(final HttpServletRequest request) throws RoleInfoNotFoundException {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         List<VolunteerRequestSendDTO> volunteerRequestSortedList = this.volunteerRequestModeService.getAllRequestNotVoted(email);
         return ResponseMessageUtil.createResponseSuccess("get all requests notvoted", HttpStatus.OK, volunteerRequestSortedList);
     }
 
     @GetMapping(value = "/archived/")
-    public ResponseEntity<ResponseMessage> getArchivedUser(final HttpServletRequest request) throws Exception {
+    public ResponseEntity<ResponseMessage> getArchivedUser(final HttpServletRequest request) throws RoleInfoNotFoundException {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         List<VolunteerRequestSendDTO> volunteerRequestSortedList = this.volunteerRequestModeService.getAllRequestVoted(email);
         return ResponseMessageUtil.createResponseSuccess("get all requests archived", HttpStatus.OK, volunteerRequestSortedList);

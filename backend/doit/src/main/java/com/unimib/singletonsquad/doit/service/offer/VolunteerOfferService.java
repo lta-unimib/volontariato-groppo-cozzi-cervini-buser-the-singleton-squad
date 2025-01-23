@@ -22,7 +22,7 @@ public class VolunteerOfferService {
     private final RegisteredUserService registeredUserService;
 
     /// Get All the Volunteer Offers of a Volunteer
-    public List<VolunteerOffer> getAllVolunteerOffers(final String email) throws Exception {
+    public List<VolunteerOffer> getAllVolunteerOffers(final String email){
         return this.volunteerOfferDatabaseService.getAllOffersOfTheVolunteer(email);
     }
 
@@ -36,7 +36,7 @@ public class VolunteerOfferService {
     }
 
     /// REMOVE A OFFER
-    public void removeOffer(long offerId, String email) throws Exception {
+    public void removeOffer(long offerId, String email) throws IllegalAccessException {
     VolunteerOffer offer = volunteerOfferDatabaseService.getVolunteerOffer(offerId);
         if(offer.isOrganizationOffer(email) || offer.isVolunteerOffer(email)) {
             this.volunteerOfferDatabaseService.deleteVolunteerOffer(offer);

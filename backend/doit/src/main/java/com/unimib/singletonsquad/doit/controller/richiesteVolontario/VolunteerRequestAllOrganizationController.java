@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import javax.management.relation.RoleInfoNotFoundException;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class VolunteerRequestAllOrganizationController {
 
     /// Get all Organization through its email-token
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
+    public ResponseEntity<ResponseMessage> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws RoleInfoNotFoundException {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
         return ResponseMessageUtil.createResponseSuccess("get all request by organization: "+email,

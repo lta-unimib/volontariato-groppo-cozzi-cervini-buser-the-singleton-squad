@@ -11,6 +11,7 @@ import com.unimib.singletonsquad.doit.utils.data.DistanceCalculator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class VolunteerRequestMatchingService {
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
 
 
-    public List<VolunteerRequest> getVolunteerRequestBasedOnPreferences(Volunteer volunteer, List<VolunteerRequest> requestSaved) throws Exception {
+    public List<VolunteerRequest> getVolunteerRequestBasedOnPreferences(Volunteer volunteer, List<VolunteerRequest> requestSaved) throws UnsupportedEncodingException, InterruptedException {
         double[] volunteerCoordinates = getVolunteerCoordinate(volunteer);
         List<RequestMatchDTO> requestsToBeSorted = new ArrayList<>();
         int[] points = new int[requestSaved.size()];
@@ -35,22 +36,22 @@ public class VolunteerRequestMatchingService {
         return ParallelSort.sortRequestByVote(requestsToBeSorted);
     }
 
-    private CityInfo getVolunteerCityInfo(final String volunteerCity) throws Exception {
+    private CityInfo getVolunteerCityInfo(final String volunteerCity) throws UnsupportedEncodingException, InterruptedException {
         return getCityInfo(volunteerCity);
     }
 
-    private double[] getVolunteerCoordinate(Volunteer volunteer) throws Exception {
+    private double[] getVolunteerCoordinate(Volunteer volunteer) throws UnsupportedEncodingException, InterruptedException {
         CityInfo temp = getVolunteerCityInfo(volunteer.getVolunteerPreferences().getCity());
         return new double[]{temp.getLatitude(), temp.getLongitude()};
     }
 
-    private CityInfo getCityInfo(String city) throws Exception {
+    private CityInfo getCityInfo(String city) throws UnsupportedEncodingException, InterruptedException {
         return this.volunteerRequestDatabaseService.getCityInfo(city);
     }
 
     private int addPointToRequest(VolunteerPreferences preferences,
                                   VolunteerRequest volunteerRequest,
-                                  double[] volunteerCoordinates) throws Exception {
+                                  double[] volunteerCoordinates) throws UnsupportedEncodingException, InterruptedException {
         int score =0;
         score+=preferences.hasCategories(volunteerRequest.getVolunteerCategories()) ? 10 : 0;
         score+=preferences.hasAvailability(volunteerRequest.getStartDateTime(), volunteerRequest.getEndDateTime()) ? 10 : 0;
@@ -58,7 +59,7 @@ public class VolunteerRequestMatchingService {
         return score;
     }
 
-    private int addPointToRequestDistance(final String cityRequest, final double[] volunteerCoords) throws Exception {
+    private int addPointToRequestDistance(final String cityRequest, final double[] volunteerCoords) throws UnsupportedEncodingException, InterruptedException {
         CityInfo requestCity = this.getCityInfo(cityRequest);
         double latVolunteer = requestCity.getLatitude();
         double lonVolunteer = requestCity.getLongitude();

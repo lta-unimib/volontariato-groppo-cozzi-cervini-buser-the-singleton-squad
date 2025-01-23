@@ -4,7 +4,14 @@ spring:
     username: appdb_owner
     password: E19GHblZDxKi
     driver-class-name: org.postgresql.Driver
-
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 300000
+      max-lifetime: 600000
+      connection-timeout: 30000
+      validation-timeout: 5000
+      connection-test-query: SELECT 1
   jpa:
     properties:
       hibernate:
@@ -15,6 +22,7 @@ spring:
 api:
   opencage:
     key: f076219cc61b45e3a724963a338ff555
+
 security:
   jwt:
     secret-key: 3d3e383c39e98f0f9b5c984d54d57e6d6ab11e1b3e3b6897727e2b1f89c97c53a6d8f5088c9a56f568e1b6b637022bd3

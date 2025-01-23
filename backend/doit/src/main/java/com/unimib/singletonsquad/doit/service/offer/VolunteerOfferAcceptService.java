@@ -19,7 +19,7 @@ public class VolunteerOfferAcceptService {
     private final VolunteerOfferDatabaseService volunteerOfferDatabaseService;
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
 
-    public void acceptVolunteerOffer(Long idOffer, String organizationEmail) throws Exception {
+    public void acceptVolunteerOffer(Long idOffer, String organizationEmail) throws IllegalAccessException {
         VolunteerOffer volunteerOffer  = volunteerOfferDatabaseService.getVolunteerOffer(idOffer);
         checkStartDateAndEndDate(volunteerOffer.getVolunteerRequest());
         checkOrganizationEmail(organizationEmail, volunteerOffer);
@@ -37,7 +37,7 @@ public class VolunteerOfferAcceptService {
         }
     }
 
-    public void rejectVolunteerOffer(Long idOffer, String email) throws Exception {
+    public void rejectVolunteerOffer(Long idOffer, String email) throws IllegalAccessException {
         VolunteerOffer volunteerOffer = volunteerOfferDatabaseService.getVolunteerOffer(idOffer);
         checkOrganizationEmail(email, volunteerOffer);
         checkStartDateAndEndDate(volunteerOffer.getVolunteerRequest());

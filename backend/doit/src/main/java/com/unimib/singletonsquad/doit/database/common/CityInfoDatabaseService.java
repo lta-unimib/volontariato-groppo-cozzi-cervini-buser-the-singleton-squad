@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -23,7 +25,7 @@ public class CityInfoDatabaseService {
     private final CityInfoHTTPService http;
     private final Map<String, CityInfo> cityInfoMap = new HashMap<>();
 
-    public CityInfo getCityInfo(String cityName) throws Exception {
+    public CityInfo getCityInfo(String cityName) throws UnsupportedEncodingException, InterruptedException {
         if (cityInfoMap.containsKey(cityName)) {
             return cityInfoMap.get(cityName);
         } else {
@@ -55,7 +57,8 @@ public class CityInfoDatabaseService {
         CityInfo temp = this.createCityInfo(response);
         return this.saveCityInfo(temp);
     }
-    private CityInfo getCityAndSave(@NotNull final String cityName) throws Exception {
+    private CityInfo getCityAndSave(@NotNull final String cityName) throws UnsupportedEncodingException,
+            InterruptedException {
         ///due to API can just get 1 request per second
         Thread.sleep(800);
         double[] coords = this.http.getCoordinatesFromOpenCage(cityName);

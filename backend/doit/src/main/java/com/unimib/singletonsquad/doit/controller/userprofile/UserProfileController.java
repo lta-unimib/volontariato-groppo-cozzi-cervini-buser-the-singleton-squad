@@ -10,13 +10,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import javax.management.relation.RoleInfoNotFoundException;
+
 @Component
 public abstract class UserProfileController {
+
+    private final RegisteredUserService userVerify;
     @Autowired
-    protected RegisteredUserService userVerify;
+    protected UserProfileController(RegisteredUserService userVerify) {
+        this.userVerify = userVerify;
+    }
 
     protected String validateTokenAndGetEmail(final HttpServletRequest request,
-                                              final UserRole userRole) throws Exception {
+                                              final UserRole userRole) throws RoleInfoNotFoundException {
         return this.userVerify.getUserEmailAndIsRegistered(userRole, request);
     }
 

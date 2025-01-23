@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleInfoNotFoundException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -24,14 +25,14 @@ public class VolunteerFavouriteController {
     private final RegisteredUserService registeredUserService;
 
     @GetMapping("/organizations/")
-    public ResponseEntity<ResponseMessage> getFavouriteOrganizations(final HttpServletRequest request) throws Exception {
+    public ResponseEntity<ResponseMessage> getFavouriteOrganizations(final HttpServletRequest request) throws RoleInfoNotFoundException {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         List<OrganizationDTO> favouriteOrganizations = volunteerFavouriteService.getFavouriteOrganizations(email);
         return ResponseMessageUtil.createResponseSuccess( "getting all", HttpStatus.OK, favouriteOrganizations);
     }
 
     @DeleteMapping("/organization/{orgName}/")
-    public ResponseEntity<ResponseMessage> deleteFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws Exception {
+    public ResponseEntity<ResponseMessage> deleteFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws RoleInfoNotFoundException {
         orgName = URLDecoder.decode(orgName, StandardCharsets.UTF_8);
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         volunteerFavouriteService.revokeFavouriteOrganization(email, orgName);
@@ -39,7 +40,7 @@ public class VolunteerFavouriteController {
     }
 
     @PostMapping("/organization/{orgName}/")
-    public ResponseEntity<ResponseMessage> addFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws Exception {
+    public ResponseEntity<ResponseMessage> addFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws RoleInfoNotFoundException {
         orgName = URLDecoder.decode(orgName, StandardCharsets.UTF_8);
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         this.volunteerFavouriteService.addFavouriteOrganization(email, orgName);

@@ -25,17 +25,17 @@ public class RegisterController {
 
     @PostMapping(value = "/volunteer/", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> registerVolunteer(@Valid @RequestBody VolunteerDTO volunteer) throws Exception {
+    public ResponseEntity<ResponseMessage> registerVolunteer(@Valid @RequestBody VolunteerDTO volunteer) throws InvalidDTOParameterGeneral {
         return register(volunteer);
     }
 
     @PostMapping(value = "/organization/", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> registerOrganization(@Valid @RequestBody OrganizationDTO organization) throws Exception {
+    public ResponseEntity<ResponseMessage> registerOrganization(@Valid @RequestBody OrganizationDTO organization) throws InvalidDTOParameterGeneral{
         return register(organization);
     }
 
-    private String registerEntity(Object dto) throws Exception {
+    private String registerEntity(Object dto) throws InvalidDTOParameterGeneral{
         if (dto instanceof VolunteerDTO volunteer) {
             return registerVolunteerService.registerVolunteer(volunteer);
         } else if (dto instanceof OrganizationDTO organization) {
@@ -45,7 +45,7 @@ public class RegisterController {
         }
     }
 
-    private ResponseEntity<ResponseMessage> register(Object dto) throws Exception {
+    private ResponseEntity<ResponseMessage> register(Object dto) throws InvalidDTOParameterGeneral{
         String token = registerEntity(dto);
         JsonNode tokenJson = ResponseMessageUtil.createJsonNode("authToken", token);
         return  ResponseMessageUtil.createResponseSuccess("Registration successful", HttpStatus.OK, tokenJson);
