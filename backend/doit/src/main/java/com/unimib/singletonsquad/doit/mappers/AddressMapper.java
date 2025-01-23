@@ -30,20 +30,25 @@ public class AddressMapper {
     }
 
     public static Address updateAddress(Address address, AddressDTO addressDTO){
-        if(addressDTO.getCity() != null && !addressDTO.getCity().isEmpty()){
-            address.setCity(addressDTO.getCity());
+        String city = addressDTO.getCity();
+        if(city != null && !city.isEmpty()) {
+            address.setCity(city);
         }
-        if(addressDTO.getStreet() != null && !addressDTO.getStreet().isEmpty()){
-            address.setStreetAddress(addressDTO.getStreet());
+        String street = addressDTO.getStreet();
+        if(street != null && !street.isEmpty()){
+            address.setStreetAddress(street);
         }
-        if(addressDTO.getPostalCode() != null && !addressDTO.getPostalCode().isEmpty()){
-            address.setPostalCode(addressDTO.getPostalCode());
+        String postalCode = addressDTO.getPostalCode();
+        if(postalCode != null && !postalCode.isEmpty()){
+            address.setPostalCode(postalCode);
         }
-        if(addressDTO.getNumber() != null && !addressDTO.getNumber().isEmpty()){
-            address.setHouseNumber(addressDTO.getNumber());
+        String houseNumber = addressDTO.getNumber();
+        if(houseNumber != null && !houseNumber.isEmpty()){
+            address.setHouseNumber(houseNumber);
         }
-        if(addressDTO.getAdditionalInfo() != null && !addressDTO.getAdditionalInfo().isEmpty()){
-            address.setAdditionalInformation(addressDTO.getAdditionalInfo());
+        String additionalInformation = addressDTO.getAdditionalInfo();
+        if(additionalInformation != null && !additionalInformation.isEmpty()){
+            address.setAdditionalInformation(additionalInformation);
         }
         return address;
     }
