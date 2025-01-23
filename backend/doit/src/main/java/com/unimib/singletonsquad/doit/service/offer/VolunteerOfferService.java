@@ -43,6 +43,4 @@ public class VolunteerOfferService {
         } else
             throw new IllegalAccessException("Dont have the correct email");
     }
-
-
 }
