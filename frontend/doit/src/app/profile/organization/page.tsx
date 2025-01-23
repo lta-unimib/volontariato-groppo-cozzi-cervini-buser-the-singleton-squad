@@ -80,7 +80,7 @@ export default function OrganizationProfile() {
                         name={organizationProfile.organizationName}
                         role={organizationProfile.role ?? "Organization"}
                         city={organizationProfile.city}
-                        imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                        imageUrl="/placeholder.jpg"
                         profileData={organizationProfile}
                     />
                 </div>

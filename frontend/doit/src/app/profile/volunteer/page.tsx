@@ -125,7 +125,7 @@ export default function VolunteerProfile() {
                         name={`${volunteerProfile.firstName} ${volunteerProfile.lastName}`}
                         role="Volunteer"
                         city={volunteerProfile.city}
-                        imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                        imageUrl="/placeholder.jpg"
                         isAvailable={isAvailable}
                         profileData={volunteerProfile}
                     />

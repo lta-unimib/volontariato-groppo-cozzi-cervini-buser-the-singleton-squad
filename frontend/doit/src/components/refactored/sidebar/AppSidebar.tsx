@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
     Sidebar,
@@ -9,8 +9,9 @@ import {
     SidebarMenuButton,
     SidebarMenuItem
 } from "@/components/refactored/sidebar/Sidebar";
-import type { ComponentProps } from "react";
+import { ComponentProps } from "react";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 interface MenuItem {
     title: string;
@@ -56,14 +57,14 @@ export function AppSidebar({
                                         asChild
                                         isActive={activeItem === item.url}
                                     >
-                                        <a
+                                        <Link
                                             href={item.url}
                                             className="flex flex-col items-center md:flex-row md:gap-3"
                                             onClick={() => setActiveItem(item.url)}
                                         >
                                             <item.icon className="w-5 h-5" />
                                             <span className="hidden md:inline">{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                     <span className="mb-6 py-1 text-xs md:hidden">{item.title}</span>
                                 </SidebarMenuItem>

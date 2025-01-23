@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/utils/utils"
+import { cn } from "@/utils/cnUtils"
 import { Button } from "@/components/ui/Button"
 import {
     Card,

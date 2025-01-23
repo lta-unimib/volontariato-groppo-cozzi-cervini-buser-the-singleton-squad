@@ -53,7 +53,7 @@ export default function DetailedRequest() {
                             title={`${requestData.title}`}
                             organizationName={`${requestData.organization.name}`}
                             address={`${requestData.address.street} ${requestData.address.number} ${requestData.address.additionalInfo}, ${requestData.address.city}`}
-                            imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                            imageUrl="/placeholder.jpg"
                             requestData={requestData}
                             role={requestData.role}
                         />

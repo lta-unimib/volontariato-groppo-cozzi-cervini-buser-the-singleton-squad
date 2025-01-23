@@ -164,7 +164,7 @@ export default function VolunteerDashboard() {
                         title={request.title}
                         location={`${request.address.street}, ${request.address.city}`}
                         date={formatDateRange(request.timeRange)}
-                        image="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                        image="/placeholder.jpg"
                         role="volunteer"
                         requestData={request}
                     />

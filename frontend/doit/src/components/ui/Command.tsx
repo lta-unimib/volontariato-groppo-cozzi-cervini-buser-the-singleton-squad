@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
 import { Search } from "lucide-react"
-import { cn } from "@/utils/utils"
+import { cn } from "@/utils/cnUtils"
 import { ComponentRef } from "react"
 
 const Command = React.forwardRef<

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 import { Calendar } from "@/components/ui/date/Calendar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
-import { cn } from "@/utils/utils";
+import { cn } from "@/utils/cnUtils";
 import { MdCalendarMonth } from "react-icons/md";
 import { useAvailabilityDialog } from '@/hooks/useAvailabilityDialog';
 import { timeSlots, weekDays, getDisplayText } from '@/utils/formUtils';

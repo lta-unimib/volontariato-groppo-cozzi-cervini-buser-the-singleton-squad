@@ -6,7 +6,7 @@ import { VariantProps } from "class-variance-authority"
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 
 import { useIsMobile } from "@/hooks/refactored/sidebar/useMobile"
-import { cn } from "@/utils/utils"
+import { cn } from "@/utils/cnUtils"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/refactored/Input"
 import { Separator } from "@/components/ui/Separator"

@@ -2,7 +2,7 @@
 
 import type * as React from "react"
 import { DayPicker } from "react-day-picker"
-import { cn } from "@/utils/utils"
+import { cn } from "@/utils/cnUtils"
 import { calendarVariants } from "@/utils/refactored/ui/calendarUtils"
 import type { DateRange } from "react-day-picker"
 
