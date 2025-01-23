@@ -48,11 +48,10 @@ public class VolunteerOfferAcceptService {
         LocalDateTime endDate = volunteerRequest.getEndDateTime();
         LocalDateTime now = LocalDateTime.now();
 
-        if ((now.isEqual(startDate) || now.isAfter(startDate)) &&
-                (now.isEqual(endDate) || now.isBefore(endDate))) {
-            System.out.println("L'ora corrente è compresa tra la data di inizio e la data di fine.");
+        if (now.isBefore(endDate)) {
+            System.out.println("La richiesta è ancora valida per registrarsi.");
         } else {
-            System.out.println("L'ora corrente NON è compresa tra la data di inizio e la data di fine.");
+            System.out.println("La richiesta è scaduta.");
             throw new InvalidDateException(HttpStatus.BAD_REQUEST,"Non è possibile accettare la richiesta in quanto è scaduta");
         }
     }
