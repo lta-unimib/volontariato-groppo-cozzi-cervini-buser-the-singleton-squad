@@ -1,13 +1,8 @@
 package com.unimib.singletonsquad.doit.domain.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unimib.singletonsquad.doit.converter.ListObjectConverter;
 import com.unimib.singletonsquad.doit.utils.data.DataConverter;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Transient;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

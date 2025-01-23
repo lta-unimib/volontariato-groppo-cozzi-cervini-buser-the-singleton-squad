@@ -12,7 +12,9 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("daily")
 public class DailyAvailability extends Availability {
+    @Column
     private LocalTime startTime;
+    @Column
     private LocalTime endTime;
 
     @Override

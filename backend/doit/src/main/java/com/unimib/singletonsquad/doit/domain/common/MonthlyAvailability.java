@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.domain.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,11 @@ import java.util.List;
 
 @Setter
 @Getter
+@Entity
 public class MonthlyAvailability extends Availability {
+    @Column
     private LocalDateTime startDate;
+    @Column
     private LocalDateTime endDate;
 
     public void setData(List<String> data) {
