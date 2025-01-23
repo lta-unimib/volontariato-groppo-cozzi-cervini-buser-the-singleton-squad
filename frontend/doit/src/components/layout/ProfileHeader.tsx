@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { OrganizationFormData, VolunteerFormData } from "@/types/formData";
+import {makeDeleteRequest} from "@/utils/apiUtils";
 
 type ProfileData = VolunteerFormData | OrganizationFormData;
 
@@ -33,8 +34,11 @@ export const ProfileHeader = ({
         router.push(`/form/${role.toLowerCase()}?mode=edit&data=${encodedData}`);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         console.log("Profilo eliminato");
+        const endpoint = "profile/volunteer/";
+        await makeDeleteRequest(endpoint);
+        router.push("/");
     };
 
     const onBack = () => router.back();
