@@ -41,7 +41,7 @@ public class VolunteerRequestService {
             this.volunteerRequestDatabaseService.save(temp);
     }
 
-    /// SUPPORT METHOD
+    /// ==== SUPPORT METHOD ====
     public VolunteerRequest getSpecificRequest(Long idRequest) throws Exception {
         return this.volunteerRequestDatabaseService.getSpecificRequest(idRequest);
     }

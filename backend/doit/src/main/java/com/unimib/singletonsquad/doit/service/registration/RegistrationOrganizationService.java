@@ -18,7 +18,6 @@ public class RegistrationOrganizationService {
     private final OrganizationDatabaseService organizationService;
     private  final AuthenticationSetUp authenticationSetUp;
 
-    /// TODO UTILIZZARE LA CLASSE USERSERVICE PER VERIFICARE E OTTENERE L'UTENTE
 
     public String registerOrganization(OrganizationDTO organization) throws Exception{
         String organizationEmail = organization.getEmail();

@@ -9,10 +9,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -37,7 +36,7 @@ public class CityInfoDatabaseService {
     }
 
     /// Salva la città nel database
-    public CityInfo saveCityInfo(@NotNull final CityInfo cityInfo) throws Exception {
+    public CityInfo saveCityInfo(@NotNull final CityInfo cityInfo){
         CityInfo saved;
         if (!cityInfoMap.containsKey(cityInfo.getCityName())) {
             saved = this.cityInfoRepository.save(cityInfo);

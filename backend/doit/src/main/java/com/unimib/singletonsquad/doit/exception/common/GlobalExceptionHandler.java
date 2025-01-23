@@ -1,10 +1,7 @@
 package com.unimib.singletonsquad.doit.exception.common;
 
 import com.unimib.singletonsquad.doit.exception.auth.*;
-import com.unimib.singletonsquad.doit.exception.resource.InvalidDateException;
-import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
-import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
-import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;
+import com.unimib.singletonsquad.doit.exception.resource.*;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import org.springframework.http.HttpStatus;
@@ -127,6 +124,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseMessage> handleIllegalAccessException(IllegalAccessException ex) {
         String message = String.format("IllegalAccessException: %s", ex.getMessage());
         return buildErrorResponse(HttpStatus.FORBIDDEN, message);
+    }
+    @ExceptionHandler(HttpGeneralException.class)
+    public ResponseEntity<ResponseMessage> handleHttpGeneralException(HttpGeneralException ex) {
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
 

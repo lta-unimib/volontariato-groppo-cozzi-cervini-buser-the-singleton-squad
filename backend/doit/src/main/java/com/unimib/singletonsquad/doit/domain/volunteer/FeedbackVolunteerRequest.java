@@ -18,6 +18,8 @@ public class FeedbackVolunteerRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /// aggiungere un type? --> type: vote_for_user, vote_for_organization
+
     @Column(nullable = false, name = "voto")
     private double voto;
 

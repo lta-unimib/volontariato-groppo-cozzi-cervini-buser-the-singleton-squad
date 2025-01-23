@@ -67,21 +67,16 @@ public class RegisteredUserService {
         if (!isValidRole(roleFromToken)) {
             throw new InvalidRoleGeneralException("Invalid user role: " + roleFromToken);
         }
-
-
         if (roleDesired !=null && !roleFromToken.equalsIgnoreCase(roleDesired.name())) {
             throw new InvalidRoleGeneralException(String.format("Invalid user role: %s", roleDesired));
         }
-
         String username = jwtUtils.extractUsername(token);
         if (username == null) {
             throw new InvalidEmailTokenException("Invalid username from token");
         }
-
         return username;
     }
-
-
+    
     public static boolean isValidRole(String role) {
         return VOLUNTEER_ROLE.equalsIgnoreCase(role) || ORGANIZATION_ROLE.equalsIgnoreCase(role);
     }
@@ -90,21 +85,13 @@ public class RegisteredUserService {
         return String.valueOf(jwtUtils.extractClaimByName(token, "role"));
     }
 
-    public UserRole getRoleFromToken(String token) {
-        return UserRole.valueOf(extractRoleFromToken(token));
-    }
-
     private void isRegistered(@NotNull final String email, final UserRole role) throws Exception {
         switch (role) {
             case volunteer:
-                if (this.volunteerDatabaseService.findVolunteerByEmail(email) == null) {
-                    throw new RecordNotFoundGeneralException(String.format("Volunteer %s not found", email));
-                }
+                this.volunteerDatabaseService.findVolunteerByEmail(email);
                 break;
             case organization:
-                if (this.organizationDatabaseService.findOrganizationByEmail(email) == null) {
-                    throw new RecordNotFoundGeneralException(String.format("Organization %s not found", email));
-                }
+                this.organizationDatabaseService.findOrganizationByEmail(email);
                 break;
             default:
                 throw new RoleInfoNotFoundException(String.format("Role %s not found", role));

@@ -25,32 +25,22 @@ public class VolunteerRequestModeService {
         List<VolunteerRequest> volunteerRequestToBeSorted = this.volunteerRequestDatabaseService.getAllRequestNotRegistered(volunteerEmail);
         Volunteer volunteer= this.volunteerDatabaseService.findVolunteerByEmail(volunteerEmail);
         List<VolunteerRequest> volunteerRequestSorted= this.volunteerRequestMatchingService.getVolunteerRequestBasedOnPreferences(volunteer, volunteerRequestToBeSorted);
-        return createRequestSendDTOList(volunteerRequestSorted);
+        return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequestSorted);
     }
 
     public List<VolunteerRequestSendDTO> getAllRequestRegistered(@NotNull final String volunteerEmail) throws Exception {
         List<VolunteerRequest> volunteerRequests = this.volunteerRequestDatabaseService.getAllRequestRegistered(volunteerEmail);
-        return createRequestSendDTOList(volunteerRequests);
+        return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
     }
 
     public List<VolunteerRequestSendDTO> getAllRequestNotVoted(@NotNull final String volunteerEmail) throws Exception {
         List<VolunteerRequest> volunteerRequests = this.volunteerRequestDatabaseService.getAllRequestNotVoted(volunteerEmail);
-        return createRequestSendDTOList(volunteerRequests);
+        return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
     }
 
     public List<VolunteerRequestSendDTO> getAllRequestVoted(@NotNull final String volunteerEmail) throws Exception {
         List<VolunteerRequest> volunteerRequests = this.volunteerRequestDatabaseService.getALlRequestVoted(volunteerEmail);
-        return createRequestSendDTOList(volunteerRequests);
+        return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
     }
 
-
-    /// ============ SUPPORT METHOD ==========
-    /// TODO Mettere questo metodo in un Mapper DTO VolunteerRequest
-    private List<VolunteerRequestSendDTO> createRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) {
-        List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
-        for (VolunteerRequest volunteersingle : volunteerRequest) {
-            volunteerRequestDTOS.add(VolunteerRequestMapper.mapToVolunteerRequestDTO(volunteersingle));
-        }
-        return volunteerRequestDTOS;
-    }
 }

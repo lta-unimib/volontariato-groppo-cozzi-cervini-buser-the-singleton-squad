@@ -20,15 +20,15 @@ public class VolunteerOfferDatabaseService {
         this.volunteerOfferRepository.save(v);
     }
 
-    public List<VolunteerOffer> getAllVolunteerOffers(final String email) {
-        return this.volunteerOfferRepository.getAllOffer(email);
+    /// GET ALL THE OFFER OF A VOLUNTEER
+    public List<VolunteerOffer> getAllOffersOfTheVolunteer(final String email) {
+        return this.volunteerOfferRepository.getAllOfferVolunteer(email);
     }
 
     public VolunteerOffer getVolunteerOffer(final Long id) throws Exception {
-        Optional<VolunteerOffer> optional = this.volunteerOfferRepository.findById(id);
-        if (optional.isEmpty())
-            throw new RecordNotFoundGeneralException("Volunteer offer not found");
-        return optional.get();
+        return this.volunteerOfferRepository.findById(id).orElseThrow(() ->{
+            throw new RecordNotFoundGeneralException("Record not found");
+        });
     }
 
 

@@ -30,6 +30,9 @@ public class VolunteerOfferAcceptService {
         changeStatusAndSave(volunteerOffer, temp);
     }
 
+
+    /// === SUPPORT ORGANIZATION ====
+
     private void checkOrganizationEmail(String organizationEmail, VolunteerOffer volunteer) throws Exception {
         if(!volunteer.getOrganization().getEmail().equals(organizationEmail))
             throw new IllegalAccessException("Organization email not match");
@@ -41,7 +44,6 @@ public class VolunteerOfferAcceptService {
     }
 
     private void checkStartDateAndEndDate(VolunteerRequest volunteerRequest) throws Exception {
-        LocalDateTime startDate = volunteerRequest.getStartDateTime();
         LocalDateTime endDate = volunteerRequest.getEndDateTime();
         LocalDateTime now = LocalDateTime.now();
 

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.utils.common.HttpClientServiceUtil;
+import io.netty.handler.codec.http2.Http2Exception;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,7 @@ public class CityInfoHTTPService {
                 throw new ResourceNotFoundGeneralException(String.format("City %s not found", address));
             }
         } catch (Exception e) {
-            throw new Exception("Errore nella chiamata OpenCage: " + e.getMessage());
+            throw new HttpGeneralException(String.format("Failed to retrieve coordinates for address: %s", address), e);
         }
     }
 }

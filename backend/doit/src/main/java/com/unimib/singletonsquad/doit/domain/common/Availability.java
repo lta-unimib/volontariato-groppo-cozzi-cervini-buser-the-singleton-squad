@@ -7,7 +7,6 @@ import com.unimib.singletonsquad.doit.utils.data.DataConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -66,10 +65,12 @@ public class Availability{
                 break;
             }
             case "monthly": {
-                LocalDateTime availableTimeStart = LocalDateTime.parse(data.get(0).replaceAll("Z", ""));
-                LocalDateTime availableTimeEnd = LocalDateTime.parse(data.get(1).replaceAll("Z", ""));
+                LocalDateTime availableTimeStart = LocalDateTime.parse(data.get(0).replace("Z", ""));
+                LocalDateTime availableTimeEnd = LocalDateTime.parse(data.get(1).replace("Z", ""));
                 return availableTimeStart.isBefore(startDateTime) && availableTimeEnd.isAfter(endDateTime);
             }
+            default:
+                throw new IllegalArgumentException("Unsupported mode " + mode);
         }
          
         return false;
