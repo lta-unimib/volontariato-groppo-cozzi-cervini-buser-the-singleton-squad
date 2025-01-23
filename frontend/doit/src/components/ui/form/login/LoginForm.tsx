@@ -12,15 +12,26 @@ import {
 import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/Label"
 import Link from "next/link"
-import { useLoginForm } from "@/hooks/useLoginForm"
+import { BaseForm } from "@/components/ui/form/BaseForm"
+import { useLoginForm } from "@/hooks/refactored/login/useLoginForm"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import React from "react";
+import React from "react"
+import { SuccessResponse } from "@/types/refactored/baseForm"
+import { LoginTypes } from "@/types/refactored/login/loginTypes"
 
-interface LoginFormProps extends React.ComponentPropsWithoutRef<"div"> {
-    signUpHref?: string
-    loginApiLink?: string
-    redirectPath?: string
-}
+
+/**
+ * Login form component with email and password inputs.
+ *
+ * This component renders a login form with email and password fields, as well as a link to the sign-up page.
+ * It also provides functionality for toggling password visibility.
+ * @param {string} [className] - Optional additional CSS classes to be applied to the wrapper div.
+ * @param signUpHref
+ * @param loginApiLink
+ * @param redirectPath
+ * @param props
+ * @returns {React.ReactElement} - The rendered login form.
+ */
 
 export function LoginForm({
                               className,
@@ -28,30 +39,49 @@ export function LoginForm({
                               loginApiLink = "#",
                               redirectPath = "#",
                               ...props
-                          }: LoginFormProps) {
-    const { formState, updateFormState, handleSubmit } = useLoginForm({
+                          }: LoginTypes): React.ReactElement {
+    const { formState, updateFormState, handleSubmit: loginSubmit } = useLoginForm({
         loginApiLink,
         redirectPath,
     })
+
+    const handleSubmit = async (e: React.FormEvent): Promise<SuccessResponse> => {
+        try {
+            await loginSubmit(e);
+            return { success: true, redirectUrl: redirectPath };
+        } catch (error) {
+            return {
+                success: false,
+                message: error instanceof Error ? error.message : "Login fallito"
+            };
+        }
+    }
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card className="rounded-2xl">
                 <CardHeader>
-                    <CardTitle className="text-2xl">Login</CardTitle>
+                    <CardTitle className="text-2xl">Accesso</CardTitle>
                     <CardDescription>
-                        Enter your email below to login to your account
+                        Inserisci la tua email per accedere al tuo account
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={handleSubmit}>
+                    <BaseForm
+                        onSubmitAction={handleSubmit}
+                        isValid={!!formState.email && !!formState.password}
+                        redirectTo={redirectPath}
+                        submitText="Accedi"
+                        className="p-0"
+                        buttonClassName="w-full"
+                    >
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="m@example.com"
+                                    placeholder="esempio@gmail.com"
                                     required
                                     value={formState.email}
                                     onChange={(e) => updateFormState('email', e.target.value)}
@@ -64,14 +94,16 @@ export function LoginForm({
                                     <Input
                                         id="password"
                                         type={formState.showPassword ? "text" : "password"}
+                                        placeholder="Password123?"
                                         required
                                         value={formState.password}
                                         onChange={(e) => updateFormState('password', e.target.value)}
                                         className="rounded-full pl-4"
                                     />
-                                    <button
+                                    <Button
+                                        variant="ghost"
                                         type="button"
-                                        className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                                        className="absolute right-0 top-1/2 transform -translate-y-1/2"
                                         onClick={() => updateFormState('showPassword', !formState.showPassword)}
                                     >
                                         {formState.showPassword ? (
@@ -79,25 +111,17 @@ export function LoginForm({
                                         ) : (
                                             <AiOutlineEye size={20} className="text-muted-foreground"/>
                                         )}
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
-                            <Button type="submit" className="w-full" disabled={formState.loading}>
-                                {formState.loading ? "Logging in..." : "Login"}
-                            </Button>
                         </div>
-                        {formState.error && (
-                            <div className="mt-4 text-destructive text-center">
-                                {formState.error}
-                            </div>
-                        )}
-                        <div className="mt-4 text-center text-sm">
-                            Don&apos;t have an account?{" "}
+                        <div className="pt-4 text-center text-sm">
+                            Non hai un account?{" "}
                             <Link href={signUpHref} className="underline underline-offset-4">
-                                Sign up
+                                Registrati
                             </Link>
                         </div>
-                    </form>
+                    </BaseForm>
                 </CardContent>
             </Card>
         </div>

@@ -6,6 +6,16 @@ import { Button } from "@/components/ui/Button";
 import { MdOutlineAccountCircle, MdOutlineBusiness } from "react-icons/md";
 import Link from "next/link";
 
+/**
+ * Hero component for the landing page.
+ *
+ * This component renders the hero section of the landing page, which includes:
+ * - A hero illustration that switches between light and dark versions based on the current theme.
+ * - A headline text describing the service provided.
+ * - Two buttons for users to navigate to the "Volunteer" or "Organization" registration pages.
+ *
+ * The layout is responsive, with the image and buttons adjusting for different screen sizes.
+ */
 export function Hero() {
     const theme = useTheme();
     const heroIllustrationSrc = theme === 'dark' ? "/hero-illustration-dark.svg" : "/hero-illustration-light.svg";
@@ -27,6 +37,7 @@ export function Hero() {
                         Mettiamo in contatto organizzazioni di volontariato e volontari in Lombardia.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 items-center sm:gap-2 md:gap-4 lg:gap-6 md:items-start">
+                        {/* Volunteer Button */}
                         <Link href="/auth/volunteer">
                             <Button
                                 variant="default"
@@ -45,6 +56,7 @@ export function Hero() {
                                 Volontario
                             </Button>
                         </Link>
+                        {/* Organization Button */}
                         <Link href="/auth/organization/">
                             <Button
                                 variant="secondary"

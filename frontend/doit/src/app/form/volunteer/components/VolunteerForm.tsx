@@ -33,91 +33,92 @@ export function VolunteerForm() {
     const { validationState, isValid } = useFormValidation(formData, isEditing);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
 
-
     if (!initialDataLoaded && isEditing) {
         return <div>Loading...</div>;
     }
 
     return (
-        <BaseForm
-            onSubmitAction={(e) => handleSubmit(e, handleSubmitFn)}
-            isValid={isValid()}
-            redirectTo={isEditing ? "../../../profile/volunteer" : "../../../dashboard/volunteer"}
-        >
-            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                <IconInput
-                    value={formData.firstName || ''}
-                    onChange={(e) => updateField("firstName", e.target.value)}
-                    placeholder="Nome"
-                    icon={<MdOutlinePerson />}
-                />
-                <IconInput
-                    value={formData.lastName || ''}
-                    onChange={(e) => updateField("lastName", e.target.value)}
-                    placeholder="Cognome"
-                    icon={<MdOutlinePerson />}
-                />
-            </div>
-
-            {!isEditing && (
-                <>
+        <div className="flex items-center justify-center min-h-screen px-4">
+            <BaseForm
+                onSubmitAction={(e) => handleSubmit(e, handleSubmitFn)}
+                isValid={isValid()}
+                redirectTo={isEditing ? "../../../profile/volunteer" : "../../../dashboard/volunteer"}
+            >
+                <div className="flex flex-col w-full md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                     <IconInput
-                        value={formData.email || ''}
-                        onChange={(e) => updateField("email", e.target.value)}
-                        placeholder="Email"
-                        type="email"
-                        icon={<MdOutlineEmail />}
-                        isInvalid={!validationState.isEmailValid}
-                        isFocused={focusState.emailFocused}
-                        onFocus={() => handleFocus("email")}
-                        onBlur={() => handleBlur("email")}
+                        value={formData.firstName || ''}
+                        onChange={(e) => updateField("firstName", e.target.value)}
+                        placeholder="Nome"
+                        icon={<MdOutlinePerson />}
                     />
+                    <IconInput
+                        value={formData.lastName || ''}
+                        onChange={(e) => updateField("lastName", e.target.value)}
+                        placeholder="Cognome"
+                        icon={<MdOutlinePerson />}
+                    />
+                </div>
 
-                    <div className="relative">
+                {!isEditing && (
+                    <>
                         <IconInput
-                            value={formData.password || ''}
-                            onChange={(e) => updateField("password", e.target.value)}
-                            placeholder="Password"
-                            type={showPassword ? "text" : "password"}
-                            icon={<MdOutlinePassword />}
-                            isInvalid={!validationState.isPasswordValid}
-                            isFocused={focusState.passwordFocused}
-                            onFocus={() => handleFocus("password")}
-                            onBlur={() => handleBlur("password")}
+                            value={formData.email || ''}
+                            onChange={(e) => updateField("email", e.target.value)}
+                            placeholder="Email"
+                            type="email"
+                            icon={<MdOutlineEmail />}
+                            isInvalid={!validationState.isEmailValid}
+                            isFocused={focusState.emailFocused}
+                            onFocus={() => handleFocus("email")}
+                            onBlur={() => handleBlur("email")}
                         />
-                        <button
-                            type="button"
-                            className="absolute right-4 top-1/2 transform -translate-y-1/2"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? (
-                                <AiOutlineEyeInvisible size={20} className="text-muted-foreground" />
-                            ) : (
-                                <AiOutlineEye size={20} className="text-muted-foreground" />
-                            )}
-                        </button>
-                    </div>
-                </>
-            )}
 
-            <AvailabilityDialog
-                onSaveAction={(availability) => updateField('availability', availability)}
-                initialSelected={formData.availability}
-            />
-            <CityPicker
-                value={formData.city || ''}
-                onChangeAction={(selectedCity) => updateField("city", selectedCity)}
-            />
-            <RoundCheckboxSelector
-                onChangeAction={(preferences: string[]) => updateField('preferences', preferences)}
-                initialSelected={formData.preferences}
-            />
-            <Textarea
-                placeholder="Descrizione dell'utente"
-                className="rounded-2xl min-h-[100px]"
-                value={formData.description || ''}
-                onChange={(e) => updateField('description', e.target.value)}
-            />
-        </BaseForm>
+                        <div className="relative w-full">
+                            <IconInput
+                                value={formData.password || ''}
+                                onChange={(e) => updateField("password", e.target.value)}
+                                placeholder="Password"
+                                type={showPassword ? "text" : "password"}
+                                icon={<MdOutlinePassword />}
+                                isInvalid={!validationState.isPasswordValid}
+                                isFocused={focusState.passwordFocused}
+                                onFocus={() => handleFocus("password")}
+                                onBlur={() => handleBlur("password")}
+                            />
+                            <button
+                                type="button"
+                                className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? (
+                                    <AiOutlineEyeInvisible size={20} className="text-muted-foreground" />
+                                ) : (
+                                    <AiOutlineEye size={20} className="text-muted-foreground" />
+                                )}
+                            </button>
+                        </div>
+                    </>
+                )}
+
+                <AvailabilityDialog
+                    onSaveAction={(availability) => updateField('availability', availability)}
+                    initialSelected={formData.availability}
+                />
+                <CityPicker
+                    value={formData.city || ''}
+                    onChangeAction={(selectedCity) => updateField("city", selectedCity)}
+                />
+                <RoundCheckboxSelector
+                    onChangeAction={(preferences: string[]) => updateField('preferences', preferences)}
+                    initialSelected={formData.preferences}
+                />
+                <Textarea
+                    placeholder="Descrizione dell'utente"
+                    className="rounded-2xl min-h-[100px]"
+                    value={formData.description || ''}
+                    onChange={(e) => updateField('description', e.target.value)}
+                />
+            </BaseForm>
+        </div>
     );
 }
