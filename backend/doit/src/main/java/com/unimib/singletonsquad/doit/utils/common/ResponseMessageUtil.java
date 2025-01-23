@@ -26,4 +26,8 @@ public class ResponseMessageUtil {
         ResponseMessage response = createResponseMessage(message, status, data);
         return  ResponseEntity.status(status).body(response);
     }
+
+    public static ResponseMessage createOnlyResponseMessage(String message, HttpStatus status, Object data) {
+        return createResponseMessage(message, status, data);
+    }
 }

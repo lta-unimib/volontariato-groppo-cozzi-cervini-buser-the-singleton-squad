@@ -19,7 +19,7 @@ import java.util.Map;
 @AllArgsConstructor
 @RequestMapping("/volunteer/favorite")
 public class VolunteerFavouriteController {
-    VolunteerDatabaseService volunteerDatabaseService;
+    private final VolunteerDatabaseService volunteerDatabaseService;
     private final RegisteredUserService registeredUserService;
 
     @GetMapping("/organization/all/")
