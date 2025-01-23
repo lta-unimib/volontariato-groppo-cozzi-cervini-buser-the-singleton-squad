@@ -30,7 +30,7 @@ public class VolunteerRequestService {
             throws Exception {
             VolunteerRequest request = this.getSpecificRequest(id);
             checkOrganizationRequest(request, organization);
-            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO , organization);
+            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO);
             this.volunteerRequestDatabaseService.updateRequest(temp, id);
     }
 

@@ -4,6 +4,7 @@ import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
+import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,8 @@ public class VolunteerRequestAllOrganizationController {
 
     /// Get all Organization through its email-token
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
+    public ResponseEntity<ResponseMessage> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws Exception {
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
         return ResponseMessageUtil.createResponseSuccess("get all request by organization: "+email,
                 HttpStatus.OK, volunteerRequestList);
@@ -35,7 +36,7 @@ public class VolunteerRequestAllOrganizationController {
 
     /// Get all Organization Request by his name
     @GetMapping(value = "/{organizationName}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllVolunteerRequestOrganization(final HttpServletRequest request,
+    public ResponseEntity<ResponseMessage> getAllVolunteerRequestOrganization(final HttpServletRequest request,
                                                                 final @PathVariable("organizationName") String organizationName) throws Exception {
         this.registeredUserService.checkAndGetRoleFromRequest(request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationName(organizationName);

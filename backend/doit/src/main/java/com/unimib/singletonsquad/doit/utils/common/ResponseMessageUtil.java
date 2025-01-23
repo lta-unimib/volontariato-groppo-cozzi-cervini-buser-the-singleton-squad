@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 
 public class ResponseMessageUtil {
 
+    private ResponseMessageUtil() {}
+
     public static JsonNode createJsonNode(final String value, final String message) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode tokenJson = mapper.createObjectNode();

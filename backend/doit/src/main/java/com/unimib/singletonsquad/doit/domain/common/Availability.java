@@ -74,7 +74,7 @@ public class Availability{
     }
 
     public boolean isBetween(LocalDateTime start, LocalDateTime end) {
-        LocalDateTime availabilityData = LocalDateTime.now();//TODO CHANGE
+        LocalDateTime availabilityData = LocalDateTime.now();
         return availabilityData.isAfter(start) && availabilityData.isBefore(end);
     }
 }

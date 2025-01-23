@@ -10,9 +10,7 @@ import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralEx
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -33,26 +31,22 @@ public class VolunteerOfferAcceptService {
 
     /// === SUPPORT ORGANIZATION ====
 
-    private void checkOrganizationEmail(String organizationEmail, VolunteerOffer volunteer) throws Exception {
+    private void checkOrganizationEmail(String organizationEmail, VolunteerOffer volunteer) throws IllegalAccessException {
         if(!volunteer.getOrganization().getEmail().equals(organizationEmail))
             throw new IllegalAccessException("Organization email not match");
     }
 
-    private void checkRequestCapacity(VolunteerOffer volunteerOffer) throws Exception {
+    private void checkRequestCapacity(VolunteerOffer volunteerOffer) throws RecordNotFoundGeneralException {
         if (volunteerOffer.getVolunteerRequest().getCapacity() <=0)
             throw new RecordNotFoundGeneralException("Volunteer request capacity 0");
     }
 
-    private void checkStartDateAndEndDate(VolunteerRequest volunteerRequest) throws Exception {
+    private void checkStartDateAndEndDate(VolunteerRequest volunteerRequest) throws InvalidDateException {
         LocalDateTime endDate = volunteerRequest.getEndDateTime();
         LocalDateTime now = LocalDateTime.now();
 
-        if (now.isBefore(endDate)) {
-            System.out.println("La richiesta è ancora valida per registrarsi.");
-        } else {
-            System.out.println("La richiesta è scaduta.");
+        if (!now.isBefore(endDate))
             throw new InvalidDateException(HttpStatus.BAD_REQUEST,"Non è possibile accettare la richiesta in quanto è scaduta");
-        }
     }
 
     private void changeStatusAndSave(VolunteerOffer volunteerOffer, VolunteerRequest volunteerRequest) throws Exception {

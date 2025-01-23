@@ -23,85 +23,86 @@ public class UserProfileService {
     private final OrganizationDatabaseService organizationDatabaseService;
     private final VolunteerMapper volunteerMapper;
     private final OrganizationMapper organizationMapper;
+    private static final String Error_Message_Email = "Unsupported user role";
 
-    public User getUserInfoById(Long id, UserRole role) throws Exception {
+    public User getUserInfoById(Long id, UserRole role) throws InvalidRoleGeneralException {
         switch (role) {
-            case volunteer:
+            case VOLUNTEER:
                 return this.volunteerDatabaseService.findVolunteerById(id);
-            case organization:
+            case ORGANIZATION:
                 return this.organizationDatabaseService.findOrganizationById(id);
             default:
-                throw new InvalidRoleGeneralException("Unsupported user role");
+                throw new InvalidRoleGeneralException(Error_Message_Email);
         }
     }
 
-    public User getUserByEmail(String email, UserRole role) throws Exception {
+    public User getUserByEmail(String email, UserRole role) throws InvalidRoleGeneralException {
         switch (role) {
-            case volunteer:
+            case VOLUNTEER:
                 return this.volunteerDatabaseService.findVolunteerByEmail(email);
-            case organization:
+            case ORGANIZATION:
                 return this.organizationDatabaseService.findOrganizationByEmail(email);
             default:
-                throw new InvalidRoleGeneralException("Unsupported user role");
+                throw new InvalidRoleGeneralException(Error_Message_Email);
         }
     }
 
-    public User getUserByName(String username, UserRole role) throws Exception {
-        switch (role) {
-            case organization:
+    public User getUserByName(String username, UserRole role) throws InvalidRoleGeneralException {
+        if(role == UserRole.VOLUNTEER)
                 return this.organizationDatabaseService.findOrganizationByName(username);
-            default:
-                throw new InvalidRoleGeneralException("Unsupported user role");
-        }
+        else if(role == UserRole.ORGANIZATION)
+                throw new InvalidRoleGeneralException(Error_Message_Email);
+        else
+            throw new InvalidRoleGeneralException(Error_Message_Email);
     }
 
 
-    public void updateUserPassword(String email, String password, UserRole role) throws Exception {
+    public void updateUserPassword(String email, String password, UserRole role) throws InvalidRoleGeneralException {
         switch (role) {
-            case volunteer:
+            case VOLUNTEER:
                 Volunteer volunteer = this.volunteerDatabaseService.findVolunteerByEmail(email);
                 volunteer.setPassword(password);
                 this.volunteerDatabaseService.save(volunteer);
                 break;
-            case organization:
+            case ORGANIZATION:
                 Organization organization = this.organizationDatabaseService.findOrganizationByEmail(email);
                 organization.setPassword(password);
                 this.organizationDatabaseService.save(organization);
                 break;
             default:
-                throw new InvalidRoleGeneralException("Unsupported user role");
+                throw new InvalidRoleGeneralException(Error_Message_Email);
         }
     }
 
     public void updateUserInfo(String email, @NotNull Object dto, UserRole role) throws Exception {
         switch (role) {
-            case volunteer:
+            case VOLUNTEER:
                 VolunteerDTO volunteerDTO = (VolunteerDTO) dto;
                 Volunteer volunteerData = this.volunteerDatabaseService.findVolunteerByEmail(email);
                 Volunteer toBeSaved = this.volunteerMapper.updateVolunteer(volunteerDTO, volunteerData);
                 this.volunteerDatabaseService.save(toBeSaved);
                 break;
-            case organization:
+            case ORGANIZATION:
                 OrganizationDTO organizationDTO = (OrganizationDTO) dto;
                 Organization organizationData = this.organizationDatabaseService.findOrganizationByEmail(email);
                 Organization toBeSavedOrg = this.organizationMapper.updateOrganizationInfos(organizationData, organizationDTO);
                 this.organizationDatabaseService.save(toBeSavedOrg);
                 break;
             default:
-                throw new InvalidRoleGeneralException("Unsupported user role");
+                throw new InvalidRoleGeneralException(Error_Message_Email);
         }
     }
 
     public void deleteUser(String email, UserRole role) {
         switch (role) {
-            case volunteer:
+            case VOLUNTEER:
                 this.volunteerDatabaseService.deleteVolunteer(email);
                 break;
-            case organization:
+            case ORGANIZATION:
                 this.organizationDatabaseService.deleteOrganization(email);
                 break;
             default:
-                throw new InvalidRoleGeneralException("Unsupported user role");
+                throw new InvalidRoleGeneralException(Error_Message_Email);
         }
     }
 

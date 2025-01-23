@@ -27,7 +27,7 @@ public class RegistrationVolunteerService {
         Volunteer user = this.volunteerMapper.createVolunteer(volunteer);
         this.volunteerDatabaseService.save(user);
         return this.authenticationSetUp.setUpNewAuthSecurityContext(
-                volunteer.getPassword(), UserRole.volunteer.name(), volunteer.getEmail());
+                volunteer.getPassword(), UserRole.VOLUNTEER.name(), volunteer.getEmail());
     }
 
     private boolean isAlreadyRegistered(final String email) {

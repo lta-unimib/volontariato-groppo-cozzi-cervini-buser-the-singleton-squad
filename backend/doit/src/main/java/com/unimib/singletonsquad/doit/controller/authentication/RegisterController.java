@@ -25,13 +25,13 @@ public class RegisterController {
 
     @PostMapping(value = "/volunteer/", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerVolunteer(@Valid @RequestBody VolunteerDTO volunteer) throws Exception {
+    public ResponseEntity<ResponseMessage> registerVolunteer(@Valid @RequestBody VolunteerDTO volunteer) throws Exception {
         return register(volunteer);
     }
 
     @PostMapping(value = "/organization/", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerOrganization(@Valid @RequestBody OrganizationDTO organization) throws Exception {
+    public ResponseEntity<ResponseMessage> registerOrganization(@Valid @RequestBody OrganizationDTO organization) throws Exception {
         return register(organization);
     }
 

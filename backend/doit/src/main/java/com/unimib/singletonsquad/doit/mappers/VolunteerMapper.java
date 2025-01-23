@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class VolunteerMapper {
     private AvailabilityMapper availabilityMapper;
 
-    public Volunteer mapToVolunteer(VolunteerDTO volunteerDTO) throws Exception {
+    public Volunteer mapToVolunteer(VolunteerDTO volunteerDTO){
         Volunteer volunteer = new Volunteer();
         volunteer.setName(volunteerDTO.getName());
         volunteer.setSurname(volunteerDTO.getSurname());
@@ -22,7 +22,7 @@ public class VolunteerMapper {
     }
 
 
-    public Volunteer createVolunteer(final VolunteerDTO volunteerDTO) throws Exception{
+    public Volunteer createVolunteer(final VolunteerDTO volunteerDTO){
         Volunteer volunteer = this.mapToVolunteer(volunteerDTO);
         VolunteerPreferences volunteerPreferences = new VolunteerPreferences();
         volunteerPreferences.setCity(volunteerDTO.getCity());
@@ -32,10 +32,9 @@ public class VolunteerMapper {
         return volunteer;
     }
 
-    public Volunteer updateVolunteer(final VolunteerDTO volunteerDTO, Volunteer volunteer) throws Exception {
+    public Volunteer updateVolunteer(final VolunteerDTO volunteerDTO, Volunteer volunteer){
         volunteer.setName(volunteerDTO.getName());
         volunteer.setSurname(volunteerDTO.getSurname());
-        //volunteer.setPassword(volunteerDTO.getPassword());
         volunteer.setDescription(volunteerDTO.getDescription());
 
         VolunteerPreferences volunteerPreferences = volunteer.getVolunteerPreferences();
@@ -51,7 +50,7 @@ public class VolunteerMapper {
         return volunteer;
     }
 
-    public static VolunteerDTO toVolunteerDTO(Volunteer volunteer) throws Exception {
+    public static VolunteerDTO toVolunteerDTO(Volunteer volunteer) {
         VolunteerDTO volunteerDTO = new VolunteerDTO();
         volunteerDTO.setName(volunteer.getName());
         volunteerDTO.setSurname(volunteer.getSurname());

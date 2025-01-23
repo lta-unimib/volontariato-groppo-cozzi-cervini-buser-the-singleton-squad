@@ -1,7 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 
 import com.unimib.singletonsquad.doit.domain.common.User;
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.utils.data.DataValidator;
 import jakarta.persistence.*;

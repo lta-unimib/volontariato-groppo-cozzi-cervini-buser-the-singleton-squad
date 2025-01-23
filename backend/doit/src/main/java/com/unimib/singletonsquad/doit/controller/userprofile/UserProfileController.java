@@ -23,9 +23,8 @@ public abstract class UserProfileController {
         return this.userVerify.getUserEmailAndIsRegistered(userRole, request);
     }
 
-    /// TODO CREARE UN METODO IN ResponseMessageUtil --> SEND OK RESPONSE CHE TORNA UNA RESPONSEENTITY<ResponseMessage></ResponseMessage>
     protected ResponseEntity<ResponseMessage> sendResponseMessage(final String message, HttpStatus status, Object data) {
-        return ResponseMessageUtil.createResponseSuccess(message, HttpStatus.OK, data);
+        return ResponseMessageUtil.createResponseSuccess(message, status, data);
     }
 
 }

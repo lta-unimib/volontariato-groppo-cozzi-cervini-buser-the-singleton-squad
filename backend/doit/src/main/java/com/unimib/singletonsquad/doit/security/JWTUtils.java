@@ -22,9 +22,7 @@ public class JWTUtils {
     @Value("${security.jwt.secret-key}")
     private  String secretKey;
 
-    private final long jwtExpiration = 300000000;
-
-    private final long refreshExpiration = 360000000;
+    private static final long JWT_EXPIRATION = 300000000;
 
     private SecretKey getSigningKey() {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
@@ -36,7 +34,7 @@ public class JWTUtils {
     }
 
     public String generateToken(Map<String, Object> extraClaims, String username) {
-        return buildToken(extraClaims, username, jwtExpiration);
+        return buildToken(extraClaims, username, JWT_EXPIRATION);
     }
 
     private String buildToken(Map<String, Object> extraClaims, String username, long expiration) {

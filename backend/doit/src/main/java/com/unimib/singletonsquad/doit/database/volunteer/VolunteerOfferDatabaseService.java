@@ -16,7 +16,7 @@ import java.util.Optional;
 public class VolunteerOfferDatabaseService {
     private final IVolunteerOfferRepository volunteerOfferRepository;
 
-    public void saveVolunteerOffer(VolunteerOffer v) throws Exception {
+    public void saveVolunteerOffer(VolunteerOffer v){
         this.volunteerOfferRepository.save(v);
     }
 
@@ -25,14 +25,14 @@ public class VolunteerOfferDatabaseService {
         return this.volunteerOfferRepository.getAllOfferVolunteer(email);
     }
 
-    public VolunteerOffer getVolunteerOffer(final Long id) throws Exception {
+    public VolunteerOffer getVolunteerOffer(final Long id) throws RecordNotFoundGeneralException  {
         return this.volunteerOfferRepository.findById(id).orElseThrow(() ->{
             throw new RecordNotFoundGeneralException("Record not found");
         });
     }
 
 
-    public void deleteVolunteerOffer(VolunteerOffer offer) throws Exception {
+    public void deleteVolunteerOffer(VolunteerOffer offer){
         volunteerOfferRepository.delete(offer);
     }
 

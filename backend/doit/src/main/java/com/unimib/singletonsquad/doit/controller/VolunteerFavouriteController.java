@@ -25,23 +25,23 @@ public class VolunteerFavouriteController {
 
     @GetMapping("/organizations/")
     public ResponseEntity<ResponseMessage> getFavouriteOrganizations(final HttpServletRequest request) throws Exception {
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         List<OrganizationDTO> favouriteOrganizations = volunteerFavouriteService.getFavouriteOrganizations(email);
         return ResponseMessageUtil.createResponseSuccess( "getting all", HttpStatus.OK, favouriteOrganizations);
     }
 
     @DeleteMapping("/organization/{orgName}/")
-    public ResponseEntity<?> deleteFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws Exception {
+    public ResponseEntity<ResponseMessage> deleteFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws Exception {
         orgName = URLDecoder.decode(orgName, StandardCharsets.UTF_8);
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         volunteerFavouriteService.revokeFavouriteOrganization(email, orgName);
         return ResponseMessageUtil.createResponseSuccess( "deleted ",HttpStatus.OK, null);
     }
 
     @PostMapping("/organization/{orgName}/")
-    public ResponseEntity<?> addFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws Exception {
+    public ResponseEntity<ResponseMessage> addFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws Exception {
         orgName = URLDecoder.decode(orgName, StandardCharsets.UTF_8);
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         this.volunteerFavouriteService.addFavouriteOrganization(email, orgName);
         return ResponseMessageUtil.createResponseSuccess( "added ",HttpStatus.OK, null);
     }

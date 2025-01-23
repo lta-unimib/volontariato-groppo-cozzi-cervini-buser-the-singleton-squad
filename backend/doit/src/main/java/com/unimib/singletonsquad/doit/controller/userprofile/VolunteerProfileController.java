@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/profile/volunteer")
 public class VolunteerProfileController  extends UserProfileController {
 
-    //FIXME === ASSOLUTAMENTE DA FIXARE ======
+
     private final UserProfileService userProfileService;
     private final RegisteredUserService registeredUserService;
 
@@ -27,7 +27,7 @@ public class VolunteerProfileController  extends UserProfileController {
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> getVolunteerInformation(final HttpServletRequest request) throws Exception{
         String email = this.registeredUserService.getUserEmail(request);
-        Volunteer volunteer = (Volunteer) this.userProfileService.getUserByEmail(email, UserRole.volunteer);
+        Volunteer volunteer = (Volunteer) this.userProfileService.getUserByEmail(email, UserRole.VOLUNTEER);
         VolunteerDTO volunteerDTO = VolunteerMapper.toVolunteerDTO(volunteer);
         String messageResponse = String.format("getting info for %s", email);
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, volunteerDTO);
@@ -38,8 +38,8 @@ public class VolunteerProfileController  extends UserProfileController {
     public ResponseEntity<ResponseMessage> updateVolunteerInfos(final HttpServletRequest request,
                                                                final @RequestBody VolunteerDTO volunteer)
             throws Exception{
-        String email = super.validateTokenAndGetEmail(request, UserRole.volunteer);;
-        this.userProfileService.updateUserInfo(email, volunteer, UserRole.volunteer);
+        String email = super.validateTokenAndGetEmail(request, UserRole.VOLUNTEER);
+        this.userProfileService.updateUserInfo(email, volunteer, UserRole.VOLUNTEER);
         String messageResponse = String.format("updated infos for %s", email);
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, null);
     }
@@ -47,8 +47,8 @@ public class VolunteerProfileController  extends UserProfileController {
     /// DELETE VOLUNTEER
     @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> deleteUser(final HttpServletRequest request) throws Exception {
-        String email = super.validateTokenAndGetEmail(request, UserRole.volunteer);
-        this.userProfileService.deleteUser(email, UserRole.volunteer);
+        String email = super.validateTokenAndGetEmail(request, UserRole.VOLUNTEER);
+        this.userProfileService.deleteUser(email, UserRole.VOLUNTEER);
         String messageResponse = String.format("deleted user %s", email);
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, null);
     }

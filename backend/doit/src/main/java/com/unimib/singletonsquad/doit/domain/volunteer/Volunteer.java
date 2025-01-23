@@ -5,10 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
+import com.unimib.singletonsquad.doit.exception.validation.EmailException;
 import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
+import com.unimib.singletonsquad.doit.utils.data.DataValidator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -20,6 +24,8 @@ import java.util.Objects;
 @Getter
 @Entity
 @Table(name = "volunteer")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Volunteer implements User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,11 +70,10 @@ public class Volunteer implements User {
     @JsonSerialize(using = OrganizationNameSerializer.class)  // Serializzazione personalizzata
     private List<Organization> favoriteOrganizations = new ArrayList<>();
 
-    public Volunteer() {}
 
-    public void setEmail(String email) throws Exception {
+    public void setEmail(String email) throws EmailException {
         if (!isValidEmail(email)) {
-            throw new Exception("Invalid email");
+            throw new EmailException("Invalid email");
         }
         this.email = email;
     }
@@ -78,9 +83,7 @@ public class Volunteer implements User {
     }
 
     private static boolean isValidEmail(String email) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@" +
-                "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[a-z]{2,})$";
-        return email.matches(EMAIL_PATTERN);
+       return DataValidator.isValidEmail(email);
     }
 
     public void removeOrganizationFromFavourite(Organization organization) {

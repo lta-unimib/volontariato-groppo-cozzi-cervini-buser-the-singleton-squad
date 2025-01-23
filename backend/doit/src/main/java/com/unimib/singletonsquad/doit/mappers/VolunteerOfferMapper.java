@@ -11,7 +11,9 @@ import java.util.List;
 
 public class VolunteerOfferMapper {
 
-    public static VolunteerOffer toOffer(VolunteerOfferDTO volunteerOfferDTO, Volunteer volunteer, VolunteerRequest volunteerRequest) {
+    private VolunteerOfferMapper() {}
+
+    public static VolunteerOffer toOffer(Volunteer volunteer, VolunteerRequest volunteerRequest) {
         VolunteerOffer volunteerOffer = new VolunteerOffer();
         volunteerOffer.setVolunteer(volunteer);
         volunteerOffer.setVolunteerRequest(volunteerRequest);

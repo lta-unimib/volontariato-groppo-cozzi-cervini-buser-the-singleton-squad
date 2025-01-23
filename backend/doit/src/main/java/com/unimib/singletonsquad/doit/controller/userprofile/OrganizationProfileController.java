@@ -23,7 +23,7 @@ public class OrganizationProfileController extends UserProfileController {
 
     private final UserProfileService userProfileService;
     private final RegisteredUserService registeredUserService;
-    private final UserRole userRole = UserRole.organization;
+    private static final UserRole userRole = UserRole.ORGANIZATION;
 
 
     @GetMapping("/{nameOrganization}/")

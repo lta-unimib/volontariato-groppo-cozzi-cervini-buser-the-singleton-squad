@@ -1,16 +1,18 @@
 package com.unimib.singletonsquad.doit.utils.data;
 
-public class DataValidator {
-    public static boolean isValidEmail(String email) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@" +
-                "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[a-z]{2,})$";
-        return email.matches(EMAIL_PATTERN);
-    }
+import java.util.regex.Pattern;
 
-    public static boolean isValidItalianNumber(String numero) {
-        // Pattern for italian numbers +39XXXXXXXXX o XXXXXXXXX
-        //"^\\+39\\d{10}$" prefix needed
-        String pattern = "^(\\+39)?\\d{10}$";
-        return numero.matches(pattern);
+public class DataValidator {
+
+    private DataValidator() {}
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$"
+    );
+
+    public static boolean isValidEmail(String email) {
+        if (email == null || email.isEmpty() || email.length() < 5 || email.length() > 100)
+            return false;
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 }

@@ -23,9 +23,7 @@ public class OrganizationMapper {
     public Organization updateOrganizationInfos(Organization organization, OrganizationDTO organizationDTO){
         organization.setDescription(organizationDTO.getDescription());
         organization.setName(organizationDTO.getName());
-        //organization.setEmail(organizationDTO.getEmail());
         organization.setWebsite(organizationDTO.getWebSite());
-        //organization.setPassword(organizationDTO.getPassword());
         organization.setVATNumber(organizationDTO.getVatNumber());
         organization.setCity(organizationDTO.getCity());
         organization.setCategories(organizationDTO.getPreferences());

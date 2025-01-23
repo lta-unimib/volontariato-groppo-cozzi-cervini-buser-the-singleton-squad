@@ -1,6 +1,4 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

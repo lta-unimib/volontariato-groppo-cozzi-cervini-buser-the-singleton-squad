@@ -23,7 +23,7 @@ public class AuthenticationController {
     public ResponseEntity<ResponseMessage> authenticateVolunteer(@RequestBody final AuthDTO auth, @PathVariable("role") String role) throws Exception {
         RegisteredUserService.isValidRole(role);
         String token = this.authenticationUserService.authenticate(auth, role);
-        return this.createMessageResponse(String.valueOf(UserRole.organization), token);
+        return this.createMessageResponse(String.valueOf(UserRole.ORGANIZATION), token);
     }
 
     private ResponseEntity<ResponseMessage> createMessageResponse( @PathVariable final String role, final String token){
