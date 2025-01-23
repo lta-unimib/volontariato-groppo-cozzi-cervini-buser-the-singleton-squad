@@ -1,7 +1,7 @@
 "use client"
 
 import { Page } from '@/components/Page';
-import {VolunteerForm} from "@/app/form/volunteer/components/VolunteerForm";
+import {VolunteerForm} from "@/components/ui/components/VolunteerForm";
 import FormHeader from "@/components/ui/FormHeader";
 import {useBack} from "@/hooks/useBack";
 

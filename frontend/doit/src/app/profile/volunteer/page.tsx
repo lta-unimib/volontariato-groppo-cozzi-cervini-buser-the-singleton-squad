@@ -11,9 +11,9 @@ import { addMonths, eachDayOfInterval, getDay, startOfMonth } from "date-fns";
 import { ProfileHeader } from "@/components/ui/ProfileHeader";
 import { makeGetRequest } from "@/utils/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { AvailabilityData } from "@/types/availabilityData";
-import { VolunteerFormData } from "@/types/formData";
+import { AvailabilityFormData } from "@/types/refactored/model/availabilityFormData";
 import { Badge } from "@/components/ui/Badge";
+import { VolunteerFormData } from "@/types/refactored/model/volunteerFormData";
 
 interface ApiResponse {
     message: string;
@@ -54,7 +54,7 @@ export default function Home() {
         })();
     }, []);
 
-    const getSelectedDays = (availability: AvailabilityData, currentMonth: Date): Date[] => {
+    const getSelectedDays = (availability: AvailabilityFormData, currentMonth: Date): Date[] => {
         const startOfCurrentMonth = startOfMonth(currentMonth);
         const endOfPreview = addMonths(startOfCurrentMonth, 12);
         switch (availability.mode) {

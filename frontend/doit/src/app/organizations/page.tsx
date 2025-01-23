@@ -7,9 +7,9 @@ import { ScrollArea } from "@/components/ui/ScrollArea";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { makeGetRequest } from "@/utils/apiUtils";
-import { OrganizationFormData } from "@/types/formData";
 import OrganizationCard from "@/app/organizations/components/OrganizationCard";
 import SearchBar from "@/components/ui/SearchBar";
+import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
 
 interface ApiResponse {
     message: string;

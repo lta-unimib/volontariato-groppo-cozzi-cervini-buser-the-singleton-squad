@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { makePostRequest } from "@/utils/apiUtils";
-import { useLoadingError } from "@/hooks/refactored/login/useLoadingError";
+import { useLoadingError } from "@/hooks/refactored/useLoadingError";
 import { saveAuthData } from "@/utils/refactored/login/authUtils";
 import { LoginFormState, UseLoginFormProps, LoginResponse } from "@/types/refactored/login/loginTypes";
 

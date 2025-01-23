@@ -10,8 +10,8 @@ import { ProfileHeader } from "@/components/ui/ProfileHeader";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { makeGetRequest } from "@/utils/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { OrganizationFormData } from "@/types/formData";
 import { Badge } from "@/components/ui/Badge";
+import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
 
 interface ApiResponse {
     message: string;

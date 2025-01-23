@@ -6,13 +6,13 @@ import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { BaseForm } from "@/components/ui/form/BaseForm";
 import { IconInput } from "@/components/ui/form/FormFields";
-import { useFormData } from '@/app/form/volunteer/hooks/useFormData';
+import { useFormData } from '@/hooks/hooks/useFormData';
 import { useFormSubmission } from '@/hooks/useFormSubmission';
-import { AvailabilityDialog } from '@/app/form/volunteer/components/AvailabilityPicker';
+import { AvailabilityDialog } from '@/components/ui/components/AvailabilityPicker';
 import { MdOutlineEmail, MdOutlinePassword, MdOutlinePerson } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useFormValidation } from "@/app/form/volunteer/hooks/useFormValidation";
-import { useFormFocus } from "@/app/form/volunteer/hooks/useFormFocus";
+import { useFormValidation } from "@/hooks/hooks/useFormValidation";
+import { useFormFocus } from "@/hooks/hooks/useFormFocus";
 import { useFormInitialization } from '@/hooks/useFormInizialization';
 
 export function VolunteerForm() {

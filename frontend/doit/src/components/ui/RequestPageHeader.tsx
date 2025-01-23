@@ -5,10 +5,10 @@ import { Badge } from "@/components/ui/Badge";
 import { MdOutlineEdit, MdOutlineCheck, MdOutlineBookmarkBorder, MdOutlineDelete } from "react-icons/md";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { RequestFormData } from "@/types/formData";
 import { ArrowLeft } from "lucide-react";
 import {makeDeleteRequest, makePostRequest} from "@/utils/apiUtils";
 import {useEffect, useState} from "react";
+import {RequestFormData} from "@/types/refactored/model/requestFormData";
 
 interface RequestHeaderProps {
     title: string;
