@@ -100,8 +100,6 @@ export function OrganizationForm() {
             <RoundCheckboxSelector
                 onChangeAction={(preferences: string[]) => updateField("preferences", preferences)}
                 initialSelected={formData.preferences}
-                key={JSON.stringify(formData.preferences)}
-                readOnly={false}
             />
 
             <Textarea

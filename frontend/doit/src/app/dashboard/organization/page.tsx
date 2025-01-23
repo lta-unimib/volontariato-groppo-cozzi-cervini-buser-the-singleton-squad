@@ -67,6 +67,10 @@ export default function OrganizationHome() {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
+    const handleRegisteredToggle = async (enabled: boolean) => {
+        console.log("handleRegisteredToggle", enabled);
+    };
+
     useEffect(() => {
         (async () => {
             try {
@@ -103,6 +107,10 @@ export default function OrganizationHome() {
                 </div>
 
                 <div className="relative w-full flex-1 flex flex-col">
+                    <SearchBar
+                        className="mt-12 md:mt-0 p-4 md:px-8"
+                        onRegisteredToggle={handleRegisteredToggle}
+                    />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         <div className="space-y-4">
                             {loading ? (

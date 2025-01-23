@@ -103,7 +103,6 @@ export function VolunteerForm() {
             <AvailabilityDialog
                 onSaveAction={(availability) => updateField('availability', availability)}
                 initialSelected={formData.availability}
-                key={JSON.stringify(formData.availability)}
             />
             <CityPicker
                 value={formData.city || ''}
@@ -112,8 +111,6 @@ export function VolunteerForm() {
             <RoundCheckboxSelector
                 onChangeAction={(preferences: string[]) => updateField('preferences', preferences)}
                 initialSelected={formData.preferences}
-                key={JSON.stringify(formData.preferences)}
-                readOnly={false}
             />
             <Textarea
                 placeholder="Descrizione dell'utente"

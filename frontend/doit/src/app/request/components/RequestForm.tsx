@@ -104,7 +104,6 @@ export function RequestForm() {
                 <RoundCheckboxSelector
                     onChangeAction={(categories) => updateField("categories", categories)}
                     initialSelected={isEditing ? formData.categories : []}
-                    key={JSON.stringify(formData.categories)}
                 />
 
                 <Textarea
