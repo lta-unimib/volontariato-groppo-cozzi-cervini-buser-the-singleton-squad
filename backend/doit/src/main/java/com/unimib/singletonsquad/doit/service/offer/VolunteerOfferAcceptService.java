@@ -29,7 +29,7 @@ public class VolunteerOfferAcceptService {
         changeStatusAndSave(volunteerOffer, temp, Status.ACCEPTED);
     }
 
-    private void checkOfferStatus(Status statusRequest, Status desired) throws Exception {
+    private void checkOfferStatus(Status statusRequest, Status desired) throws IllegalAccessException {
         if (!statusRequest.equals(desired)) {
             String action = (statusRequest.equals(Status.REJECTED) ? "accept" : "reject");
             throw new IllegalAccessException(String.format("The requested status is %s cannot %s this offer", statusRequest, action));
@@ -67,7 +67,7 @@ public class VolunteerOfferAcceptService {
             throw new InvalidDateException(HttpStatus.BAD_REQUEST,"Non è possibile accettare la richiesta in quanto è scaduta");
     }
 
-    private void changeStatusAndSave(VolunteerOffer volunteerOffer, VolunteerRequest volunteerRequest, Status status) throws Exception {
+    private void changeStatusAndSave(VolunteerOffer volunteerOffer, VolunteerRequest volunteerRequest, Status status){
         volunteerOffer.setVolunteerRequest(volunteerRequest);
         volunteerOffer.setStatus(status);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);

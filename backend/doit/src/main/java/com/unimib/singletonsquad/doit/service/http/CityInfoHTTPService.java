@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Service
@@ -24,7 +25,7 @@ public class CityInfoHTTPService {
         this.apiKey = apiKey;
     }
 
-    public double[] getCoordinatesFromOpenCage(String address) throws Exception {
+    public double[] getCoordinatesFromOpenCage(String address) throws HttpGeneralException, UnsupportedEncodingException {
         String url = String.format("https://api.opencagedata.com/geocode/v1/json?q=%s&key=%s&countrycode=IT",
                 URLEncoder.encode(address, "UTF-8"), apiKey);
         try {

@@ -74,7 +74,7 @@ public class UserProfileService {
         }
     }
 
-    public void updateUserInfo(String email, @NotNull Object dto, UserRole role) throws Exception {
+    public void updateUserInfo(String email, @NotNull Object dto, UserRole role) throws InvalidRoleGeneralException {
         switch (role) {
             case VOLUNTEER:
                 VolunteerDTO volunteerDTO = (VolunteerDTO) dto;

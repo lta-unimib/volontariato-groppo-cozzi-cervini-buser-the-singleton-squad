@@ -1,7 +1,6 @@
 package com.unimib.singletonsquad.doit.utils.common;
 
 import com.unimib.singletonsquad.doit.exception.resource.HttpGeneralException;
-import io.netty.handler.codec.http2.Http2Exception;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

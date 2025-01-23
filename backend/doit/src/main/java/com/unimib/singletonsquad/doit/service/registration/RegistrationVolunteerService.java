@@ -19,7 +19,7 @@ public class RegistrationVolunteerService {
     private final AuthenticationSetUp authenticationSetUp;
 
 
-    public String registerVolunteer(VolunteerDTO volunteer) throws Exception{
+    public String registerVolunteer(VolunteerDTO volunteer) throws UserAlreadyRegisteredGeneralException{
         String volunteerEmail = volunteer.getEmail();
         if(this.isAlreadyRegistered(volunteerEmail))
             throw new UserAlreadyRegisteredGeneralException("The volunteer " +volunteer.getEmail() + " is already registered");
