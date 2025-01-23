@@ -22,6 +22,7 @@ import java.util.Locale;
 public class VolunteerRequestMapper {
 
 
+
     /// CREATE A NEW VOLUNTEER REQUEST ONLY FROM /request/new/
     public VolunteerRequest createVolunteerRequest(VolunteerRequestDTO volunteerRequestDTO, Organization organization) throws IllegalArgumentException{
         VolunteerRequest volunteerRequest = new VolunteerRequest();
@@ -106,6 +107,14 @@ public class VolunteerRequestMapper {
         String date = dateTime.toLocalDate().toString(); // Formato "yyyy-MM-dd"
         String time = dateTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH));
         return new String[]{date, time};
+    }
+
+    /// CONVERTING FROM ENTITY TO DTO
+    public static List<VolunteerRequestSendDTO> getRequestSendDTOList(List<VolunteerRequest> tempLista) {
+        List<VolunteerRequestSendDTO> requestSendDTOList = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : tempLista)
+            requestSendDTOList.add(mapToVolunteerRequestDTO(volunteerRequest));
+        return requestSendDTOList;
     }
 
 }
