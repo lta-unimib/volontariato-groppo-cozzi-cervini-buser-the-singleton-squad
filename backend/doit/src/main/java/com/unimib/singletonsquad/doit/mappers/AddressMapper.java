@@ -29,6 +29,22 @@ public class AddressMapper {
         return addressDTO;
     }
 
-
-
+    public static Address updateAddress(Address address, AddressDTO addressDTO){
+        if(addressDTO.getCity() != null && !addressDTO.getCity().isEmpty()){
+            address.setCity(addressDTO.getCity());
+        }
+        if(addressDTO.getStreet() != null && !addressDTO.getStreet().isEmpty()){
+            address.setStreetAddress(addressDTO.getStreet());
+        }
+        if(addressDTO.getPostalCode() != null && !addressDTO.getPostalCode().isEmpty()){
+            address.setPostalCode(addressDTO.getPostalCode());
+        }
+        if(addressDTO.getNumber() != null && !addressDTO.getNumber().isEmpty()){
+            address.setHouseNumber(addressDTO.getNumber());
+        }
+        if(addressDTO.getAdditionalInfo() != null && !addressDTO.getAdditionalInfo().isEmpty()){
+            address.setAdditionalInformation(addressDTO.getAdditionalInfo());
+        }
+        return address;
+    }
 }
