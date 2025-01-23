@@ -75,7 +75,7 @@ export const RequestHeader = ({
     };
 
     const handleSubscribe = async () => {
-        const endpoint = "/offer/new/";
+        const endpoint = "/offer/subscribe/" + idRequest + "/";
         await makePostRequest (endpoint, idRequest);
     };
 

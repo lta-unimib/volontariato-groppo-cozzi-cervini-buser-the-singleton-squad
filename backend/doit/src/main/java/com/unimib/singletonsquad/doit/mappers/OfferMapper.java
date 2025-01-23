@@ -7,7 +7,7 @@ import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
 
 public class OfferMapper {
-    public static VolunteerOffer toOffer(VolunteerOfferDTO volunteerOfferDTO, Volunteer volunteer, VolunteerRequest volunteerRequest) {
+    public static VolunteerOffer toOffer(Volunteer volunteer, VolunteerRequest volunteerRequest) {
         VolunteerOffer volunteerOffer = new VolunteerOffer();
         volunteerOffer.setVolunteer(volunteer);
         volunteerOffer.setVolunteerRequest(volunteerRequest);

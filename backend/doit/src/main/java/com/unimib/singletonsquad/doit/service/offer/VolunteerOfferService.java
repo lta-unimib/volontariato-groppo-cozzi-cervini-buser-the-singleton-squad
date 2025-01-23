@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.service.offer;
 
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferDatabaseService;
+import com.unimib.singletonsquad.doit.domain.common.Status;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
@@ -27,11 +28,10 @@ public class VolunteerOfferService {
     }
 
     /// ADD NEW OFFER
-    ///TODO implementare che ID del JSON è lo stesso dell'email
-    public void addNewOffer(VolunteerOfferDTO volunteerOfferDTO, String email) throws Exception {
+    public void addNewOffer(Long requestId, String email) throws Exception {
         Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformations(email, UserRole.volunteer);
-        VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(volunteerOfferDTO.getVolunteerRequestId());
-        VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteerOfferDTO, volunteer, volunteerRequest);
+        VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(requestId);
+        VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteer, volunteerRequest);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
         this.volunteerRequestControllerService.addVolunteerOffer(volunteerRequest.getId(), volunteerOffer);
     }
