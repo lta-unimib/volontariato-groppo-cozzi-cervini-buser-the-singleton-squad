@@ -94,7 +94,7 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     private void sendErrorResponse(HttpServletResponse response, String message, HttpStatus status) throws IOException {
-        ResponseMessage errorResponse = ResponseMessageUtil.createResponseSuccess(message, status, null);
+        ResponseMessage errorResponse = ResponseMessageUtil.createOnlyResponseMessage(message, status, null);
         response.setStatus(errorResponse.getStatus().value());
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

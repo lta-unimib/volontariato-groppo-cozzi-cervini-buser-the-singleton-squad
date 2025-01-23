@@ -29,24 +29,17 @@ public class VolunteerFavouriteController {
         return ResponseMessageUtil.createResponseSuccess( "getting all",HttpStatus.OK, favouriteOrganizations);
     }
 
-    /// FIXME PASSARE IL NOME DELL'ORGANIZZAZIONE COME PARAMENTRO
-    @DeleteMapping("/organization/")
-    public ResponseEntity<?> deleteFavouriteOrganization(
-            final HttpServletRequest request,
-            @RequestBody(required = true) Map<String, String> body
-    ) throws Exception {
+    @DeleteMapping("/organization/{orgName}/")
+    public ResponseEntity<?> deleteFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
-        volunteerDatabaseService.revokeFavouriteOrganization(email, body.get("name"));
+        volunteerDatabaseService.revokeFavouriteOrganization(email, orgName);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/organization/")
-    public ResponseEntity<?> addFavouriteOrganization(
-            final HttpServletRequest request,
-            @RequestBody(required = true) Map<String, String> body
-    ) throws Exception {
+    @PostMapping("/organization/{orgName}/")
+    public ResponseEntity<?> addFavouriteOrganization(final HttpServletRequest request, @PathVariable(required = true) String orgName) throws Exception {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.volunteer, request);
-        volunteerDatabaseService.addFavouriteOrganization(email, body.get("name"));
+        volunteerDatabaseService.addFavouriteOrganization(email, orgName);
         return ResponseEntity.ok().build();
     }
 }
