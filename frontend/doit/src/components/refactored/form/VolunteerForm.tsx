@@ -1,22 +1,36 @@
 "use client";
 
 import React from "react";
-import { CityPicker } from "@/components/ui/city/CityPicker";
+import { CityPicker } from "@/components/refactored/city/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { BaseForm } from "@/components/refactored/form/BaseForm";
-import { useFormData } from '@/app/form/volunteer/hooks/useFormData';
 import { useFormSubmission } from '@/hooks/refactored/useFormSubmission';
-import { AvailabilityDialog } from '@/app/form/volunteer/components/AvailabilityPicker';
+import { AvailabilityDialog } from '@/components/ui/AvailabilityPicker';
 import { MdOutlineEmail, MdOutlinePassword, MdOutlinePerson } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useFormValidation } from "@/app/form/volunteer/hooks/useFormValidation";
-import { useFormFocus } from "@/app/form/volunteer/hooks/useFormFocus";
+import { useVolunteerFormValidation } from "@/hooks/refactored/useVolunteerFormValidator";
+import { useRegistrationFormFocus } from "@/hooks/refactored/useRegistrationFormFocus";
 import { useFormInitialization } from '@/hooks/useFormInizialization';
 import {Input} from "@/components/refactored/Input";
+import {VolunteerFormData} from "@/types/refactored/model/volunteerFormData";
+import { useFormData } from "@/hooks/refactored/useFormData";
 
 export function VolunteerForm() {
-    const { formData, updateField, setFormData } = useFormData();
+
+    const initialFormData: VolunteerFormData = {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        availability: {mode: "daily", timeRange:[]},
+        city: "",
+        preferences: [],
+        description: "",
+        role: 'volunteer'
+    };
+
+    const { formData, updateField, setFormData } = useFormData(initialFormData);
 
     const {
         isEditing,
@@ -29,9 +43,9 @@ export function VolunteerForm() {
         formData
     });
 
-    const { handleSubmit: handleSubmitFn } = useFormSubmission("volunteer", isEditing);
-    const { validationState, isValid } = useFormValidation(formData, isEditing);
-    const { focusState, handleFocus, handleBlur } = useFormFocus();
+    const { handleSubmit: handleSubmitFn } = useFormSubmission("volunteer", isEditing ? "volunteer" : undefined);
+    const { validationState, isValid } = useVolunteerFormValidation(formData, isEditing);
+    const { focusState, handleFocus, handleBlur } = useRegistrationFormFocus();
 
     if (!initialDataLoaded && isEditing) {
         return <div>Loading...</div>;

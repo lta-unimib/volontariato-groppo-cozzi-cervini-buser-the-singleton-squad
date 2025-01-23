@@ -1,18 +1,15 @@
 "use client";
 
-import {Page} from "@/components/Page";
 import {organizationMenuItems} from "@/app/dashboard/organization/utils/organizationMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 
-export default function Home() {
+export default function OrganizationReviews() {
     return (
         <div className="flex flex-col lg:flex-row w-full">
-            <Page>
-                <SidebarLayout menuItems={organizationMenuItems} header={""} side={"left"} variant={"floating"}
-                               collapsible={"icon"}>
-                    <div/>
-                </SidebarLayout>
-            </Page>
+            <SidebarLayout menuItems={organizationMenuItems} header={""} side={"left"} variant={"floating"}
+                           collapsible={"icon"}>
+                <div/>
+            </SidebarLayout>
         </div>
     );
 }

@@ -1,15 +1,14 @@
 "use client"
 
-import { Page } from '@/components/Page';
-import {VolunteerForm} from "@/app/form/volunteer/components/VolunteerForm";
+import {VolunteerForm} from "@/components/refactored/form/VolunteerForm";
 import FormHeader from "@/components/ui/FormHeader";
 import {useBack} from "@/hooks/refactored/useBack";
 
-export default function Home() {
+export default function VolunteerSignUp() {
     const handleBack = useBack();
 
     return (
-        <Page>
+        <div>
             <div className="block md:hidden">
                 <FormHeader
                     title="Registra un volontario"
@@ -18,6 +17,6 @@ export default function Home() {
                 />
             </div>
             <VolunteerForm/>
-        </Page>
+        </div>
     );
 }

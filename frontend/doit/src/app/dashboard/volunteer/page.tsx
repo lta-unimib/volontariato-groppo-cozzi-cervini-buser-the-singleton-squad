@@ -1,6 +1,5 @@
 "use client";
 
-import { Page } from "@/components/Page";
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import RequestCard from "@/components/ui/RequestCard";
@@ -63,7 +62,7 @@ const formatDateRange = (timeRange: [string, string]) => {
     return `${start} - ${end}`;
 };
 
-export default function Home() {
+export default function VolunteerDashboard() {
     const [requests, setRequests] = useState<Request[]>([]);
     const [registeredRequests, setRegisteredRequests] = useState<Request[]>([]);
     const [notVotedRequests, setNotVotedRequests] = useState<Request[]>([]);
@@ -175,7 +174,7 @@ export default function Home() {
     );
 
     return (
-        <Page>
+        <div>
             <div className="flex w-full min-h-screen">
                 <div className="w-[var(--sidebar-width)]">
                     <SidebarLayout
@@ -265,6 +264,6 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-        </Page>
+        </div>
     );
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { Page } from "@/components/Page";
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";
@@ -51,7 +50,7 @@ export default function FavoriteOrganizations() {
     }, []);
 
     return (
-        <Page>
+        <div>
             <div className="flex w-full min-h-screen">
                 <div className="w-[var(--sidebar-width)]">
                     <SidebarLayout
@@ -102,6 +101,6 @@ export default function FavoriteOrganizations() {
                     </ScrollArea>
                 </div>
             </div>
-        </Page>
+        </div>
     );
 }

@@ -1,15 +1,14 @@
 "use client"
 
-import { Page } from '@/components/Page';
-import {OrganizationForm} from "@/app/form/organization/components/OrganizationForm";
+import {OrganizationForm} from "@/components/refactored/form/OrganizationForm";
 import FormHeader from "@/components/ui/FormHeader";
 import {useBack} from "@/hooks/refactored/useBack";
 
-export default function Home() {
+export default function OrganizationSignUp() {
     const handleBack = useBack();
 
     return (
-        <Page>
+        <div>
             <div className="block lg:hidden">
                 <FormHeader
                     title="Registra una organizzazione"
@@ -18,6 +17,6 @@ export default function Home() {
                 />
             </div>
             <OrganizationForm/>
-        </Page>
+        </div>
     );
 }

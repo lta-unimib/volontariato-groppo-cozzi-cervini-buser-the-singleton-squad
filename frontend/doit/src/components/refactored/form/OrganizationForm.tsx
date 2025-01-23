@@ -3,19 +3,33 @@
 import React from "react";
 import { MdOutlineBusiness, MdOutlineEmail, MdOutlinePassword } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { CityPicker } from "@/components/ui/city/CityPicker";
+import { CityPicker } from "@/components/refactored/city/CityPicker";
 import { Textarea } from "@/components/ui/Textarea";
 import { RoundCheckboxSelector } from "@/components/ui/Checkbox";
 import { Input } from "@/components/refactored/Input";
 import { BaseForm } from "@/components/refactored/form/BaseForm";
-import { useFormData } from "@/app/form/organization/hooks/useFormData";
-import { useFormValidation } from "@/app/form/organization/hooks/useFormValidation";
-import { useFormFocus } from "@/app/form/organization/hooks/useFormFocus";
+import { useOrganizationFormValidation } from "@/hooks/refactored/useOrganizationFormValidator";
+import { useRegistrationFormFocus } from "@/hooks/refactored/useRegistrationFormFocus";
 import { useFormSubmission } from "@/hooks/refactored/useFormSubmission";
 import { useFormInitialization } from '@/hooks/useFormInizialization';
+import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
+import { useFormData } from "@/hooks/refactored/useFormData";
 
 export function OrganizationForm() {
-    const { formData, updateField, setFormData } = useFormData();
+
+    const initialFormData: OrganizationFormData = {
+        organizationName: "",
+        email: "",
+        password: "",
+        city: "",
+        preferences: [],
+        description: "",
+        VATNumber: "",
+        website: "",
+        role: 'organization'
+    };
+
+    const { formData, updateField, setFormData } = useFormData(initialFormData);
 
     const {
         isEditing,
@@ -28,9 +42,9 @@ export function OrganizationForm() {
         formData
     });
 
-    const { handleSubmit: handleSubmitFn } = useFormSubmission("organization", isEditing);
-    const { validationState, isValid } = useFormValidation(formData, isEditing);
-    const { focusState, handleFocus, handleBlur } = useFormFocus();
+    const { handleSubmit: handleSubmitFn } = useFormSubmission("organization", isEditing ? "organization" : undefined);
+    const { validationState, isValid } = useOrganizationFormValidation(formData, isEditing);
+    const { focusState, handleFocus, handleBlur } = useRegistrationFormFocus();
 
 
     if (!initialDataLoaded && isEditing) {

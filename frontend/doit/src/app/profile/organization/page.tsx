@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect } from "react";
-import { Page } from "@/components/Page";
 import { organizationMenuItems } from "@/app/dashboard/organization/utils/organizationMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";
@@ -19,7 +18,7 @@ interface ApiResponse {
     status: string;
 }
 
-export default function Home() {
+export default function OrganizationProfile() {
     const [organizationProfile, setOrganizationProfile] = useState<OrganizationFormData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -173,7 +172,6 @@ export default function Home() {
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
-            <Page>
                 <div className="flex w-full min-h-screen">
                     <div className="w-[var(--sidebar-width)]">
                         <SidebarLayout
@@ -191,7 +189,6 @@ export default function Home() {
                         {renderProfileContent()}
                     </div>
                 </div>
-            </Page>
         </div>
     );
 }

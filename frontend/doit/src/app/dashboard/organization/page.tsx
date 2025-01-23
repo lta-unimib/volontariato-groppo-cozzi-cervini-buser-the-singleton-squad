@@ -1,6 +1,5 @@
 "use client"
 
-import { Page } from "@/components/Page";
 import { organizationMenuItems } from "@/app/dashboard/organization/utils/organizationMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import RequestCard from "@/components/ui/RequestCard";
@@ -61,7 +60,7 @@ const formatDateRange = (timeRange: [string, string]) => {
     return `${start} - ${end}`;
 };
 
-export default function OrganizationHome() {
+export default function OrganizationDashboard() {
     const [requests, setRequests] = useState<Request[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -92,7 +91,7 @@ export default function OrganizationHome() {
     }, []);
 
     return (
-        <Page>
+        <div>
             <div className="flex w-full min-h-screen">
                 <div className="w-[var(--sidebar-width)]">
                     <SidebarLayout
@@ -155,6 +154,6 @@ export default function OrganizationHome() {
                     </div>
                 </div>
             </div>
-        </Page>
+        </div>
     );
 }

@@ -6,11 +6,11 @@ import { Calendar } from "@/components/ui/date/Calendar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { cn } from "@/utils/utils";
 import { MdCalendarMonth } from "react-icons/md";
-import { useAvailabilityDialog } from '@/app/form/volunteer/hooks/useAvailabilityDialog';
-import { timeSlots, weekDays, getDisplayText } from '@/app/form/volunteer/utils/formUtils';
-import { isTimeInRange, isAvailabilityValid } from '@/app/form/volunteer/utils/formValidation';
+import { useAvailabilityDialog } from '@/hooks/useAvailabilityDialog';
+import { timeSlots, weekDays, getDisplayText } from '@/utils/formUtils';
 import { AvailabilityMode, AvailabilityDialogProps } from "@/types/refactored/model/availabilityFormData";
 import { DateRange } from "react-day-picker";
+import {isAvailabilityValid, isTimeInRange} from '@/utils/refactored/validation/registrationFormValidation';
 
 const MODES = {
   DAILY: 'daily',

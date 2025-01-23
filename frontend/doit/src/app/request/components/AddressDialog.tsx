@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/Dialog";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/refactored/Input";
-import { CityPicker } from '@/components/ui/city/CityPicker';
+import { CityPicker } from '@/components/refactored/city/CityPicker';
 import { MdOutlineHome } from "react-icons/md";
 import { cn } from "@/utils/utils";
 import { AddressFormData } from '@/types/refactored/model/addressFormData';

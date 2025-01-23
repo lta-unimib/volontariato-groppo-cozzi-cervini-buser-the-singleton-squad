@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useMemo, useEffect } from "react";
-import { Page } from "@/components/Page";
 import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
 import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/ui/ScrollArea";
@@ -21,7 +20,7 @@ interface ApiResponse {
     status: string;
 }
 
-export default function Home() {
+export default function VolunteerProfile() {
     const [date] = useState<Date | undefined>(new Date());
     const [volunteerProfile, setVolunteerProfile] = useState<VolunteerFormData | null>(null);
     const [loading, setLoading] = useState(true);
@@ -192,25 +191,23 @@ export default function Home() {
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
-            <Page>
-                <div className="flex w-full min-h-screen">
-                    <div className="w-[var(--sidebar-width)]">
-                        <SidebarLayout
-                            menuItems={volunteerMenuItems}
-                            header={""}
-                            side={"left"}
-                            variant={"floating"}
-                            collapsible={"icon"}
-                        >
-                            <div />
-                        </SidebarLayout>
-                    </div>
-
-                    <div className="flex-1 flex flex-col pb-28 md:pb-4">
-                        {renderProfileContent()}
-                    </div>
+            <div className="flex w-full min-h-screen">
+                <div className="w-[var(--sidebar-width)]">
+                    <SidebarLayout
+                        menuItems={volunteerMenuItems}
+                        header={""}
+                        side={"left"}
+                        variant={"floating"}
+                        collapsible={"icon"}
+                    >
+                        <div />
+                    </SidebarLayout>
                 </div>
-            </Page>
+
+                <div className="flex-1 flex flex-col pb-28 md:pb-4">
+                    {renderProfileContent()}
+                </div>
+            </div>
         </div>
     );
 }

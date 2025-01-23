@@ -17,10 +17,8 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import React, { useState } from "react"
 import { SuccessResponse } from "@/types/refactored/baseForm"
 import { useFormSubmission } from "@/hooks/refactored/useFormSubmission"
-interface LoginFormProps {
-    className?: string;
-    role: "volunteer" | "organization";
-}
+import { LoginFormProps } from "@/types/refactored/model/loginFormData"
+
 export function LoginForm({
                               className,
                               role
