@@ -7,20 +7,53 @@ interface Category {
     label: string;
 }
 
+/**
+ * Custom hook to fetch and manage categories from the API.
+ *
+ * @returns {Object} The hook's return values.
+ * @returns {Category[]} categories - The list of fetched categories.
+ * @returns {boolean} loading - Indicates if the data is still being fetched.
+ * @returns {string | null} error - Contains an error message if fetching fails.
+ * @returns {Function} fetch - Function to manually trigger a category fetch.
+ */
 export const useCategories = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    /**
+     * Fetches categories from the API and updates the state accordingly.
+     */
     const fetchCategories = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
             const response = await makeGetRequest<ApiResponse>("/categories/all/");
-            console.log(response);
-            if (response?.status === 200 && Array.isArray(response?.data)) {
-                console.log("Categories returned");
-                setCategories(response?.data);
+            console.log("Categories Response:", response);
+
+            if (response?.status === 200) {
+                let parsedCategories: Category[] = [];
+
+                // First, check if data contains categories
+                if (response.data && Array.isArray(response.data)) {
+                    parsedCategories = response.data.map((category, index) => ({
+                        id: `category_${index}`,
+                        label: category
+                    }));
+                }
+                // Fallback to parsing message if data is null
+                else if (response.message) {
+                    parsedCategories = response.message
+                        .replace(/^\[|]$/g, '')
+                        .split(',')
+                        .map((label: string, index: number) => ({
+                            id: `category_${index}`,
+                            label: label.trim()
+                        }));
+                }
+
+                console.log("Parsed Categories:", parsedCategories);
+                setCategories(parsedCategories);
             } else {
                 setError("Impossibile recuperare le categorie");
                 setCategories([]);
@@ -34,6 +67,9 @@ export const useCategories = () => {
         }
     }, []);
 
+    /**
+     * Effect hook to fetch categories on component mount.
+     */
     useEffect(() => {
         const loadCategories = async () => {
             await fetchCategories();

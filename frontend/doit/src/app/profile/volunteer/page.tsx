@@ -17,14 +17,6 @@ export default function VolunteerProfile() {
     const [date] = useState<Date | undefined>(new Date());
     const { profileData: volunteerProfile, loading, error } = useProfileData<VolunteerFormData>("/profile/volunteer/");
 
-    const categories = [
-        { id: "supporto_anziani", label: "Supporto Anziani" },
-        { id: "supporto_bambini", label: "Supporto Bambini" },
-        { id: "supporto_disabili", label: "Supporto Disabili" },
-        { id: "ripetizioni", label: "Ripetizioni" },
-        { id: "caritas", label: "Caritas" },
-    ];
-
     /**
      * Memoized calculation of selected days based on the volunteer's availability and the current date.
      * @returns An array of selected dates corresponding to the volunteer's availability.
@@ -62,7 +54,7 @@ export default function VolunteerProfile() {
             );
         }
 
-        return <VolunteerProfileContent volunteerProfile={volunteerProfile} categories={categories} selectedDays={selectedDays} isAvailable={isAvailable} />;
+        return <VolunteerProfileContent volunteerProfile={volunteerProfile} selectedDays={selectedDays} isAvailable={isAvailable} />;
     };
 
     return (
@@ -82,7 +74,7 @@ export default function VolunteerProfile() {
                         </SidebarLayout>
                     </div>
 
-                    {/* Profile Content */}
+                    {/* Main Content */}
                     <div className="flex-1 flex flex-col pb-28 md:pb-4">
                         {renderProfileContent()}
                     </div>

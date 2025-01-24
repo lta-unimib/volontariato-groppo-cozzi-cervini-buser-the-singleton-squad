@@ -10,24 +10,18 @@ import { OrganizationFormData } from "@/types/form/auth/organizationFormData";
 import {OrganizationProfileContent} from "@/components/OrganizationProfileContent";
 
 /**
- * Main component to display the organization profile.
- * @returns The rendered OrganizationProfile component.
+ * Component for displaying an organization's profile.
+ * It fetches and renders profile data, showing a loading indicator while fetching.
+ *
+ * @returns The OrganizationProfile component.
  */
 export default function OrganizationProfile() {
     const { profileData: organizationProfile, loading, error } = useProfileData<OrganizationFormData>("/profile/organization/");
 
-    const categories = [
-        { id: "supporto_anziani", label: "Supporto Anziani" },
-        { id: "supporto_bambini", label: "Supporto Bambini" },
-        { id: "supporto_disabili", label: "Supporto Disabili" },
-        { id: "ripetizioni", label: "Ripetizioni" },
-        { id: "caritas", label: "Caritas" },
-    ];
-
     /**
-     * Function to render the content of the profile.
-     * Displays a loading spinner, an error message, or the profile content based on the current state.
-     * @returns The content to render.
+     * Renders the appropriate content based on loading, error, or available profile data.
+     *
+     * @returnsThe JSX content to be displayed.
      */
     const renderProfileContent = () => {
         if (loading) {
@@ -46,12 +40,17 @@ export default function OrganizationProfile() {
             );
         }
 
-        return <OrganizationProfileContent organizationProfile={organizationProfile} categories={categories} formatWebsiteUrl={formatWebsiteUrl} />;
+        return (
+            <OrganizationProfileContent
+                organizationProfile={organizationProfile}
+                formatWebsiteUrl={formatWebsiteUrl}
+            />
+        );
     };
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
-            <div className={`w-full h-screen flex flex-col`}>
+            <div className="w-full h-screen flex flex-col">
                 <div className="flex w-full min-h-screen">
                     {/* Sidebar */}
                     <div className="w-[var(--sidebar-width)]">
@@ -66,7 +65,7 @@ export default function OrganizationProfile() {
                         </SidebarLayout>
                     </div>
 
-                    {/* Profile Content */}
+                    {/* Main Content */}
                     <div className="flex-1 flex flex-col pb-28 md:pb-4">
                         {renderProfileContent()}
                     </div>

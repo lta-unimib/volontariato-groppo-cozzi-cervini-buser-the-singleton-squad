@@ -2,30 +2,45 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import React from "react";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import {OrganizationCardProps} from "@/types/props/card/organizationCardProps";
-import {Badge} from "@/components/core/Badge";
-import {useCategories} from "@/hooks/useCategories";
+import { OrganizationCardProps } from "@/types/props/card/organizationCardProps";
+import { Badge } from "@/components/core/Badge";
+import { useCategories } from "@/hooks/useCategories";
 
+/**
+ * Component for displaying an organization's profile card.
+ * It includes the organization's name, city, and related categories.
+ *
+ * @param {OrganizationCardProps} props - The properties for the organization card.
+ * @param {Object} props.organizationData - The organization's data.
+ * @returns The OrganizationCard component.
+ */
 export default function OrganizationCard({ organizationData }: OrganizationCardProps) {
     const router = useRouter();
+    const { categories } = useCategories();
 
-    const { categories : categories } = useCategories();
     /**
-     * Handles the click event on the organization card.
-     * Encodes the organization data and navigates to the organization details page.
+     * Handles the card click event by navigating to the organization's profile page.
      */
     const handleClick = () => {
         const encodedData = encodeURIComponent(JSON.stringify(organizationData));
-        router.push(`/organization/details?data=${encodedData}`);
+        router.push(`/profile/organization?data=${encodedData}`);
     };
 
-    console.log(organizationData.preferences);
+    /**
+     * Finds the common categories between the organization's preferences and available categories.
+     */
+    const commonCategories = categories.filter(category =>
+        organizationData.preferences.includes(category.label)
+    );
+
+    console.log('Common Categories:', commonCategories);
 
     return (
         <Card
             className="flex items-stretch gap-4 rounded-2xl cursor-pointer hover:shadow-md transition-shadow"
             onClick={handleClick}
         >
+            {/* Card Content */}
             <div className="flex-1">
                 <CardHeader className="pb-4 md:pb-6">
                     <CardDescription className="text-sm md:text-base">Organizzazione</CardDescription>
@@ -39,18 +54,18 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
                                 {organizationData.city}
                             </CardDescription>
                         </div>
+                        {/* Category Badges */}
                         <div className="flex flex-wrap gap-2 pt-2">
-                            {categories
-                                .filter(category => organizationData.preferences.includes(category.label))
-                                .map(category => (
-                                    <Badge key={category.label} variant="secondary" className="font-normal">
-                                        {category.label}
-                                    </Badge>
-                                ))}
+                            {commonCategories.map(category => (
+                                <Badge key={category.label} variant="secondary" className="font-normal">
+                                    {category.label}
+                                </Badge>
+                            ))}
                         </div>
                     </div>
                 </CardFooter>
             </div>
+            {/* Organization Image */}
             <div className="flex-shrink-0">
                 <Image
                     src="/placeholder.jpg"

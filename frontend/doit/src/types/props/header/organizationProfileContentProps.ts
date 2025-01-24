@@ -1,4 +1,5 @@
 import {OrganizationFormData} from "@/types/form/auth/organizationFormData";
+import {VolunteerFormData} from "@/types/form/auth/volunteerFormData";
 
 /**
  * Props for the `ProfileContent` component.
@@ -15,8 +16,13 @@ import {OrganizationFormData} from "@/types/form/auth/organizationFormData";
  * @param formatWebsiteUrl A function used to format the organization's website URL. It receives the raw URL string
  * and returns the formatted version, possibly adding "http://" or "https://" if not already present.
  */
-export interface ProfileContentProps {
+export interface OrganizationProfileContentProps {
     organizationProfile: OrganizationFormData;
-    categories: { id: string; label: string }[];
     formatWebsiteUrl: (url: string) => string;
+}
+
+export interface VolunteerProfileContentProps {
+    volunteerProfile: VolunteerFormData;
+    selectedDays: Date[];
+    isAvailable: boolean;
 }

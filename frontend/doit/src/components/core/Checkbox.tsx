@@ -4,17 +4,17 @@ import { Label } from "@/components/core/Label";
 import { ScrollArea } from "@/components/core/ScrollArea";
 import { CheckboxProps } from "@/types/props/core/checkboxProps";
 import { useState, useId, useCallback } from "react";
+import { useCategories } from "@/hooks/useCategories";
 
 /**
- * Checkbox component that allows users to select categories. Supports both single and multi-select functionality.
+ * A custom checkbox component that supports single or multiple selections.
  *
- * @param {CheckboxProps} props - The properties for the Checkbox component.
- * @param {Function} [props.onChangeAction] - Callback function called when the selected options change.
- * @param {string[]} [props.initialSelected] - Initial selected options.
- * @param {boolean} [props.readOnly=false] - If `true`, the checkbox is in read-only mode and cannot be changed.
- * @param {boolean} [props.isSingleSelect=false] - If `true`, only one option can be selected at a time.
- *
- * @returns JSX.Element The rendered Checkbox component with a list of selectable categories.
+ * @param {CheckboxProps} props - The properties for the checkbox component.
+ * @param {Function} [props.onChangeAction] - Callback triggered when the selected options change.
+ * @param {string[]} [props.initialSelected=[]] - Array of initially selected option IDs.
+ * @param {boolean} [props.readOnly=false] - Determines if the component is read-only.
+ * @param {boolean} [props.isSingleSelect=false] - Enables single-select mode.
+ * @returns The rendered Checkbox component.
  */
 export function Checkbox({
                              onChangeAction,
@@ -22,17 +22,15 @@ export function Checkbox({
                              readOnly = false,
                              isSingleSelect = false,
                          }: CheckboxProps) {
-    const categories = [
-        { id: "supporto_anziani", label: "Supporto Anziani" },
-        { id: "supporto_bambini", label: "Supporto Bambini" },
-        { id: "supporto_disabili", label: "Supporto Disabili" },
-        { id: "ripetizioni", label: "Ripetizioni" },
-        { id: "caritas", label: "Caritas" },
-    ];
-
+    const { categories } = useCategories();
     const componentId = useId();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(initialSelected);
 
+    /**
+     * Handles the change of a checkbox selection.
+     *
+     * @param {string} optionId - The ID of the option being toggled.
+     */
     const handleCheckboxChange = useCallback(
         (optionId: string) => {
             if (readOnly) return;
@@ -52,6 +50,12 @@ export function Checkbox({
         [selectedOptions, readOnly, isSingleSelect, onChangeAction]
     );
 
+    /**
+     * Generates a unique ID for an option to ensure it doesn't conflict.
+     *
+     * @param {string} optionId - The original ID of the option.
+     * @returns A unique ID string.
+     */
     const generateOptionId = (optionId: string) => `${componentId}-${optionId}`;
 
     return (

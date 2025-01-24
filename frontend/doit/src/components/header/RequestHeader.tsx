@@ -6,23 +6,14 @@ import { useBack } from "@/hooks/header/useBack";
 import { ButtonBack } from './components/ButtonBack';
 import { ProfileActions } from './components/ProfileAction';
 import Image from 'next/image';
-import {RequestHeaderProps} from "@/types/props/header/requestHeaderProps";
+import { RequestHeaderProps } from "@/types/props/header/requestHeaderProps";
 
 /**
- * RequestHeader component renders the header for a request page, displaying request details such as the title, organization name, address, and categories.
- * It provides actions for subscribing, saving, editing, or deleting the request, depending on the user's role.
+ * RequestHeader component that displays a header for a specific request.
+ * It shows details like title, organization name, address, categories, and provides actions for subscribing, saving, editing, or deleting.
  *
- * @component
- *
- * @param {RequestHeaderProps} props - The props for the RequestHeader component.
- * @param {string} props.title - The title of the request.
- * @param {string} props.organizationName - The name of the organization that posted the request.
- * @param {string} props.address - The address associated with the request.
- * @param {string} props.imageUrl - The URL for the cover image of the request.
- * @param {object} props.requestData - The data of the request, used for editing.
- * @param {string} props.role - The role of the user (e.g., "volunteer" or "organization").
- *
- * @returns The rendered request header component with action buttons (subscribe, save, edit, delete).
+ * @param {RequestHeaderProps} props - The props for the component including request data, organization info, image URL, etc.
+ * @returns - A JSX element representing the request header.
  */
 export const RequestHeader = ({
                                   title,
@@ -35,6 +26,9 @@ export const RequestHeader = ({
     const router = useRouter();
     const [idRequest, setIdRequest] = useState<string | undefined>(undefined);
 
+    /**
+     * Parses the URL parameters to retrieve the request data and extract the request ID.
+     */
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const data = urlParams.get('data');
@@ -49,21 +43,33 @@ export const RequestHeader = ({
         }
     }, []);
 
+    /**
+     * Handles the subscription action by sending a POST request to subscribe to the offer.
+     */
     const handleSubscribe = async () => {
         const endpoint = `/offer/subscribe/${idRequest}/`;
         await makePostRequest(endpoint);
     };
 
+    /**
+     * Handles the save action by sending a POST request to save the organization to the favorites.
+     */
     const handleSave = async () => {
         const endpoint = `/volunteer/favorite/organization/${organizationName}/`;
         await makePostRequest(endpoint);
     };
 
+    /**
+     * Handles the delete action by sending a DELETE request to remove the request and navigate back.
+     */
     const handleDelete = async () => {
         await makeDeleteRequest(`/request/${idRequest}/`);
         router.back();
     };
 
+    /**
+     * Navigates to the edit page with the request data encoded in the URL.
+     */
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(requestData));
         router.push(`/request/?mode=edit&data=${encodedData}`);
@@ -71,18 +77,20 @@ export const RequestHeader = ({
 
     const onBack = useBack();
 
-    const categories = [
-        { id: "supporto_anziani", label: "Supporto Anziani" },
-        { id: "supporto_bambini", label: "Supporto Bambini" },
-        { id: "supporto_disabili", label: "Supporto Disabili" },
-        { id: "ripetizioni", label: "Ripetizioni" },
-        { id: "caritas", label: "Caritas" },
-    ];
-
-    const selectedCategories = categories.filter(category =>
-        requestData.categories?.includes(category.id)
-    );
-
+    /**
+     * Maps category IDs to category labels by formatting the ID string.
+     * @returns {Array} - An array of category objects with 'id' and 'label' properties.
+     */
+    const selectedCategories = requestData.categories
+        ? requestData.categories
+            .map((categoryId: string) => ({
+                id: categoryId,
+                label: categoryId
+                    .split('_')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ')
+            }))
+        : [];
 
     return (
         <div className="w-full">
