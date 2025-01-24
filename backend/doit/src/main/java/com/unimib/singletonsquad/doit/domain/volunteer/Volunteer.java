@@ -3,6 +3,7 @@ package com.unimib.singletonsquad.doit.domain.volunteer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.unimib.singletonsquad.doit.domain.common.StatisticVolunteer;
 import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.exception.validation.EmailException;
@@ -69,6 +70,9 @@ public class Volunteer implements User {
     )
     @JsonSerialize(using = OrganizationNameSerializer.class)  // Serializzazione personalizzata
     private List<Organization> favoriteOrganizations = new ArrayList<>();
+
+    @OneToOne(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private StatisticVolunteer statistic;
 
 
     public void setEmail(String email) throws EmailException {

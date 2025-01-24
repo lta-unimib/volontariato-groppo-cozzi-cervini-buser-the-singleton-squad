@@ -21,15 +21,12 @@ public class FeedbackService {
     private final VolunteerOfferDatabaseService volunteerOfferDatabaseService;
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
     private final IFeedbackRepository feedbackRepository;
+
+    /// Il volontario aggiunge il voto per l'evento
     /// fixme aggiungere anche il voto
     public void setOrganizationVoteOffer(Organization organization, Long offerId, double vote) {
-        System.out.println("setOrganizationVoteOffer invoked");
-        System.out.println("organization: " + organization);//ok
-        System.out.println("offerId: " + offerId);//ok
-        System.out.println("vote: " + vote);//ok
         VolunteerOffer offer = volunteerOfferDatabaseService.existsVolunteerOfferByOrganization(offerId, organization);
-        System.out.println(offer);
-        Volunteer volunteer = offer.getVolunteer();
+        //Volunteer volunteer = offer.getVolunteer();
         VolunteerRequest request = this.volunteerRequestDatabaseService.getSpecificRequest(offer.getVolunteerRequest().getId());
         Feedback feedback = new Feedback();
         feedback.setVote(vote);
@@ -37,15 +34,6 @@ public class FeedbackService {
         request.addFeedback(offer, feedback);
         feedbackRepository.save(feedback);
         volunteerRequestDatabaseService.save(request);
-        //this.addVoteToOffer(offer, 10);
-    }
-
-    private void addVoteToOffer(VolunteerOffer offer, int voto) {
-        offer.setVotedByOrganization(true);
-        //Feedback temp = offer.getFeedback()
-        //temp.setVoto(voto)
-        // temp.save(temp)
-        this.volunteerOfferDatabaseService.saveVolunteerOffer(offer);
     }
 
     public void setVolunteerVoteRequest(Long idRequest, Volunteer volunteer, double vote) {
