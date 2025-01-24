@@ -1,19 +1,18 @@
 "use client"
 
 import React, { useState, useMemo, useEffect } from "react";
-import { Page } from "@/components/Page";
-import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
-import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
-import { ScrollArea } from "@/components/ui/ScrollArea";
-import { Calendar } from "@/components/ui/date/Calendar";
-import { Card, CardContent } from "@/components/ui/Card";
+import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItems";
+import SidebarLayout from "@/components/sidebar/SidebarLayout";
+import { ScrollArea } from "@/components/core/ScrollArea";
+import { Calendar } from "@/components/form/availability/Calendar";
+import { Card, CardContent } from "@/components/core/Card";
 import { addMonths, eachDayOfInterval, getDay, startOfMonth } from "date-fns";
-import { ProfileHeader } from "@/components/ui/ProfileHeader";
-import { makeGetRequest } from "@/utils/apiUtils";
+import { ProfileHeader } from "@/components/header/ProfileHeader";
+import { makeGetRequest } from "@/utils/api/apiUtils";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { AvailabilityFormData } from "@/types/refactored/model/availabilityFormData";
-import { Badge } from "@/components/ui/Badge";
-import { VolunteerFormData } from "@/types/refactored/model/volunteerFormData";
+import { AvailabilityFormData } from "@/types/form/availability/availabilityFormData";
+import { Badge } from "@/components/core/Badge";
+import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
 
 interface ApiResponse {
     message: string;
@@ -21,7 +20,7 @@ interface ApiResponse {
     status: string;
 }
 
-export default function Home() {
+export default function VolunteerProfile() {
     const [date] = useState<Date | undefined>(new Date());
     const [volunteerProfile, setVolunteerProfile] = useState<VolunteerFormData | null>(null);
     const [loading, setLoading] = useState(true);
@@ -126,7 +125,7 @@ export default function Home() {
                         name={`${volunteerProfile.firstName} ${volunteerProfile.lastName}`}
                         role="Volunteer"
                         city={volunteerProfile.city}
-                        imageUrl="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
+                        imageUrl="/placeholder.jpg"
                         isAvailable={isAvailable}
                         profileData={volunteerProfile}
                     />
@@ -192,7 +191,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
-            <Page>
+            <div className={`w-full h-screen flex flex-col`}>
                 <div className="flex w-full min-h-screen">
                     <div className="w-[var(--sidebar-width)]">
                         <SidebarLayout
@@ -210,7 +209,7 @@ export default function Home() {
                         {renderProfileContent()}
                     </div>
                 </div>
-            </Page>
+            </div>
         </div>
     );
 }

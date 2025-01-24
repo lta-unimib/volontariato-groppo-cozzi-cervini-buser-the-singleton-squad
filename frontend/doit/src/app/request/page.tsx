@@ -1,15 +1,15 @@
 "use client";
 
-import { Page } from "@/components/Page";
-import { RequestForm } from "@/app/request/components/RequestForm";
-import FormHeader from "@/components/ui/FormHeader";
-import { useBack } from "@/hooks/useBack";
+import { RequestForm } from "@/components/form/request/RequestForm";
+import FormHeader from "@/components/header/FormHeader";
+import { useBack } from "@/hooks/header/useBack";
+import React, { Suspense } from "react";
 
-export default function Home() {
+export default function NewRequest() {
     const handleBack = useBack();
 
     return (
-        <Page>
+        <div className={`w-full h-screen flex flex-col`}>
             <div className="block lg:hidden">
                 <FormHeader
                     title="Nuova richiesta"
@@ -17,7 +17,10 @@ export default function Home() {
                     onBack={handleBack}
                 />
             </div>
-            <RequestForm />
-        </Page>
+
+            <Suspense fallback={<div>Loading...</div>}>
+                <RequestForm />
+            </Suspense>
+        </div>
     );
 }
