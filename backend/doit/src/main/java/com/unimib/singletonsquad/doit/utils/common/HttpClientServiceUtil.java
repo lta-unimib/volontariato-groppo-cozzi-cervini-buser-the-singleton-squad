@@ -30,7 +30,8 @@ public class HttpClientServiceUtil {
                     .bodyToMono(responseClass)
                     .block();
         } catch (WebClientResponseException e) {
-            throw new HttpGeneralException(HttpStatus.INTERNAL_SERVER_ERROR,"Errore nella chiamata HTTP: " + e.getMessage());
+            throw new HttpGeneralException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Errore nella chiamata HTTP: " + e.getMessage());
         }
     }
 

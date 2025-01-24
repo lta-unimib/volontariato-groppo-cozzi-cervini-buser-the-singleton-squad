@@ -1,12 +1,16 @@
 package com.unimib.singletonsquad.doit.database.volunteer;
 
+import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.IVolunteerOfferRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -34,5 +38,10 @@ public class VolunteerOfferDatabaseService {
         volunteerOfferRepository.delete(offer);
     }
 
+
+    public VolunteerOffer existsVolunteerOfferByOrganization(final Long idOffer, final Organization organization) {
+        return this.volunteerOfferRepository.findByIdAndOrganizationCustom(organization, idOffer, LocalDateTime.now()).orElseThrow(
+                () -> new RecordNotFoundGeneralException("Record not found with id " + idOffer + " and organization " + organization + " enddate: " +LocalDateTime.now()));
+    }
 
 }
