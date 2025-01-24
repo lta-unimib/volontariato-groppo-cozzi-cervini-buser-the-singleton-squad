@@ -2,25 +2,14 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import React from "react";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { OrganizationCardProps } from "@/types/props/card/organizationCardProps";
+import {OrganizationCardProps} from "@/types/props/card/organizationCardProps";
+import {Badge} from "@/components/core/Badge";
+import {useCategories} from "@/hooks/useCategories";
 
-/**
- * OrganizationCard component that displays a card with organization details.
- * The card includes the organization's name, city, website, and email, along with an image.
- * When the card is clicked, it navigates to the organization details page.
- *
- * @param {OrganizationCardProps} props - The properties for the OrganizationCard component.
- * @param {object} props.organizationData - The data of the organization to display.
- * @param {string} organizationData.organizationData - The name of the organization.
- * @param {string} organizationData.city - The city of the organization.
- * @param {string} organizationData.website - The website of the organization.
- * @param {string} organizationData.email - The email of the organization.
- *
- * @returns The OrganizationCard component.
- */
 export default function OrganizationCard({ organizationData }: OrganizationCardProps) {
     const router = useRouter();
 
+    const { categories : categories } = useCategories();
     /**
      * Handles the click event on the organization card.
      * Encodes the organization data and navigates to the organization details page.
@@ -29,6 +18,8 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
         const encodedData = encodeURIComponent(JSON.stringify(organizationData));
         router.push(`/organization/details?data=${encodedData}`);
     };
+
+    console.log(organizationData.preferences);
 
     return (
         <Card
@@ -48,22 +39,21 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
                                 {organizationData.city}
                             </CardDescription>
                         </div>
-                        <div className="flex items-center">
-                            <CardDescription className="text-xs md:text-sm">
-                                {organizationData.website || 'Nessun sito web'}
-                            </CardDescription>
-                        </div>
-                        <div className="flex items-center">
-                            <CardDescription className="text-xs md:text-sm">
-                                {organizationData.email}
-                            </CardDescription>
+                        <div className="flex flex-wrap gap-2 pt-2">
+                            {categories
+                                .filter(category => organizationData.preferences.includes(category.label))
+                                .map(category => (
+                                    <Badge key={category.label} variant="secondary" className="font-normal">
+                                        {category.label}
+                                    </Badge>
+                                ))}
                         </div>
                     </div>
                 </CardFooter>
             </div>
             <div className="flex-shrink-0">
                 <Image
-                    src="/api/placeholder/240/400"
+                    src="/placeholder.jpg"
                     alt="Logo Organizzazione"
                     className="w-36 md:w-60 h-full object-cover rounded-r-2xl shadow-lg"
                     width={240}
