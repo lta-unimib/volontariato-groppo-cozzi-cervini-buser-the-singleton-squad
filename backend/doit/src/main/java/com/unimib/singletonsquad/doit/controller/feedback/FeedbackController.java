@@ -32,8 +32,8 @@ public class FeedbackController {
     @PostMapping(value = "/organization/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> feedbackByOrganization(final @PathVariable("idOffer") Long idOffer, @RequestBody FeedbackDTO feedbackDTO,
                                                                   final HttpServletRequest request) throws RoleInfoNotFoundException {
-        String organizationEmail = this.registeredUserService.getUserEmailAndIsRegistered(organizationRole, request);
-        Organization organization = (Organization) this.registeredUserService.getUserInformations(organizationEmail, organizationRole);
+
+        Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(organizationRole, request);
         System.out.println("organization: " + organization);
         //this.feedbackService.setOrganizationVoteOffer(organization, idOffer, feedbackDTO.getVote());
         return ResponseMessageUtil.createResponseSuccess("ok", HttpStatus.OK, null);
@@ -44,8 +44,7 @@ public class FeedbackController {
     @PostMapping(value ="/volunteer/{idRequest}/")
     public ResponseEntity<ResponseMessage> feedBackByVolunteer(final HttpServletRequest request, final @RequestBody FeedbackDTO feedbackDTO,
                                                                final @PathVariable("idRequest") Long idRequest) throws RoleInfoNotFoundException {
-        String volunteerEmail = this.registeredUserService.getUserEmailAndIsRegistered(volunteerRole,request);
-        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformations(volunteerEmail, volunteerRole);
+        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(volunteerRole, request);
         this.feedbackService.setVolunteerVoteRequest(idRequest, volunteer, feedbackDTO.getVote());
         return ResponseMessageUtil.createResponseSuccess("ok", HttpStatus.OK, null);
 

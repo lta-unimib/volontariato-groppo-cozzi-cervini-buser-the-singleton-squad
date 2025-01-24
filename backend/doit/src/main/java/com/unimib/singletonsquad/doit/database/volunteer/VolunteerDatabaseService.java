@@ -22,9 +22,17 @@ public class VolunteerDatabaseService {
     }
 
     public Volunteer findVolunteerByEmail(String email) {
+        System.out.println(" ok ok ok ok ok");
         return volunteerRepository.findByEmail(email)
                 .orElseThrow(() -> new RecordNotFoundGeneralException(ERROR_MESSSAGE_EMAIL + email));
     }
+
+    public boolean existsVolunteerByEmail(String email) {
+        if(!volunteerRepository.existsByEmail(email))
+            throw new RecordNotFoundGeneralException(ERROR_MESSSAGE_EMAIL + email);
+        return true;
+    }
+
 
     public Volunteer save(Volunteer volunteer) {
         return volunteerRepository.save(volunteer);

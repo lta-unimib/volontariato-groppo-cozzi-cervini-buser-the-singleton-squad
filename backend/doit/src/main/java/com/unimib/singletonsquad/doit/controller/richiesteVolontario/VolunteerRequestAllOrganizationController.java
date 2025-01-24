@@ -39,7 +39,7 @@ public class VolunteerRequestAllOrganizationController {
     @GetMapping(value = "/{organizationName}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> getAllVolunteerRequestOrganization(final HttpServletRequest request,
                                                                 final @PathVariable("organizationName") String organizationName){
-        this.registeredUserService.checkAndGetRoleFromRequest(request);
+        this.registeredUserService.extractRoleFromRequest(request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationName(organizationName);
         return ResponseMessageUtil.createResponseSuccess("get all request by organization: "+organizationName,
                 HttpStatus.OK, volunteerRequestList);

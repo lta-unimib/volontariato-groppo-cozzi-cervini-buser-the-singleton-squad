@@ -29,8 +29,7 @@ public class VolunteerRequestController {
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)
             throws Exception {
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
-        Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.ORGANIZATION);
+        Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(UserRole.ORGANIZATION, request);
         this.volunteerRequestService.createVolunteerRequest(volunteerRequestDTO, organization);
         return ResponseMessageUtil.createResponseSuccess("volunteer request created", HttpStatus.OK, null);
     }
@@ -39,7 +38,7 @@ public class VolunteerRequestController {
     @GetMapping(value = "/{idRequest}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> getSpecificRequest(final @PathVariable("idRequest") Long idRequest, final HttpServletRequest request)
             throws Exception {
-       this.registeredUserService.checkAndGetRoleFromRequest(request);
+       this.registeredUserService.extractRoleFromRequest(request);
        VolunteerRequest specificRequest = this.volunteerRequestService.getSpecificRequest(idRequest);
        VolunteerRequestSendDTO requestDTO = VolunteerRequestMapper.mapToVolunteerRequestDTO(specificRequest);
        return ResponseMessageUtil.createResponseSuccess("volunteer request got", HttpStatus.OK,requestDTO);
@@ -49,8 +48,7 @@ public class VolunteerRequestController {
     @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request)
     throws Exception {
-            String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
-        Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.ORGANIZATION);
+        Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(UserRole.ORGANIZATION, request);
         this.volunteerRequestService.deleteVolunteerRequest(idRequest, organization);
         return ResponseMessageUtil.createResponseSuccess("volunteer request deleted", HttpStatus.OK, null);
     }
@@ -60,8 +58,7 @@ public class VolunteerRequestController {
     public ResponseEntity<ResponseMessage> updateVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request,
                                                     final @RequestBody VolunteerRequestDTO volunteerRequestDTO)
     throws Exception {
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
-        Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.ORGANIZATION);
+        Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(UserRole.ORGANIZATION, request);
         this.volunteerRequestService.updateVolunteerRequest(volunteerRequestDTO, idRequest, organization);
         return ResponseMessageUtil.createResponseSuccess("volunteer request updated", HttpStatus.OK, null);
     }

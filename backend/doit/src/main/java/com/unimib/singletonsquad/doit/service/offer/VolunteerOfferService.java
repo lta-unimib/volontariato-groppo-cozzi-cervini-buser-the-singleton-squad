@@ -19,7 +19,6 @@ public class VolunteerOfferService {
 
     private final VolunteerOfferDatabaseService volunteerOfferDatabaseService;
     private final VolunteerRequestService volunteerRequestControllerService;
-    private final RegisteredUserService registeredUserService;
 
     /// Get All the Volunteer Offers of a Volunteer
     public List<VolunteerOffer> getAllVolunteerOffers(final String email){
@@ -27,8 +26,7 @@ public class VolunteerOfferService {
     }
 
     /// ADD NEW OFFER
-    public void addNewOffer(Long requestId, String email) throws Exception {
-        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformations(email, UserRole.VOLUNTEER);
+    public void addNewOffer(Long requestId, Volunteer volunteer) throws Exception {
         VolunteerRequest volunteerRequest = this.volunteerRequestControllerService.getSpecificRequest(requestId);
         VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteer, volunteerRequest);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);

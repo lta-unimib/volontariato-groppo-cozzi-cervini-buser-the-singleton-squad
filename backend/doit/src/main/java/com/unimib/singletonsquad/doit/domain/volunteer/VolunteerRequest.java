@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
@@ -46,6 +47,7 @@ public class VolunteerRequest {
 
     @ManyToOne
     @JsonSerialize(using = OrganizationNameSerializer.class)
+    @JsonBackReference
     private Organization organization;
 
     @ElementCollection

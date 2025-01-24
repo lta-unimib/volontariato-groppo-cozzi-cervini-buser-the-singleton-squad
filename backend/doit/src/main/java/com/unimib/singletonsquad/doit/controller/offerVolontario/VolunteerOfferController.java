@@ -1,5 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.offerVolontario;
 
+import com.unimib.singletonsquad.doit.domain.common.User;
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerOfferMapper;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RoleInfoNotFoundException;
+import java.awt.image.VolatileImage;
 import java.util.List;
 
 @RestController
@@ -31,11 +34,11 @@ public class VolunteerOfferController {
     /// L'UTENTE ACCETTA LA RICHIESTA DI VOLONTARIATO
     @PostMapping(value = "/subscribe/{requestId}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> createVolunteerOffer(final HttpServletRequest request,
-                                                  final @PathVariable String requestId)
+                                                  final @PathVariable Long requestId)
             throws Exception {
-            String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
-            this.volunteerOfferService.addNewOffer(Long.parseLong(requestId), email);
-            return  ResponseMessageUtil.createResponseSuccess("volunteer offer saved", HttpStatus.OK, null);
+        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(UserRole.VOLUNTEER, request);
+        this.volunteerOfferService.addNewOffer(requestId,volunteer);
+        return  ResponseMessageUtil.createResponseSuccess("volunteer offer saved", HttpStatus.OK, null);
 
     }
 
@@ -43,7 +46,7 @@ public class VolunteerOfferController {
     @DeleteMapping("/{idOffer}")
     public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable final Long idOffer,
                                                                 final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
-        UserRole role = UserRole.valueOf(this.registeredUserService.checkAndGetRoleFromRequest(request));
+        UserRole role = this.registeredUserService.extractRoleFromRequest(request);
         String email = this.registeredUserService.getUserEmailAndIsRegistered(role, request);
         this.volunteerOfferService.removeOffer(idOffer, email);
         return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);

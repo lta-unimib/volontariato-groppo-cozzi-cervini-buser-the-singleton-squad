@@ -1,5 +1,7 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.utils.data.EmailValidator;
@@ -19,7 +21,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Builder
-@ToString
+@ToString(exclude = "volunteerRequests")
 @Table(name = "organization")
 public class Organization implements User {
     @Id
@@ -47,6 +49,7 @@ public class Organization implements User {
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonManagedReference
     private List<VolunteerRequest> volunteerRequests = new ArrayList<>();
 
     public void setEmail(String email) {
