@@ -25,7 +25,7 @@ public class VolunteerMapper {
 
     public Volunteer createVolunteer(final VolunteerDTO volunteerDTO){
         Volunteer volunteer = this.mapToVolunteer(volunteerDTO);
-        StatisticVolunteer statisticVolunteer = new StatisticVolunteer();
+        StatisticVolunteer statisticVolunteer = StatisticVolunteerMapper.createStatisticVolunteer();
         volunteer.setStatistic(statisticVolunteer);
         VolunteerPreferences volunteerPreferences = new VolunteerPreferences();
         volunteerPreferences.setCity(volunteerDTO.getCity());

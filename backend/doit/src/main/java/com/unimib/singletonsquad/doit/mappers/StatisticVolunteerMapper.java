@@ -4,7 +4,7 @@ public class StatisticVolunteerMapper {
 
     private StatisticVolunteerMapper() {}
 
-    protected StatisticVolunteer createStatisticVolunteer() {
+    public static StatisticVolunteer createStatisticVolunteer() {
         StatisticVolunteer temp = new StatisticVolunteer();
         temp.setAverageVotes(0.0);
         temp.setTotalVotes(0);
