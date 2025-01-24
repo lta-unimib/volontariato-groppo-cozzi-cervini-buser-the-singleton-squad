@@ -1,2 +1,9 @@
-export const GITHUB_PAGES = process.env.GITHUB_PAGES === 'true';
-export const API_BASE_LINK = "http://ec2-3-64-126-237.eu-central-1.compute.amazonaws.com:8080"
+/**
+ * The base URL for the API server.
+ *
+ * This constant holds the base URL for making API requests. It points to the backend server hosted on AWS EC2.
+ * It is used across the application to construct full API request URLs.
+ *
+ * @constant {string} API_BASE_LINK - The base URL of the API server.
+ */
+export const API_BASE_LINK = "http://ec2-3-64-126-237.eu-central-1.compute.amazonaws.com:8080";

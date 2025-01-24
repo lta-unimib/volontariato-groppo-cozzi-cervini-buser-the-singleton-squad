@@ -1,3 +1,9 @@
+/**
+ * Utility functions for formatting and handling dates.
+ * - `formatDateRange`: formats a date range into a string.
+ * - `dateUtils`: contains methods to generate date ranges and format individual dates.
+ */
+
 export const formatDateRange = (timeRange: [string, string]) => {
     const months = [
         'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',

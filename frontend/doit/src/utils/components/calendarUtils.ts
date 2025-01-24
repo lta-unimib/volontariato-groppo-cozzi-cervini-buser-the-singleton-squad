@@ -1,5 +1,8 @@
 import { cn } from "@/utils/cnUtils"
 
+/**
+ * Variants for the calendar components, defining the styles for different parts of the calendar (e.g., month, days, navigation buttons).
+ */
 export const calendarVariants = {
     baseMonth: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
     month: "space-y-4",

@@ -2,6 +2,9 @@
 
 import { MdOutlineBusiness, MdOutlineDashboardCustomize, MdOutlineAccountCircle } from "react-icons/md";
 
+/**
+ * Menu items for the volunteer dashboard, each containing a title, URL, icon, and class for responsiveness.
+ */
 export const volunteerMenuItems = [
     {
         title: "Opportunità",

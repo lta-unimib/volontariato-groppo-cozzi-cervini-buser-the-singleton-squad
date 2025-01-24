@@ -6,7 +6,7 @@ import { X } from "lucide-react"
 
 import { cn } from "@/utils/cnUtils"
 import { ComponentRef } from "react"
-import { sheetVariants } from "@/utils/components/sheetUtils"
+import { sheetVariants } from "@/utils/components/core/sheetUtils"
 import { VariantProps } from "class-variance-authority"
 
 /**

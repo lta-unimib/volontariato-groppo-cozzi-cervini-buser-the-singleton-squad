@@ -2,28 +2,33 @@
 
 import { API_BASE_LINK } from "@/utils/constants";
 
+/**
+ * Generic API response type.
+ */
 interface ApiResponse<T> {
     status: number;
     data?: T;
     message?: string;
 }
 
+/**
+ * Makes a POST request to the specified endpoint.
+ *
+ * @param endpoint The API endpoint to make the request to.
+ * @param data Optional data to send in the request body.
+ * @returns A promise that resolves to the API response.
+ */
 export async function makePostRequest<T>(
     endpoint: string,
     data?: unknown,
 ): Promise<ApiResponse<T>> {
     try {
         const token = sessionStorage.getItem('authToken');
-        console.log('Auth Token:', token);
 
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
             ...(token && { 'Authorization': `Bearer ${token}` }),
         };
-
-        console.log('Making API request to:', `${API_BASE_LINK}${endpoint}`);
-        console.log('Request Headers:', headers);
-        console.log('Request Body:', JSON.stringify(data));
 
         const response = await fetch(`${API_BASE_LINK}${endpoint}`, {
             method: 'POST',
@@ -32,8 +37,6 @@ export async function makePostRequest<T>(
         });
 
         const responseData = await response.json();
-        console.log('Response Status:', response.status);
-        console.log('Response Data:', responseData);
 
         return {
             status: response.status,
@@ -42,7 +45,6 @@ export async function makePostRequest<T>(
         };
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
-        console.error('Error occurred:', errorMessage);
 
         return {
             status: 500,
@@ -51,20 +53,22 @@ export async function makePostRequest<T>(
     }
 }
 
+/**
+ * Makes a GET request to the specified endpoint.
+ *
+ * @param endpoint The API endpoint to make the request to.
+ * @returns A promise that resolves to the API response.
+ */
 export async function makeGetRequest<T>(
     endpoint: string,
 ): Promise<ApiResponse<T>> {
     try {
         const token = sessionStorage.getItem('authToken');
-        console.log('Auth Token:', token);
 
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
             ...(token && { 'Authorization': `Bearer ${token}` }),
         };
-
-        console.log('Making GET request to:', `${API_BASE_LINK}${endpoint}`);
-        console.log('Request Headers:', headers);
 
         const response = await fetch(`${API_BASE_LINK}${endpoint}`, {
             method: 'GET',
@@ -72,8 +76,6 @@ export async function makeGetRequest<T>(
         });
 
         const responseData = await response.json();
-        console.log('Response Status:', response.status);
-        console.log('Response Data:', responseData);
 
         return {
             status: response.status,
@@ -82,7 +84,6 @@ export async function makeGetRequest<T>(
         };
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
-        console.error('Error occurred:', errorMessage);
 
         return {
             status: 500,
@@ -91,6 +92,14 @@ export async function makeGetRequest<T>(
     }
 }
 
+/**
+ * Makes a PUT or PATCH request to the specified endpoint.
+ *
+ * @param endpoint The API endpoint to make the request to.
+ * @param data Optional data to send in the request body.
+ * @param method The HTTP method (PUT or PATCH). Default is PUT.
+ * @returns A promise that resolves to the API response.
+ */
 export async function makeUpdateRequest<T>(
     endpoint: string,
     data?: unknown,
@@ -98,16 +107,11 @@ export async function makeUpdateRequest<T>(
 ): Promise<ApiResponse<T>> {
     try {
         const token = sessionStorage.getItem('authToken');
-        console.log('Auth Token:', token);
 
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
             ...(token && { 'Authorization': `Bearer ${token}` }),
         };
-
-        console.log(`Making ${method} request to:`, `${API_BASE_LINK}${endpoint}`);
-        console.log('Request Headers:', headers);
-        console.log('Request Body:', JSON.stringify(data));
 
         const response = await fetch(`${API_BASE_LINK}${endpoint}`, {
             method,
@@ -116,8 +120,6 @@ export async function makeUpdateRequest<T>(
         });
 
         const responseData = await response.json();
-        console.log('Response Status:', response.status);
-        console.log('Response Data:', responseData);
 
         return {
             status: response.status,
@@ -126,7 +128,6 @@ export async function makeUpdateRequest<T>(
         };
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
-        console.error('Error occurred:', errorMessage);
 
         return {
             status: 500,
@@ -135,22 +136,24 @@ export async function makeUpdateRequest<T>(
     }
 }
 
+/**
+ * Makes a DELETE request to the specified endpoint.
+ *
+ * @param endpoint The API endpoint to make the request to.
+ * @param data Optional data to send in the request body.
+ * @returns A promise that resolves to the API response.
+ */
 export async function makeDeleteRequest<T>(
     endpoint: string,
     data?: unknown,
 ): Promise<ApiResponse<T>> {
     try {
         const token = sessionStorage.getItem('authToken');
-        console.log('Auth Token:', token);
 
         const headers: HeadersInit = {
             'Content-Type': 'application/json',
             ...(token && { 'Authorization': `Bearer ${token}` }),
         };
-
-        console.log('Making DELETE request to:', `${API_BASE_LINK}${endpoint}`);
-        console.log('Request Headers:', headers);
-        console.log('Request Body:', JSON.stringify(data));
 
         const response = await fetch(`${API_BASE_LINK}${endpoint}`, {
             method: 'DELETE',
@@ -159,8 +162,6 @@ export async function makeDeleteRequest<T>(
         });
 
         const responseData = await response.json();
-        console.log('Response Status:', response.status);
-        console.log('Response Data:', responseData);
 
         return {
             status: response.status,
@@ -169,7 +170,6 @@ export async function makeDeleteRequest<T>(
         };
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
-        console.error('Error occurred:', errorMessage);
 
         return {
             status: 500,

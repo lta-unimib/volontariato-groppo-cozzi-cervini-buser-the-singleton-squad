@@ -1,9 +1,20 @@
 import { addMonths, eachDayOfInterval, getDay, startOfMonth } from "date-fns";
 import { AvailabilityFormData } from "@/types/form/availability/availabilityFormData";
 
+/**
+ * Retrieves the selected days based on the availability settings and the current month.
+ *
+ * This function generates a list of dates within the current year that correspond to the selected availability
+ * mode (daily, weekly, or monthly). The generated dates are returned as an array of `Date` objects.
+ *
+ * @param {AvailabilityFormData} availability - The availability data, which includes the selected mode and time range.
+ * @param {Date} currentMonth - The current month used as the starting point for the availability.
+ * @returns {Date[]} An array of `Date` objects representing the selected days based on the availability mode.
+ */
 export const getSelectedDays = (availability: AvailabilityFormData, currentMonth: Date): Date[] => {
     const startOfCurrentMonth = startOfMonth(currentMonth);
     const endOfPreview = addMonths(startOfCurrentMonth, 12);
+
     switch (availability.mode) {
         case "daily":
             if (!availability.timeRange) return [];
