@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { ScrollArea } from "@/components/core/ScrollArea";
@@ -6,7 +6,7 @@ import { Calendar } from "@/components/form/availability/Calendar";
 import { Card, CardContent } from "@/components/core/Card";
 import { useSearchParams } from "next/navigation";
 import { RequestHeader } from "@/components/header/RequestHeader";
-import {DetailedRequestData } from "@/types/request";
+import { DetailedRequestData } from "@/types/request";
 import { dateUtils } from "@/utils/components/dateUtils";
 
 const AboutSection: React.FC<{ description: string }> = ({ description }) => (
@@ -18,13 +18,9 @@ const AboutSection: React.FC<{ description: string }> = ({ description }) => (
     </Card>
 );
 
-const ContactInfoSection: React.FC<{ organization: DetailedRequestData['organization'] }> = ({ organization }) => {
-    const formatWebsiteUrl = (url: string) => {
-        if (!url.startsWith('http://') && !url.startsWith('https://')) {
-            return `https://${url}`;
-        }
-        return url;
-    };
+const ContactInfoSection: React.FC<{ organization: DetailedRequestData["organization"] }> = ({ organization }) => {
+    const formatWebsiteUrl = (url: string) =>
+        url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`;
 
     return (
         <Card className="rounded-2xl">
@@ -33,11 +29,7 @@ const ContactInfoSection: React.FC<{ organization: DetailedRequestData['organiza
                 <ul className="text-sm text-muted-foreground mt-2">
                     <li>Email: <a href={`mailto:${organization.email}`}>{organization.email}</a></li>
                     <li>
-                        Website: <a
-                        href={formatWebsiteUrl(organization.website ?? "")}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
+                        Website: <a href={formatWebsiteUrl(organization.website ?? "")} target="_blank" rel="noopener noreferrer">
                         {organization.website}
                     </a>
                     </li>
@@ -57,17 +49,13 @@ const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, 
                 <h3 className="text-xl font-semibold text-foreground mb-4">Date</h3>
                 <div className="mb-4">
                     <p className="text-sm text-muted-foreground">
-                        L'evento si svolgerà dal {dateUtils.formatDate(startDate)} al {dateUtils.formatDate(endDate)}.
+                        L&#39;evento si svolgerà dal {dateUtils.formatDate(startDate)} al {dateUtils.formatDate(endDate)}.
                     </p>
                 </div>
                 <div className="flex justify-center">
                     <Card className="rounded-2xl w-full flex items-center justify-center">
                         <CardContent className="flex pt-6 items-center justify-center">
-                            <Calendar
-                                mode="multiple"
-                                selected={selectedDates}
-                                className="rounded-2xl p-4"
-                            />
+                            <Calendar mode="multiple" selected={selectedDates} className="rounded-2xl p-4" />
                         </CardContent>
                     </Card>
                 </div>
@@ -78,7 +66,7 @@ const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, 
 
 export default function DetailedRequest() {
     const searchParams = useSearchParams();
-    const encodedData = searchParams.get('data');
+    const encodedData = searchParams.get("data");
 
     const requestData = React.useMemo(() => {
         if (!encodedData) return null;
@@ -97,7 +85,7 @@ export default function DetailedRequest() {
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
-            <div className={`w-full h-screen flex flex-col`}>
+            <div className="w-full h-screen flex flex-col">
                 <div className="flex w-full min-h-screen">
                     <div className="flex-1 flex flex-col pb-12 md:pb-4">
                         <div className="p-4 md:px-8">
@@ -115,9 +103,7 @@ export default function DetailedRequest() {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div className="space-y-4">
                                     <AboutSection description={requestData.description} />
-                                    {requestData.role === "volunteer" && (
-                                        <ContactInfoSection organization={requestData.organization} />
-                                    )}
+                                    {requestData.role === "volunteer" && <ContactInfoSection organization={requestData.organization} />}
                                 </div>
                                 <DateSection startDate={startDate} endDate={endDate} />
                             </div>

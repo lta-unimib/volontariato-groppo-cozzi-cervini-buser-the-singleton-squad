@@ -43,14 +43,14 @@ export function RequestForm() {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const data = urlParams.get('data');
-        console.log("Parametro 'data':", data);  // Debug: verifica parametro URL
+        console.log("Parametro 'data':", data);
 
         if (data) {
             try {
                 const parsedData = JSON.parse(decodeURIComponent(data));
                 const id = parsedData.id;
                 setIdRequest(id);
-                console.log("ID Request Set:", id);  // Debug: ID recuperato dalla query
+                console.log("ID Request Set:", id);
             } catch (error) {
                 console.error("Errore durante il parsing dei dati:", error);
             }
@@ -135,15 +135,18 @@ export function RequestForm() {
 
                     <AddressForm
                         onSaveAction={(address) => {
-                            console.log("Indirizzo cambiato:", address);  // Debug: Verifica cambiamento indirizzo
-                            updateField("address", address);
+                            console.log("Indirizzo cambiato:", address);
+                            updateField("address", {
+                                ...address,
+                                additionalInfo: address.additionalInfo || ""
+                            });
                         }}
                         initialAddress={isEditing ? formData.address : undefined}
                     />
 
                     <Checkbox
                         onChangeAction={(categories) => {
-                            console.log("Categorie cambiate:", categories);  // Debug: Verifica cambio categorie
+                            console.log("Categorie cambiate:", categories);
                             updateField("categories", categories);
                         }}
                         initialSelected={isEditing ? formData.categories : []}

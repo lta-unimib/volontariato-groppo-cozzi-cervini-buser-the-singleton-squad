@@ -2,8 +2,8 @@ import { useState, useCallback, useEffect } from 'react';
 import { AvailabilityMode, AvailabilityFormData } from "@/types/form/availability/availabilityFormData";
 import { DateRange } from "react-day-picker";
 
-const extractDateRange = (timeRange: any): DateRange => {
-    if (Array.isArray(timeRange)) {
+const extractDateRange = (timeRange: string[] | [string, string]): DateRange => {
+    if (timeRange.length === 2) {
         return { from: new Date(timeRange[0]), to: new Date(timeRange[1]) };
     }
     return { from: undefined, to: undefined };

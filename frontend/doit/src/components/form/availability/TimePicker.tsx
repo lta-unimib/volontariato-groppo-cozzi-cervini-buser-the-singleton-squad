@@ -14,7 +14,7 @@ export function TimePicker({ label, initialTime, onChange }: TimePickerProps) {
 
         const match = timeStr.match(/(\d{2}):(\d{2})\s*(AM|PM)/i)
         if (match) {
-            const [_, h, m, p] = match
+            const [, h, m, p] = match
             return { hour: h, minute: m, period: p.toUpperCase() }
         }
         return { hour: "12", minute: "00", period: "AM" }

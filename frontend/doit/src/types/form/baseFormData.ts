@@ -81,7 +81,7 @@ export interface BaseFormProps {
  * @property {(data: any) => void} setFormDataAction - Function to update the form data.
  * @property {any} formData - The current state of the form data.
  */
-export interface FormInitializationProps {
-    readonly setFormDataAction: (data: any) => void;
-    readonly formData: any;
+export interface FormInitializationProps<T> {
+    setFormDataAction: (data: T) => void;
+    formData: T;
 }

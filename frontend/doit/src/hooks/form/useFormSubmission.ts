@@ -46,10 +46,6 @@ class FormSubmissionService {
         return makeUpdateRequest(this.endpoints.request.edit(idRequest), formData);
     }
 
-    private static isAuthResponse(data: any): data is AuthResponse {
-        return data && typeof data.authToken === "string";
-    }
-
     static async handleSubmit(options: {
         formType: FormType;
         formData: FormData;
@@ -59,18 +55,11 @@ class FormSubmissionService {
     }) {
         const { formType, formData, loginUserType, isEditing, idRequest } = options;
 
-        console.log('Form Data:', formData);
-        if (Object.values(formData).includes(undefined)) {
-            console.error('Errore: alcuni campi sono mancanti:', formData);
-            throw new Error('Some fields are missing in the form data.');
-        }
-
         let response;
 
         switch (formType) {
             case "login":
                 if (!loginUserType) {
-                    console.error('Errore: loginUserType è richiesto per il login.');
                     throw new Error("loginUserType is required for login.");
                 }
                 response = await this.makeLoginRequest(loginUserType, formData as LoginFormData);
@@ -86,22 +75,12 @@ class FormSubmissionService {
                     : await this.makeRegistrationRequest(formType, formData);
         }
 
-        if (response.status === 200 && this.isAuthResponse(response.data)) {
-            const { authToken, user } = response.data;
-            if (authToken) {
-                sessionStorage.setItem('authToken', authToken);
-                if (user) {
-                    sessionStorage.setItem('userData', JSON.stringify(user));
-                }
-            }
-        }
-
         return response;
     }
 }
 
-export const useFormSubmission = (formType: FormType, loginUserType?: LoginType, isEditing?: boolean, idRequest?: string) => ({
-    handleSubmit: async (formData: FormData) => {
+export const useFormSubmission = <T extends FormData>(formType: FormType, loginUserType?: LoginType, isEditing?: boolean, idRequest?: string) => ({
+    handleSubmit: async (formData: T) => {
         console.log('handleSubmit chiamato', formData); // Aggiungi questo log
         return FormSubmissionService.handleSubmit({ formType, formData, loginUserType, isEditing, idRequest });
     }

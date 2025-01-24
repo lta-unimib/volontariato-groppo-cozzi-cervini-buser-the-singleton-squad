@@ -1,11 +1,22 @@
-"use client";
-
 import React, { useState, useEffect } from 'react';
-import bcryptjs from 'bcryptjs';
+import * as bcryptjs from 'bcryptjs';
 import { useSearchParams } from "next/navigation";
-import {FormInitializationProps} from "@/types/form/baseFormData";
+import { FormInitializationProps } from "@/types/form/baseFormData";
+import { VolunteerFormData } from '@/types/form/auth/volunteerFormData';
+import { OrganizationFormData } from '@/types/form/auth/organizationFormData';
+import {RequestFormData} from "@/types/form/request/requestFormData";
 
-export function useFormInitialization({setFormDataAction, formData }: FormInitializationProps) {
+type FormDataType = VolunteerFormData | OrganizationFormData | RequestFormData;
+
+type HandleSubmitFunction<T> = (data: T) => Promise<{
+    status: number;
+    message?: string;
+}>;
+
+export function useFormInitialization<T extends FormDataType>({
+                                                                  setFormDataAction,
+                                                                  formData
+                                                              }: FormInitializationProps<T>) {
     const searchParams = useSearchParams();
     const isEditing = searchParams.get('mode') === 'edit';
     const [showPassword, setShowPassword] = useState(false);
@@ -30,10 +41,13 @@ export function useFormInitialization({setFormDataAction, formData }: FormInitia
         }
     }, [isEditing, searchParams, setFormDataAction, initialDataLoaded]);
 
-    const handleSubmit = async (e: React.FormEvent, handleSubmitFn: any) => {
+    const handleSubmit = async (
+        e: React.FormEvent,
+        handleSubmitFn: HandleSubmitFunction<T>
+    ) => {
         e.preventDefault();
         try {
-            let finalFormData = { ...formData };
+            const finalFormData = { ...formData } as T & { password?: string };
 
             if (!isEditing && formData.password) {
                 const salt = await bcryptjs.genSalt(10);
@@ -56,9 +70,6 @@ export function useFormInitialization({setFormDataAction, formData }: FormInitia
             return { success: false, message: "Submission failed" };
         }
     };
-
-
-    console.log(isEditing);
 
     return {
         isEditing,

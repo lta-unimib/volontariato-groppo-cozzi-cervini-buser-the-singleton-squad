@@ -6,6 +6,7 @@ import { useBack } from "@/hooks/header/useBack";
 import { ButtonBack } from './components/ButtonBack';
 import { ProfileActions } from './components/ProfileAction';
 import Image from 'next/image';
+import {RequestHeaderProps} from "@/types/props/header/requestHeaderProps";
 
 export const RequestHeader = ({
                                   title,

@@ -1,4 +1,4 @@
-import { AddressFormData } from "../city/addressFormData";
+import {BaseFormData} from "@/types/form/baseFormData";
 
 /**
  * @interface RequestFormData
@@ -15,13 +15,19 @@ import { AddressFormData } from "../city/addressFormData";
  * @param description A description of the request.
  * @param volunteerCapacity The maximum number of volunteers needed for the request.
  */
-export interface RequestFormData {
-    readonly address: AddressFormData;
-    readonly categories: string[];
-    readonly description: string;
-    readonly endTime: string;
-    readonly startTime: string;
-    readonly timeRange: [string, string];
-    readonly title: string;
-    readonly volunteerCapacity: string;
+export interface RequestFormData extends Partial<BaseFormData> {
+    title: string;
+    timeRange: [string, string];
+    address: {
+        street: string;
+        number: string;
+        city: string;
+        postalCode: string;
+        additionalInfo: string;
+    };
+    categories: string[];
+    description: string;
+    volunteerCapacity: string;
+    startTime: string;
+    endTime: string;
 }
