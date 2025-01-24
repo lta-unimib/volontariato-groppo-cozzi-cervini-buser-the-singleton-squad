@@ -12,18 +12,32 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useVolunteerFormValidation } from "@/hooks/form/validator/useVolunteerFormValidator";
 import { useFormFocus } from "@/hooks/form/useFormFocus";
 import { useFormInitialization } from '@/hooks/form/useFormInitialization';
-import {Input} from "@/components/core/Input";
-import {VolunteerFormData} from "@/types/form/auth/volunteerFormData";
+import { Input } from "@/components/core/Input";
+import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
 import { useFormData } from "@/hooks/form/useFormData";
 
+/**
+ * `VolunteerForm` component for creating or editing a volunteer profile.
+ *
+ * This component includes fields for first name, last name, email, password, availability,
+ * city, preferences, and description. It handles form submission, validation, and conditional
+ * rendering based on whether the form is in "edit" or "create" mode.
+ *
+ * It uses hooks for form initialization, submission, validation, focus management, and data storage.
+ * Additionally, it includes functionality for showing/hiding the password, selecting availability,
+ * and managing preferences.
+ *
+ * @returns - The rendered form for creating or editing a volunteer profile.
+ */
 export function VolunteerForm() {
 
+    // Initial form data
     const initialFormData: VolunteerFormData = {
         firstName: "",
         lastName: "",
         email: "",
         password: "",
-        availability: {mode: "daily", timeRange:[]},
+        availability: { mode: "daily", timeRange: [] },
         city: "",
         preferences: [],
         description: "",
@@ -48,6 +62,7 @@ export function VolunteerForm() {
     const { validationState, isValid } = useVolunteerFormValidation(formData, isEditing);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
 
+    // Loader while waiting for initial data
     if (!initialDataLoaded && isEditing) {
         return <div>Loading...</div>;
     }

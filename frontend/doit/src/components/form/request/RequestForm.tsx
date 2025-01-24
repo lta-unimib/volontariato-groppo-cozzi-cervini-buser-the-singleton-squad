@@ -14,6 +14,12 @@ import { RequestFormData } from "@/types/form/request/requestFormData";
 import { useFormData } from "@/hooks/form/useFormData";
 import { useFormFocus } from "@/hooks/form/useFormFocus";
 
+/**
+ * Component for managing a request form. It allows users to enter details such as the title, date range, address, categories, description, and volunteer capacity.
+ * This form can be used to create or edit requests based on the data passed through the URL or an initial form state.
+ *
+ * @returns - The rendered form component.
+ */
 export function RequestForm() {
     const initialFormData: RequestFormData = {
         title: "",
@@ -40,6 +46,9 @@ export function RequestForm() {
 
     const [idRequest, setIdRequest] = useState<string | undefined>(undefined);
 
+    /**
+     * Handles extracting query parameters from the URL and sets the request ID if available.
+     */
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const data = urlParams.get('data');
@@ -70,6 +79,12 @@ export function RequestForm() {
 
     const { handleSubmit: handleSubmitFn } = useFormSubmission("request", undefined, true, idRequest);
 
+    /**
+     * Updates the time range in the form data.
+     *
+     * @param {Date} fromDate - The start date of the range.
+     * @param {Date} toDate - The end date of the range.
+     */
     const handleDateRangeUpdate = (fromDate: Date, toDate: Date) => {
         const fromDateStr = fromDate.toISOString().split('T')[0];
         const toDateStr = toDate.toISOString().split('T')[0];
@@ -99,7 +114,6 @@ export function RequestForm() {
                         className="rounded-full"
                         value={isEditing ? formData.title : undefined}
                         onChange={(e) => {
-                            console.log("Titolo cambiato:", e.target.value);  // Debug: Verifica cambio titolo
                             updateField("title", e.target.value);
                         }}
                     />
@@ -115,7 +129,6 @@ export function RequestForm() {
                                 <TimePicker
                                     label="Seleziona inizio"
                                     onChange={(time) => {
-                                        console.log("Start time cambiato:", time);  // Debug: Verifica cambio ora di inizio
                                         updateField("startTime", time);
                                     }}
                                     initialTime={isEditing ? formData.startTime : undefined}
@@ -124,7 +137,6 @@ export function RequestForm() {
                                 <TimePicker
                                     label="Seleziona fine"
                                     onChange={(time) => {
-                                        console.log("End time cambiato:", time);  // Debug: Verifica cambio ora di fine
                                         updateField("endTime", time);
                                     }}
                                     initialTime={isEditing ? formData.endTime : undefined}
@@ -157,7 +169,6 @@ export function RequestForm() {
                         className="rounded-2xl min-h-[100px]"
                         value={isEditing ? formData.description : undefined}
                         onChange={(e) => {
-                            console.log("Descrizione cambiata:", e.target.value);  // Debug: Verifica cambiamento descrizione
                             updateField("description", e.target.value);
                         }}
                     />
@@ -167,7 +178,6 @@ export function RequestForm() {
                         className="rounded-full"
                         value={isEditing ? formData.volunteerCapacity : undefined}
                         onChange={(e) => {
-                            console.log("Capacità volontari cambiata:", e.target.value);  // Debug: Verifica cambiamento capacità
                             updateField("volunteerCapacity", e.target.value);
                         }}
                         isInvalid={!validationState.isCapacityValid}

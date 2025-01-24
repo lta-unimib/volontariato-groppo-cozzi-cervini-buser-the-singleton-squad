@@ -2,11 +2,29 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import React from "react";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import {OrganizationCardProps} from "@/types/props/card/organizationCardProps";
+import { OrganizationCardProps } from "@/types/props/card/organizationCardProps";
 
+/**
+ * OrganizationCard component that displays a card with organization details.
+ * The card includes the organization's name, city, website, and email, along with an image.
+ * When the card is clicked, it navigates to the organization details page.
+ *
+ * @param {OrganizationCardProps} props - The properties for the OrganizationCard component.
+ * @param {object} props.organizationData - The data of the organization to display.
+ * @param {string} organizationData.organizationData - The name of the organization.
+ * @param {string} organizationData.city - The city of the organization.
+ * @param {string} organizationData.website - The website of the organization.
+ * @param {string} organizationData.email - The email of the organization.
+ *
+ * @returns The OrganizationCard component.
+ */
 export default function OrganizationCard({ organizationData }: OrganizationCardProps) {
     const router = useRouter();
 
+    /**
+     * Handles the click event on the organization card.
+     * Encodes the organization data and navigates to the organization details page.
+     */
     const handleClick = () => {
         const encodedData = encodeURIComponent(JSON.stringify(organizationData));
         router.push(`/organization/details?data=${encodedData}`);

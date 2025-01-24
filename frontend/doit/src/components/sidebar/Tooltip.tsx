@@ -6,12 +6,42 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 import { cn } from "@/utils/cnUtils"
 import {ComponentRef} from "react";
 
-const TooltipProvider = TooltipPrimitive.Provider
+/**
+ * `TooltipProvider` is a context provider component that must wrap all tooltip components in the application.
+ * It manages the state and behavior of all tooltips within its scope.
+ *
+ * @returns {JSX.Element} The rendered provider component.
+ */
+const TooltipProvider = TooltipPrimitive.Provider;
 
-const Tooltip = TooltipPrimitive.Root
+/**
+ * `Tooltip` is the root component for the tooltip, which manages its state.
+ * It should wrap the entire tooltip structure, including the trigger and content.
+ *
+ * @param {React.ComponentProps<typeof TooltipPrimitive.Root>} props - The props to pass to the Tooltip component.
+ * @returns {JSX.Element} The rendered tooltip root component.
+ */
+const Tooltip = TooltipPrimitive.Root;
 
-const TooltipTrigger = TooltipPrimitive.Trigger
+/**
+ * `TooltipTrigger` is the component that triggers the tooltip when hovered or focused.
+ * It should wrap the element that activates the tooltip.
+ *
+ * @param {React.ComponentProps<typeof TooltipPrimitive.Trigger>} props - The props to pass to the TooltipTrigger component.
+ * @returns {JSX.Element} The rendered tooltip trigger component.
+ */
+const TooltipTrigger = TooltipPrimitive.Trigger;
 
+/**
+ * `TooltipContent` is the component that displays the content of the tooltip.
+ * It is responsible for positioning and animation of the tooltip's appearance.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} [props.className] - Optional additional class names to apply to the tooltip content.
+ * @param {number} [props.sideOffset=4] - The offset distance between the trigger and tooltip content.
+ * @param {React.Ref} ref - A ref to the TooltipContent component.
+ * @returns {JSX.Element} The rendered tooltip content component.
+ */
 const TooltipContent = React.forwardRef<
     ComponentRef<typeof TooltipPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
@@ -25,7 +55,7 @@ const TooltipContent = React.forwardRef<
         )}
         {...props}
     />
-))
-TooltipContent.displayName = TooltipPrimitive.Content.displayName
+));
+TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

@@ -2,16 +2,18 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import { Button } from "@/components/core/Button";
 import { ScrollArea } from "@/components/core/ScrollArea";
 import { CityFormData } from '@/types/form/city/cityFormData';
+import { CityListProps } from "@/types/props/cityListProps";
 
-interface CityListProps {
-    cities: CityFormData[];
-    selectedCity: string;
-    highlightedIndex: number;
-    onCitySelect: (city: CityFormData, e?: React.MouseEvent) => void;
-    setHighlightedIndex: (index: number) => void;
-    error: string | null;
-}
-
+/**
+ * A button component representing each city in the city list.
+ * It is highlighted when hovered and is styled based on selection state.
+ * @param {CityFormData} city - The city data object.
+ * @param index - The index of the city in the list.
+ * @param isSelected - Flag to indicate if the city is selected.
+ * @param shouldHighlight - Flag to indicate if the city button should be highlighted.
+ * @param onCitySelect - The callback function to handle city selection.
+ * @param setHighlightedIndex - The function to set the index of the highlighted city.
+ */
 const CityButton = ({
                         city,
                         index,
@@ -49,6 +51,17 @@ const CityButton = ({
     );
 };
 
+/**
+ * Component to display a list of cities, with the ability to select and highlight cities.
+ * It uses the `CityButton` component to represent each city and allows for smooth scrolling when highlighting.
+ * @param cities - The list of cities to display.
+ * @param selectedCity - The name of the currently selected city.
+ * @param highlightedIndex - The index of the currently highlighted city.
+ * @param onCitySelect - The callback function to handle city selection.
+ * @param setHighlightedIndex - The function to set the index of the highlighted city.
+ * @param error - An error message if applicable.
+ * @returns The rendered list of cities.
+ */
 export function CityList({
                              cities,
                              selectedCity,
@@ -59,6 +72,7 @@ export function CityList({
                          }: CityListProps) {
     const scrollAreaRef = useRef<HTMLDivElement>(null);
 
+    // Scroll the highlighted city button into view
     useEffect(() => {
         if (highlightedIndex >= 0 && scrollAreaRef.current) {
             const buttons = scrollAreaRef.current.getElementsByTagName('button');

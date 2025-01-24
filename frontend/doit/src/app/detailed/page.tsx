@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { Suspense } from "react";
 import { ScrollArea } from "@/components/core/ScrollArea";
@@ -9,15 +9,31 @@ import { RequestHeader } from "@/components/header/RequestHeader";
 import { DetailedRequestData } from "@/types/request";
 import { dateUtils } from "@/utils/components/dateUtils";
 
+/**
+ * `AboutSection` Component.
+ *
+ * Displays a section with the description of the request.
+ *
+ * @param description - The description text to be displayed.
+ * @returns A card with the description of the request.
+ */
 const AboutSection: React.FC<{ description: string }> = ({ description }) => (
     <Card className="rounded-2xl">
         <CardContent className="pt-6">
-            <h3 className="text-xl font-semibold text-foreground">About</h3>
+            <h3 className="text-xl font-semibold text-foreground">Informazioni</h3>
             <p className="text-sm text-muted-foreground mt-2">{description}</p>
         </CardContent>
     </Card>
 );
 
+/**
+ * `ContactInfoSection` Component.
+ *
+ * Displays a section with the contact information of the organization.
+ *
+ * @param organization - The organization data to display.
+ * @returns A card with the organization's contact information.
+ */
 const ContactInfoSection: React.FC<{ organization: DetailedRequestData["organization"] }> = ({ organization }) => {
     const formatWebsiteUrl = (url: string) =>
         url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`;
@@ -25,21 +41,30 @@ const ContactInfoSection: React.FC<{ organization: DetailedRequestData["organiza
     return (
         <Card className="rounded-2xl">
             <CardContent className="pt-6">
-                <h3 className="text-xl font-semibold text-foreground">Contact Information</h3>
+                <h3 className="text-xl font-semibold text-foreground">Informazioni di Contatto</h3>
                 <ul className="text-sm text-muted-foreground mt-2">
                     <li>Email: <a href={`mailto:${organization.email}`}>{organization.email}</a></li>
                     <li>
-                        Website: <a href={formatWebsiteUrl(organization.website ?? "")} target="_blank" rel="noopener noreferrer">
+                        Sito Web: <a href={formatWebsiteUrl(organization.website ?? "")} target="_blank" rel="noopener noreferrer">
                         {organization.website}
                     </a>
                     </li>
-                    <li>VAT Number: {organization.VATNumber}</li>
+                    <li>Partita IVA: {organization.VATNumber}</li>
                 </ul>
             </CardContent>
         </Card>
     );
 };
 
+/**
+ * `DateSection` Component.
+ *
+ * Displays a section with the event start and end dates, and a calendar with the selected dates.
+ *
+ * @param startDate - The start date of the event.
+ * @param endDate - The end date of the event.
+ * @returns A card with the event dates and a calendar.
+ */
 const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, endDate }) => {
     const selectedDates = dateUtils.getDateRange(startDate, endDate);
 
@@ -49,13 +74,14 @@ const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, 
                 <h3 className="text-xl font-semibold text-foreground mb-4">Date</h3>
                 <div className="mb-4">
                     <p className="text-sm text-muted-foreground">
-                        L&#39;evento si svolgerà dal {dateUtils.formatDate(startDate)} al {dateUtils.formatDate(endDate)}.
+                        L'evento si svolgerà
+                        dal {dateUtils.formatDate(startDate)} al {dateUtils.formatDate(endDate)}.
                     </p>
                 </div>
                 <div className="flex justify-center">
                     <Card className="rounded-2xl w-full flex items-center justify-center">
                         <CardContent className="flex pt-6 items-center justify-center">
-                            <Calendar mode="multiple" selected={selectedDates} className="rounded-2xl p-4" />
+                            <Calendar mode="multiple" selected={selectedDates} className="rounded-2xl p-4"/>
                         </CardContent>
                     </Card>
                 </div>
@@ -64,6 +90,14 @@ const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, 
     );
 };
 
+/**
+ * `DetailedRequestContent` Component.
+ *
+ * This component fetches and displays the detailed information about a specific request.
+ * It includes sections for about the request, contact info, and event dates.
+ *
+ * @returns A detailed view of the request with its related information.
+ */
 const DetailedRequestContent = () => {
     const searchParams = useSearchParams();
     const encodedData = searchParams.get("data");
@@ -78,7 +112,7 @@ const DetailedRequestContent = () => {
     }, [encodedData]);
 
     if (!requestData) {
-        return <div>No data available</div>;
+        return <div>Nessun dato disponibile</div>;
     }
 
     const [startDate, endDate] = requestData.timeRange.map((dateStr) => new Date(dateStr));
@@ -115,9 +149,17 @@ const DetailedRequestContent = () => {
     );
 };
 
+/**
+ * `DetailedRequest` Component.
+ *
+ * Suspense-based component for displaying the detailed request view.
+ * It handles data fetching and shows the request content when ready.
+ *
+ * @returns The main detailed request component wrapped in Suspense.
+ */
 export default function DetailedRequest() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Caricamento...</div>}>
             <DetailedRequestContent />
         </Suspense>
     );

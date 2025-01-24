@@ -6,6 +6,12 @@ import { useCitySearch } from "@/hooks/form/city/useCitySearch";
 import { useKeyboardNavigation } from "@/hooks/form/city/useKeyboardNavigation";
 import { CityPickerProps, CityFormData } from "@/types/form/city/cityFormData";
 
+/**
+ * Props for the `CityForm` component.
+ * @param {string} value - The selected city value, initially passed as a prop.
+ * @param - A callback function to handle city selection and optional postal code (CAP).
+ * @param - A flag to indicate whether to show the postal code (CAP) on city selection.
+ */
 export function CityForm({ value, onChangeAction, showCap = false }: CityPickerProps) {
     const [selectedCity, setSelectedCity] = useState<string>(value);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -19,6 +25,12 @@ export function CityForm({ value, onChangeAction, showCap = false }: CityPickerP
         }
     }, [value, setSearchQuery]);
 
+    /**
+     * Handles the selection of a city from the list.
+     * Updates the selected city and triggers the `onChangeAction` callback with city and postal code (if `showCap` is true).
+     * @param {CityFormData} city - The selected city object.
+     * @param {React.MouseEvent} [e] - The mouse event that triggered the selection (optional).
+     */
     const handleCitySelection = useCallback((city: CityFormData, e?: React.MouseEvent) => {
         e?.preventDefault();
         e?.stopPropagation();
@@ -28,6 +40,7 @@ export function CityForm({ value, onChangeAction, showCap = false }: CityPickerP
         inputRef.current?.focus();
     }, [onChangeAction, showCap, setSearchQuery]);
 
+    // Custom hook for handling keyboard navigation
     const { highlightedIndex, setHighlightedIndex, handleKeyDown } = useKeyboardNavigation({
         filteredCities: cities,
         onCitySelect: handleCitySelection,
@@ -36,6 +49,10 @@ export function CityForm({ value, onChangeAction, showCap = false }: CityPickerP
         setSelectedCity
     });
 
+    /**
+     * Handles changes to the search input field by updating the search query and resetting the selected city.
+     * @param {ChangeEvent<HTMLInputElement>} e - The change event from the input field.
+     */
     const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         setSearchQuery(newValue);

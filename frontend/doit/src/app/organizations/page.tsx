@@ -8,8 +8,17 @@ import SearchBar from "@/components/SearchBar";
 import OrganizationCard from "@/components/card/OrganizationCard";
 import { useFavoriteOrganizations } from "@/hooks/useFavoriteOrganizations";
 
+/**
+ * `FavoriteOrganizations` Component.
+ *
+ * This component displays a list of the user's favorite organizations.
+ * It manages loading and error states, and displays a list of organizations
+ * with appropriate feedback messages.
+ *
+ * @returns The layout displaying the favorite organizations with a loading state or error messages.
+ */
 export default function FavoriteOrganizations() {
-    const { organizations, loading, error} = useFavoriteOrganizations();
+    const { organizations, loading, error } = useFavoriteOrganizations();
 
     return (
         <div className="w-full h-screen flex flex-col">

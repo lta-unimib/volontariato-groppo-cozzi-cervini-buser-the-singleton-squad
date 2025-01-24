@@ -5,8 +5,27 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "@/utils/cnUtils";
 
+/**
+ * The root component that wraps the entire Tabs structure.
+ *
+ * This component is used as a container for the tabbed interface.
+ * It should contain `TabsList`, `TabsTrigger`, and `TabsContent` to form the complete tab structure.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>} props - The properties passed to the Tabs root component.
+ * @returns {JSX.Element} The rendered Tabs root component.
+ */
 const Tabs = TabsPrimitive.Root;
 
+/**
+ * A component that renders the list of tab triggers.
+ *
+ * `TabsList` is used to contain the individual tab triggers (`TabsTrigger`), aligning them horizontally.
+ * It also manages the styling and layout of the tab list.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>} props - The properties passed to the Tabs list component.
+ * @param {React.Ref} ref - A ref passed to the list element.
+ * @returns {JSX.Element} The rendered Tabs list component.
+ */
 const TabsList = React.forwardRef<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
@@ -22,6 +41,16 @@ const TabsList = React.forwardRef<
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
 
+/**
+ * A component that renders an individual tab trigger.
+ *
+ * `TabsTrigger` represents each tab in the tab list. It manages the active state, appearance, and interaction.
+ * When a user clicks on a tab trigger, the corresponding `TabsContent` is displayed.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>} props - The properties passed to the individual tab trigger.
+ * @param {React.Ref} ref - A ref passed to the tab trigger element.
+ * @returns {JSX.Element} The rendered individual Tabs trigger component.
+ */
 const TabsTrigger = React.forwardRef<
     HTMLButtonElement,
     React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
@@ -37,6 +66,16 @@ const TabsTrigger = React.forwardRef<
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
+/**
+ * A component that renders the content of a tab.
+ *
+ * `TabsContent` is used to display the content associated with an active tab. When a tab is clicked,
+ * the content for that tab becomes visible.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>} props - The properties passed to the tab content component.
+ * @param {React.Ref} ref - A ref passed to the content element.
+ * @returns {JSX.Element} The rendered Tabs content component.
+ */
 const TabsContent = React.forwardRef<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>

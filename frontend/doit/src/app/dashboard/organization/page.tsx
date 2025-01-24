@@ -1,4 +1,3 @@
-// src/app/organization/page.tsx
 "use client"
 
 import { useRouter } from "next/navigation";
@@ -11,9 +10,23 @@ import { ScrollArea } from "@/components/core/ScrollArea";
 import { Button } from "@/components/core/Button";
 
 import { organizationMenuItems } from "@/utils/components/sidebar/organizationMenuItems";
-import {useAllRequests} from "@/hooks/useRequestsFetching";
-import {RequestSection} from "@/components/RequestSection";
+import { useAllRequests } from "@/hooks/useRequestsFetching";
+import { RequestSection } from "@/components/RequestSection";
 
+/**
+ * `OrganizationDashboard` Component.
+ *
+ * This is the dashboard page for users with the "organization" role.
+ * It displays a sidebar, a search bar, and a section for managing requests.
+ * The page shows all requests related to the organization and provides a button
+ * to navigate to a page for creating new requests.
+ *
+ * It uses the `useAllRequests` hook to fetch requests from the backend and conditionally
+ * renders loading, error, or request data.
+ *
+ * @returns The main dashboard component for the organization, including sidebar,
+ * search bar, and request management.
+ */
 export default function OrganizationDashboard() {
     const router = useRouter();
     const { requests, loading, error } = useAllRequests("/request/all/organization/");
@@ -40,7 +53,7 @@ export default function OrganizationDashboard() {
                 <div className="relative w-full flex-1 flex flex-col">
                     <SearchBar
                         className="mt-12 md:mt-0 p-4 md:px-8"
-                        label={"Terminate"}
+                        label={"Termina"}
                         onRegisteredToggle={handleRegisteredToggle}
                     />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">

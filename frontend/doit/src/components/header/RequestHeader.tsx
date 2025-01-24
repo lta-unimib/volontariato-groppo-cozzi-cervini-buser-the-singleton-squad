@@ -8,6 +8,22 @@ import { ProfileActions } from './components/ProfileAction';
 import Image from 'next/image';
 import {RequestHeaderProps} from "@/types/props/header/requestHeaderProps";
 
+/**
+ * RequestHeader component renders the header for a request page, displaying request details such as the title, organization name, address, and categories.
+ * It provides actions for subscribing, saving, editing, or deleting the request, depending on the user's role.
+ *
+ * @component
+ *
+ * @param {RequestHeaderProps} props - The props for the RequestHeader component.
+ * @param {string} props.title - The title of the request.
+ * @param {string} props.organizationName - The name of the organization that posted the request.
+ * @param {string} props.address - The address associated with the request.
+ * @param {string} props.imageUrl - The URL for the cover image of the request.
+ * @param {object} props.requestData - The data of the request, used for editing.
+ * @param {string} props.role - The role of the user (e.g., "volunteer" or "organization").
+ *
+ * @returns The rendered request header component with action buttons (subscribe, save, edit, delete).
+ */
 export const RequestHeader = ({
                                   title,
                                   organizationName,

@@ -7,6 +7,23 @@ import { Switch } from "@/components/core/Switch"
 import { Badge } from "@/components/core/Badge"
 import {SearchBarProps} from "@/types/props/searchBarProps";
 
+/**
+ * `SearchBar` is a search input component with additional toggle and filter functionality. It includes:
+ * - A text input for search terms with an icon.
+ * - A toggle switch to enable/disable additional search options.
+ * - A set of clickable filters to narrow down the search results.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} [props.className] - Optional class names to style the component.
+ * @param {function} props.onRegisteredToggle - Callback function triggered when the toggle switch is changed.
+ * @param {string} [props.label="Iscritto"] - The label to display next to the toggle switch.
+ * @param {boolean} [props.showToggle=true] - Determines whether to show the toggle switch.
+ * @param {boolean} [props.showFilters=true] - Determines whether to show the filter badges.
+ * @param {Array<string>} [props.filters=["Filtro 1", "Filtro 2", "Filtro 3", "Filtro 4"]] - List of filters to display as badges.
+ * @param {function} [props.onFilterClick] - Callback function triggered when a filter badge is clicked.
+ * @param {boolean} [props.disabled=false] - Disables the toggle switch if set to true.
+ * @returns The rendered search bar with optional toggle and filters.
+ */
 export default function SearchBar({
                                       className,
                                       onRegisteredToggle,

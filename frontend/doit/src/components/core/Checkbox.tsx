@@ -5,12 +5,23 @@ import { ScrollArea } from "@/components/core/ScrollArea";
 import { CheckboxProps } from "@/types/props/core/checkboxProps";
 import { useState, useId, useCallback } from "react";
 
+/**
+ * Checkbox component that allows users to select categories. Supports both single and multi-select functionality.
+ *
+ * @param {CheckboxProps} props - The properties for the Checkbox component.
+ * @param {Function} [props.onChangeAction] - Callback function called when the selected options change.
+ * @param {string[]} [props.initialSelected] - Initial selected options.
+ * @param {boolean} [props.readOnly=false] - If `true`, the checkbox is in read-only mode and cannot be changed.
+ * @param {boolean} [props.isSingleSelect=false] - If `true`, only one option can be selected at a time.
+ *
+ * @returns JSX.Element The rendered Checkbox component with a list of selectable categories.
+ */
 export function Checkbox({
-                                          onChangeAction,
-                                          initialSelected = [],
-                                          readOnly = false,
-                                          isSingleSelect = false,
-                                      }: CheckboxProps) {
+                             onChangeAction,
+                             initialSelected = [],
+                             readOnly = false,
+                             isSingleSelect = false,
+                         }: CheckboxProps) {
     const categories = [
         { id: "supporto_anziani", label: "Supporto Anziani" },
         { id: "supporto_bambini", label: "Supporto Bambini" },

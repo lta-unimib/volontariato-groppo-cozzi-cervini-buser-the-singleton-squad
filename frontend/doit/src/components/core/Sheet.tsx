@@ -7,10 +7,22 @@ import { X } from "lucide-react"
 import { cn } from "@/utils/cnUtils"
 import { ComponentRef } from "react"
 import { sheetVariants } from "@/utils/components/sheetUtils"
-import {VariantProps} from "class-variance-authority";
+import { VariantProps } from "class-variance-authority"
 
+/**
+ * The portal for rendering the sheet content into a separate DOM node.
+ */
 const SheetPortal = SheetPrimitive.Portal
 
+/**
+ * Overlay that appears behind the sheet content when the sheet is open.
+ *
+ * This component creates a semi-transparent black background that covers the screen.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>} props - The properties passed to the SheetOverlay component.
+ * @param {React.Ref} ref - A ref passed to the overlay element.
+ * @returns {JSX.Element} The rendered SheetOverlay component.
+ */
 const SheetOverlay = React.forwardRef<
     ComponentRef<typeof SheetPrimitive.Overlay>,
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
@@ -26,6 +38,15 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
+/**
+ * The content of the sheet, displayed when the sheet is open.
+ *
+ * This component handles the display and styling of the sheet based on the passed side prop (left or right).
+ *
+ * @param {SheetContentProps} props - The properties passed to the SheetContent component.
+ * @param {React.Ref} ref - A ref passed to the content element.
+ * @returns {JSX.Element} The rendered SheetContent component.
+ */
 interface SheetContentProps
     extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
         VariantProps<typeof sheetVariants> {}
@@ -51,6 +72,14 @@ const SheetContent = React.forwardRef<
 ))
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
+/**
+ * Header section inside the sheet, used for displaying the title or other elements at the top.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the SheetHeader component.
+ * @param className - The additional styles for the SheetHeader component.
+ *
+ * @returns The rendered SheetHeader component.
+ */
 const SheetHeader = ({
                          className,
                          ...props
@@ -65,6 +94,13 @@ const SheetHeader = ({
 )
 SheetHeader.displayName = "SheetHeader"
 
+/**
+ * Footer section inside the sheet, used for displaying action buttons or other elements at the bottom.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties passed to the SheetFooter component.
+ * @param className - The additional styles for the SheetFooter component.
+ * @returns The rendered SheetFooter component.
+ */
 const SheetFooter = ({
                          className,
                          ...props
@@ -79,6 +115,13 @@ const SheetFooter = ({
 )
 SheetFooter.displayName = "SheetFooter"
 
+/**
+ * Title element inside the sheet, typically used for the sheet's heading.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>} props - The properties passed to the SheetTitle component.
+ * @param {React.Ref} ref - A ref passed to the title element.
+ * @returns {JSX.Element} The rendered SheetTitle component.
+ */
 const SheetTitle = React.forwardRef<
     ComponentRef<typeof SheetPrimitive.Title>,
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
@@ -91,6 +134,13 @@ const SheetTitle = React.forwardRef<
 ))
 SheetTitle.displayName = SheetPrimitive.Title.displayName
 
+/**
+ * Description element inside the sheet, typically used for providing additional details or information.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>} props - The properties passed to the SheetDescription component.
+ * @param {React.Ref} ref - A ref passed to the description element.
+ * @returns {JSX.Element} The rendered SheetDescription component.
+ */
 const SheetDescription = React.forwardRef<
     ComponentRef<typeof SheetPrimitive.Description>,
     React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>

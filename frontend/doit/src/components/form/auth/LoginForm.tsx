@@ -1,24 +1,34 @@
-"use client"
+"use client";
 
-import { cn } from "@/utils/cnUtils"
-import { Button } from "@/components/core/Button"
+import { cn } from "@/utils/cnUtils";
+import { Button } from "@/components/core/Button";
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/components/core/Card"
-import { Input } from "@/components/core/Input"
-import { Label } from "@/components/core/Label"
-import Link from "next/link"
-import { BaseForm } from "@/components/form/BaseForm"
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import React, { useState } from "react"
-import { SuccessResponse } from "@/types/form/baseFormData"
-import { useFormSubmission } from "@/hooks/form/useFormSubmission"
-import { LoginFormProps } from "@/types/form/auth/loginFormData"
+} from "@/components/core/Card";
+import { Input } from "@/components/core/Input";
+import { Label } from "@/components/core/Label";
+import Link from "next/link";
+import { BaseForm } from "@/components/form/BaseForm";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import React, { useState } from "react";
+import { SuccessResponse } from "@/types/form/baseFormData";
+import { useFormSubmission } from "@/hooks/form/useFormSubmission";
+import { LoginFormProps } from "@/types/form/auth/loginFormData";
 
+/**
+ * Login form component that allows users to log in with email and password.
+ *
+ * This component displays a login form with fields for email and password.
+ * It includes functionality to toggle the visibility of the password field and handle form submission.
+ * After successful login, the user is redirected based on their role.
+ *
+ * @param {LoginFormProps} props - The properties passed to the component, including className and role.
+ * @returns {React.ReactElement} The rendered login form.
+ */
 export function LoginForm({
                               className,
                               role
@@ -39,6 +49,12 @@ export function LoginForm({
 
     const { handleSubmit: loginSubmit } = useFormSubmission("login", role);
 
+    /**
+     * Updates the form state for a specific field.
+     *
+     * @param {string} field - The name of the field to update (e.g., "email", "password").
+     * @param {string | boolean} value - The new value for the field.
+     */
     const updateFormState = (field: string, value: string | boolean) => {
         setFormState(prev => ({
             ...prev,
@@ -46,6 +62,14 @@ export function LoginForm({
         }));
     };
 
+    /**
+     * Handles the form submission for the login form.
+     *
+     * Attempts to log in the user with the provided email and password. If the login is successful, the user
+     * is redirected to the appropriate dashboard based on their role. If the login fails, an error message is returned.
+     *
+     * @returns {Promise<SuccessResponse>} A promise that resolves to a success or failure response.
+     */
     const handleSubmit = async (): Promise<SuccessResponse> => {
         try {
             const { email, password } = formState;
@@ -68,7 +92,7 @@ export function LoginForm({
                 message: error instanceof Error ? error.message : "Login fallito"
             };
         }
-    }
+    };
 
     return (
         <div className={cn("flex flex-col gap-6", className)}>
@@ -103,7 +127,8 @@ export function LoginForm({
                             <div className="grid gap-2">
                                 <Label htmlFor="password">Password</Label>
                                 <div className="relative">
-                                    <Input
+                                    <Input// Style variants for the Label component
+
                                         id="password"
                                         type={formState.showPassword ? "text" : "password"}
                                         placeholder="Password123?"
@@ -137,5 +162,5 @@ export function LoginForm({
                 </CardContent>
             </Card>
         </div>
-    )
+    );
 }

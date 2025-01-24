@@ -12,9 +12,20 @@ import { useOrganizationFormValidation } from "@/hooks/form/validator/useOrganiz
 import { useFormFocus } from "@/hooks/form/useFormFocus";
 import { useFormSubmission } from "@/hooks/form/useFormSubmission";
 import { useFormInitialization } from '@/hooks/form/useFormInitialization';
-import {OrganizationFormData} from "@/types/form/auth/organizationFormData";
+import { OrganizationFormData } from "@/types/form/auth/organizationFormData";
 import { useFormData } from "@/hooks/form/useFormData";
 
+/**
+ * `OrganizationForm` component for creating or editing an organization's profile.
+ *
+ * This component includes fields for organization name, email, password, city, preferences,
+ * description, VAT number, and website. It handles form submission, validation, and conditional
+ * rendering based on whether the form is in "edit" or "create" mode.
+ *
+ * It uses hooks for form initialization, submission, validation, focus management, and data storage.
+ *
+ * @returns - The rendered form for creating or editing an organization.
+ */
 export function OrganizationForm() {
 
     const initialFormData: OrganizationFormData = {
@@ -46,7 +57,6 @@ export function OrganizationForm() {
     const { handleSubmit: handleSubmitFn } = useFormSubmission("organization", undefined, isEditing);
     const { validationState, isValid } = useOrganizationFormValidation(formData, isEditing);
     const { focusState, handleFocus, handleBlur } = useFormFocus();
-
 
     if (!initialDataLoaded && isEditing) {
         return <div>Loading...</div>;

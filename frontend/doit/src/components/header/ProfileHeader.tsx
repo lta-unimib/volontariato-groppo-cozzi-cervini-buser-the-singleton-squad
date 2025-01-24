@@ -9,6 +9,24 @@ import { makeDeleteRequest } from "@/utils/api/apiUtils";
 import { useBack } from "@/hooks/header/useBack";
 import { ProfileHeaderProps } from "@/types/props/header/profileHeadersProps";
 
+/**
+ * ProfileHeader component renders the profile section of a user with the option to edit or delete the profile.
+ *
+ * The component displays the user's profile picture, name, role, city, and availability status.
+ * It also provides buttons for editing and deleting the profile.
+ *
+ * @component
+ *
+ * @param {ProfileHeaderProps} props - The props for the ProfileHeader component.
+ * @param {string} props.name - The name of the user.
+ * @param {string} props.role - The role of the user (e.g., "volunteer" or "organization").
+ * @param {string} props.city - The city where the user is located.
+ * @param {string} props.imageUrl - The URL for the user's profile picture.
+ * @param {boolean} [props.isAvailable] - The availability status of the user (optional).
+ * @param {object} props.profileData - The profile data used for editing the profile.
+ *
+ * @returns The rendered profile header component with edit and delete functionality.
+ */
 export const ProfileHeader = ({
                                   name,
                                   role,
