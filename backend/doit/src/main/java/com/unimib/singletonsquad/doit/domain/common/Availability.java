@@ -20,11 +20,6 @@ public abstract class Availability {
     @JsonIgnore
     private Long id;
 
-    @OneToOne
-    @JsonIgnore
-    @JoinColumn(name = "volunteer_preferences_id")
-    private VolunteerPreferences preferences;
-
     public abstract void setData(List<String> data);
     public abstract boolean matching(LocalDateTime startDateTime, LocalDateTime endDateTime);
     public abstract String getMode();
