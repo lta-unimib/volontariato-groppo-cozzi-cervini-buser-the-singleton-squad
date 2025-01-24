@@ -50,7 +50,7 @@ public class VolunteerOfferAcceptService {
     /// === SUPPORT ORGANIZATION ====
 
     private void checkOrganizationEmail(String organizationEmail, VolunteerOffer volunteer) throws IllegalAccessException {
-        if(!volunteer.getOrganization().getEmail().equals(organizationEmail))
+        if(!volunteer.getVolunteer().getEmail().equals(organizationEmail))
             throw new IllegalAccessException("Organization email not match");
     }
 
