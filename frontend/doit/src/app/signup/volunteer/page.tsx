@@ -1,8 +1,8 @@
 "use client"
 
-import {VolunteerForm} from "@/components/refactored/form/auth/VolunteerForm";
-import FormHeader from "@/components/ui/FormHeader";
-import {useBack} from "@/hooks/refactored/useBack";
+import {VolunteerForm} from "@/components/form/auth/VolunteerForm";
+import FormHeader from "@/components/header/FormHeader";
+import {useBack} from "@/hooks/useBack";
 
 export default function VolunteerSignUp() {
     const handleBack = useBack();

@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { GITHUB_PAGES } from "@/utils/constants";
 
 export function useTheme() {
     const [theme, setTheme] = useState("dark");

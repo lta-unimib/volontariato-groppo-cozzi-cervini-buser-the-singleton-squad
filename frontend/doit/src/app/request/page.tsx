@@ -1,8 +1,8 @@
 "use client";
 
-import { RequestForm } from "@/app/request/components/RequestForm";
-import FormHeader from "@/components/ui/FormHeader";
-import { useBack } from "@/hooks/refactored/useBack";
+import { RequestForm } from "@/components/form/request/RequestForm";
+import FormHeader from "@/components/header/FormHeader";
+import { useBack } from "@/hooks/useBack";
 
 export default function NewRequest() {
     const handleBack = useBack();
@@ -16,7 +16,7 @@ export default function NewRequest() {
                     onBack={handleBack}
                 />
             </div>
-            <RequestForm />
+            <RequestForm/>
         </div>
     );
 }
