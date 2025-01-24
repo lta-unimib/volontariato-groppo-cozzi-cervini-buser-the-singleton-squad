@@ -75,7 +75,26 @@ class FormSubmissionService {
                     : await this.makeRegistrationRequest(formType, formData);
         }
 
+        // Add authentication token handling
+        if (response.status === 200 && this.isAuthResponse(response.data)) {
+            const { authToken, user } = response.data;
+            if (authToken) {
+                sessionStorage.setItem('authToken', authToken);
+                if (user) {
+                    sessionStorage.setItem('userData', JSON.stringify(user));
+                }
+            }
+        }
+
         return response;
+    }
+
+    private static isAuthResponse(data: unknown): data is AuthResponse {
+        return (
+            typeof data === 'object' &&
+            data !== null &&
+            'authToken' in data
+        );
     }
 }
 
