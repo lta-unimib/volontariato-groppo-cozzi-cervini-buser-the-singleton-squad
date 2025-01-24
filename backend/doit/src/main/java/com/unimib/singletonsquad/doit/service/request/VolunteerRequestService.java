@@ -30,7 +30,7 @@ public class VolunteerRequestService {
             throws Exception {
             VolunteerRequest request = this.getSpecificRequest(id);
             checkOrganizationRequest(request, organization);
-            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO , organization);
+            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO);
             this.volunteerRequestDatabaseService.updateRequest(temp, id);
     }
 
@@ -41,7 +41,7 @@ public class VolunteerRequestService {
             this.volunteerRequestDatabaseService.save(temp);
     }
 
-    /// SUPPORT METHOD
+    /// ==== SUPPORT METHOD ====
     public VolunteerRequest getSpecificRequest(Long idRequest) throws Exception {
         return this.volunteerRequestDatabaseService.getSpecificRequest(idRequest);
     }

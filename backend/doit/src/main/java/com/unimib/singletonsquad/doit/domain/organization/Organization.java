@@ -1,9 +1,8 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 
 import com.unimib.singletonsquad.doit.domain.common.User;
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.utils.data.DataValidator;
+import com.unimib.singletonsquad.doit.utils.data.EmailValidator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -51,7 +50,7 @@ public class Organization implements User {
     private List<VolunteerRequest> volunteerRequests = new ArrayList<>();
 
     public void setEmail(String email) {
-        if (!DataValidator.isValidEmail(email)) {
+        if (!EmailValidator.isValidEmail(email)) {
             throw new IllegalArgumentException("Email is not valid");
         }
         this.email = email;

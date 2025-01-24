@@ -6,9 +6,7 @@ import com.unimib.singletonsquad.doit.repository.IVolunteerOfferRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -16,23 +14,23 @@ import java.util.Optional;
 public class VolunteerOfferDatabaseService {
     private final IVolunteerOfferRepository volunteerOfferRepository;
 
-    public void saveVolunteerOffer(VolunteerOffer v) throws Exception {
+    public void saveVolunteerOffer(VolunteerOffer v){
         this.volunteerOfferRepository.save(v);
     }
 
-    public List<VolunteerOffer> getAllVolunteerOffers(final String email) {
-        return this.volunteerOfferRepository.getAllOffer(email);
+    /// GET ALL THE OFFER OF A VOLUNTEER
+    public List<VolunteerOffer> getAllOffersOfTheVolunteer(final String email) {
+        return this.volunteerOfferRepository.getAllOfferVolunteer(email);
     }
 
-    public VolunteerOffer getVolunteerOffer(final Long id) throws Exception {
-        Optional<VolunteerOffer> optional = this.volunteerOfferRepository.findById(id);
-        if (optional.isEmpty())
-            throw new RecordNotFoundGeneralException("Volunteer offer not found");
-        return optional.get();
+    public VolunteerOffer getVolunteerOffer(final Long id) throws RecordNotFoundGeneralException  {
+        return this.volunteerOfferRepository.findById(id).orElseThrow(() ->{
+            throw new RecordNotFoundGeneralException("Record not found");
+        });
     }
 
 
-    public void deleteVolunteerOffer(VolunteerOffer offer) throws Exception {
+    public void deleteVolunteerOffer(VolunteerOffer offer){
         volunteerOfferRepository.delete(offer);
     }
 

@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.controller.authentication;
-import com.fasterxml.jackson.databind.JsonNode;;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.unimib.singletonsquad.doit.dto.received.AuthDTO;
+import com.unimib.singletonsquad.doit.exception.auth.InvalidRoleGeneralException;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationUserService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
@@ -20,10 +21,11 @@ public class AuthenticationController {
     private final AuthenticationUserService authenticationUserService;
 
     @PostMapping(value = "/{role}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> authenticateVolunteer(@RequestBody final AuthDTO auth, @PathVariable("role") String role) throws Exception {
-        RegisteredUserService.isValidRole(role);
+    public ResponseEntity<ResponseMessage> authenticateVolunteer(@RequestBody final AuthDTO auth, @PathVariable("role") String role) throws InvalidRoleGeneralException{
+        if(RegisteredUserService.isValidRole(role))
+            throw new InvalidRoleGeneralException("Invalid role");
         String token = this.authenticationUserService.authenticate(auth, role);
-        return this.createMessageResponse(String.valueOf(UserRole.organization), token);
+        return this.createMessageResponse(String.valueOf(UserRole.ORGANIZATION), token);
     }
 
     private ResponseEntity<ResponseMessage> createMessageResponse( @PathVariable final String role, final String token){

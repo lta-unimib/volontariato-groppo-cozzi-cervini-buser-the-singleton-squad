@@ -5,27 +5,28 @@ import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
+import javax.management.relation.RoleInfoNotFoundException;
+
 @Component
-@AllArgsConstructor
-@NoArgsConstructor(force = true)
 public abstract class UserProfileController {
+
+    private final RegisteredUserService userVerify;
     @Autowired
-    private RegisteredUserService userVerify;
+    protected UserProfileController(RegisteredUserService userVerify) {
+        this.userVerify = userVerify;
+    }
 
     protected String validateTokenAndGetEmail(final HttpServletRequest request,
-                                              final UserRole userRole) throws Exception {
+                                              final UserRole userRole) throws RoleInfoNotFoundException {
         return this.userVerify.getUserEmailAndIsRegistered(userRole, request);
     }
 
-    /// TODO CREARE UN METODO IN ResponseMessageUtil --> SEND OK RESPONSE CHE TORNA UNA RESPONSEENTITY<ResponseMessage></ResponseMessage>
     protected ResponseEntity<ResponseMessage> sendResponseMessage(final String message, HttpStatus status, Object data) {
-        return ResponseMessageUtil.createResponseSuccess(message, HttpStatus.OK, data);
+        return ResponseMessageUtil.createResponseSuccess(message, status, data);
     }
-
 }

@@ -26,11 +26,11 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
 
 
     /// Deve ritornare tutti gli eventi ai quali l'utente ha partecipato e che non ha ancora votato
-    @Query(value = "SELECT DISTINCT v FROM VolunteerRequest as v JOIN v.volunteerOffers as o on o.volunteer.email = :emailUser where o.voted = FALSE AND v.endDateTime < :oggi ORDER BY v.startDateTime")
+    @Query(value = "SELECT DISTINCT v FROM VolunteerRequest as v JOIN v.volunteerOffers as o on o.volunteer.email = :emailUser where o.votedByVolunteer = FALSE AND v.endDateTime < :oggi ORDER BY v.startDateTime")
     List<VolunteerRequest> getAllRequestNotVoted(@Param("oggi") LocalDateTime oggi, @Param("emailUser") String emailUser);
 
     /// Ritorna tutti gli eventi a cui è partecipato e che ha votato
-    @Query(value = "SELECT DISTINCT v FROM VolunteerRequest AS v JOIN v.volunteerOffers as o on  o.volunteer.email = :emailUser where o.voted = TRUE AND v.endDateTime < :oggi ORDER BY v.startDateTime")
+    @Query(value = "SELECT DISTINCT v FROM VolunteerRequest AS v JOIN v.volunteerOffers as o on  o.volunteer.email = :emailUser where o.votedByVolunteer = TRUE AND v.endDateTime < :oggi ORDER BY v.startDateTime")
     List<VolunteerRequest> getALlRequestVoted(@Param("oggi") LocalDateTime oggi, @Param("emailUser") String emailUser);
 
 }

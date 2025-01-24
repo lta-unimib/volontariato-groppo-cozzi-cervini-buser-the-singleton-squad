@@ -7,7 +7,7 @@ import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -17,10 +17,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 @Component
+@AllArgsConstructor
 public class AuthFilter extends OncePerRequestFilter {
-    @Autowired
     private JWTUtils jwtUtils;
-    @Autowired
     private ObjectMapper objectMapper;
 
 

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class VolunteerRequestDatabaseService {
     }
 
 
-    public CityInfo getCityInfo(@NotNull final String city) throws Exception {
+    public CityInfo getCityInfo(@NotNull final String city) throws UnsupportedEncodingException, InterruptedException {
         return this.cityRepository.getCityInfo(city);
     }
 

@@ -6,9 +6,7 @@ import com.unimib.singletonsquad.doit.repository.IVolunteerCategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +37,6 @@ public class OrganizationCategoryDatabaseService {
     }
 
     public List<String> getAllOrgCategories() {
-        return repository.findAll().stream().map(OrgCategory::getName).collect(Collectors.toList());
+        return repository.findAll().stream().map(OrgCategory::getName).toList();
     }
 }

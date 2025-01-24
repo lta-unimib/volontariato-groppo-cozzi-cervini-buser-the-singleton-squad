@@ -1,5 +1,4 @@
 package com.unimib.singletonsquad.doit.database.volunteer;
-import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.IVolunteerRepository;
@@ -14,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class VolunteerDatabaseService {
 
     private final IVolunteerRepository volunteerRepository;
-    private final OrganizationDatabaseService organizationDatabaseService;
     private final PasswordEncoder passwordEncoder;
+    private static final String ERROR_MESSSAGE_EMAIL = "Volunteer not found for email: ";
 
     public Volunteer findVolunteerById(long id) {
         return volunteerRepository.findById(id)
@@ -24,7 +23,7 @@ public class VolunteerDatabaseService {
 
     public Volunteer findVolunteerByEmail(String email) {
         return volunteerRepository.findByEmail(email)
-                .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found for email: " + email));
+                .orElseThrow(() -> new RecordNotFoundGeneralException(ERROR_MESSSAGE_EMAIL + email));
     }
 
     public Volunteer save(Volunteer volunteer) {
@@ -33,13 +32,13 @@ public class VolunteerDatabaseService {
 
     public boolean authenticateVolunteer(String email, String rawPassword) {
         Volunteer volunteer = volunteerRepository.findByEmail(email)
-                .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found for email: " + email));
+                .orElseThrow(() -> new RecordNotFoundGeneralException(ERROR_MESSSAGE_EMAIL + email));
         return passwordEncoder.matches(rawPassword, volunteer.getPassword());
     }
 
     public void deleteVolunteer(String email) {
         Volunteer volunteer = volunteerRepository.findByEmail(email)
-                .orElseThrow(() -> new RecordNotFoundGeneralException("Volunteer not found for email: " + email));
+                .orElseThrow(() -> new RecordNotFoundGeneralException(ERROR_MESSSAGE_EMAIL + email));
         volunteerRepository.delete(volunteer);
     }
 

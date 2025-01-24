@@ -37,7 +37,13 @@ public class VolunteerOffer {
     private VolunteerRequest volunteerRequest;
 
     // Indica se gli è stato assegnato il voto o meno
-    private boolean voted;
+    @Column(nullable = false)
+    private boolean votedByVolunteer;
+    /// voto dell'organizzazione dall'utente
+    @Column(nullable = false)
+    private boolean votedByOrganization;
+
+
 
     @Override
     public boolean equals(Object o) {

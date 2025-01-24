@@ -3,20 +3,29 @@ package com.unimib.singletonsquad.doit.service.http;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.unimib.singletonsquad.doit.exception.resource.HttpGeneralException;
 import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.utils.common.HttpClientServiceUtil;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
-@AllArgsConstructor
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Service
 public class CityInfoHTTPService {
     private final HttpClientServiceUtil http;
+    private final String apiKey;
 
-    public double[] getCoordinatesFromOpenCage(String address) throws Exception {
-        String apiKey = "f076219cc61b45e3a724963a338ff555";
+    @Autowired
+    public CityInfoHTTPService(HttpClientServiceUtil http, @Value("${api.opencage.key}") String apiKey) {
+        this.http = http;
+        this.apiKey = apiKey;
+    }
+
+    public double[] getCoordinatesFromOpenCage(String address) throws HttpGeneralException, UnsupportedEncodingException {
         String url = String.format("https://api.opencagedata.com/geocode/v1/json?q=%s&key=%s&countrycode=IT",
                 URLEncoder.encode(address, "UTF-8"), apiKey);
         try {
@@ -40,7 +49,7 @@ public class CityInfoHTTPService {
                 throw new ResourceNotFoundGeneralException(String.format("City %s not found", address));
             }
         } catch (Exception e) {
-            throw new Exception("Errore nella chiamata OpenCage: " + e.getMessage());
+            throw new HttpGeneralException(HttpStatus.INTERNAL_SERVER_ERROR, String.format("Failed to retrieve coordinates for address: %s", address));
         }
     }
 }
