@@ -5,70 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2dd4524-598c-4f81-84b9-12bba55b0cf2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/mappers/OfferMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/refactored/landing/Header.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/refactored/landing/Logo.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ui/components/VolunteerForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/refactored/useLoadingError.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/refactored/baseForm.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/refactored/login/loginTypes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/refactored/model/addressFormData.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/refactored/model/availabilityFormData.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/refactored/model/baseFormData.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/refactored/model/organizationFormData.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/refactored/model/requestFormData.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/refactored/model/volunteerFormData.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/refactored/login/authUtils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/VolunteerFavouriteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/VolunteerFavouriteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/offerVolontario/VolunteerOfferController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/offerVolontario/VolunteerOfferController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/dto/received/VolunteerOfferDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/dto/received/VolunteerOfferDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/service/offer/VolunteerOfferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/service/offer/VolunteerOfferService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/organization/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/organization/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/dashboard/volunteer/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/volunteer/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/detailed/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/detailed/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/organization/hooks/useFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/form/organization/hooks/useFormData.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/organization/hooks/useFormValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/form/organization/hooks/useFormValidation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/organization/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/form/organization/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/volunteer/components/AvailabilityPicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/components/AvailabilityPicker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/volunteer/components/VolunteerForm.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/volunteer/hooks/useAvailabilityDialog.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/hooks/useAvailabilityDialog.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/volunteer/hooks/useFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/hooks/useFormData.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/volunteer/hooks/useFormFocus.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/hooks/useFormFocus.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/volunteer/hooks/useFormValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/hooks/useFormValidation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/volunteer/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/form/volunteer/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/volunteer/utils/formUtils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utils/formUtils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/form/volunteer/utils/formValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utils/formValidation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/organizations/components/OrganizationCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/organizations/components/OrganizationCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/organizations/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/organizations/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/profile/organization/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/profile/organization/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/profile/volunteer/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/profile/volunteer/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/request/components/AddressDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/request/components/AddressDialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/request/hooks/useAddressFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/request/hooks/useAddressFormData.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/request/hooks/useAddressFormValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/request/hooks/useAddressFormValidation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/request/hooks/useFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/request/hooks/useFormData.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/request/hooks/useFormValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/request/hooks/useFormValidation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/request/hooks/useRequestFormSubmission.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/request/hooks/useRequestFormSubmission.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/request/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/request/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/reviews/organization/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/reviews/organization/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/FormHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/FormHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Header.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Hero.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/refactored/landing/Hero.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/ImageWrapper.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Logo.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/Page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/ProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/ProfileHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/RequestPageHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/RequestPageHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/form/BaseForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/form/BaseForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/form/login/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/form/login/LoginForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/sidebar/Skeleton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/sidebar/Skeleton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ui/sidebar/Tooltip.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/sidebar/Tooltip.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useFormSubmission.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useFormSubmission.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useLoginForm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/refactored/login/useLoginForm.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/addressData.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/availabilityData.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/formData.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/organization/OrgCategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/organization/OrgCategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constants.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,15 +26,20 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "Merging backend/refactor",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "develop",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "ts.external.directory.path": "/home/gabriele/Documents/volontariato-groppo-cozzi-cervini-buser-the-singleton-squad/frontend/doit/node_modules/typescript/lib"
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/home/gabriele/Documents/volontariato-groppo-cozzi-cervini-buser-the-singleton-squad/frontend/doit/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.120" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.157" />
       </set>
     </attachedChunks>
   </component>
@@ -109,6 +52,7 @@
       <option name="presentableId" value="Default" />
       <updated>1737628489039</updated>
       <workItem from="1737628490624" duration="587000" />
+      <workItem from="1737759431575" duration="640000" />
     </task>
     <servers />
   </component>
