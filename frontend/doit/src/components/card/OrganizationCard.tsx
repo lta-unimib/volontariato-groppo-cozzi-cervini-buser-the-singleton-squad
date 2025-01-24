@@ -3,6 +3,7 @@ import React from "react";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {OrganizationCardProps} from "@/types/props/card/organizationCardProps";
+import {Badge} from "@/components/core/Badge";
 
 export default function OrganizationCard({ organizationData }: OrganizationCardProps) {
     const router = useRouter();
@@ -11,6 +12,13 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
         const encodedData = encodeURIComponent(JSON.stringify(organizationData));
         router.push(`/organization/details?data=${encodedData}`);
     };
+    const categories = [
+        { id: "supporto_anziani", label: "Supporto Anziani" },
+        { id: "supporto_bambini", label: "Supporto Bambini" },
+        { id: "supporto_disabili", label: "Supporto Disabili" },
+        { id: "ripetizioni", label: "Ripetizioni" },
+        { id: "caritas", label: "Caritas" },
+    ];
 
     return (
         <Card
@@ -30,22 +38,21 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
                                 {organizationData.city}
                             </CardDescription>
                         </div>
-                        <div className="flex items-center">
-                            <CardDescription className="text-xs md:text-sm">
-                                {organizationData.website || 'Nessun sito web'}
-                            </CardDescription>
-                        </div>
-                        <div className="flex items-center">
-                            <CardDescription className="text-xs md:text-sm">
-                                {organizationData.email}
-                            </CardDescription>
+                        <div className="flex flex-wrap gap-2 pt-2">
+                            {categories
+                                .filter(category => organizationData.preferences.includes(category.id))
+                                .map(category => (
+                                    <Badge key={category.id} variant="secondary" className="font-normal">
+                                        {category.label}
+                                    </Badge>
+                                ))}
                         </div>
                     </div>
                 </CardFooter>
             </div>
             <div className="flex-shrink-0">
                 <Image
-                    src="/api/placeholder/240/400"
+                    src="/placeholder.jpg"
                     alt="Logo Organizzazione"
                     className="w-36 md:w-60 h-full object-cover rounded-r-2xl shadow-lg"
                     width={240}
