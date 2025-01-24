@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class OrgCategoryController {
     public ResponseEntity<ResponseMessage> getAll() {
         ResponseMessage responseMessage;
         List<String> categories = orgCategoryService.getAllOrgCategories() != null ? orgCategoryService.getAllOrgCategories() : new ArrayList<>();
-        responseMessage = new ResponseMessage.Builder(categories.toString()).build();
+        responseMessage = new ResponseMessage.Builder("categories").data(categories).build();
         return ResponseEntity.ok(responseMessage);
     }
 }
