@@ -33,5 +33,11 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
     @Query(value = "SELECT DISTINCT v FROM VolunteerRequest AS v JOIN v.volunteerOffers as o on  o.volunteer.email = :emailUser where o.votedByVolunteer = TRUE AND v.endDateTime < :oggi ORDER BY v.startDateTime")
     List<VolunteerRequest> getALlRequestVoted(@Param("oggi") LocalDateTime oggi, @Param("emailUser") String emailUser);
 
+
+
+    ///
+    @Query("SELECT DISTINCT request FROM VolunteerRequest AS request JOIN request.volunteerOffers AS offer WHERE offer.volunteer.id = :id AND request.endDateTime > :oggi AND offer.votedByVolunteer = FALSE")
+    VolunteerRequest
+
 }
 

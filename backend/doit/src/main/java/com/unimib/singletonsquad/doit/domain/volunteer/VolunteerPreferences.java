@@ -29,6 +29,7 @@ public class VolunteerPreferences {
 
     // Relazione OneToOne con Availability con CascadeType.ALL
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false, name = "availability_id")
     private Availability availability;
 
     @Override

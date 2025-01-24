@@ -1,6 +1,8 @@
 package com.unimib.singletonsquad.doit.domain.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -17,6 +19,11 @@ public abstract class Availability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
+
+    @OneToOne
+    @JsonIgnore
+    @JoinColumn(name = "volunteer_preferences_id")
+    private VolunteerPreferences preferences;
 
     public abstract void setData(List<String> data);
     public abstract boolean matching(LocalDateTime startDateTime, LocalDateTime endDateTime);

@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.database.common.CityInfoDatabaseService;
 import com.unimib.singletonsquad.doit.domain.common.CityInfo;
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.IVolunteerRequestRepository;
@@ -92,5 +93,9 @@ public class VolunteerRequestDatabaseService {
     /// getALlRequestVoted
     public List<VolunteerRequest> getALlRequestVoted(@NotNull String volunteerEmail) {
         return this.repository.getALlRequestVoted(LocalDateTime.now(), volunteerEmail);
+    }
+
+    /// Per il feedback
+    public VolunteerRequest existsVolunteerRequestByVolunteer(Long idRequest, Volunteer volunteer) {
     }
 }
