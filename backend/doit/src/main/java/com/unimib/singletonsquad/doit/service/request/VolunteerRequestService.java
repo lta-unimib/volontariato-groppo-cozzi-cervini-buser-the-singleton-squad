@@ -3,7 +3,7 @@ package com.unimib.singletonsquad.doit.service.request;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
@@ -30,7 +30,7 @@ public class VolunteerRequestService {
             throws Exception {
             VolunteerRequest request = this.getSpecificRequest(id);
             checkOrganizationRequest(request, organization);
-            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO , organization);
+            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO);
             this.volunteerRequestDatabaseService.updateRequest(temp, id);
     }
 
@@ -41,7 +41,7 @@ public class VolunteerRequestService {
             this.volunteerRequestDatabaseService.save(temp);
     }
 
-    /// SUPPORT METHOD
+    /// ==== SUPPORT METHOD ====
     public VolunteerRequest getSpecificRequest(Long idRequest) throws Exception {
         return this.volunteerRequestDatabaseService.getSpecificRequest(idRequest);
     }
@@ -64,10 +64,6 @@ public class VolunteerRequestService {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
         return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
     }
-
-
-
-
 
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA
     public void addVolunteerOffer(Long idRequest, VolunteerOffer volunteerOffer) throws Exception{

@@ -1,17 +1,13 @@
-import { RequestFormData } from "@/types/formData";
 import {
-    validateDate,
     validateCategories,
-    validateActivities,
     validateDescription,
     validateVolunteerCapacity
 } from "@/app/request/utils/formValidation";
+import {RequestFormData} from "@/types/refactored/model/requestFormData";
 
 export const useFormValidation = (formData: RequestFormData) => {
     const validationState = {
-        isDateValid: validateDate(formData.date),
         areCategoriesValid: validateCategories(formData.categories),
-        areActivitiesValid: validateActivities(formData.activities),
         isDescriptionValid: validateDescription(formData.description),
         isCapacityValid: validateVolunteerCapacity(formData.volunteerCapacity)
     };

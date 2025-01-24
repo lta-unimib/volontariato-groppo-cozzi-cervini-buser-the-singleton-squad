@@ -4,15 +4,19 @@ import com.unimib.singletonsquad.doit.domain.common.Status;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerOfferDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
 
 public class OfferMapper {
-    public static VolunteerOffer toOffer(VolunteerOfferDTO volunteerOfferDTO, Volunteer volunteer, VolunteerRequest volunteerRequest) {
+
+    private OfferMapper() {}
+
+    public static VolunteerOffer toOffer(Volunteer volunteer, VolunteerRequest volunteerRequest) {
         VolunteerOffer volunteerOffer = new VolunteerOffer();
         volunteerOffer.setVolunteer(volunteer);
         volunteerOffer.setVolunteerRequest(volunteerRequest);
         volunteerOffer.setStatus(Status.PENDING);
-        volunteerOffer.setVoted(false);
+        volunteerOffer.setVotedByOrganization(false);
+        volunteerOffer.setVotedByVolunteer(false);
         return volunteerOffer;
     }
 

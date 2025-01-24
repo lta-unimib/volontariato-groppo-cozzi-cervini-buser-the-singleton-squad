@@ -3,7 +3,6 @@ package com.unimib.singletonsquad.doit.service.authentication;
 import com.unimib.singletonsquad.doit.security.CustomOAuth2User;
 import com.unimib.singletonsquad.doit.security.JWTUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +23,6 @@ public class AuthenticationSetUp {
                                              final String email) {
 
         final String token = this.generateUserToken(role, email);
-        System.out.println("New User Token: " + token);
         CustomOAuth2User newAuthUser = new CustomOAuth2User(email, token, role);
         Authentication newAuth = new UsernamePasswordAuthenticationToken(
                 newAuthUser,

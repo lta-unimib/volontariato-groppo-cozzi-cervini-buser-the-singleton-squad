@@ -2,7 +2,8 @@ package com.unimib.singletonsquad.doit.controller.richiesteVolontario;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
@@ -26,46 +27,43 @@ public class VolunteerRequestController {
 
     /// Inserire una nuova richiesta
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)
+    public ResponseEntity<ResponseMessage> createVolunteerRequest(final @RequestBody VolunteerRequestDTO volunteerRequestDTO, final HttpServletRequest request)
             throws Exception {
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
-        Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.organization);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
+        Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.ORGANIZATION);
         this.volunteerRequestService.createVolunteerRequest(volunteerRequestDTO, organization);
-        ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request created", HttpStatus.OK);
-        return ResponseEntity.ok().body(message);
+        return ResponseMessageUtil.createResponseSuccess("volunteer request created", HttpStatus.OK, null);
     }
 
     /// Ottenere una specifica richiesta
     @GetMapping(value = "/{idRequest}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getSpecificRequest(final @PathVariable("idRequest") Long idRequest, final HttpServletRequest request)
+    public ResponseEntity<ResponseMessage> getSpecificRequest(final @PathVariable("idRequest") Long idRequest, final HttpServletRequest request)
             throws Exception {
-       this.registeredUserService.checkRole(request);
+       this.registeredUserService.checkAndGetRoleFromRequest(request);
        VolunteerRequest specificRequest = this.volunteerRequestService.getSpecificRequest(idRequest);
-       ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request got", HttpStatus.OK, VolunteerRequestMapper.mapToVolunteerRequestDTO(specificRequest));
-       return ResponseEntity.ok().body(message);
+       VolunteerRequestSendDTO requestDTO = VolunteerRequestMapper.mapToVolunteerRequestDTO(specificRequest);
+       return ResponseMessageUtil.createResponseSuccess("volunteer request got", HttpStatus.OK,requestDTO);
     }
 
     /// Cancellare una specifica richiesta
     @DeleteMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request)
+    public ResponseEntity<ResponseMessage> deleteVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request)
     throws Exception {
-            String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
-        Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.organization);
-            this.volunteerRequestService.deleteVolunteerRequest(idRequest, organization);
-            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request deleted", HttpStatus.OK);
-            return ResponseEntity.ok().body(message);
+            String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
+        Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.ORGANIZATION);
+        this.volunteerRequestService.deleteVolunteerRequest(idRequest, organization);
+        return ResponseMessageUtil.createResponseSuccess("volunteer request deleted", HttpStatus.OK, null);
     }
 
     /// Modificare una richiesta
     @PutMapping(value = "/{idRequest}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request,
+    public ResponseEntity<ResponseMessage> updateVolunteerRequest(final @PathVariable Long idRequest, final HttpServletRequest request,
                                                     final @RequestBody VolunteerRequestDTO volunteerRequestDTO)
     throws Exception {
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.organization, request);
-        Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.organization);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
+        Organization organization = (Organization) this.registeredUserService.getUserInformations(email, UserRole.ORGANIZATION);
         this.volunteerRequestService.updateVolunteerRequest(volunteerRequestDTO, idRequest, organization);
-            ResponseMessage message = ResponseMessageUtil.createResponse("volunteer request updated", HttpStatus.OK);
-            return ResponseEntity.ok().body(message);
+        return ResponseMessageUtil.createResponseSuccess("volunteer request updated", HttpStatus.OK, null);
     }
 
 }

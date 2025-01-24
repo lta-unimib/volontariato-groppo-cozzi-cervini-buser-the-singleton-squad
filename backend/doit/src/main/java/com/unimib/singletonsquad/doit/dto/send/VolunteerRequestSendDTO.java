@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.dto.send;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.dto.recived.AddressDTO;
+import com.unimib.singletonsquad.doit.dto.received.AddressDTO;
 import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
 import lombok.Data;
 import lombok.Getter;

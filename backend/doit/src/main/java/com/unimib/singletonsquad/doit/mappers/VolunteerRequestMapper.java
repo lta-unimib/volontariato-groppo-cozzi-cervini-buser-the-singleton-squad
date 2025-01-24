@@ -3,12 +3,11 @@ package com.unimib.singletonsquad.doit.mappers;
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.dto.recived.AddressDTO;
-import com.unimib.singletonsquad.doit.dto.recived.VolunteerRequestDTO;
+import com.unimib.singletonsquad.doit.dto.received.AddressDTO;
+import com.unimib.singletonsquad.doit.dto.received.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,15 +20,10 @@ import java.util.Locale;
 @AllArgsConstructor
 public class VolunteerRequestMapper {
 
-    private final AddressMapper addressMapper;
 
-    /**
-     * FIXME PER IL REFATCOTING PASSARE DIRETTAMENTE LE ORGANIZAZZIONI E NON LE EMAIL !!!!
-     */
 
     /// CREATE A NEW VOLUNTEER REQUEST ONLY FROM /request/new/
-    public VolunteerRequest createVolunteerRequest(VolunteerRequestDTO volunteerRequestDTO, Organization organization) throws Exception {
-        System.out.println("DEBUG => :" + volunteerRequestDTO);
+    public VolunteerRequest createVolunteerRequest(VolunteerRequestDTO volunteerRequestDTO, Organization organization) throws IllegalArgumentException{
         VolunteerRequest volunteerRequest = new VolunteerRequest();
         volunteerRequest.setOrganization(organization);
         volunteerRequest.setAddress(this.createNewAddress(volunteerRequestDTO.getAddress()));
@@ -39,8 +33,8 @@ public class VolunteerRequestMapper {
     }
 
 
-    /// UPDATE A VOLUNTEER REQUEST ONLY FROM PUT /request/{id}/
-    public VolunteerRequest updateVolunteerRequest(VolunteerRequest toBeUpdated, VolunteerRequestDTO volunteerRequestDTO, Organization organization) throws Exception {
+    /// UPDATE A VOLUNTEER REQUEST ONLY FROM PUT
+    public VolunteerRequest updateVolunteerRequest(VolunteerRequest toBeUpdated, VolunteerRequestDTO volunteerRequestDTO) throws IllegalArgumentException {
         toBeUpdated.setVolunteerOffers(toBeUpdated.getVolunteerOffers());
         toBeUpdated.setFeedbackVolunteerRequests(toBeUpdated.getFeedbackVolunteerRequests());
         toBeUpdated.setId(toBeUpdated.getId());
@@ -49,7 +43,7 @@ public class VolunteerRequestMapper {
     }
 
 
-    private static VolunteerRequest mapCommonFiled(VolunteerRequest volunteerRequest, VolunteerRequestDTO volunteerRequestDTO) throws Exception {
+    private static VolunteerRequest mapCommonFiled(VolunteerRequest volunteerRequest, VolunteerRequestDTO volunteerRequestDTO) throws IllegalArgumentException {
         volunteerRequest.setCapacity(volunteerRequestDTO.getVolunteerCapacity());
         volunteerRequest.setDetailedDescription(volunteerRequestDTO.getDescription());
         volunteerRequest.setTitle(volunteerRequestDTO.getTitle());
@@ -63,11 +57,11 @@ public class VolunteerRequestMapper {
 
 
     private Address createNewAddress(AddressDTO addressDTO) {
-        return this.addressMapper.createAddress(addressDTO);
+        return AddressMapper.createAddress(addressDTO);
     }
 
     private Address updateAddress(Address address, AddressDTO addressDTO) {
-        return this.addressMapper.updateAddress(address, addressDTO);
+        return AddressMapper.updateAddress(address, addressDTO);
     }
 
     public static VolunteerRequestSendDTO mapToVolunteerRequestDTO(VolunteerRequest volunteerRequest) {
@@ -97,7 +91,7 @@ public class VolunteerRequestMapper {
     }
 
     private static LocalDateTime[] setTimeRangeAndStartTime(List<String> timeRange, String startTime, String endTime)
-            throws Exception {
+            throws IllegalArgumentException {
         if (timeRange != null && timeRange.size() == 2
                 && startTime != null && !startTime.isEmpty()
                 && endTime != null && !endTime.isEmpty()) {
@@ -114,13 +108,12 @@ public class VolunteerRequestMapper {
         return new String[]{date, time};
     }
 
-    /// FIXME INSERIRLO IN UN MAPPER DTO APPOSITO
-    public static List<VolunteerRequestSendDTO> getRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) {
-        List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
-        for (VolunteerRequest volunteersingle : volunteerRequest) {
-            volunteerRequestDTOS.add(mapToVolunteerRequestDTO(volunteersingle));
-        }
-        return volunteerRequestDTOS;
+    /// CONVERTING FROM ENTITY TO DTO
+    public static List<VolunteerRequestSendDTO> getRequestSendDTOList(List<VolunteerRequest> tempLista) {
+        List<VolunteerRequestSendDTO> requestSendDTOList = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : tempLista)
+            requestSendDTOList.add(mapToVolunteerRequestDTO(volunteerRequest));
+        return requestSendDTOList;
     }
 
 }

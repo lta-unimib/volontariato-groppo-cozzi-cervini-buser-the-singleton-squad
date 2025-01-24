@@ -2,15 +2,22 @@
 import { Card, CardContent } from "@/components/ui/Card";
 import { Label } from "@/components/ui/Label";
 import { ScrollArea } from "@/components/ui/ScrollArea";
-import { useState, useEffect, useId } from "react";
+import { useState, useId } from "react";
 
 interface RoundCheckboxSelectorProps {
-    onChangeAction?: (selectedValues: string[]) => void;
-    initialSelected?: string[];
+    readonly onChangeAction?: (selectedValues: string[]) => void;
+    readonly initialSelected?: string[];
+    readonly readOnly?: boolean;
+    readonly isSingleSelect?: boolean;
 }
 
-export function RoundCheckboxSelector({ onChangeAction, initialSelected = [] }: RoundCheckboxSelectorProps) {
-    const options = [
+export function RoundCheckboxSelector({
+                                          onChangeAction,
+                                          initialSelected,
+                                          readOnly = false,
+                                          isSingleSelect = false,
+                                      }: RoundCheckboxSelectorProps) {
+    const categories = [
         { id: "supporto_anziani", label: "Supporto Anziani" },
         { id: "supporto_bambini", label: "Supporto Bambini" },
         { id: "supporto_disabili", label: "Supporto Disabili" },
@@ -19,22 +26,21 @@ export function RoundCheckboxSelector({ onChangeAction, initialSelected = [] }: 
     ];
 
     const componentId = useId();
-    const [selectedOptions, setSelectedOptions] = useState<string[]>(initialSelected);
-
-    useEffect(() => {
-        if (JSON.stringify(initialSelected) !== JSON.stringify(selectedOptions)) {
-            setSelectedOptions(initialSelected);
-        }
-    }, [initialSelected]);
+    const [selectedOptions, setSelectedOptions] = useState<string[]>(initialSelected || []);
 
     const handleCheckboxChange = (optionId: string) => {
-        const updatedSelected = selectedOptions.includes(optionId)
-            ? selectedOptions.filter((id) => id !== optionId)
-            : [...selectedOptions, optionId];
-        setSelectedOptions(updatedSelected);
+        if (readOnly) return;
 
-        if (onChangeAction) {
-            onChangeAction(updatedSelected);
+        if (isSingleSelect) {
+            const updatedSelected = selectedOptions[0] === optionId ? [] : [optionId];
+            setSelectedOptions(updatedSelected);
+            onChangeAction?.(updatedSelected);
+        } else {
+            const updatedSelected = selectedOptions.includes(optionId)
+                ? selectedOptions.filter((id) => id !== optionId)
+                : [...selectedOptions, optionId];
+            setSelectedOptions(updatedSelected);
+            onChangeAction?.(updatedSelected);
         }
     };
 
@@ -43,35 +49,43 @@ export function RoundCheckboxSelector({ onChangeAction, initialSelected = [] }: 
             <CardContent className="p-4">
                 <ScrollArea className="h-28">
                     <div className="space-y-1">
-                        {options.map((option) => {
+                        {categories.map((option) => {
                             const uniqueOptionId = `${componentId}-${option.id}`;
-                            const isDisabled = !onChangeAction;
+                            const isSelected = selectedOptions.includes(option.id);
+
                             return (
-                                <div key={uniqueOptionId} className="flex items-center space-x-2 py-2">
+                                <div
+                                    key={uniqueOptionId}
+                                    className={`flex items-center space-x-2 py-2 ${readOnly ? '' : 'cursor-pointer'}`}
+                                >
                                     <input
                                         type="checkbox"
                                         id={uniqueOptionId}
-                                        checked={selectedOptions.includes(option.id)}
+                                        checked={isSelected}
                                         onChange={() => handleCheckboxChange(option.id)}
                                         className="hidden peer"
+                                        disabled={readOnly}
                                         aria-label={option.label}
-                                        disabled={isDisabled}
                                     />
                                     <label
                                         htmlFor={uniqueOptionId}
-                                        className={`relative w-4 h-4 rounded-full border border-gray-200 hover:border-gray-300 transition-colors peer-checked:border-primary flex items-center justify-center cursor-pointer ${
-                                            isDisabled ? "cursor-not-allowed" : ""
-                                        }`}
+                                        className={`relative w-4 h-4 rounded-full border ${
+                                            readOnly
+                                                ? isSelected
+                                                    ? 'border-primary'
+                                                    : 'border-gray-200'
+                                                : 'border-gray-200 hover:border-gray-300 cursor-pointer'
+                                        } transition-colors peer-checked:border-primary flex items-center justify-center`}
                                     >
                                         <div
                                             className={`w-2 h-2 rounded-full transition-colors ${
-                                                selectedOptions.includes(option.id) ? "bg-primary" : "bg-transparent"
+                                                isSelected ? "bg-primary" : "bg-transparent"
                                             }`}
                                         ></div>
                                     </label>
                                     <Label
                                         htmlFor={uniqueOptionId}
-                                        className={`cursor-pointer text-sm font-normal`}
+                                        className={`${readOnly ? '' : 'cursor-pointer'} text-sm font-normal`}
                                     >
                                         {option.label}
                                     </Label>

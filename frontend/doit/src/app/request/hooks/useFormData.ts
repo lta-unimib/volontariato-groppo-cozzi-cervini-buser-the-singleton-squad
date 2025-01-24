@@ -1,11 +1,11 @@
 "use client";
 
+import { RequestFormData } from '@/types/refactored/model/requestFormData';
 import { useState } from 'react';
-import { RequestFormData } from '@/types/formData';
 
 const initialFormData: RequestFormData = {
     title: "",
-    date: "",
+    timeRange: ["", ""],
     address: {
         street: "",
         number: "",
@@ -14,9 +14,10 @@ const initialFormData: RequestFormData = {
         additionalInfo: ""
     },
     categories: [],
-    activities: [],
     description: "",
-    volunteerCapacity: ""
+    volunteerCapacity: "",
+    startTime: "",
+    endTime: ""
 };
 
 export const useFormData = () => {
@@ -36,6 +37,7 @@ export const useFormData = () => {
     return {
         formData,
         updateField,
-        resetForm
+        resetForm,
+        setFormData
     };
 };

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from 'react';
-import { AddressData } from '@/types/addressData';
+import { AddressFormData } from '@/types/refactored/model/addressFormData';
 
-const initialAddressData: AddressData = {
+const initialAddressData: AddressFormData = {
     street: "",
     number: "",
     city: "",
@@ -12,11 +12,11 @@ const initialAddressData: AddressData = {
 };
 
 export const useAddressFormData = () => {
-    const [addressData, setAddressData] = useState<AddressData>(initialAddressData);
+    const [addressData, setAddressData] = useState<AddressFormData>(initialAddressData);
 
-    const updateField = <K extends keyof AddressData>(
+    const updateField = <K extends keyof AddressFormData>(
         field: K,
-        value: AddressData[K]
+        value: AddressFormData[K]
     ) => {
         setAddressData(prev => ({ ...prev, [field]: value }));
     };
@@ -28,6 +28,7 @@ export const useAddressFormData = () => {
     return {
         addressData,
         updateField,
+        setAddressData,
         resetForm
     };
 };

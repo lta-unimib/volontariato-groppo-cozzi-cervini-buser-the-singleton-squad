@@ -1,77 +1,92 @@
-import * as React from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
+import * as React from "react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
 
-interface DateSelectorProps {
-    readonly day: string | undefined;
-    readonly month: string | undefined;
-    readonly year: string | undefined;
-    readonly months: string[];
-    readonly years: number[];
-    readonly date: Date | undefined;
-    readonly updateAllStates: (newDate: Date) => void;
+interface DateRange {
+    from: Date | undefined
+    to: Date | undefined
 }
 
-const DateSelector: React.FC<DateSelectorProps> = ({
-                                                       day,
-                                                       month,
-                                                       year,
-                                                       months,
-                                                       years,
-                                                       date,
-                                                       updateAllStates,
-                                                   }) => (
-    <div className="flex flex-wrap justify-center gap-2 p-3">
-        <Select value={day} onValueChange={(value) => {
-            const newDate = new Date(date || new Date());
-            newDate.setDate(parseInt(value));
-            updateAllStates(newDate);
-        }}>
-            <SelectTrigger className="w-full sm:w-[100px] px-4 rounded-full">
-                <SelectValue placeholder="Giorno" />
-            </SelectTrigger>
-            <SelectContent>
-                {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
-                    <SelectItem key={day} value={day.toString()}>
-                        {day}
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
+interface DateRangeSelectorProps {
+    fromDate: Date | undefined
+    toDate: Date | undefined
+    months: string[]
+    years: number[]
+    updateAllStates: (range: DateRange | undefined) => void
+}
 
-        <Select value={month} onValueChange={(value) => {
-            const newDate = new Date(date || new Date());
-            newDate.setMonth(months.indexOf(value));
-            updateAllStates(newDate);
-        }}>
-            <SelectTrigger className="w-full sm:w-[120px] px-4 rounded-full">
-                <SelectValue placeholder="Mese" />
-            </SelectTrigger>
-            <SelectContent>
-                {months.map((month) => (
-                    <SelectItem key={month} value={month}>
-                        {month}
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
+export default function DateSelector({
+                                              fromDate,
+                                              toDate,
+                                              months,
+                                              years,
+                                              updateAllStates,
+                                          }: DateRangeSelectorProps) {
+    const handleChange = (type: "from" | "to", field: "day" | "month" | "year", value: string) => {
+        const currentRange = { from: fromDate, to: toDate }
+        const date = type === "from" ? currentRange.from || new Date() : currentRange.to || new Date()
+        const newDate = new Date(date)
 
-        <Select value={year} onValueChange={(value) => {
-            const newDate = new Date(date || new Date());
-            newDate.setFullYear(parseInt(value));
-            updateAllStates(newDate);
-        }}>
-            <SelectTrigger className="w-full sm:w-[100px] px-4 rounded-full">
-                <SelectValue placeholder="Anno" />
-            </SelectTrigger>
-            <SelectContent>
-                {years.map((year) => (
-                    <SelectItem key={year} value={year.toString()}>
-                        {year}
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
-    </div>
-);
+        switch (field) {
+            case "day":
+                newDate.setDate(Number.parseInt(value))
+                break
+            case "month":
+                newDate.setMonth(months.indexOf(value))
+                break
+            case "year":
+                newDate.setFullYear(Number.parseInt(value))
+                break
+        }
 
-export default DateSelector;
+        updateAllStates({
+            ...currentRange,
+            [type]: newDate,
+        })
+    }
+
+    const renderSelect = (type: "from" | "to", field: "day" | "month" | "year") => {
+        const date = type === "from" ? fromDate : toDate
+        const value = date
+            ? field === "day"
+                ? date.getDate().toString()
+                : field === "month"
+                    ? months[date.getMonth()]
+                    : date.getFullYear().toString()
+            : ""
+
+        const options =
+            field === "day"
+                ? Array.from({ length: 31 }, (_, i) => (i + 1).toString())
+                : field === "month"
+                    ? months
+                    : years.map(String)
+
+        return (
+            <Select onValueChange={(value) => handleChange(type, field, value)} value={value}>
+                <SelectTrigger className="w-full rounded-full">
+                    <SelectValue placeholder={field === "day" ? "Giorno" : field === "month" ? "Mese" : "Anno"} />
+                </SelectTrigger>
+                <SelectContent>
+                    {options.map((option) => (
+                        <SelectItem key={option} value={option}>
+                            {option}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        )
+    }
+
+    return (
+        <div className="grid grid-cols-3 gap-2">
+            <div className="col-span-3 text-sm text-muted-foreground mb-1 mt-4">Data di inizio:</div>
+            {renderSelect("from", "day")}
+            {renderSelect("from", "month")}
+            {renderSelect("from", "year")}
+            <div className="col-span-3 text-sm text-muted-foreground mb-1 mt-4">Data di fine:</div>
+            {renderSelect("to", "day")}
+            {renderSelect("to", "month")}
+            {renderSelect("to", "year")}
+        </div>
+    )
+}

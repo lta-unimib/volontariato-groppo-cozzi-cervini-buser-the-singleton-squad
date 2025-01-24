@@ -1,8 +1,8 @@
 "use client"
 
-import { Page } from '@/components/layout/Page';
-import {VolunteerForm} from "@/app/form/volunteer/components/VolunteerForm";
-import FormHeader from "@/components/layout/FormHeader";
+import { Page } from '@/components/Page';
+import {VolunteerForm} from "@/components/ui/components/VolunteerForm";
+import FormHeader from "@/components/ui/FormHeader";
 import {useBack} from "@/hooks/useBack";
 
 export default function Home() {

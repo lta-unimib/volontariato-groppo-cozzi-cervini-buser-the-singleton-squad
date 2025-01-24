@@ -7,7 +7,7 @@ import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -17,10 +17,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 @Component
+@AllArgsConstructor
 public class AuthFilter extends OncePerRequestFilter {
-    @Autowired
     private JWTUtils jwtUtils;
-    @Autowired
     private ObjectMapper objectMapper;
 
 
@@ -94,7 +93,7 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     private void sendErrorResponse(HttpServletResponse response, String message, HttpStatus status) throws IOException {
-        ResponseMessage errorResponse = ResponseMessageUtil.createResponse(message, status, null);
+        ResponseMessage errorResponse = ResponseMessageUtil.createOnlyResponseMessage(message, status, null);
         response.setStatus(errorResponse.getStatus().value());
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

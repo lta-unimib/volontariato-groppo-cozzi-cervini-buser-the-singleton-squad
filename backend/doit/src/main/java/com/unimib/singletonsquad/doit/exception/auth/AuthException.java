@@ -9,7 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 @Setter
 public class AuthException extends AuthenticationException {
 
-    private HttpStatus httpStatus;
+    private final HttpStatus httpStatus;
 
 
     public AuthException(String message, HttpStatus httpStatus) {

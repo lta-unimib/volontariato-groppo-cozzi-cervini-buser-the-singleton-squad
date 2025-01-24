@@ -1,8 +1,6 @@
 "use client";
 
-import { MdOutlineInbox } from "react-icons/md";
-import { MdOutlineDashboardCustomize } from "react-icons/md";
-import { MdOutlineAccountCircle } from "react-icons/md";
+import { MdOutlineBusiness, MdOutlineDashboardCustomize, MdOutlineAccountCircle } from "react-icons/md";
 
 export const volunteerMenuItems = [
     {
@@ -12,9 +10,9 @@ export const volunteerMenuItems = [
         className: "md:inline hidden"
     },
     {
-        title: "Messaggi",
-        url: "/message/volunteer",
-        icon: MdOutlineInbox,
+        title: "Organizzazioni",
+        url: "/organizations",
+        icon: MdOutlineBusiness,
         className: "md:inline hidden"
     },
     {

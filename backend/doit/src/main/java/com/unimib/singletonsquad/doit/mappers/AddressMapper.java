@@ -1,14 +1,16 @@
 package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.common.Address;
-import com.unimib.singletonsquad.doit.dto.recived.AddressDTO;
+import com.unimib.singletonsquad.doit.dto.received.AddressDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AddressMapper {
 
+    private AddressMapper() {}
+
     /// FROM ADDRESSDTO TO ADDRESS
-    public Address createAddress(AddressDTO addressDTO){
+    public static Address createAddress(AddressDTO addressDTO){
         Address address = new Address();
         address.setCity(addressDTO.getCity());
         address.setStreetAddress(addressDTO.getStreet());

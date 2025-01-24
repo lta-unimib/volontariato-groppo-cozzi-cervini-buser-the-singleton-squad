@@ -1,7 +1,7 @@
 package com.unimib.singletonsquad.doit.service.registration;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.dto.recived.OrganizationDTO;
+import com.unimib.singletonsquad.doit.dto.received.OrganizationDTO;
 import com.unimib.singletonsquad.doit.exception.auth.UserAlreadyRegisteredGeneralException;
 import com.unimib.singletonsquad.doit.mappers.OrganizationMapper;
 import com.unimib.singletonsquad.doit.service.authentication.AuthenticationSetUp;
@@ -18,9 +18,8 @@ public class RegistrationOrganizationService {
     private final OrganizationDatabaseService organizationService;
     private  final AuthenticationSetUp authenticationSetUp;
 
-    /// TODO UTILIZZARE LA CLASSE USERSERVICE PER VERIFICARE E OTTENERE L'UTENTE
 
-    public String registerOrganization(OrganizationDTO organization) throws Exception{
+    public String registerOrganization(OrganizationDTO organization) throws UserAlreadyRegisteredGeneralException{
         String organizationEmail = organization.getEmail();
         if(this.isAlreadyRegistered(organizationEmail))
             throw new UserAlreadyRegisteredGeneralException("An organization with email: " + organizationEmail + " is already registered");
@@ -30,7 +29,7 @@ public class RegistrationOrganizationService {
 
         Organization user = this.createVolunteer(organization);
         this.organizationService.save(user);
-        return this.authenticationSetUp.setUpNewAuthSecurityContext(organization.getPassword(), UserRole.organization.name(), organization.getEmail());
+        return this.authenticationSetUp.setUpNewAuthSecurityContext(organization.getPassword(), UserRole.ORGANIZATION.name(), organization.getEmail());
     }
 
     private boolean isAlreadyRegistered(final String email) {
@@ -41,21 +40,19 @@ public class RegistrationOrganizationService {
             return false;
         }
 
-    };
+    }
 
     private boolean nameIsAlreadyTaken(final String name) {
         try {
             this.organizationService.findOrganizationByName(name);
-            System.out.println("Name is already taken");
             return true;
         }catch(Exception e){
-            System.out.println("Name is not already taken");
             return false;
         }
     }
 
 
-    private Organization createVolunteer(final OrganizationDTO volunteer) throws Exception{
+    private Organization createVolunteer(final OrganizationDTO volunteer){
         return this.volunteerMapper.mapToOrganization(volunteer);
     }
 }

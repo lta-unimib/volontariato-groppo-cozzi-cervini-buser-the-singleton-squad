@@ -1,6 +1,4 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +15,8 @@ public class FeedbackVolunteerRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    /// aggiungere un type? --> type: vote_for_user, vote_for_organization
 
     @Column(nullable = false, name = "voto")
     private double voto;

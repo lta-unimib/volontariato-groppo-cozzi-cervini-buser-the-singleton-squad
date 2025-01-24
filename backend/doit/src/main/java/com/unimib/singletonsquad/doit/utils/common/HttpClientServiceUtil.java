@@ -1,6 +1,8 @@
 package com.unimib.singletonsquad.doit.utils.common;
 
+import com.unimib.singletonsquad.doit.exception.resource.HttpGeneralException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,19 +19,8 @@ public class HttpClientServiceUtil {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
-
-    public <T, R> R executePost(String url, T requestBody, Class<R> responseClass) {
-        try {
-            return webClient.post()
-                    .uri(url)
-                    .bodyValue(requestBody)
-                    .retrieve()
-                    .bodyToMono(responseClass)
-                    .block();
-        } catch (WebClientResponseException e) {
-            throw new RuntimeException("Error in HTTP call: " + e.getMessage(), e);
-        }
-    }
+    /*
+   */
 
     public <R> R executeGet(String url, Class<R> responseClass) {
         try {
@@ -39,7 +30,21 @@ public class HttpClientServiceUtil {
                     .bodyToMono(responseClass)
                     .block();
         } catch (WebClientResponseException e) {
-            throw new RuntimeException("Errore nella chiamata HTTP: " + e.getMessage(), e);
+            throw new HttpGeneralException(HttpStatus.INTERNAL_SERVER_ERROR,"Errore nella chiamata HTTP: " + e.getMessage());
+        }
+    }
+
+    /*
+     public <T, R> R executePost(String url, T requestBody, Class<R> responseClass) {
+        try {
+            return webClient.post()
+                    .uri(url)
+                    .bodyValue(requestBody)
+                    .retrieve()
+                    .bodyToMono(responseClass)
+                    .block();
+        } catch (WebClientResponseException e) {
+            throw new RuntimeException("Error in HTTP call: " + e.getMessage(), e);
         }
     }
 
@@ -67,5 +72,5 @@ public class HttpClientServiceUtil {
             throw new RuntimeException("Errore nella chiamata HTTP: " + e.getMessage(), e);
         }
     }
-
+    */
 }

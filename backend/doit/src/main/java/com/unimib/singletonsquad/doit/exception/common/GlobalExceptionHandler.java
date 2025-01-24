@@ -1,10 +1,7 @@
 package com.unimib.singletonsquad.doit.exception.common;
 
 import com.unimib.singletonsquad.doit.exception.auth.*;
-import com.unimib.singletonsquad.doit.exception.resource.InvalidDateException;
-import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
-import com.unimib.singletonsquad.doit.exception.resource.ResourceNotFoundGeneralException;
-import com.unimib.singletonsquad.doit.exception.resource.UniqueResourceAlreadyExistsGeneralException;
+import com.unimib.singletonsquad.doit.exception.resource.*;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import org.springframework.http.HttpStatus;
@@ -20,6 +17,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.NoSuchElementException;
 
 
@@ -50,7 +48,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ResponseMessage> handleMissingParams(MissingServletRequestParameterException ex) {
-        String message = String.format("%s\nMissing parameter: %s", ex.getMessage(), ex.getParameterName());
+        String message = String.format("%s%nMissing parameter: %s", ex.getMessage(), ex.getParameterName());
         return buildErrorResponse(HttpStatus.BAD_REQUEST, message);
     }
 
@@ -81,6 +79,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ResponseMessage> handleIllegalArgument(IllegalArgumentException ex) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, String.format("Invalid argument: %s", ex.getMessage()));
+    }
+
+    @ExceptionHandler(UnsupportedEncodingException.class)
+    public ResponseEntity<ResponseMessage> handleUnsupportedEncoding(UnsupportedEncodingException ex) {
+        return buildErrorResponse(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex.getMessage());
     }
 
     @ExceptionHandler(AuthException.class)
@@ -129,6 +132,10 @@ public class GlobalExceptionHandler {
         String message = String.format("IllegalAccessException: %s", ex.getMessage());
         return buildErrorResponse(HttpStatus.FORBIDDEN, message);
     }
+    @ExceptionHandler(HttpGeneralException.class)
+    public ResponseEntity<ResponseMessage> handleHttpGeneralException(HttpGeneralException ex) {
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
 
 
     @ExceptionHandler(Exception.class)
@@ -138,7 +145,7 @@ public class GlobalExceptionHandler {
 
     /// Build the error response
     private ResponseEntity<ResponseMessage> buildErrorResponse(HttpStatus status, String message) {
-        ResponseMessage messageResponse = ResponseMessageUtil.createResponse(message, status, null);
+        ResponseMessage messageResponse = ResponseMessageUtil.createOnlyResponseMessage(message, status, null);
         return new ResponseEntity<>(messageResponse, status);
     }
 }
