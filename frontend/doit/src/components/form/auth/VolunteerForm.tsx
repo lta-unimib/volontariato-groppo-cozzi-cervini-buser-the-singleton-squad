@@ -11,7 +11,7 @@ import { MdOutlineEmail, MdOutlinePassword, MdOutlinePerson } from "react-icons/
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useVolunteerFormValidation } from "@/hooks/form/validator/useVolunteerFormValidator";
 import { useFormFocus } from "@/hooks/form/useFormFocus";
-import { useFormInitialization } from '@/hooks/form/useFormInizialization';
+import { useFormInitialization } from '@/hooks/form/useFormInitialization';
 import {Input} from "@/components/core/Input";
 import {VolunteerFormData} from "@/types/form/auth/volunteerFormData";
 import { useFormData } from "@/hooks/form/useFormData";

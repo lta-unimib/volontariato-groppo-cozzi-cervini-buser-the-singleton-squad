@@ -8,7 +8,7 @@ import { Input } from "@/components/core/Input";
 import { TimePicker } from "@/components/form/availability/TimePicker";
 import { Card, CardContent } from "@/components/core/Card";
 import { useFormSubmission } from "@/hooks/form/useFormSubmission";
-import { useFormInitialization } from "@/hooks/form/useFormInizialization";
+import { useFormInitialization } from "@/hooks/form/useFormInitialization";
 import { useRequestFormValidation } from "@/hooks/form/validator/useRequestFormValidator";
 import { RequestFormData } from "@/types/form/request/requestFormData";
 import { useFormData } from "@/hooks/form/useFormData";

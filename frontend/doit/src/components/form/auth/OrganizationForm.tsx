@@ -11,7 +11,7 @@ import { BaseForm } from "@/components/form/BaseForm";
 import { useOrganizationFormValidation } from "@/hooks/form/validator/useOrganizationFormValidator";
 import { useFormFocus } from "@/hooks/form/useFormFocus";
 import { useFormSubmission } from "@/hooks/form/useFormSubmission";
-import { useFormInitialization } from '@/hooks/form/useFormInizialization';
+import { useFormInitialization } from '@/hooks/form/useFormInitialization';
 import {OrganizationFormData} from "@/types/form/auth/organizationFormData";
 import { useFormData } from "@/hooks/form/useFormData";
 
