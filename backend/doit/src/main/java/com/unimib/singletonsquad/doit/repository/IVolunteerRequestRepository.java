@@ -36,7 +36,7 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
 
     ///
     @Query("SELECT DISTINCT request FROM VolunteerRequest AS request JOIN request.volunteerOffers AS offer WHERE request.id = :idRequest  and offer.volunteer.id = :idVolontario AND request.endDateTime > :oggi AND offer.votedByVolunteer = FALSE ")
-    VolunteerRequest getSpecificVolunteerRequestFeedback(@Param("idVolontario") long idVolunteer, @Param("idRequest") long idRequest , @Param("oggi") LocalDateTime oggi);
+    Optional<VolunteerRequest> getSpecificVolunteerRequestFeedback(@Param("idVolontario") long idVolunteer, @Param("idRequest") long idRequest , @Param("oggi") LocalDateTime oggi);
 
 }
 

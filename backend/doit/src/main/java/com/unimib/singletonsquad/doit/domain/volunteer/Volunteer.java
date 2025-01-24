@@ -72,6 +72,7 @@ public class Volunteer implements User {
     private List<Organization> favoriteOrganizations = new ArrayList<>();
 
     @OneToOne(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private StatisticVolunteer statistic;
 
 

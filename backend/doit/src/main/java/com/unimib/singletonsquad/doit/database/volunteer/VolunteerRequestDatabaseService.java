@@ -105,8 +105,10 @@ public class VolunteerRequestDatabaseService {
         return this.repository.getALlRequestVoted(LocalDateTime.now(), volunteerEmail);
     }
 
-    /*
-    /// Per il feedback
+
     public VolunteerRequest existsVolunteerRequestByVolunteer(Long idRequest, Volunteer volunteer) {
-    }*/
+        return this.repository.getSpecificVolunteerRequestFeedback(volunteer.getId(), idRequest, LocalDateTime.now()).orElseThrow(
+                () -> new RecordNotFoundGeneralException("VolunteerRequest not found with id " + idRequest +" while existsVolunteerRequestByVolunteer"));
+
+    }
 }

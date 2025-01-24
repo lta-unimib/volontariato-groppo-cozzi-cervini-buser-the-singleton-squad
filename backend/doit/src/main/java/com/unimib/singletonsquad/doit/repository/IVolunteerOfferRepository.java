@@ -34,4 +34,8 @@ public interface IVolunteerOfferRepository extends JpaRepository<VolunteerOffer,
 
     @Query("SELECT offer FROM VolunteerOffer offer WHERE offer.volunteer.id = :idVolunteer AND offer.volunteerRequest.id = :idOffer")
     Optional<VolunteerOffer> checkValidation(@Param("idVolunteer") Long idVolunteer, @Param("idOffer") Long idOffer);
+
+
+    @Query("SELECT offer FROM VolunteerOffer offer WHERE offer.volunteer.id = :idVolunteer AND offer.volunteerRequest.id = :idOffer and offer.votedByVolunteer = false")
+    Optional<VolunteerOffer> getVolunteerOfferByIdVolunteerAndIdRequest(@Param("idVolunteer") Long idVolunteer, @Param("idOffer") Long idOffer);
 }

@@ -47,6 +47,14 @@ public class VolunteerOfferDatabaseService {
 
     public void getVolunteerOfferCheckSubscribe(Long idVolunteer, Long idOffer) throws RecordNotFoundGeneralException {
          if(this.volunteerOfferRepository.checkValidation(idVolunteer, idOffer).isPresent())
-            throw new RecordNotFoundGeneralException("Already subscribed " + idOffer);
+             throw new RecordNotFoundGeneralException("Already syb");
+
     }
+
+    public VolunteerOffer getVolunteerOfferByIdVolunteerAndIdRequest(Long idVolunteer, Long idRequest){
+        return this.volunteerOfferRepository.getVolunteerOfferByIdVolunteerAndIdRequest(idVolunteer, idRequest).orElseThrow( () ->{
+            throw new RecordNotFoundGeneralException("Record not found with id " + idVolunteer);
+        });
+    }
+
 }

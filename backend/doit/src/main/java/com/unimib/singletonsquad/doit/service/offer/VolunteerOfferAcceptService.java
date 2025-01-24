@@ -8,6 +8,7 @@ import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.exception.resource.InvalidDateException;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import lombok.AllArgsConstructor;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -18,6 +19,8 @@ public class VolunteerOfferAcceptService {
 
     private final VolunteerOfferDatabaseService volunteerOfferDatabaseService;
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
+
+    //todo aggiungere e passare sempre la richiesta nei vari controlli
 
     public void acceptVolunteerOffer(Long idOffer, String organizationEmail) throws IllegalAccessException {
         VolunteerOffer volunteerOffer  = volunteerOfferDatabaseService.getVolunteerOffer(idOffer);
@@ -50,7 +53,8 @@ public class VolunteerOfferAcceptService {
     /// === SUPPORT ORGANIZATION ====
 
     private void checkOrganizationEmail(String organizationEmail, VolunteerOffer volunteer) throws IllegalAccessException {
-        if(!volunteer.getVolunteer().getEmail().equals(organizationEmail))
+        System.out.println(volunteer);
+        if(!volunteer.getVolunteerRequest().getOrganization().getEmail().equals(organizationEmail))
             throw new IllegalAccessException("Organization email not match");
     }
 

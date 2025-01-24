@@ -33,6 +33,7 @@ public class FeedbackController {
     public ResponseEntity<ResponseMessage> feedbackByOrganization(final @PathVariable("idOffer") Long idOffer, @RequestBody FeedbackDTO feedbackDTO,
                                                                   final HttpServletRequest request) throws RoleInfoNotFoundException {
         Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(organizationRole, request);
+        System.out.println("Organization: " + organization);
         this.feedbackService.setOrganizationVoteOffer(organization, idOffer, feedbackDTO.getVote());
         return ResponseMessageUtil.createResponseSuccess("ok", HttpStatus.OK, null);
     }
