@@ -4,21 +4,18 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {OrganizationCardProps} from "@/types/props/card/organizationCardProps";
 import {Badge} from "@/components/core/Badge";
+import {useCategories} from "@/hooks/useCategories";
 
 export default function OrganizationCard({ organizationData }: OrganizationCardProps) {
     const router = useRouter();
 
+    const { categories : categories } = useCategories();
     const handleClick = () => {
         const encodedData = encodeURIComponent(JSON.stringify(organizationData));
         router.push(`/organization/details?data=${encodedData}`);
     };
-    const categories = [
-        { id: "supporto_anziani", label: "Supporto Anziani" },
-        { id: "supporto_bambini", label: "Supporto Bambini" },
-        { id: "supporto_disabili", label: "Supporto Disabili" },
-        { id: "ripetizioni", label: "Ripetizioni" },
-        { id: "caritas", label: "Caritas" },
-    ];
+
+    console.log(organizationData.preferences);
 
     return (
         <Card
@@ -40,9 +37,9 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
                         </div>
                         <div className="flex flex-wrap gap-2 pt-2">
                             {categories
-                                .filter(category => organizationData.preferences.includes(category.id))
+                                .filter(category => organizationData.preferences.includes(category.label))
                                 .map(category => (
-                                    <Badge key={category.id} variant="secondary" className="font-normal">
+                                    <Badge key={category.label} variant="secondary" className="font-normal">
                                         {category.label}
                                     </Badge>
                                 ))}
