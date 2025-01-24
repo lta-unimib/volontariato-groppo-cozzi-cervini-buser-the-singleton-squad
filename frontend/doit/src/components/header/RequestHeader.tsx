@@ -34,11 +34,13 @@ export const RequestHeader = ({
     }, []);
 
     const handleSubscribe = async () => {
-        await makePostRequest("/offer/new/", idRequest);
+        const endpoint = `/offer/subscribe/${idRequest}/`;
+        await makePostRequest(endpoint);
     };
 
     const handleSave = async () => {
-        await makePostRequest("/volunteer/favorite/organization/", organizationName);
+        const endpoint = `/volunteer/favorite/organization/${organizationName}/`;
+        await makePostRequest(endpoint);
     };
 
     const handleDelete = async () => {
