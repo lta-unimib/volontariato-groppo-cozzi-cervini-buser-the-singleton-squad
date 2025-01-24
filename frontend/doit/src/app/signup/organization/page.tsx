@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
-import {OrganizationForm} from "@/components/form/auth/OrganizationForm";
+import { OrganizationForm } from "@/components/form/auth/OrganizationForm";
 import FormHeader from "@/components/header/FormHeader";
-import {useBack} from "@/hooks/header/useBack";
+import { useBack } from "@/hooks/header/useBack";
+import React, { Suspense } from "react";
 
 export default function OrganizationSignUp() {
     const handleBack = useBack();
@@ -16,7 +17,10 @@ export default function OrganizationSignUp() {
                     onBack={handleBack}
                 />
             </div>
-            <OrganizationForm/>
+
+            <Suspense fallback={<div>Loading...</div>}>
+                <OrganizationForm />
+            </Suspense>
         </div>
     );
 }

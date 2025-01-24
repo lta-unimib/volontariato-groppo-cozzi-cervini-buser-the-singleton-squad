@@ -18,7 +18,13 @@ const MODES = {
   MONTHLY: 'monthly'
 };
 
-const TimeSelection = ({ selectedTimeRange, handleTimeSelect }: any) => (
+const TimeSelection = ({
+                           selectedTimeRange,
+                           handleTimeSelect
+                       }: {
+    selectedTimeRange: string[];
+    handleTimeSelect: (time: string) => void;
+}) =>  (
     <ScrollArea className="h-[348px] w-full rounded-2xl border">
       <div className="grid grid-cols-3 gap-2 p-4">
         {timeSlots.map((time) => (
@@ -38,7 +44,13 @@ const TimeSelection = ({ selectedTimeRange, handleTimeSelect }: any) => (
     </ScrollArea>
 );
 
-const WeekDaySelection = ({ selectedWeekDays, handleWeekDaySelect }: any) => (
+const WeekDaySelection = ({
+                              selectedWeekDays,
+                              handleWeekDaySelect
+                          }: {
+    selectedWeekDays: string[];
+    handleWeekDaySelect: (day: string) => void;
+}) => (
     <div className="h-[348px] w-full rounded-2xl border flex flex-col gap-2 p-4">
       {weekDays.map((day) => (
           <Button
@@ -53,7 +65,13 @@ const WeekDaySelection = ({ selectedWeekDays, handleWeekDaySelect }: any) => (
     </div>
 );
 
-const DateSelection = ({ selectedDateRange, setSelectedDateRange }: any) => (
+const DateSelection = ({
+                           selectedDateRange,
+                           setSelectedDateRange
+                       }: {
+    selectedDateRange: DateRange | undefined;
+    setSelectedDateRange: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
+}) => (
     <div className="flex justify-center h-[348px] w-full rounded-2xl border p-4">
         <Calendar
             mode="range"
@@ -63,13 +81,16 @@ const DateSelection = ({ selectedDateRange, setSelectedDateRange }: any) => (
                     const adjustedTo = new Date(range.to.setHours(23, 59, 59, 999));
                     setSelectedDateRange({ from: range.from, to: adjustedTo });
                 } else if (range?.from) {
-                    setSelectedDateRange({ from: range.from });
+                    setSelectedDateRange({ from: range.from, to: undefined });
+                } else {
+                    setSelectedDateRange(undefined);
                 }
             }}
             className="rounded-md"
         />
     </div>
 );
+
 export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
                                                                         onSaveAction,
                                                                         initialSelected
@@ -159,7 +180,7 @@ export const AvailabilityDialog: React.FC<AvailabilityDialogProps> = ({
             </TabsContent>
 
             <TabsContent value={MODES.MONTHLY} className="mt-4">
-              <DateSelection selectedDateRange={selectedDateRange} setSelectedDateRange={setSelectedDateRange} />
+              <DateSelection selectedDateRange={selectedDateRange} setSelectedDateRange={setSelectedDateRange as React.Dispatch<React.SetStateAction<DateRange | undefined>>} />
             </TabsContent>
           </Tabs>
 

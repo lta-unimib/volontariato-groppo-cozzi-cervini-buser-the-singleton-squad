@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import React from "react";
+import React, { Suspense } from "react";
 import { ScrollArea } from "@/components/core/ScrollArea";
 import { Calendar } from "@/components/form/availability/Calendar";
 import { Card, CardContent } from "@/components/core/Card";
@@ -64,7 +64,7 @@ const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, 
     );
 };
 
-export default function DetailedRequest() {
+const DetailedRequestContent = () => {
     const searchParams = useSearchParams();
     const encodedData = searchParams.get("data");
 
@@ -112,5 +112,13 @@ export default function DetailedRequest() {
                 </div>
             </div>
         </div>
+    );
+};
+
+export default function DetailedRequest() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <DetailedRequestContent />
+        </Suspense>
     );
 }
