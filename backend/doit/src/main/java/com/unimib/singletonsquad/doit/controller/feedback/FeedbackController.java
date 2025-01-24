@@ -32,10 +32,8 @@ public class FeedbackController {
     @PostMapping(value = "/organization/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> feedbackByOrganization(final @PathVariable("idOffer") Long idOffer, @RequestBody FeedbackDTO feedbackDTO,
                                                                   final HttpServletRequest request) throws RoleInfoNotFoundException {
-
         Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(organizationRole, request);
-        System.out.println("organization: " + organization);
-        //this.feedbackService.setOrganizationVoteOffer(organization, idOffer, feedbackDTO.getVote());
+        this.feedbackService.setOrganizationVoteOffer(organization, idOffer, feedbackDTO.getVote());
         return ResponseMessageUtil.createResponseSuccess("ok", HttpStatus.OK, null);
     }
 

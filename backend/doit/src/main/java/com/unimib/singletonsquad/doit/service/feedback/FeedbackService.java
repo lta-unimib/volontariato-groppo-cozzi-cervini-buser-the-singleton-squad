@@ -24,15 +24,18 @@ public class FeedbackService {
     /// fixme aggiungere anche il voto
     public void setOrganizationVoteOffer(Organization organization, Long offerId, double vote) {
         System.out.println("setOrganizationVoteOffer invoked");
-        System.out.println("organization: " + organization);
-        System.out.println("offerId: " + offerId);
-        System.out.println("vote: " + vote);
+        System.out.println("organization: " + organization);//ok
+        System.out.println("offerId: " + offerId);//ok
+        System.out.println("vote: " + vote);//ok
         VolunteerOffer offer = volunteerOfferDatabaseService.existsVolunteerOfferByOrganization(offerId, organization);
+        System.out.println(offer);
         Volunteer volunteer = offer.getVolunteer();
         VolunteerRequest request = this.volunteerRequestDatabaseService.getSpecificRequest(offer.getVolunteerRequest().getId());
         Feedback feedback = new Feedback();
         feedback.setVote(vote);
+        offer.setVotedByOrganization(true);
         request.addFeedback(offer, feedback);
+        feedbackRepository.save(feedback);
         volunteerRequestDatabaseService.save(request);
         //this.addVoteToOffer(offer, 10);
     }
@@ -50,7 +53,7 @@ public class FeedbackService {
         List<VolunteerOffer> offers = request.getVolunteerOffers();
         for (VolunteerOffer offer : offers) {
             if(offer.getVolunteer().equals(volunteer)) {
-                offer.setVotedByOrganization(true);
+                offer.setVotedByVolunteer(true);
                 Feedback feedback = new Feedback();
                 feedback.setVote(vote);
                 offer.setFeedback(feedback);

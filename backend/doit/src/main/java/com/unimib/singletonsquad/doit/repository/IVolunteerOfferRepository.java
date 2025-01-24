@@ -25,8 +25,6 @@ public interface IVolunteerOfferRepository extends JpaRepository<VolunteerOffer,
     Optional<VolunteerOffer> findById(Long id);
 
 
-    @Query(value = "SELECT offer FROM VolunteerOffer as offer JOIN  offer.volunteerRequest as request on request.id = offer.volunteerRequest.id where request.organization = :organization and offer.id = :id and :oggi > request.endDateTime and offer.votedByOrganization = FALSE")
+    @Query(value = "SELECT offer FROM VolunteerOffer as offer JOIN  offer.volunteerRequest as request where request.organization = :organization and offer.id = :id and :oggi > request.endDateTime and offer.votedByOrganization = FALSE")
     Optional<VolunteerOffer> findByIdAndOrganizationCustom(@Param("organization") Organization organization, @Param("id") Long idOffer, @Param("oggi") LocalDateTime oggi);
-
-
 }
