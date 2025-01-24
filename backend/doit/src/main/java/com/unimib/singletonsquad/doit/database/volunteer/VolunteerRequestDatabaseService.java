@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -95,7 +96,8 @@ public class VolunteerRequestDatabaseService {
         return this.repository.getALlRequestVoted(LocalDateTime.now(), volunteerEmail);
     }
 
-    /// Per il feedback
+    /*/// Per il feedback
     public VolunteerRequest existsVolunteerRequestByVolunteer(Long idRequest, Volunteer volunteer) {
-    }
+
+    }*/
 }

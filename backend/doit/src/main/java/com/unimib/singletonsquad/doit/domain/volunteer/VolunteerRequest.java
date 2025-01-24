@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -57,7 +58,7 @@ public class VolunteerRequest {
     private List<VolunteerOffer> volunteerOffers;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FeedbackVolunteerRequest> feedbackVolunteerRequests;
+    private Map<VolunteerOffer, Feedback> feedbackMap;
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {
@@ -65,6 +66,10 @@ public class VolunteerRequest {
         } else {
             this.capacity = capacity;
         }
+    }
+
+    public void addFeedback(VolunteerOffer offer, Feedback feedback) {
+        this.feedbackMap.put(offer, feedback);
     }
 
     public boolean hasCategory(String category) {

@@ -10,23 +10,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeedbackVolunteerRequest {
-
+public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /// aggiungere un type? --> type: vote_for_user, vote_for_organization
-
-    @Column(nullable = false, name = "voto")
-    private double voto;
-
-    /// Aggiungerlo anche nello user
-    @ManyToOne
-    private Volunteer volunteer;
-    /// aggiungerlo anche nella VolunteerRequest
-    @ManyToOne
-    private VolunteerRequest volunteerRequest;
+    @Column(nullable = false, name = "vote")
+    private double vote;
 }
 
 /*

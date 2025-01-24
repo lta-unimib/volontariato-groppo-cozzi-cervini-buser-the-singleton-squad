@@ -9,6 +9,8 @@ import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,13 +33,14 @@ public class VolunteerRequestModeService {
         return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
     }
 
-    public List<VolunteerRequestSendDTO> getAllRequestNotVoted(@NotNull final String volunteerEmail){
-        List<VolunteerRequest> volunteerRequests = this.volunteerRequestDatabaseService.getAllRequestNotVoted(volunteerEmail);
+    public List<VolunteerRequestSendDTO> getAllRequestNotVoted(@NotNull final String volunteerEmail) {
+        Volunteer volunteer = volunteerDatabaseService.findVolunteerByEmail(volunteerEmail);
+        List<VolunteerRequest> volunteerRequests = new ArrayList<>();//this.volunteerRequestDatabaseService.getAllRequestNotVoted(volunteerEmail);
         return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
     }
 
     public List<VolunteerRequestSendDTO> getAllRequestVoted(@NotNull final String volunteerEmail){
-        List<VolunteerRequest> volunteerRequests = this.volunteerRequestDatabaseService.getALlRequestVoted(volunteerEmail);
+        List<VolunteerRequest> volunteerRequests = new ArrayList<>();//this.volunteerRequestDatabaseService.getALlRequestVoted(volunteerEmail);
         return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
     }
 

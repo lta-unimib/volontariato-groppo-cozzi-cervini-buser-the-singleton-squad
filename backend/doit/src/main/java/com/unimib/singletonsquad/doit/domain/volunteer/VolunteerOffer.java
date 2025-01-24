@@ -36,14 +36,17 @@ public class VolunteerOffer {
     @JoinColumn(name = "volunteer_request_id")  // La relazione non ha bisogno di cascata
     private VolunteerRequest volunteerRequest;
 
+    /*
     // Indica se gli è stato assegnato il voto o meno
+     */
     @Column(nullable = false)
     private boolean votedByVolunteer;
-    /// voto dell'organizzazione dall'utente
+    // voto dell'organizzazione dall'utente
     @Column(nullable = false)
     private boolean votedByOrganization;
 
-
+    @OneToOne
+    private Feedback feedback;
 
     @Override
     public boolean equals(Object o) {
