@@ -35,7 +35,6 @@ public class RegisteredUserService {
     public User getUserInformationAndIsRegistered(final UserRole userRole, final HttpServletRequest request)
             throws InvalidRoleGeneralException, InvalidEmailTokenException {
         String email = extractEmailFromToken(request, userRole);
-        System.out.println("email: " + email);
         switch (userRole) {
             case VOLUNTEER:
                 return this.volunteerDatabaseService.findVolunteerByEmail(email);

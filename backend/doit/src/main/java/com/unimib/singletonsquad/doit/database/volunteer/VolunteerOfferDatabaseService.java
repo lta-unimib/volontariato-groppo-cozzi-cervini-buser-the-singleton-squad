@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -44,4 +45,8 @@ public class VolunteerOfferDatabaseService {
                 () -> new RecordNotFoundGeneralException("Record not found with id " + idOffer + " and organization " + organization + " enddate: " +LocalDateTime.now()));
     }
 
+    public void getVolunteerOfferCheckSubscribe(Long idVolunteer, Long idOffer) throws RecordNotFoundGeneralException {
+         if(this.volunteerOfferRepository.checkValidation(idVolunteer, idOffer).isPresent())
+            throw new RecordNotFoundGeneralException("Already subscribed " + idOffer);
+    }
 }

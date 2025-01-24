@@ -30,7 +30,6 @@ public class VolunteerRequestMapper {
 
     /// CREATE A NEW VOLUNTEER REQUEST ONLY FROM /request/new/
     public VolunteerRequest createVolunteerRequest(VolunteerRequestDTO volunteerRequestDTO, Organization organization) throws Exception {
-        System.out.println("DEBUG => :" + volunteerRequestDTO);
         VolunteerRequest volunteerRequest = new VolunteerRequest();
         volunteerRequest.setOrganization(organization);
         volunteerRequest.setAddress(this.createNewAddress(volunteerRequestDTO.getAddress()));

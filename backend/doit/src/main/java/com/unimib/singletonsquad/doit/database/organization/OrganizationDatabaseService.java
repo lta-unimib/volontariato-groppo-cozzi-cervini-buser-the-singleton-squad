@@ -43,7 +43,6 @@ public class OrganizationDatabaseService {
     }
 
     public Organization findOrganizationByEmail(String email){
-        System.out.println(" ok ok ok");
         return organizationRepository.findByEmail(email)
                 .orElseThrow(() -> new RecordNotFoundGeneralException(ERROR_MESSAGE_EMAIL + email));
     }

@@ -47,6 +47,16 @@ public class VolunteerRequestDatabaseService {
                         "VolunteerRequest not found with id " + idRequest));
     }
 
+    /// get specific request and check the date
+    public VolunteerRequest getRequestForAddingNewOffer(Long idRequest) {
+        VolunteerRequest volunteerRequest = getSpecificRequest(idRequest);
+        System.out.println(volunteerRequest.getEndDateTime());
+        if(volunteerRequest.getEndDateTime().isBefore(LocalDateTime.now()))
+            throw new IllegalArgumentException("End date is after start date");
+        return volunteerRequest;
+    }
+
+
     /// Get all Request di un'organizzazone email
     public List<VolunteerRequest> getAllRequestOrganizationByEmail(String email) {
         return repository.findByOrganization_Email(email);
