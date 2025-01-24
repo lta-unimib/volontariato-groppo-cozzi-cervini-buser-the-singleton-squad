@@ -97,30 +97,32 @@ export default function DetailedRequest() {
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
-            <div className="flex w-full min-h-screen">
-                <div className="flex-1 flex flex-col pb-12 md:pb-4">
-                    <div className="p-4 md:px-8">
-                        <RequestHeader
-                            title={requestData.title}
-                            organizationName={requestData.organization.name}
-                            address={`${requestData.address.street} ${requestData.address.number} ${requestData.address.additionalInfo}, ${requestData.address.city}`}
-                            imageUrl="/placeholder.jpg"
-                            requestData={requestData}
-                            role={requestData.role}
-                        />
-                    </div>
-
-                    <ScrollArea className="flex-1 p-4 md:px-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                            <div className="space-y-4">
-                                <AboutSection description={requestData.description} />
-                                {requestData.role === "volunteer" && (
-                                    <ContactInfoSection organization={requestData.organization} />
-                                )}
-                            </div>
-                            <DateSection startDate={startDate} endDate={endDate} />
+            <div className={`w-full h-screen flex flex-col`}>
+                <div className="flex w-full min-h-screen">
+                    <div className="flex-1 flex flex-col pb-12 md:pb-4">
+                        <div className="p-4 md:px-8">
+                            <RequestHeader
+                                title={requestData.title}
+                                organizationName={requestData.organization.name}
+                                address={`${requestData.address.street} ${requestData.address.number} ${requestData.address.additionalInfo}, ${requestData.address.city}`}
+                                imageUrl="/placeholder.jpg"
+                                requestData={requestData}
+                                role={requestData.role}
+                            />
                         </div>
-                    </ScrollArea>
+
+                        <ScrollArea className="flex-1 p-4 md:px-8">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <div className="space-y-4">
+                                    <AboutSection description={requestData.description} />
+                                    {requestData.role === "volunteer" && (
+                                        <ContactInfoSection organization={requestData.organization} />
+                                    )}
+                                </div>
+                                <DateSection startDate={startDate} endDate={endDate} />
+                            </div>
+                        </ScrollArea>
+                    </div>
                 </div>
             </div>
         </div>

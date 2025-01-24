@@ -1,10 +1,12 @@
+"use client";
+
 import { Button } from "@/components/core/Button";
 import { MdOutlineEdit, MdOutlineDelete } from "react-icons/md";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { makeDeleteRequest } from "@/utils/api/apiUtils";
-import { useBack } from "@/hooks/useBack";
+import { useBack } from "@/hooks/header/useBack";
 import { ProfileHeaderProps } from "@/types/props/header/profileHeadersProps";
 
 export const ProfileHeader = ({
@@ -16,6 +18,7 @@ export const ProfileHeader = ({
                                   profileData,
                               }: ProfileHeaderProps) => {
     const router = useRouter();
+    const onBack = useBack();
 
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(profileData));
@@ -28,8 +31,6 @@ export const ProfileHeader = ({
         router.push("/");
         await makeDeleteRequest(endpoint);
     };
-
-    const onBack = () => useBack();
 
     return (
         <div className="flex flex-col w-full">
@@ -67,19 +68,10 @@ export const ProfileHeader = ({
                     </div>
                 </div>
                 <div className="flex items-center space-x-4 mt-0 ml-48 lg:mt-12">
-                    <Button
-                        variant="destructive"
-                        size="icon"
-                        onClick={handleDelete}
-                    >
+                    <Button variant="destructive" size="icon" onClick={handleDelete}>
                         <MdOutlineDelete />
                     </Button>
-                    <Button
-                        variant="secondary"
-                        size="default"
-                        className="mt-0"
-                        onClick={handleEdit}
-                    >
+                    <Button variant="secondary" size="default" className="mt-0" onClick={handleEdit}>
                         <MdOutlineEdit className="mr-2" />
                         Modifica
                     </Button>

@@ -2,7 +2,7 @@
 
 import {OrganizationForm} from "@/components/form/auth/OrganizationForm";
 import FormHeader from "@/components/header/FormHeader";
-import {useBack} from "@/hooks/useBack";
+import {useBack} from "@/hooks/header/useBack";
 
 export default function OrganizationSignUp() {
     const handleBack = useBack();

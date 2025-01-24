@@ -12,7 +12,7 @@ import { Button } from "@/components/core/Button";
 
 import { organizationMenuItems } from "@/utils/components/sidebar/organizationMenuItems";
 import {useAllRequests} from "@/hooks/useRequestsFetching";
-import {RequestSection} from "@/components/RequestSections";
+import {RequestSection} from "@/components/RequestSection";
 
 export default function OrganizationDashboard() {
     const router = useRouter();

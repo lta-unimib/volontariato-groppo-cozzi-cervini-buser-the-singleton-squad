@@ -131,21 +131,23 @@ export default function OrganizationProfile() {
 
     return (
         <div className="flex flex-col lg:flex-row w-full">
-            <div className="flex w-full min-h-screen">
-                <div className="w-[var(--sidebar-width)]">
-                    <SidebarLayout
-                        menuItems={organizationMenuItems}
-                        header={""}
-                        side={"left"}
-                        variant={"floating"}
-                        collapsible={"icon"}
-                    >
-                        <div />
-                    </SidebarLayout>
-                </div>
+            <div className={`w-full h-screen flex flex-col`}>
+                <div className="flex w-full min-h-screen">
+                    <div className="w-[var(--sidebar-width)]">
+                        <SidebarLayout
+                            menuItems={organizationMenuItems}
+                            header={""}
+                            side={"left"}
+                            variant={"floating"}
+                            collapsible={"icon"}
+                        >
+                            <div />
+                        </SidebarLayout>
+                    </div>
 
-                <div className="flex-1 flex flex-col pb-28 md:pb-4">
-                    {renderProfileContent()}
+                    <div className="flex-1 flex flex-col pb-28 md:pb-4">
+                        {renderProfileContent()}
+                    </div>
                 </div>
             </div>
         </div>

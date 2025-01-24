@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/core/Badge";
 import { makeDeleteRequest, makePostRequest } from "@/utils/api/apiUtils";
-import { useBack } from "@/hooks/useBack";
+import { useBack } from "@/hooks/header/useBack";
 import { ButtonBack } from './components/ButtonBack';
 import { ProfileActions } from './components/ProfileAction';
 import Image from 'next/image';

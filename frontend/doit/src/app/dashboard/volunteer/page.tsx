@@ -13,7 +13,7 @@ import { MdMap } from "react-icons/md";
 import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItems";
 import { IconType } from "react-icons";
 import {useAllRequests, useVolunteerRequests} from '@/hooks/useRequestsFetching';
-import { RequestSection } from '@/components/RequestSections';
+import { RequestSection } from '@/components/RequestSection';
 
 export default function VolunteerDashboard() {
     const [showRequests, setShowRequests] = useState(true);

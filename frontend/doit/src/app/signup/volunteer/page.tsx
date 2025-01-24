@@ -2,7 +2,7 @@
 
 import {VolunteerForm} from "@/components/form/auth/VolunteerForm";
 import FormHeader from "@/components/header/FormHeader";
-import {useBack} from "@/hooks/useBack";
+import {useBack} from "@/hooks/header/useBack";
 
 export default function VolunteerSignUp() {
     const handleBack = useBack();
