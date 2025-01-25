@@ -68,6 +68,8 @@ export const ProfileHeader = ({
     };
 
     const handleRemoveSavedOrg = async () => {
+        const endpoint = `/volunteer/favorite/organization/{orgName}/`;
+        await makeDeleteRequest(endpoint);
     };
 
     const handleReview = () => {
@@ -111,7 +113,7 @@ export const ProfileHeader = ({
                 <ProfileActions
                     role={role.toLowerCase() as 'volunteer' | 'organization'}
                     isOwnProfile={!readOnly}
-/*                    hasSavedOrganization={hasSavedOrganization}
+/*                  hasSavedOrganization={hasSavedOrganization}
                     hasParticipatedInEvent={hasParticipatedInEvent}*/
                     onEdit={handleEdit}
                     onDelete={handleDelete}

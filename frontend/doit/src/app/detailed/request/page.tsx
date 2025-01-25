@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { RequestHeader } from "@/components/header/RequestHeader";
 import { DetailedRequestData } from "@/types/request";
 import { dateUtils } from "@/utils/components/dateUtils";
+import {formatWebsiteUrl} from "@/utils/urlUtils";
 
 /**
  * `AboutSection` Component.
@@ -35,8 +36,6 @@ const AboutSection: React.FC<{ description: string }> = ({ description }) => (
  * @returns A card with the organization's contact information.
  */
 const ContactInfoSection: React.FC<{ organization: DetailedRequestData["organization"] }> = ({ organization }) => {
-    const formatWebsiteUrl = (url: string) =>
-        url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`;
 
     return (
         <Card className="rounded-2xl">

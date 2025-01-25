@@ -6,4 +6,4 @@
  *
  * @constant {string} API_BASE_LINK - The base URL of the API server.
  */
-export const API_BASE_LINK = "http://ec2-3-64-126-237.eu-central-1.compute.amazonaws.com:8080";
+export const API_BASE_LINK = "https://doit-app-gwm0.onrender.com";

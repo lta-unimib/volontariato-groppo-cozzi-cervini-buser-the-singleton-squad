@@ -23,16 +23,6 @@ export interface Organization {
     description: string;
 }
 
-export interface Volunteer {
-    firstName: string;
-    lastName: string;
-    email: string;
-    city: string;
-    description: string;
-    preferences: string[];
-    availability: string;
-}
-
 /**
  * Rappresenta una richiesta di volontariato.
  */
@@ -53,14 +43,6 @@ export interface Request {
  * Dati della richiesta con il ruolo specificato (volontario od organizzazione).
  */
 export interface DetailedRequestData extends Request {
-    role: 'volunteer' | 'organization';
-}
-
-export interface DetailedOrganizationData extends Organization {
-    role: 'volunteer' | 'organization';
-}
-
-export interface DetailedVolunteerData extends Volunteer {
     role: 'volunteer' | 'organization';
 }
 

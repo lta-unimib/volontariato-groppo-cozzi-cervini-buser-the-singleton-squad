@@ -1,11 +1,10 @@
 "use client"
 
 import React, { useState, useMemo } from "react";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useProfileData } from "@/hooks/useProfileData";
 import { getSelectedDays } from "@/utils/availabilityUtils";
 import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
 import { VolunteerProfileContent } from "@/components/VolunteerProfileContent";
+import {useSearchParams} from "next/navigation";
 
 /**
  * Main component to display the volunteer profile.
@@ -13,7 +12,21 @@ import { VolunteerProfileContent } from "@/components/VolunteerProfileContent";
  */
 export default function VolunteerProfile() {
     const [date] = useState<Date | undefined>(new Date());
-    const { profileData: volunteerProfile, loading, error } = useProfileData<VolunteerFormData>("/profile/volunteer/");
+    const searchParams = useSearchParams();
+    const encodedData = searchParams.get("data");
+
+    const volunteerProfile = React.useMemo(() => {
+        if (!encodedData) return null;
+        try {
+            return JSON.parse(decodeURIComponent(encodedData)) as VolunteerFormData;
+        } catch {
+            return null;
+        }
+    }, [encodedData]);
+
+    if (!volunteerProfile) {
+        return <div>Nessun dato disponibile</div>;
+    }
 
     /**
      * Memoized calculation of selected days based on the volunteer's availability and the current date.
@@ -36,22 +49,6 @@ export default function VolunteerProfile() {
      * @returns The content to render.
      */
     const renderProfileContent = () => {
-        if (loading) {
-            return (
-                <div className="flex items-center justify-center h-full">
-                    <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
-                </div>
-            );
-        }
-
-        if (error || !volunteerProfile) {
-            return (
-                <div className="flex items-center justify-center h-full">
-                    {error || "Failed to load user profile"}
-                </div>
-            );
-        }
-
         return <VolunteerProfileContent volunteerProfile={volunteerProfile} readOnly={true} selectedDays={selectedDays} isAvailable={isAvailable} />;
     };
 

@@ -1,17 +1,7 @@
 import { Button } from "@/components/core/Button";
 import { MdOutlineEdit, MdOutlineDelete, MdOutlineRemove } from "react-icons/md";
 import React from "react";
-
-interface ProfileActionsProps {
-    role: 'volunteer' | 'organization';
-    isOwnProfile: boolean;
-    hasSavedOrganization?: boolean;
-    hasParticipatedInEvent?: boolean;
-    onEdit?: () => void;
-    onDelete?: () => void;
-    onRemoveSavedOrg?: () => void;
-    onReview?: () => void;
-}
+import {ProfileActionsProps} from "@/types/props/header/profileActionsProps";
 
 /**
  * ProfileActions component renders actions based on user role and profile ownership
@@ -23,6 +13,7 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
                                                                   isOwnProfile,
                                                                   hasSavedOrganization = false,
                                                                   hasParticipatedInEvent = false,
+                                                                  onSave,
                                                                   onEdit,
                                                                   onDelete,
                                                                   onRemoveSavedOrg,
@@ -30,8 +21,9 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
                                                               }) => {
     if (isOwnProfile) {
         // User is viewing their own profile
+        // Aggiustare su mobile
         return (
-            <div className="flex gap-2 mt-4 md:mt-0">
+            <div className="flex gap-2 mt-4 md:mt-12">
                 <Button
                     variant="destructive"
                     size="icon"
@@ -50,17 +42,25 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
         );
     }
 
-    // User is viewing another's profile -> aggiungi possibilità di salvare
+    // User is viewing another's profile
     if (role === 'volunteer') {
         return (
             <div className="flex gap-2 mt-4 md:mt-0">
-                {hasSavedOrganization && onRemoveSavedOrg && (
+                {hasSavedOrganization && onRemoveSavedOrg ? (
                     <Button
                         variant="secondary"
                         size="default"
                         onClick={onRemoveSavedOrg}
                     >
                         <MdOutlineRemove className="mr-2" /> Rimuovi dai salvati
+                    </Button>
+                ) : (
+                    <Button
+                        variant="secondary"
+                        size="default"
+                        onClick={onSave}
+                    >
+                        <MdOutlineEdit className="mr-2" /> Salva organizzazione
                     </Button>
                 )}
             </div>

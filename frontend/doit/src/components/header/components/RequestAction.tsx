@@ -8,7 +8,7 @@ import {
     MdOutlineRateReview
 } from "react-icons/md";
 import React from "react";
-import {RequestActionsProps} from "@/types/props/header/profileActionsProps";
+import {RequestActionsProps} from "@/types/props/header/requestActionsProps";
 
 
 export const RequestActions: React.FC<RequestActionsProps> = ({

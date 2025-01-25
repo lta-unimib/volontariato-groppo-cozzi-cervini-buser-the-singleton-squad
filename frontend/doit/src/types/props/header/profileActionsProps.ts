@@ -1,14 +1,11 @@
-export interface RequestActionsProps {
-    role: string;
+export interface ProfileActionsProps {
+    role: 'volunteer' | 'organization';
+    isOwnProfile: boolean;
+    hasSavedOrganization?: boolean;
+    hasParticipatedInEvent?: boolean;
     onEdit?: () => void;
     onDelete?: () => void;
-    onSave?: () => void;
-    onSubscribe?: () => void;
-    onUnsubscribe?: () => void;
     onRemoveSavedOrg?: () => void;
     onReview?: () => void;
-    isSubscribed?: boolean;
-    isSavedOrg?: boolean;
-    isEventExpired?: boolean;
-    hasReviewed?: boolean;
+    onSave?: () => void;
 }

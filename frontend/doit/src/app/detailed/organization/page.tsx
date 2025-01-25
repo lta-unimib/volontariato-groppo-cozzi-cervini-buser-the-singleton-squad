@@ -1,11 +1,10 @@
 "use client"
 
 import React from "react";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useProfileData } from "@/hooks/useProfileData";
 import { formatWebsiteUrl } from "@/utils/urlUtils";
 import { OrganizationFormData } from "@/types/form/auth/organizationFormData";
 import {OrganizationProfileContent} from "@/components/OrganizationProfileContent";
+import {useSearchParams} from "next/navigation";
 
 /**
  * Component for displaying an organization's profile.
@@ -14,7 +13,21 @@ import {OrganizationProfileContent} from "@/components/OrganizationProfileConten
  * @returns The OrganizationProfile component.
  */
 export default function OrganizationProfile() {
-    const { profileData: organizationProfile, loading, error } = useProfileData<OrganizationFormData>("/profile/organization/");
+    const searchParams = useSearchParams();
+    const encodedData = searchParams.get("data");
+
+    const organizationProfile = React.useMemo(() => {
+        if (!encodedData) return null;
+        try {
+            return JSON.parse(decodeURIComponent(encodedData)) as OrganizationFormData;
+        } catch {
+            return null;
+        }
+    }, [encodedData]);
+
+    if (!organizationProfile) {
+        return <div>Nessun dato disponibile</div>;
+    }
 
     /**
      * Renders the appropriate content based on loading, error, or available profile data.
@@ -22,21 +35,6 @@ export default function OrganizationProfile() {
      * @returnsThe JSX content to be displayed.
      */
     const renderProfileContent = () => {
-        if (loading) {
-            return (
-                <div className="flex items-center justify-center h-full">
-                    <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
-                </div>
-            );
-        }
-
-        if (error || !organizationProfile) {
-            return (
-                <div className="flex items-center justify-center h-full">
-                    {error || "Failed to load organization profile"}
-                </div>
-            );
-        }
 
         return (
             <OrganizationProfileContent
