@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import SearchBar from "@/components/SearchBar";
 import { ScrollArea } from "@/components/core/ScrollArea";
@@ -15,23 +15,14 @@ import { IconType } from "react-icons";
 import { useAllRequests, useVolunteerRequests } from '@/hooks/useRequestsFetching';
 import { RequestSection } from '@/components/RequestSection';
 
-/**
- * `VolunteerDashboard` Component.
- *
- * This is the dashboard page for users with the "volunteer" role.
- * It displays a sidebar, a search bar, and a section for managing requests.
- * It shows requests categorized by their status (active, awaiting evaluation, archived),
- * and allows the user to toggle between request lists and a map view.
- *
- * It uses the `useAllRequests` and `useVolunteerRequests` hooks to fetch and manage requests.
- *
- * @returns The main dashboard component for the volunteer, including sidebar,
- * search bar, requests sections, and a toggleable map view.
- */
 export default function VolunteerDashboard() {
     const [showRequests, setShowRequests] = useState(true);
     const [showMap, setShowMap] = useState(false);
-    const [isSubscribedView, setIsSubscribedView] = useState(false);
+    const [isSubscribedView, setIsSubscribedView] = useState(() => {
+        // Initialize from localStorage, default to false
+        const savedState = localStorage.getItem('subscribedViewState');
+        return savedState ? JSON.parse(savedState) : false;
+    });
     const [searchQuery, setSearchQuery] = useState("");
 
     const { requests, loading: allRequestsLoading, error: allRequestsError } =
@@ -88,10 +79,6 @@ export default function VolunteerDashboard() {
             const filteredRegistered = filterRequests(subscribedRequests);
             const filteredNotVoted = filterRequests(notVotedRequests);
             const filteredArchived = filterRequests(archivedRequests);
-
-            console.log(filteredRegistered);
-            console.log(filteredNotVoted);
-            console.log(filteredArchived);
 
             return (
                 <>
