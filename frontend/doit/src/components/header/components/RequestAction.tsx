@@ -20,9 +20,9 @@ export const RequestActions: React.FC<RequestActionsProps> = ({
                                                                   onRemoveSavedOrg,
                                                                   onReview,
                                                                   onSubscribe,
-                                                                  isSubscribed = false,
+                                                                  isSubscribed,
                                                                   hasSavedOrganization,
-                                                                  isEventExpired = false,
+                                                                  isEventExpired,
                                                                   hasNotReviewed,
                                                                   isLoading
                                                               }) => {
