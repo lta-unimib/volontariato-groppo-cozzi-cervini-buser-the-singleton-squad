@@ -24,7 +24,7 @@ public class VolunteerOffer {
     @Column(nullable = false, unique = true)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
 
@@ -32,9 +32,9 @@ public class VolunteerOffer {
     @Column(nullable = false)
     private Status status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "volunteer_request_id")
-    @JsonBackReference // Marca questa relazione come parte "figlio" per evitare cicli
+    @JsonBackReference
     private VolunteerRequest volunteerRequest;
 
     @Column(nullable = false)
@@ -44,8 +44,8 @@ public class VolunteerOffer {
     private boolean votedByOrganization;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "feedback_id", referencedColumnName = "id") // Relazione diretta con una chiave esterna
-    @JsonIgnore // Evita di serializzare il feedback
+    @JoinColumn(name = "feedback_id", referencedColumnName = "id")
+    @JsonIgnore
     private Feedback feedback;
 
     public Organization getOrganization() {

@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-@ToString(exclude = {"organization", "volunteerOffers", "feedbackMap"}) // Evita ricorsioni con Lombok
+@ToString(exclude = {"organization", "volunteerOffers", "feedbackMap"})
 @EqualsAndHashCode
 @Entity
 @NoArgsConstructor
@@ -47,7 +47,7 @@ public class VolunteerRequest {
     private LocalDateTime endDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference // Evita il ciclo con Organization
+    @JsonBackReference
     private Organization organization;
 
     @ElementCollection
@@ -57,7 +57,7 @@ public class VolunteerRequest {
     private List<String> volunteerCategories = new ArrayList<>();
 
     @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference // Marca questo lato come "genitore" della relazione con VolunteerOffer
+    @JsonManagedReference
     private List<VolunteerOffer> volunteerOffers = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -66,8 +66,8 @@ public class VolunteerRequest {
             joinColumns = @JoinColumn(name = "volunteer_request_id"),
             inverseJoinColumns = @JoinColumn(name = "feedback_id")
     )
-    @JsonIgnore // Evita di serializzare feedbackMap direttamente
-    private Map<VolunteerOffer, Feedback> feedbackMap; // Associa ogni offerta a un feedback
+    @JsonIgnore
+    private Map<VolunteerOffer, Feedback> feedbackMap;
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {

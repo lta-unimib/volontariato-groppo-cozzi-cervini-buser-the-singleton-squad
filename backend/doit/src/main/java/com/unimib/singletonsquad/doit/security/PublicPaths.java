@@ -6,6 +6,7 @@ public enum PublicPaths {
     ERROR("/error"),
     REGISTRATION("/registration/**"),
     TEST_REQUEST("/request/test/**"),
+    CATEGORIES("/categories/**"),
     LOGIN("/login/**");
 
     private final String path;

@@ -20,7 +20,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Builder
-@ToString(exclude = "volunteerRequests") // Evita la ricorsione infinita con Lombok
+@ToString(exclude = "volunteerRequests")
 @Table(name = "organization")
 public class Organization implements User {
     @Id
@@ -47,12 +47,12 @@ public class Organization implements User {
     @Column(nullable = false)
     private String city;
 
-    @ElementCollection
+    @ElementCollection()
     private List<String> categories = new ArrayList<>();
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference // Marca questo lato come il "genitore" della relazione
+    @JsonManagedReference
     private List<VolunteerRequest> volunteerRequests = new ArrayList<>();
 
     public void setEmail(String email) {

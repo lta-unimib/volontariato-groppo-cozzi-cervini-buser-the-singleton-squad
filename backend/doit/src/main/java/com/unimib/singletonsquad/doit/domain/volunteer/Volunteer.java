@@ -53,28 +53,27 @@ public class Volunteer implements User {
 
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private VolunteerPreferences volunteerPreferences;
 
     @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<VolunteerOffer> volunteerOffers;
+    private List<VolunteerOffer> volunteerOffers = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "favorite_organizations",
             joinColumns = @JoinColumn(name = "volunteer_id"),
             inverseJoinColumns = @JoinColumn(name = "organization_id")
     )
-    @JsonSerialize(using = OrganizationNameSerializer.class)  // Serializzazione personalizzata
+    @JsonSerialize(using = OrganizationNameSerializer.class)
     private List<Organization> favoriteOrganizations = new ArrayList<>();
 
     @OneToOne(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private StatisticVolunteer statistic;
-
 
     public void setEmail(String email) throws EmailException {
         if (!isValidEmail(email)) {
@@ -88,7 +87,7 @@ public class Volunteer implements User {
     }
 
     private static boolean isValidEmail(String email) {
-       return EmailValidator.isValidEmail(email);
+        return EmailValidator.isValidEmail(email);
     }
 
     public void removeOrganizationFromFavourite(Organization organization) {
