@@ -2,7 +2,7 @@ export const addSingleMarkers = ({
                                      locations,
                                      map,
                                  }: {
-    locations: google.maps.LatLngLiteral[];
+    locations: ReadonlyArray<google.maps.LatLngLiteral>;
     map: google.maps.Map;
 }) => {
     locations.forEach((location) => {
