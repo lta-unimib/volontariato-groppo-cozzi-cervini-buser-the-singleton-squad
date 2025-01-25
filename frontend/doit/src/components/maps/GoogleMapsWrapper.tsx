@@ -13,7 +13,7 @@ import { Wrapper } from "@googlemaps/react-wrapper";
  * @returns The rendered wrapper component with the Google Maps API loaded.
  */
 export function GoogleMapsWrapper({ children }: { children: React.ReactNode }) {
-    const apiKey = process.env.GOOGLE_MAPS_API_KEY == null ? "" : process.env.GOOGLE_MAPS_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
 
-    return <Wrapper apiKey={apiKey}>{children}</Wrapper>;
+    return <Wrapper apiKey="">{children}</Wrapper>;
 }
