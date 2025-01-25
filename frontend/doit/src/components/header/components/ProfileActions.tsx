@@ -17,8 +17,13 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
                                                                   onEdit,
                                                                   onDelete,
                                                                   onRemoveSavedOrg,
-                                                                  onReview
+                                                                  onReview,
+                                                                  isLoading
                                                               }) => {
+    if (isLoading) {
+        return null;  // or return a spinner/loading component
+    }
+
     if (isOwnProfile) {
         // User is viewing their own profile
         // Aggiustare su mobile
@@ -42,7 +47,7 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
         );
     }
 
-    // User is viewing another's profile
+    // User is viewing another profile
     if (role === 'organization') {
         return (
             <div className="flex gap-2 mt-4 md:mt-12">

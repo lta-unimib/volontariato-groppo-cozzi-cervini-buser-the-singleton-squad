@@ -8,4 +8,5 @@ export interface ProfileActionsProps {
     onRemoveSavedOrg?: () => void;
     onReview?: () => void;
     onSave?: () => void;
+    isLoading: boolean;
 }

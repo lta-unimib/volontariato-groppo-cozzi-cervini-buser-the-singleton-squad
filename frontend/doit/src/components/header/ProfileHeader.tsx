@@ -29,39 +29,8 @@ export const ProfileHeader = ({
     const router = useRouter();
     const onBack = useBack();
 
-    const { organizations } = useFavoriteOrganizations();
-    console.log(organizations);
-    console.log(name, role);
-
+    const { organizations, loading } = useFavoriteOrganizations();
     const hasSavedOrganization = organizations.some(org => org.organizationName === name);
-    console.log(hasSavedOrganization);
-    /*
-        const [hasParticipatedInEvent, setHasParticipatedInEvent] = useState(false);
-
-    /!*    useEffect(() => {
-            const fetchProfileDetails = async () => {
-                if (!readOnly) return;
-
-                try {
-                    // Check if organization is saved (for volunteer)
-                    if (role.toLowerCase() === 'organization') {
-                        const savedOrgResponse = await makeGetRequest(`/volunteer/saved-organizations/`);
-                        setHasSavedOrganization(savedOrgResponse.some((org: any) => org.id === profileData.id));
-                    }
-
-                    // Check event participation (for organization)
-                    if (role.toLowerCase() === 'volunteer') {
-                        const participationResponse = await makeGetRequest(`/organization/event-participants/`);
-                        setHasParticipatedInEvent(participationResponse.some((participant: any) => participant.id === profileData.id));
-                    }
-                } catch (error) {
-                    console.error("Error fetching profile details", error);
-                }
-            };
-
-            fetchProfileDetails();
-        }, [readOnly, role, profileData]);*!/
-    */
 
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(profileData));
@@ -126,6 +95,7 @@ export const ProfileHeader = ({
                     onDelete={handleDelete}
                     onRemoveSavedOrg={role.toLowerCase() === 'organization' ? handleRemoveSavedOrg : undefined}
                     onReview={handleReview}
+                    isLoading={loading}
                 />
             </div>
         </div>
