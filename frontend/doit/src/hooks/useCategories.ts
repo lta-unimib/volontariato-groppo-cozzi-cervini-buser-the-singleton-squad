@@ -14,7 +14,7 @@ interface Category {
  * @returns {Category[]} categories - The list of fetched categories.
  * @returns {boolean} loading - Indicates if the data is still being fetched.
  * @returns {string | null} error - Contains an error message if fetching fails.
- * @returns {Function} fetch - Function to manually trigger a category fetch.
+ * @returns fetch - Function to manually trigger a category fetch.
  */
 export const useCategories = () => {
     const [categories, setCategories] = useState<Category[]>([]);

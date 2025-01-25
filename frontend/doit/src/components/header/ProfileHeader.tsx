@@ -4,7 +4,7 @@ import { Button } from "@/components/core/Button";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { makeDeleteRequest } from "@/utils/api/apiUtils";
+import {makeDeleteRequest, makePostRequest} from "@/utils/api/apiUtils";
 import { useBack } from "@/hooks/header/useBack";
 import { ProfileHeaderProps } from "@/types/props/header/profileHeadersProps";
 import { ProfileActions } from "@/components/header/components/ProfileActions";
@@ -48,7 +48,9 @@ export const ProfileHeader = ({
         await makeDeleteRequest(endpoint);
     };
 
-    const handleReview = () => {
+    const handleSave = async () => {
+        const endpoint = `/volunteer/favorite/organization/${name}/`;
+        await makePostRequest(endpoint);
     };
 
     return (
@@ -95,6 +97,7 @@ export const ProfileHeader = ({
                     onDelete={handleDelete}
                     onRemoveSavedOrg={role.toLowerCase() === 'organization' ? handleRemoveSavedOrg : undefined}
                     onReview={handleReview}
+                    onSave={handleSave}
                     isLoading={loading}
                 />
             </div>
