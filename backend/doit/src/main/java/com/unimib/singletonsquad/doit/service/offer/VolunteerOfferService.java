@@ -44,4 +44,9 @@ public class VolunteerOfferService {
         } else
             throw new IllegalAccessException("Dont have the correct email");
     }
+
+    /// REMOVE A OFFER
+    public void removeOfferByRequest(long requestId, String email) {
+        volunteerOfferDatabaseService.deleteVolunteerOffer(requestId, email);
+    }
 }

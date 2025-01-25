@@ -1,181 +1,125 @@
 "use client";
 
-import { Page } from "@/components/Page";
-import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
-import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
-import RequestCard from "@/components/ui/RequestCard";
-import { ScrollArea } from "@/components/ui/ScrollArea";
+import { useState } from 'react';
+import SidebarLayout from "@/components/sidebar/SidebarLayout";
+import SearchBar from "@/components/SearchBar";
+import { ScrollArea } from "@/components/core/ScrollArea";
+import { Button } from "@/components/core/Button";
+import { GoogleMapsWrapper } from "@/components/maps/GoogleMapsWrapper";
+import { GoogleMaps } from "@/components/maps/GoogleMaps";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useEffect, useState } from "react";
-import { makeGetRequest } from "@/utils/apiUtils";
 import { MdMap } from "react-icons/md";
-import { Button } from "@/components/ui/Button";
-import { GoogleMapsWrapper } from "@/app/dashboard/volunteer/components/GoogleMapsWrapper";
-import { GoogleMaps } from "@/app/dashboard/volunteer/components/GoogleMaps";
+
+import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItems";
 import { IconType } from "react-icons";
-import SearchBar from "@/components/ui/SearchBar";
+import { useAllRequests, useVolunteerRequests } from '@/hooks/useRequestsFetching';
+import { RequestSection } from '@/components/RequestSection';
 
-interface Address {
-    street: string;
-    city: string;
-    postalCode: string;
-    number: string;
-    additionalInfo: string;
-}
-
-interface Organization {
-    name: string;
-    email: string;
-    website: string;
-    VATNumber: string;
-}
-
-interface Request {
-    id: string;
-    title: string;
-    description: string;
-    volunteerCapacity: string;
-    address: Address;
-    startTime: string;
-    endTime: string;
-    organization: Organization;
-    categories: string[];
-    timeRange: [string, string];
-}
-
-interface ApiResponse {
-    message: string;
-    data: Request[];
-    status: number;
-}
-
-const formatDateRange = (timeRange: [string, string]) => {
-    const months = [
-        'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
-        'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'
-    ];
-
-    const [start, end] = timeRange.map(date => {
-        const d = new Date(date);
-        return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-    });
-
-    return `${start} - ${end}`;
-};
-
-export default function Home() {
-    const [requests, setRequests] = useState<Request[]>([]);
-    const [registeredRequests, setRegisteredRequests] = useState<Request[]>([]);
-    const [notVotedRequests, setNotVotedRequests] = useState<Request[]>([]);
-    const [archivedRequests, setArchivedRequests] = useState<Request[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [showRequests, setShowRequests] = useState<boolean>(true);
-    const [showMap, setShowMap] = useState<boolean>(false);
+/**
+ * `VolunteerDashboard` Component.
+ *
+ * This is the dashboard page for users with the "volunteer" role.
+ * It displays a sidebar, a search bar, and a section for managing requests.
+ * It shows requests categorized by their status (active, awaiting evaluation, archived),
+ * and allows the user to toggle between request lists and a map view.
+ *
+ * It uses the `useAllRequests` and `useVolunteerRequests` hooks to fetch and manage requests.
+ *
+ * @returns The main dashboard component for the volunteer, including sidebar,
+ * search bar, requests sections, and a toggleable map view.
+ */
+export default function VolunteerDashboard() {
+    const [showRequests, setShowRequests] = useState(true);
+    const [showMap, setShowMap] = useState(false);
     const [isRegisteredView, setIsRegisteredView] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const { requests, loading: allRequestsLoading, error: allRequestsError } =
+        useAllRequests("/request/all/volunteer/sorted/");
+
+    const {
+        registeredRequests,
+        notVotedRequests,
+        archivedRequests,
+        loading: registeredRequestsLoading,
+        error: registeredRequestsError
+    } = useVolunteerRequests();
+
     const OpportunityIcon: IconType = volunteerMenuItems.find(item => item.title === "Opportunità")?.icon as IconType;
 
-    const fetchAllRequests = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await makeGetRequest<ApiResponse>("/request/all/volunteer/sorted/");
-            if (response?.status === 200 && Array.isArray(response.data)) {
-                setRequests(response.data);
-            } else {
-                setError("Failed to fetch offers");
-                setRequests([]);
-            }
-        } catch (error) {
-            console.error("Error fetching offers:", error);
-            setError("An error occurred while fetching offers");
-            setRequests([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const fetchRegisteredRequests = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const [registered, notVoted, archived] = await Promise.all([
-                makeGetRequest<ApiResponse>("/request/all/volunteer/registered/"),
-                makeGetRequest<ApiResponse>("/request/all/volunteer/notvoted/"),
-                makeGetRequest<ApiResponse>("/request/all/volunteer/archived/")
-            ]);
-
-            if (registered?.status === 200 && Array.isArray(registered.data)) {
-                setRegisteredRequests(registered.data);
-            } else {
-                setRegisteredRequests([]);
-            }
-
-            if (notVoted?.status === 200 && Array.isArray(notVoted.data)) {
-                setNotVotedRequests(notVoted.data);
-            } else {
-                setNotVotedRequests([]);
-            }
-
-            if (archived?.status === 200 && Array.isArray(archived.data)) {
-                setArchivedRequests(archived.data);
-            } else {
-                setArchivedRequests([]);
-            }
-        } catch (error) {
-            console.error("Error fetching registered requests:", error);
-            setError("An error occurred while fetching registered requests");
-            setRegisteredRequests([]);
-            setNotVotedRequests([]);
-            setArchivedRequests([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        const initializeData = async () => {
-            await fetchAllRequests();
-        };
-
-        initializeData().catch((error) => {
-            console.error("Error initializing data:", error);
-            setError("Failed to initialize data");
-            setLoading(false);
-        });
-    }, []);
-
-    const handleRegisteredToggle = async (enabled: boolean) => {
+    const handleRegisteredToggle = (enabled: boolean) => {
         setIsRegisteredView(enabled);
-        if (enabled) {
-            await fetchRegisteredRequests();
-        } else {
-            await fetchAllRequests();
-        }
     };
 
-    const RequestSection = ({ title, requests }: { title: string; requests: Request[] }) => (
-        <div className="mb-8">
-            <h2 className="text-lg font-semibold mb-4 px-2">{title}</h2>
-            <div className="space-y-4">
-                {requests.map((request) => (
-                    <RequestCard
-                        key={request.id}
-                        organization={request.organization.name}
-                        title={request.title}
-                        location={`${request.address.street}, ${request.address.city}`}
-                        date={formatDateRange(request.timeRange)}
-                        image="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
-                        role="volunteer"
-                        requestData={request}
-                    />
-                ))}
-            </div>
-        </div>
-    );
+    const handleSearch = (query: string) => {
+        setSearchQuery(query.toLowerCase());
+        return []; // No specific search results needed
+    };
+
+    const filterRequests = (requestList: any[]) => {
+        return requestList.filter(request =>
+            !searchQuery ||
+            request.title.toLowerCase().includes(searchQuery) ||
+            request.description.toLowerCase().includes(searchQuery)
+        );
+    };
+
+    const renderRequestContent = () => {
+        const loading = isRegisteredView ? registeredRequestsLoading : allRequestsLoading;
+        const error = isRegisteredView ? registeredRequestsError : allRequestsError;
+
+        if (loading) {
+            return (
+                <div className="flex mt-10 items-center justify-center h-full">
+                    <AiOutlineLoading3Quarters className="text-4xl animate-spin"/>
+                </div>
+            );
+        }
+
+        if (error) {
+            return (
+                <div className="flex items-center justify-center h-full">
+                    {error}
+                </div>
+            );
+        }
+
+        if (isRegisteredView) {
+            const filteredRegistered = filterRequests(registeredRequests);
+            const filteredNotVoted = filterRequests(notVotedRequests);
+            const filteredArchived = filterRequests(archivedRequests);
+
+            return (
+                <>
+                    {filteredRegistered.length > 0 && (
+                        <RequestSection title="Richieste Attive" requests={filteredRegistered} />
+                    )}
+                    {filteredNotVoted.length > 0 && (
+                        <RequestSection title="In Attesa di Valutazione" requests={filteredNotVoted} />
+                    )}
+                    {filteredArchived.length > 0 && (
+                        <RequestSection title="Richieste Archiviate" requests={filteredArchived} />
+                    )}
+                    {filteredRegistered.length === 0 &&
+                        filteredNotVoted.length === 0 &&
+                        filteredArchived.length === 0 && (
+                            <div className="flex items-center justify-center h-full">
+                                Nessuna richiesta trovata
+                            </div>
+                        )}
+                </>
+            );
+        }
+
+        const filteredRequests = filterRequests(requests);
+
+        return filteredRequests.length === 0
+            ? <div className="flex items-center justify-center h-full">Nessuna richiesta trovata</div>
+            : <RequestSection title="Tutte le Richieste" requests={filteredRequests} />;
+    };
 
     return (
-        <Page>
+        <div className={`w-full h-screen flex flex-col`}>
             <div className="flex w-full min-h-screen">
                 <div className="w-[var(--sidebar-width)]">
                     <SidebarLayout
@@ -188,49 +132,14 @@ export default function Home() {
                         <div />
                     </SidebarLayout>
                 </div>
-
                 <div className="relative flex-1 flex flex-col">
                     <SearchBar
                         className="mt-12 md:mt-0 p-4 md:px-8"
                         onRegisteredToggle={handleRegisteredToggle}
+                        onSearch={handleSearch}
                     />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
-                        {showRequests && (
-                            <div className="space-y-4">
-                                {loading ? (
-                                    <div className="flex mt-10 items-center justify-center h-full">
-                                        <AiOutlineLoading3Quarters className="text-4xl animate-spin"/>
-                                    </div>
-                                ) : error ? (
-                                    <div className="flex items-center justify-center h-full">
-                                        {error}
-                                    </div>
-                                ) : isRegisteredView ? (
-                                    <>
-                                        {registeredRequests.length > 0 && (
-                                            <RequestSection title="Richieste Attive" requests={registeredRequests} />
-                                        )}
-                                        {notVotedRequests.length > 0 && (
-                                            <RequestSection title="In Attesa di Valutazione" requests={notVotedRequests} />
-                                        )}
-                                        {archivedRequests.length > 0 && (
-                                            <RequestSection title="Richieste Archiviate" requests={archivedRequests} />
-                                        )}
-                                        {!registeredRequests.length && !notVotedRequests.length && !archivedRequests.length && (
-                                            <div className="flex items-center justify-center h-full">
-                                                Nessuna richiesta registrata
-                                            </div>
-                                        )}
-                                    </>
-                                ) : requests.length === 0 ? (
-                                    <div className="flex items-center justify-center h-full">
-                                        Nessuna richiesta trovata
-                                    </div>
-                                ) : (
-                                    <RequestSection title="Tutte le Richieste" requests={requests} />
-                                )}
-                            </div>
-                        )}
+                        {showRequests && renderRequestContent()}
 
                         {showMap && (
                             <div className="relative h-[calc(100vh-312px)] md:h-[calc(100vh-144px)] w-full">
@@ -246,25 +155,16 @@ export default function Home() {
                             className="p-4 rounded-full !h-20 !w-20"
                             size="icon"
                             onClick={() => {
-                                if (showRequests) {
-                                    setShowMap(true);
-                                    setShowRequests(false);
-                                } else {
-                                    setShowMap(false);
-                                    setShowRequests(true);
-                                }
+                                setShowRequests(!showRequests);
+                                setShowMap(!showMap);
                             }}
                         >
-                            {showRequests && (
-                                <MdMap className="!h-6 !w-6"/>
-                            )}
-                            {showMap && (
-                                <OpportunityIcon className="!h-6 !w-6"/>
-                            )}
+                            {showRequests && <MdMap className="!h-6 !w-6"/>}
+                            {showMap && <OpportunityIcon className="!h-6 !w-6"/>}
                         </Button>
                     </div>
                 </div>
             </div>
-        </Page>
+        </div>
     );
 }

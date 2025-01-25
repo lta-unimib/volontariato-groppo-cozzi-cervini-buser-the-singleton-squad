@@ -1,65 +1,56 @@
 "use client";
 
-import { Page } from "@/components/Page";
-import { volunteerMenuItems } from "@/app/dashboard/volunteer/utils/volunteerMenuItems";
-import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
-import { ScrollArea } from "@/components/ui/ScrollArea";
+import { useState } from "react";
+import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItems";
+import SidebarLayout from "@/components/sidebar/SidebarLayout";
+import { ScrollArea } from "@/components/core/ScrollArea";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useEffect, useState } from "react";
-import { makeGetRequest } from "@/utils/apiUtils";
-import OrganizationCard from "@/app/organizations/components/OrganizationCard";
-import SearchBar from "@/components/ui/SearchBar";
-import {OrganizationFormData} from "@/types/refactored/model/organizationFormData";
+import SearchBar from "@/components/SearchBar";
+import OrganizationCard from "@/components/card/OrganizationCard";
+import { useFavoriteOrganizations } from "@/hooks/useFavoriteOrganizations";
 
-interface ApiResponse {
-    message: string;
-    data: OrganizationFormData[];
-    status: number;
-}
+/**
+ * `FavoriteOrganizations` Component.
+ *
+ * This component displays a list of the user's favorite organizations.
+ * It manages loading and error states, and displays a list of organizations
+ * with appropriate feedback messages.
+ *
+ * @returns The layout displaying the favorite organizations with a loading state or error messages.
+ */
 
 export default function FavoriteOrganizations() {
-    const [organizations, setOrganizations] = useState<OrganizationFormData[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const { organizations, loading, error } = useFavoriteOrganizations();
 
-    const fetchFavoriteOrganizations = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await makeGetRequest<ApiResponse>("/volunteer/favorite/organizations/");
-            if (response?.status === 200 && Array.isArray(response.data)) {
-                setOrganizations(response.data);
-            } else {
-                setError("Impossibile recuperare le organizzazioni preferite");
-                setOrganizations([]);
-            }
-        } catch (error) {
-            console.error("Errore nel recupero delle organizzazioni preferite:", error);
-            setError("Si è verificato un errore nel recupero delle organizzazioni");
-            setOrganizations([]);
-        } finally {
-            setLoading(false);
-        }
+    const handleSearch = (query: string) => {
+        setSearchQuery(query.toLowerCase());
+        return [];
     };
 
-    useEffect(() => {
-        const loadOrganizations = async () => {
-            await fetchFavoriteOrganizations();
-        };
+    const filterOrganizations = () => {
+        return organizations.filter(org =>
+            !searchQuery ||
+            org.organizationName.toLowerCase().includes(searchQuery) ||
+            org.description?.toLowerCase().includes(searchQuery) ||
+            org.preferences?.some(pref =>
+                pref.toLowerCase().includes(searchQuery)
+            )
+        );
+    };
 
-        loadOrganizations().catch(console.error);
-    }, []);
+    const filteredOrganizations = filterOrganizations();
 
     return (
-        <Page>
+        <div className="w-full h-screen flex flex-col">
             <div className="flex w-full min-h-screen">
                 <div className="w-[var(--sidebar-width)]">
                     <SidebarLayout
                         menuItems={volunteerMenuItems}
-                        header={""}
-                        side={"left"}
-                        variant={"floating"}
-                        collapsible={"icon"}
+                        header=""
+                        side="left"
+                        variant="floating"
+                        collapsible="icon"
                     >
                         <div />
                     </SidebarLayout>
@@ -70,28 +61,50 @@ export default function FavoriteOrganizations() {
                         className="mt-12 md:mt-0 p-4 md:px-8"
                         showFilters={false}
                         showToggle={false}
+                        onSearch={handleSearch}
                     />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         <div className="space-y-4">
                             {loading ? (
-                                <div className="flex mt-10 items-center justify-center h-full">
-                                    <AiOutlineLoading3Quarters className="text-4xl animate-spin"/>
+                                <div
+                                    className="flex mt-10 items-center justify-center h-full"
+                                    aria-label="Caricamento organizzazioni"
+                                >
+                                    <AiOutlineLoading3Quarters
+                                        className="text-4xl animate-spin"
+                                        aria-hidden="true"
+                                    />
+                                    <span className="sr-only">Caricamento in corso</span>
                                 </div>
                             ) : error ? (
-                                <div className="flex items-center justify-center h-full">
+                                <div
+                                    className="flex items-center justify-center h-full text-red-500"
+                                    role="alert"
+                                >
                                     {error}
                                 </div>
-                            ) : organizations.length === 0 ? (
-                                <div className="flex items-center justify-center h-full">
+                            ) : filteredOrganizations.length === 0 ? (
+                                <div
+                                    className="flex items-center justify-center h-full text-gray-500"
+                                    aria-label="Nessuna organizzazione"
+                                >
                                     Nessuna organizzazione preferita trovata
                                 </div>
                             ) : (
                                 <div className="mb-8">
-                                    <h2 className="text-lg font-semibold mb-4 px-2">Organizzazioni Preferite</h2>
-                                    <div className="space-y-4">
-                                        {organizations.map((org) => (
+                                    <h2
+                                        className="text-lg font-semibold mb-4 px-2"
+                                        id="favorite-organizations-title"
+                                    >
+                                        Organizzazioni Preferite
+                                    </h2>
+                                    <div
+                                        className="space-y-4"
+                                        aria-labelledby="favorite-organizations-title"
+                                    >
+                                        {filteredOrganizations.map((org) => (
                                             <OrganizationCard
-                                                key={org.email}
+                                                key={org.organizationName || org.email}
                                                 organizationData={org}
                                             />
                                         ))}
@@ -102,6 +115,6 @@ export default function FavoriteOrganizations() {
                     </ScrollArea>
                 </div>
             </div>
-        </Page>
+        </div>
     );
 }

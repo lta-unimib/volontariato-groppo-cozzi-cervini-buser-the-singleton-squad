@@ -1,5 +1,8 @@
 package com.unimib.singletonsquad.doit.security;
 
+import lombok.Getter;
+
+@Getter
 public enum PublicPaths {
 
     FAVICON("/favicon.ico"),
@@ -13,10 +16,6 @@ public enum PublicPaths {
 
     PublicPaths(String path) {
         this.path = path;
-    }
-
-    public String getPath() {
-        return path;
     }
 
     public boolean matches(String uri) {

@@ -1,98 +1,61 @@
 "use client"
 
-import { Page } from "@/components/Page";
-import { organizationMenuItems } from "@/app/dashboard/organization/utils/organizationMenuItems";
-import SidebarLayout from "@/components/ui/sidebar/SidebarLayout";
-import RequestCard from "@/components/ui/RequestCard";
-import { ScrollArea } from "@/components/ui/ScrollArea";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useEffect, useState } from "react";
-import { makeGetRequest } from "@/utils/apiUtils";
-import { MdOutlineAdd } from "react-icons/md";
-import { Button } from "@/components/ui/Button";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import SearchBar from "@/components/ui/SearchBar";
+import { MdOutlineAdd } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-interface Address {
-    street: string;
-    city: string;
-    postalCode: string;
-    number: string;
-    additionalInfo: string;
-}
+import SidebarLayout from "@/components/sidebar/SidebarLayout";
+import SearchBar from "@/components/SearchBar";
+import { ScrollArea } from "@/components/core/ScrollArea";
+import { Button } from "@/components/core/Button";
 
-interface Organization {
-    name: string;
-    email: string;
-    website: string;
-    VATNumber: string;
-}
+import { organizationMenuItems } from "@/utils/components/sidebar/organizationMenuItems";
+import { useAllRequests } from "@/hooks/useRequestsFetching";
+import { RequestSection } from "@/components/RequestSection";
 
-interface Request {
-    id: string;
-    title: string;
-    description: string;
-    volunteerCapacity: string;
-    address: Address;
-    startTime: string;
-    endTime: string;
-    organization: Organization;
-    categories: string[];
-    timeRange: [string, string];
-}
+/**
+ * `OrganizationDashboard` Component.
+ *
+ * This is the dashboard page for users with the "organization" role.
+ * It displays a sidebar, a search bar, and a section for managing requests.
+ * The page shows all requests related to the organization and provides a button
+ * to navigate to a page for creating new requests.
+ *
+ * It uses the `useAllRequests` hook to fetch requests from the backend and conditionally
+ * renders loading, error, or request data.
+ *
+ * @returns The main dashboard component for the organization, including sidebar,
+ * search bar, and request management.
+ */
 
-interface ApiResponse {
-    message: string;
-    data: Request[];
-    status: string;
-}
-
-const formatDateRange = (timeRange: [string, string]) => {
-    const months = [
-        'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
-        'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'
-    ];
-
-    const [start, end] = timeRange.map(date => {
-        const d = new Date(date);
-        return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-    });
-
-    return `${start} - ${end}`;
-};
-
-export default function OrganizationHome() {
-    const [requests, setRequests] = useState<Request[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+export default function OrganizationDashboard() {
     const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState("");
+    const { requests, loading, error } = useAllRequests("/request/all/organization/");
+
+    const handleSearch = (query: string) => {
+        setSearchQuery(query.toLowerCase());
+        return [];
+    };
+
+    const filterRequests = () => {
+        return requests.filter(request =>
+            !searchQuery ||
+            request.title.toLowerCase().includes(searchQuery) ||
+            request.description.toLowerCase().includes(searchQuery)
+        );
+    };
+
+    const filteredRequests = filterRequests();
 
     const handleRegisteredToggle = async (enabled: boolean) => {
         console.log("handleRegisteredToggle", enabled);
+
     };
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const response = await makeGetRequest<ApiResponse>("/request/all/organization/");
-
-                if (response.status === 200 && Array.isArray(response.data)) {
-                    setRequests(response.data as Request[]);
-                    console.log("Organization Requests:", response.data);
-                } else {
-                    setError("Failed to fetch requests");
-                }
-            } catch (error) {
-                console.error("Error fetching requests:", error);
-                setError("An error occurred while fetching requests");
-            } finally {
-                setLoading(false);
-            }
-        })();
-    }, []);
-
     return (
-        <Page>
+        <div className={`w-full h-screen flex flex-col`}>
             <div className="flex w-full min-h-screen">
                 <div className="w-[var(--sidebar-width)]">
                     <SidebarLayout
@@ -109,8 +72,9 @@ export default function OrganizationHome() {
                 <div className="relative w-full flex-1 flex flex-col">
                     <SearchBar
                         className="mt-12 md:mt-0 p-4 md:px-8"
-                        label={"Terminate"}
+                        label={"Termina"}
                         onRegisteredToggle={handleRegisteredToggle}
+                        onSearch={handleSearch}
                     />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         <div className="space-y-4">
@@ -122,23 +86,16 @@ export default function OrganizationHome() {
                                 <div className="flex items-center justify-center h-full">
                                     {error}
                                 </div>
-                            ) : requests.length === 0 ? (
+                            ) : filteredRequests.length === 0 ? (
                                 <div className="flex items-center justify-center h-full">
                                     Nessuna richiesta trovata
                                 </div>
                             ) : (
-                                requests.map((request) => (
-                                    <RequestCard
-                                        key={request.id}
-                                        organization={request.organization.name}
-                                        title={request.title}
-                                        location={`${request.address.street}, ${request.address.city}`}
-                                        date={formatDateRange(request.timeRange)}
-                                        image="https://www.zooplus.it/magazine/wp-content/uploads/2024/01/capibara.jpeg"
-                                        role="organization"
-                                        requestData={request}
-                                    />
-                                ))
+                                <RequestSection
+                                    title="Tutte le Richieste"
+                                    requests={filteredRequests}
+                                    role="organization"
+                                />
                             )}
                         </div>
                     </ScrollArea>
@@ -155,6 +112,6 @@ export default function OrganizationHome() {
                     </div>
                 </div>
             </div>
-        </Page>
+        </div>
     );
 }

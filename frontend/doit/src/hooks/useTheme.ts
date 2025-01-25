@@ -1,25 +1,33 @@
 "use client";
 import { useState, useEffect } from "react";
-import { GITHUB_PAGES } from "@/utils/constants";
 
+/**
+ * Custom hook to detect and manage the user's preferred theme (light or dark mode).
+ *
+ * It listens to the system's color scheme preference and updates the theme accordingly.
+ *
+ * @returns The current theme: 'dark' or 'light'.
+ */
 export function useTheme() {
-    const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useState("dark");
 
     useEffect(() => {
-        if (GITHUB_PAGES) {
-            setTheme("light");
-            return;
-        }
-
         const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
+        /**
+         * Updates the theme based on the media query event.
+         *
+         * @param e The media query event.
+         */
         const updateTheme = (e: MediaQueryListEvent | MediaQueryList) => {
             const newTheme = e.matches ? "dark" : "light";
             setTheme(newTheme);
         };
 
         updateTheme(mediaQuery);
+
         mediaQuery.addEventListener("change", updateTheme);
+
         return () => mediaQuery.removeEventListener("change", updateTheme);
     }, []);
 

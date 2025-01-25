@@ -1,12 +1,19 @@
-import { Page } from '@/components/Page';
-import { Header } from '@/components/refactored/landing/Header';
-import { Hero } from "@/components/refactored/landing/Hero";
+import { Header } from '@/components/landing/Header';
+import { Hero } from "@/components/landing/Hero";
 
+/**
+ * Home page component that renders the landing page content.
+ * It includes the header and hero sections.
+ *
+ * @returns The Home component, displaying the landing page sections.
+ */
 export default function Home() {
     return (
-        <Page>
+        <div>
+            {/* Renders the header section of the landing page */}
             <Header />
+            {/* Renders the hero section of the landing page */}
             <Hero />
-        </Page>
+        </div>
     );
 }
