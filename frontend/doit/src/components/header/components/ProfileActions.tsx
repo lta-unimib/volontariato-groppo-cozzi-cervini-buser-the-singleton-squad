@@ -11,8 +11,8 @@ import {ProfileActionsProps} from "@/types/props/header/profileActionsProps";
 export const ProfileActions: React.FC<ProfileActionsProps> = ({
                                                                   role,
                                                                   isOwnProfile,
-                                                                  hasSavedOrganization = false,
-                                                                  hasParticipatedInEvent = false,
+                                                                  hasSavedOrganization,
+                                                                  hasParticipatedInEvent,
                                                                   onSave,
                                                                   onEdit,
                                                                   onDelete,
@@ -43,12 +43,12 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
     }
 
     // User is viewing another's profile
-    if (role === 'volunteer') {
+    if (role === 'organization') {
         return (
-            <div className="flex gap-2 mt-4 md:mt-0">
+            <div className="flex gap-2 mt-4 md:mt-12">
                 {hasSavedOrganization && onRemoveSavedOrg ? (
                     <Button
-                        variant="secondary"
+                        variant="destructive"
                         size="default"
                         onClick={onRemoveSavedOrg}
                     >

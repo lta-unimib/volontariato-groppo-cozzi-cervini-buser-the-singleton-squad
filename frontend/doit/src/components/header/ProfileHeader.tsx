@@ -30,8 +30,11 @@ export const ProfileHeader = ({
     const onBack = useBack();
 
     const { organizations } = useFavoriteOrganizations();
-    const hasSavedOrganization = organizations.some(org => org.organizationName === name);
+    console.log(organizations);
+    console.log(name, role);
 
+    const hasSavedOrganization = organizations.some(org => org.organizationName === name);
+    console.log(hasSavedOrganization);
     /*
         const [hasParticipatedInEvent, setHasParticipatedInEvent] = useState(false);
 
@@ -72,7 +75,7 @@ export const ProfileHeader = ({
     };
 
     const handleRemoveSavedOrg = async () => {
-        const endpoint = `/volunteer/favorite/organization/{orgName}/`;
+        const endpoint = `/volunteer/favorite/organization/${name}/`;
         await makeDeleteRequest(endpoint);
     };
 
@@ -121,7 +124,7 @@ export const ProfileHeader = ({
                     //hasParticipatedInEvent={hasParticipatedInEvent}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
-                    onRemoveSavedOrg={role.toLowerCase() === 'volunteer' ? handleRemoveSavedOrg : undefined}
+                    onRemoveSavedOrg={role.toLowerCase() === 'organization' ? handleRemoveSavedOrg : undefined}
                     onReview={handleReview}
                 />
             </div>
