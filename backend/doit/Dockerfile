@@ -1,30 +1,30 @@
-# Utilizzare un'immagine di base di OpenJDK per eseguire l'applicazione
-FROM openjdk:17-jdk-slim as build
+# Usa Maven con JDK 17 per costruire l'applicazione
+FROM maven:3.9.2-eclipse-temurin-17 AS build
 
-# Definire la directory di lavoro nel container
+# Imposta la directory di lavoro per il build
 WORKDIR /app
 
-# Copiare il file pom.xml e scaricare le dipendenze
+# Copia il file pom.xml e scarica le dipendenze
 COPY pom.xml .
-RUN mvn clean install -DskipTests
+RUN mvn dependency:go-offline -B
 
-# Copiare tutto il codice sorgente nel container
-COPY src /app/src
+# Copia il resto del progetto (es. src e altri file necessari)
+COPY . .
 
-# Compilare il progetto e generare il jar
+# Compila il progetto e crea il file JAR
 RUN mvn clean package -DskipTests
 
-# Fase di runtime: eseguire il jar creato
-FROM openjdk:17-jdk-slim
+# Usa un'immagine leggera per eseguire l'applicazione
+FROM eclipse-temurin:17-jre-alpine
 
-# Definire la directory di lavoro
+# Imposta la directory di lavoro
 WORKDIR /app
 
-# Copiare il jar generato dalla fase di build
-COPY --from=build /app/target/DoIT-0.0.1-SNAPSHOT.jar /app/DoIT.jar
+# Copia il file JAR dal container del build
+COPY --from=build /app/target/DoIT-0.0.1-SNAPSHOT.jar app.jar
 
-# Esporre la porta su cui l'applicazione Spring Boot si eseguirà
+# Espone la porta 8080
 EXPOSE 8080
 
-# Eseguire il jar
-ENTRYPOINT ["java", "-jar", "DoIT.jar"]
+# Comando per avviare l'applicazione
+ENTRYPOINT ["java", "-jar", "app.jar"]
