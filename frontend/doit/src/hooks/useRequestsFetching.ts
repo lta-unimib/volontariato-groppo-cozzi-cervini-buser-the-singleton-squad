@@ -114,7 +114,7 @@ export const useVolunteerRequests = () => {
     }, [fetchRegisteredRequests]);
 
     return {
-        registeredRequests,
+        subscribedRequests: registeredRequests,
         notVotedRequests,
         archivedRequests,
         loading,

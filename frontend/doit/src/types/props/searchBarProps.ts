@@ -30,7 +30,7 @@ import type React from "react";
  */
 export interface SearchBarProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string;
-    onRegisteredToggle?: (enabled: boolean) => void;
+    onSubscribedToggle?: (enabled: boolean) => void;
     label?: string;
     showToggle?: boolean;
     showFilters?: boolean;

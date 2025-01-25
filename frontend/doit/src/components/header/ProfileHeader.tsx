@@ -93,14 +93,14 @@ export const ProfileHeader = ({
                 </div>
                 <ProfileActions
                     role={role.toLowerCase() as 'volunteer' | 'organization'}
-                    isOwnProfile={!readOnly}
-                    hasSavedOrganization={hasSavedOrganization}
-                    //hasParticipatedInEvent={hasParticipatedInEvent}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                     onRemoveSavedOrg={role.toLowerCase() === 'organization' ? handleRemoveSavedOrg : undefined}
                     onReview={handleReview}
                     onSave={handleSave}
+                    isOwnProfile={!readOnly}
+                    hasSavedOrganization={hasSavedOrganization}
+                    //isSubscribed={hasParticipatedInEvent}
                     isLoading={loading}
                 />
             </div>

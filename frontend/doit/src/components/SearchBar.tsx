@@ -14,7 +14,7 @@ import {SearchBarProps} from "@/types/props/searchBarProps";
  *
  * @param {Object} props - The component props.
  * @param {string} [props.className] - Optional class names to style the component.
- * @param {function} props.onRegisteredToggle - Callback function triggered when the toggle switch is changed.
+ * @param {function} props.onSubscribedToggle - Callback function triggered when the toggle switch is changed.
  * @param {string} [props.label="Iscritto"] - The label to display next to the toggle switch.
  * @param {boolean} [props.showToggle=true] - Determines whether to show the toggle switch.
  * @param {boolean} [props.showFilters=true] - Determines whether to show the filter badges.
@@ -28,7 +28,7 @@ import {SearchBarProps} from "@/types/props/searchBarProps";
 
 export default function SearchBar({
     className,
-    onRegisteredToggle,
+    onSubscribedToggle,
     label = "Iscritto",
     showToggle = true,
     showFilters = true,
@@ -82,7 +82,7 @@ export default function SearchBar({
                     {showToggle && (
                         <div className="ml-4 flex items-center space-x-2">
                             <Switch
-                                onCheckedChange={onRegisteredToggle}
+                                onCheckedChange={onSubscribedToggle}
                                 aria-label="Abilita ricerca API"
                                 disabled={disabled}
                             />

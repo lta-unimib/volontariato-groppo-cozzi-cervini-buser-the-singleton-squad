@@ -8,8 +8,8 @@ import {
     MdOutlineRateReview,
     MdOutlineRemove
 } from "react-icons/md";
-import React, {useState} from "react";
-import {RequestActionsProps} from "@/types/props/header/requestActionsProps";
+import React, { useState } from "react";
+import { RequestActionsProps } from "@/types/props/header/requestActionsProps";
 
 export const RequestActions: React.FC<RequestActionsProps> = ({
                                                                   role,
@@ -23,99 +23,147 @@ export const RequestActions: React.FC<RequestActionsProps> = ({
                                                                   isSubscribed = false,
                                                                   hasSavedOrganization,
                                                                   isEventExpired = false,
-                                                                  hasReviewed = false,
+                                                                  hasNotReviewed,
                                                                   isLoading
                                                               }) => {
-    // Move useState outside of conditional rendering
-    const [isSaved, setIsSaved] = useState(hasSavedOrganization);
-
     if (isLoading) {
         return null;
     }
 
+    const [isLocalSaved, setIsLocalSaved] = useState(hasSavedOrganization);
+    const [isLocalSubscribed, setIsLocalSubscribed] = useState(isSubscribed);
+
     const handleRemoveSavedOrg = async () => {
         if (onRemoveSavedOrg) {
             onRemoveSavedOrg();
-            setIsSaved(false);
+            setIsLocalSaved(false);
         }
     };
 
     const handleSaveOrg = async () => {
         if (onSave) {
             onSave();
-            setIsSaved(true);
+            setIsLocalSaved(true);
         }
     };
 
-    if (role === 'volunteer') {
-        return (
-            <div className="flex gap-2 mt-4 md:md-0">
-                {isSaved && onRemoveSavedOrg ? (
-                    <Button
-                        variant="destructive"
-                        size="default"
-                        onClick={handleRemoveSavedOrg}
-                    >
-                        <MdOutlineRemove className="mr-2" /> Rimuovi dai preferiti
-                    </Button>
-                ) : (
-                    <Button
-                        variant="secondary"
-                        size="default"
-                        onClick={handleSaveOrg}
-                    >
-                        <MdOutlineEdit className="mr-2" /> Salva organizzazione
-                    </Button>
-                )}
+    const handleSubscribe = async () => {
+        if (onSubscribe) {
+            onSubscribe();
+            setIsLocalSubscribed(true);
+        }
+    };
 
-                {/* Participate/Unsubscribe Button */}
-                {isSubscribed ? (
-                    <Button
-                        variant="destructive"
-                        size="default"
-                        onClick={onUnsubscribe}
-                    >
-                        <MdOutlineClose className="mr-2" />Disiscriviti
-                    </Button>
-                ) : (
+    const handleUnsubscribe = async () => {
+        if (onUnsubscribe) {
+            onUnsubscribe();
+            setIsLocalSubscribed(false);
+        }
+    };
+
+    const handleReview = async () => {
+        if (onReview) {
+            onReview();
+        }
+    };
+
+    const OrganizationSaveButton = () => (
+        isLocalSaved ? (
+            <Button
+                variant="destructive"
+                size="default"
+                onClick={handleRemoveSavedOrg}
+            >
+                <MdOutlineRemove className="mr-2" /> Rimuovi dai preferiti
+            </Button>
+        ) : (
+            <Button
+                variant="secondary"
+                size="default"
+                onClick={handleSaveOrg}
+            >
+                <MdOutlineBookmarkBorder className="mr-2" /> Salva organizzazione
+            </Button>
+        )
+    );
+
+
+    console.log("Ho salvato organizzazione - action", hasSavedOrganization);
+    console.log("Sono Iscritto - action", isSubscribed);
+    console.log("Ero iscritto ed ho recensito - action", isEventExpired);
+    console.log("Ero iscritto e non ho recensito - action", hasNotReviewed);
+
+    if (role === 'volunteer') {
+        if (!isLocalSubscribed && !hasNotReviewed && !isEventExpired) {
+            console.log("1")
+            return (
+                <div className="flex gap-2 mt-4 md:md-0">
+                    <OrganizationSaveButton />
                     <Button
                         variant="default"
                         size="default"
-                        onClick={onSubscribe}
+                        onClick={handleSubscribe}
                     >
                         <MdOutlineCheck className="mr-2" /> Partecipa
                     </Button>
-                )}
+                </div>
+            );
+        }
 
-                {isEventExpired && isSubscribed && !hasReviewed && (
-                    <Button
-                        variant="default"
-                        size="default"
-                        onClick={onReview}
-                    >
-                        <MdOutlineRateReview className="mr-2" /> Recensione
-                    </Button>
-                )}
-
-                {isEventExpired && hasSavedOrganization && (
+        if (isLocalSubscribed) {
+            console.log("2")
+            return (
+                <div className="flex gap-2 mt-4 md:md-0">
+                    <OrganizationSaveButton />
                     <Button
                         variant="destructive"
                         size="default"
-                        onClick={handleRemoveSavedOrg}
+                        onClick={handleUnsubscribe}
                     >
-                        <MdOutlineRemove className="mr-2" /> Rimuovi dai preferiti
+                        <MdOutlineClose className="mr-2" /> Disiscriviti
                     </Button>
-                )}
+                </div>
+            );
+        }
 
-                {isEventExpired && !isSubscribed && !hasSavedOrganization && (
+        if (!isLocalSubscribed && hasNotReviewed) {
+            console.log("3")
+            console.log("Soluzione corretta")
+            return (
+                <div className="flex gap-2 mt-4 md:md-0">
+                    <OrganizationSaveButton />
                     <Button
-                        variant="secondary"
+                        variant="default"
                         size="default"
-                        onClick={onSave}
+                        onClick={handleReview}
                     >
-                        <MdOutlineBookmarkBorder className="mr-2" /> Salva Organizzazione
+                        <MdOutlineRateReview className="mr-2" /> Recensisci
                     </Button>
-                )}
+                </div>
+            );
+        }
+
+        if (isLocalSubscribed && !hasNotReviewed && isEventExpired) {
+            console.log("4")
+            return (
+                <div className="flex gap-2 mt-4 md:md-0">
+                    <OrganizationSaveButton />
+                    <Button
+                        variant="default"
+                        size="default"
+                        onClick={handleReview}
+                    >
+                        <MdOutlineRateReview className="mr-2" /> Recensisci
+                    </Button>
+                </div>
+            );
+        }
+
+        // Default case
+        console.log("default")
+        return (
+            <div className="flex gap-2 mt-4 md:md-0">
+                <OrganizationSaveButton />
             </div>
         );
     }

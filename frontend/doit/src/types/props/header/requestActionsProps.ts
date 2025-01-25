@@ -10,7 +10,7 @@ export interface RequestActionsProps {
     isSubscribed?: boolean;
     hasSavedOrganization?: boolean;
     isEventExpired?: boolean;
-    hasReviewed?: boolean;
+    hasNotReviewed?: boolean;
     isLoading?: boolean;
 }
 

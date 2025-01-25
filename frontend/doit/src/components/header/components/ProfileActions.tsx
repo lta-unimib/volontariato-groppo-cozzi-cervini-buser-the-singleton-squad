@@ -10,14 +10,14 @@ import {ProfileActionsProps} from "@/types/props/header/profileActionsProps";
  */
 export const ProfileActions: React.FC<ProfileActionsProps> = ({
                                                                   role,
-                                                                  isOwnProfile,
-                                                                  hasSavedOrganization,
-                                                                  hasParticipatedInEvent,
                                                                   onSave,
                                                                   onEdit,
                                                                   onDelete,
                                                                   onRemoveSavedOrg,
                                                                   onReview,
+                                                                  isOwnProfile,
+                                                                  isSubscribed,
+                                                                  hasSavedOrganization,
                                                                   isLoading
                                                               }) => {
     if (isLoading) {
@@ -91,7 +91,7 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
     // For organization viewing a volunteer profile
     return (
         <div className="flex gap-2 mt-4 md:mt-0">
-            {hasParticipatedInEvent && (
+            {isSubscribed && (
                 <Button
                     variant="default"
                     size="default"

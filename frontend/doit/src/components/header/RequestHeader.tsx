@@ -8,14 +8,8 @@ import {RequestActions} from './components/RequestAction';
 import Image from 'next/image';
 import { RequestHeaderProps } from "@/types/props/header/requestHeaderProps";
 import {useFavoriteOrganizations} from "@/hooks/useFavoriteOrganizations";
+import {useVolunteerRequests} from "@/hooks/useRequestsFetching";
 
-/**
- * RequestHeader component that displays a header for a specific request.
- * It shows details like title, organization name, address, categories, and provides actions for subscribing, saving, editing, or deleting.
- *
- * @param {RequestHeaderProps} props - The props for the component including request data, organization info, image URL, etc.
- * @returns - A JSX element representing the request header.
- */
 export const RequestHeader = ({
                                   title,
                                   organizationName,
@@ -25,11 +19,10 @@ export const RequestHeader = ({
                                   role,
                               }: RequestHeaderProps) => {
     const router = useRouter();
+    const onBack = useBack();
+
     const [idRequest, setIdRequest] = useState<string | undefined>(undefined);
 
-    /**
-     * Parses the URL parameters to retrieve the request data and extract the request ID.
-     */
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const data = urlParams.get('data');
@@ -44,8 +37,24 @@ export const RequestHeader = ({
         }
     }, []);
 
-    const { organizations, loading } = useFavoriteOrganizations();
+    const { organizations, loading: organizationsLoading } = useFavoriteOrganizations();
     const hasSavedOrganization = organizations.some(org => org.organizationName === organizationName);
+
+    const {
+        subscribedRequests,
+        notVotedRequests,
+        archivedRequests,
+        loading: requestsLoading
+    } = useVolunteerRequests();
+
+    const isSubscribed = subscribedRequests.some(req => req.id === idRequest);
+    const isEventExpired = archivedRequests.some(req => req.id === idRequest);
+    const hasNotReviewed = notVotedRequests.some(req => req.id === idRequest);
+
+    console.log("Ho salvato organizzazione", hasSavedOrganization);
+    console.log("Sono Iscritto", isSubscribed);
+    console.log("Ero iscritto ed ho recensito", isEventExpired);
+    console.log("Ero iscritto e non ho recensito", hasNotReviewed);
 
     /**
      * Handles the subscription action by sending a POST request to subscribe to the offer.
@@ -53,6 +62,11 @@ export const RequestHeader = ({
     const handleSubscribe = async () => {
         const endpoint = `/offer/subscribe/${idRequest}/`;
         await makePostRequest(endpoint);
+    };
+
+    const handleUnsubscribe = async () => {
+        const endpoint = `/offer/unsubscribe/${idRequest}/`;
+        await makeDeleteRequest(endpoint);
     };
 
     /**
@@ -77,16 +91,6 @@ export const RequestHeader = ({
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(requestData));
         router.push(`/request/?mode=edit&data=${encodedData}`);
-    };
-
-    const onBack = useBack();
-
-    /**
-     * Handles the unsubscribe action by sending a POST request to unsubscribe from the offer.
-     */
-    const handleUnsubscribe = async () => {
-        const endpoint = `/offer/unsubscribe/${idRequest}/`;
-        await makePostRequest(endpoint);
     };
 
     /**
@@ -149,19 +153,26 @@ export const RequestHeader = ({
                 {role && (
                     <RequestActions
                         role={role}
+                        // Organization can edit or delete a request
                         onEdit={handleEdit}
                         onDelete={handleDelete}
+
+                        // Volunteer can save or remove a favorite organization
                         onSave={handleSave}
+                        onRemoveSavedOrg={handleRemoveSavedOrg}
+
+                        // Volunteer can subscribe or unsubscribe from an event
                         onSubscribe={handleSubscribe}
                         onUnsubscribe={handleUnsubscribe}
-                        onRemoveSavedOrg={handleRemoveSavedOrg}
+
+                        // Volunteer can review a request after participating
                         onReview={handleReview}
+
                         hasSavedOrganization={hasSavedOrganization}
-                        isLoading={loading}
-                        // Add the necessary props for the new scenarios
-                        /*                        isSubscribed={/!* Add logic to determine if subscribed *!/}
-                                                isEventExpired={/!* Add logic to determine if event expired *!/}
-                                                hasReviewed={/!* Add logic to determine if reviewed *!/}*/
+                        isSubscribed={isSubscribed}
+                        isEventExpired={isEventExpired}
+                        hasNotReviewed={hasNotReviewed}
+                        isLoading={organizationsLoading || requestsLoading}
                     />
                 )}
             </div>

@@ -31,14 +31,14 @@ import { RequestSection } from '@/components/RequestSection';
 export default function VolunteerDashboard() {
     const [showRequests, setShowRequests] = useState(true);
     const [showMap, setShowMap] = useState(false);
-    const [isRegisteredView, setIsRegisteredView] = useState(false);
+    const [isSubscribedView, setIsSubscribedView] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
     const { requests, loading: allRequestsLoading, error: allRequestsError } =
         useAllRequests("/request/all/volunteer/sorted/");
 
     const {
-        registeredRequests,
+        subscribedRequests,
         notVotedRequests,
         archivedRequests,
         loading: registeredRequestsLoading,
@@ -47,13 +47,13 @@ export default function VolunteerDashboard() {
 
     const OpportunityIcon: IconType = volunteerMenuItems.find(item => item.title === "Opportunità")?.icon as IconType;
 
-    const handleRegisteredToggle = (enabled: boolean) => {
-        setIsRegisteredView(enabled);
+    const handleSubscribedToggle = (enabled: boolean) => {
+        setIsSubscribedView(enabled);
     };
 
     const handleSearch = (query: string) => {
         setSearchQuery(query.toLowerCase());
-        return []; // No specific search results needed
+        return [];
     };
 
     const filterRequests = (requestList: any[]) => {
@@ -65,8 +65,8 @@ export default function VolunteerDashboard() {
     };
 
     const renderRequestContent = () => {
-        const loading = isRegisteredView ? registeredRequestsLoading : allRequestsLoading;
-        const error = isRegisteredView ? registeredRequestsError : allRequestsError;
+        const loading = isSubscribedView ? registeredRequestsLoading : allRequestsLoading;
+        const error = isSubscribedView ? registeredRequestsError : allRequestsError;
 
         if (loading) {
             return (
@@ -84,10 +84,14 @@ export default function VolunteerDashboard() {
             );
         }
 
-        if (isRegisteredView) {
-            const filteredRegistered = filterRequests(registeredRequests);
+        if (isSubscribedView) {
+            const filteredRegistered = filterRequests(subscribedRequests);
             const filteredNotVoted = filterRequests(notVotedRequests);
             const filteredArchived = filterRequests(archivedRequests);
+
+            console.log(filteredRegistered);
+            console.log(filteredNotVoted);
+            console.log(filteredArchived);
 
             return (
                 <>
@@ -135,7 +139,7 @@ export default function VolunteerDashboard() {
                 <div className="relative flex-1 flex flex-col">
                     <SearchBar
                         className="mt-12 md:mt-0 p-4 md:px-8"
-                        onRegisteredToggle={handleRegisteredToggle}
+                        onSubscribedToggle={handleSubscribedToggle}
                         onSearch={handleSearch}
                     />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
