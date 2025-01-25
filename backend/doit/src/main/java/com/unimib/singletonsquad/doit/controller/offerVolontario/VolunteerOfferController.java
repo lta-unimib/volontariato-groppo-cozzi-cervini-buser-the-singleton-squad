@@ -40,12 +40,21 @@ public class VolunteerOfferController {
     }
 
     /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
-    @DeleteMapping("/{idOffer}")
+    @DeleteMapping("/{idOffer}/")
     public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable final Long idOffer,
                                                                 final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
         UserRole role = UserRole.valueOf(this.registeredUserService.checkAndGetRoleFromRequest(request));
         String email = this.registeredUserService.getUserEmailAndIsRegistered(role, request);
         this.volunteerOfferService.removeOffer(idOffer, email);
+        return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
+    }
+
+    /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
+    @DeleteMapping("/unsubscribe/{idRequest}/")
+    public ResponseEntity<ResponseMessage> deleteVolunteerOfferByRequest(@PathVariable final Long idRequest,
+                                                                final HttpServletRequest request) throws Exception {
+        String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
+        this.volunteerOfferService.removeOfferByRequest(idRequest, email);
         return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
     }
 
