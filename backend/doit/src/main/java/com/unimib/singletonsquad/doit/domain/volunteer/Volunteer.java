@@ -76,6 +76,7 @@ public class Volunteer implements User {
             inverseJoinColumns = @JoinColumn(name = "organization_id")
     )
     @JsonSerialize(using = OrganizationNameSerializer.class)
+    @JsonIgnore
     private List<Organization> favoriteOrganizations = new ArrayList<>();
 
     @OneToOne(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -115,6 +116,8 @@ public class Volunteer implements User {
                 Objects.equals(surname, volunteer.surname) &&
                 Objects.equals(email, volunteer.email);
     }
+
+
 
     @Override
     public int hashCode() {

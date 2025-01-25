@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.repository;
 
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -38,5 +39,9 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
     @Query("SELECT DISTINCT request FROM VolunteerRequest AS request JOIN request.volunteerOffers AS offer WHERE request.id = :idRequest  and offer.volunteer.id = :idVolontario AND request.endDateTime > :oggi AND offer.votedByVolunteer = FALSE ")
     Optional<VolunteerRequest> getSpecificVolunteerRequestFeedback(@Param("idVolontario") long idVolunteer, @Param("idRequest") long idRequest , @Param("oggi") LocalDateTime oggi);
 
+    List<VolunteerRequest> id(Long id);
+
+    @Query("SELECT o.volunteer from VolunteerOffer  o where o.volunteerRequest.id = :idRequest")
+    List<Volunteer> getAllVolunteerByRequest(@Param("idRequest") Long idRequest);
 }
 

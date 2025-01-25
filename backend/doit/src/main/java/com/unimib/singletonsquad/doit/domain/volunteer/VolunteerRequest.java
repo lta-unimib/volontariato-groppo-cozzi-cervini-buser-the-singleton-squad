@@ -1,8 +1,5 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import jakarta.persistence.*;
@@ -12,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +45,7 @@ public class VolunteerRequest {
     private LocalDateTime endDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Organization organization;
+    private Organization organization; // Excluded from serialization
 
     @ElementCollection
     @CollectionTable(name = "volunteer_request_categories", joinColumns = @JoinColumn(name = "volunteer_request_id"))
@@ -57,8 +54,7 @@ public class VolunteerRequest {
     private List<String> volunteerCategories = new ArrayList<>();
 
     @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<VolunteerOffer> volunteerOffers = new ArrayList<>();
+    private List<VolunteerOffer> volunteerOffers = new ArrayList<>(); // Excluded from serialization
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(
@@ -66,8 +62,18 @@ public class VolunteerRequest {
             joinColumns = @JoinColumn(name = "volunteer_request_id"),
             inverseJoinColumns = @JoinColumn(name = "feedback_id")
     )
-    @JsonIgnore
-    private Map<VolunteerOffer, Feedback> feedbackMap;
+    private Map<VolunteerOffer, Feedback> feedbackMap = new HashMap<>(); // Excluded from serialization
+
+    // Metodo per la serializzazione personalizzata
+    public Map<String, Object> toSerializableMap() {
+        Map<String, Object> serialized = new HashMap<>();
+        serialized.put("id", this.id);
+        serialized.put("title", this.title);
+        serialized.put("detailedDescription", this.detailedDescription);
+        serialized.put("capacity", this.capacity);
+        serialized.put("address", this.address); // Puoi escludere singoli campi se necessario
+        return serialized;
+    }
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {

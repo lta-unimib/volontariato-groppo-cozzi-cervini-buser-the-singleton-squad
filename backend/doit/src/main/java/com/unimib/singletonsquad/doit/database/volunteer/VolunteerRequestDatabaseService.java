@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.database.common.CityInfoDatabaseService;
 import com.unimib.singletonsquad.doit.domain.common.CityInfo;
+import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
@@ -13,7 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -111,4 +115,29 @@ public class VolunteerRequestDatabaseService {
                 () -> new RecordNotFoundGeneralException( Error_Message + idRequest +" while existsVolunteerRequestByVolunteer"));
 
     }
+
+    public List getAllVolunteerByRequest(Long idRequest) {
+        return this.repository.getAllVolunteerByRequest(idRequest);
+    }
+
+
+    /// GET ALL REQUEST LIST
+    public Map< VolunteerRequest, List<Volunteer>> getRequestListAllEvents(Organization organization) {
+        String orgEmail = organization.getEmail();
+        List<VolunteerRequest> temp = this.getAllRequestOrganizationByEmail(orgEmail);
+        Map< VolunteerRequest, List<Volunteer>> requestListAllEvents = new HashMap<>();
+        for (VolunteerRequest volunteerRequest : temp) {
+            requestListAllEvents.put(volunteerRequest, getAllVolunteerByRequest(volunteerRequest.getId()));
+        }
+        return requestListAllEvents;
+    }
+
+    public Map< VolunteerRequest, List<Volunteer>> getRequestSpecificiListAllEvents(Long idRequest) {
+        VolunteerRequest temp = this.getSpecificRequest(idRequest);
+        Map< VolunteerRequest, List<Volunteer>> requestListAllEvents = new HashMap<>();
+        requestListAllEvents.put(temp, getAllVolunteerByRequest(temp.getId()));
+        return requestListAllEvents;
+    }
+
+
 }
