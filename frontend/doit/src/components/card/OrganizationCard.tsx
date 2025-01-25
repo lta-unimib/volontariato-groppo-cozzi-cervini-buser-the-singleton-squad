@@ -14,33 +14,31 @@ import { useCategories } from "@/hooks/useCategories";
  * @param {Object} props.organizationData - The organization's data.
  * @returns The OrganizationCard component.
  */
+
+
 export default function OrganizationCard({ organizationData }: OrganizationCardProps) {
     const router = useRouter();
-    const { categories } = useCategories();
+    const { categories, loading } = useCategories();
 
-    /**
-     * Handles the card click event by navigating to the organization's profile page.
-     */
     const handleClick = () => {
         const encodedData = encodeURIComponent(JSON.stringify(organizationData));
         router.push(`/detailed/organization?data=${encodedData}`);
     };
 
-    /**
-     * Finds the common categories between the organization's preferences and available categories.
-     */
     const commonCategories = categories.filter(category =>
         organizationData.preferences.includes(category.label)
     );
 
-    console.log('Common Categories:', commonCategories);
+    // Only render the card when loading is false
+    if (loading) {
+        return null;
+    }
 
     return (
         <Card
             className="flex items-stretch gap-4 rounded-2xl cursor-pointer hover:shadow-md transition-shadow"
             onClick={handleClick}
         >
-            {/* Card Content */}
             <div className="flex-1">
                 <CardHeader className="pb-4 md:pb-6">
                     <CardDescription className="text-sm md:text-base">Organizzazione</CardDescription>
@@ -54,7 +52,6 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
                                 {organizationData.city}
                             </CardDescription>
                         </div>
-                        {/* Category Badges */}
                         <div className="flex flex-wrap gap-2 pt-2">
                             {commonCategories.map(category => (
                                 <Badge key={category.id} variant="secondary" className="font-normal">
@@ -65,7 +62,6 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
                     </div>
                 </CardFooter>
             </div>
-            {/* Organization Image */}
             <div className="flex-shrink-0">
                 <Image
                     src="/placeholder.jpg"

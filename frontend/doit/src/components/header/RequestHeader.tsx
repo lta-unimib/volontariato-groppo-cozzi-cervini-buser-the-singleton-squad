@@ -159,9 +159,9 @@ export const RequestHeader = ({
                         hasSavedOrganization={hasSavedOrganization}
                         isLoading={loading}
                         // Add the necessary props for the new scenarios
-/*                        isSubscribed={/!* Add logic to determine if subscribed *!/}
-                        isEventExpired={/!* Add logic to determine if event expired *!/}
-                        hasReviewed={/!* Add logic to determine if reviewed *!/}*/
+                        /*                        isSubscribed={/!* Add logic to determine if subscribed *!/}
+                                                isEventExpired={/!* Add logic to determine if event expired *!/}
+                                                hasReviewed={/!* Add logic to determine if reviewed *!/}*/
                     />
                 )}
             </div>

@@ -5,33 +5,33 @@ import {
     MdOutlineBookmarkBorder,
     MdOutlineCheck,
     MdOutlineClose,
-    MdOutlineRateReview, MdOutlineRemove
+    MdOutlineRateReview,
+    MdOutlineRemove
 } from "react-icons/md";
 import React, {useState} from "react";
 import {RequestActionsProps} from "@/types/props/header/requestActionsProps";
 
-
 export const RequestActions: React.FC<RequestActionsProps> = ({
-    role,
-    onEdit,
-    onDelete,
-    onSave,
-    onUnsubscribe,
-    onRemoveSavedOrg,
-    onReview,
-    onSubscribe,
-    isSubscribed = false,
-    hasSavedOrganization,
-    isEventExpired = false,
-    hasReviewed = false,
-    isLoading
-}) => {
+                                                                  role,
+                                                                  onEdit,
+                                                                  onDelete,
+                                                                  onSave,
+                                                                  onUnsubscribe,
+                                                                  onRemoveSavedOrg,
+                                                                  onReview,
+                                                                  onSubscribe,
+                                                                  isSubscribed = false,
+                                                                  hasSavedOrganization,
+                                                                  isEventExpired = false,
+                                                                  hasReviewed = false,
+                                                                  isLoading
+                                                              }) => {
+    // Move useState outside of conditional rendering
+    const [isSaved, setIsSaved] = useState(hasSavedOrganization);
 
     if (isLoading) {
         return null;
     }
-
-    const [isSaved, setIsSaved] = useState(hasSavedOrganization);
 
     const handleRemoveSavedOrg = async () => {
         if (onRemoveSavedOrg) {
@@ -50,15 +50,23 @@ export const RequestActions: React.FC<RequestActionsProps> = ({
     if (role === 'volunteer') {
         return (
             <div className="flex gap-2 mt-4 md:md-0">
-                {/* Save Organization Button - Conditional Styling */}
-                <Button
-                    variant={hasSavedOrganization ? "destructive" : "secondary"}
-                    size="default"
-                    onClick={hasSavedOrganization ? onRemoveSavedOrg : onSave}
-                >
-                    <MdOutlineBookmarkBorder className="mr-2" />
-                    {hasSavedOrganization ? "Rimuovi dai Preferiti" : "Salva Organizzazione"}
-                </Button>
+                {isSaved && onRemoveSavedOrg ? (
+                    <Button
+                        variant="destructive"
+                        size="default"
+                        onClick={handleRemoveSavedOrg}
+                    >
+                        <MdOutlineRemove className="mr-2" /> Rimuovi dai preferiti
+                    </Button>
+                ) : (
+                    <Button
+                        variant="secondary"
+                        size="default"
+                        onClick={handleSaveOrg}
+                    >
+                        <MdOutlineEdit className="mr-2" /> Salva organizzazione
+                    </Button>
+                )}
 
                 {/* Participate/Unsubscribe Button */}
                 {isSubscribed ? (
@@ -112,7 +120,6 @@ export const RequestActions: React.FC<RequestActionsProps> = ({
         );
     }
 
-    // se evento scaduto non puoi farlo (puoi solo riproporlo -> cambia nome al bottone modifica e fai una POST invece che una PUT)
     if (role === 'organization') {
         return (
             <div className="flex gap-2 mt-4 md:md-0">

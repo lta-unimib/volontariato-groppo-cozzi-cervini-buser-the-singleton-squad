@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2dd4524-598c-4f81-84b9-12bba55b0cf2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/header/ProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/ProfileHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/header/components/ProfileActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/components/ProfileActions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/card/OrganizationCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/card/OrganizationCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/RequestHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/RequestHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/components/RequestAction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/components/RequestAction.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +57,7 @@
       <updated>1737628489039</updated>
       <workItem from="1737628490624" duration="587000" />
       <workItem from="1737759431575" duration="640000" />
-      <workItem from="1737800125281" duration="3375000" />
+      <workItem from="1737800125281" duration="5387000" />
     </task>
     <servers />
   </component>
