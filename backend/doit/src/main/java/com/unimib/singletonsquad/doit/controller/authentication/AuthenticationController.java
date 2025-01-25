@@ -22,7 +22,7 @@ public class AuthenticationController {
 
     @PostMapping(value = "/{role}/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> authenticateVolunteer(@RequestBody final AuthDTO auth, @PathVariable("role") String role) throws InvalidRoleGeneralException{
-        if(RegisteredUserService.isValidRole(role))
+        if(!RegisteredUserService.isValidRole(role))
             throw new InvalidRoleGeneralException("Invalid role");
         String token = this.authenticationUserService.authenticate(auth, role);
         return this.createMessageResponse(String.valueOf(UserRole.ORGANIZATION), token);

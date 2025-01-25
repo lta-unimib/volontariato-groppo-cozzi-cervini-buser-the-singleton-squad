@@ -32,6 +32,7 @@ export default function VolunteerDashboard() {
     const [showRequests, setShowRequests] = useState(true);
     const [showMap, setShowMap] = useState(false);
     const [isRegisteredView, setIsRegisteredView] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const { requests, loading: allRequestsLoading, error: allRequestsError } =
         useAllRequests("/request/all/volunteer/sorted/");
@@ -48,6 +49,19 @@ export default function VolunteerDashboard() {
 
     const handleRegisteredToggle = (enabled: boolean) => {
         setIsRegisteredView(enabled);
+    };
+
+    const handleSearch = (query: string) => {
+        setSearchQuery(query.toLowerCase());
+        return []; // No specific search results needed
+    };
+
+    const filterRequests = (requestList: any[]) => {
+        return requestList.filter(request =>
+            !searchQuery ||
+            request.title.toLowerCase().includes(searchQuery) ||
+            request.description.toLowerCase().includes(searchQuery)
+        );
     };
 
     const renderRequestContent = () => {
@@ -71,29 +85,37 @@ export default function VolunteerDashboard() {
         }
 
         if (isRegisteredView) {
+            const filteredRegistered = filterRequests(registeredRequests);
+            const filteredNotVoted = filterRequests(notVotedRequests);
+            const filteredArchived = filterRequests(archivedRequests);
+
             return (
                 <>
-                    {registeredRequests.length > 0 && (
-                        <RequestSection title="Richieste Attive" requests={registeredRequests} />
+                    {filteredRegistered.length > 0 && (
+                        <RequestSection title="Richieste Attive" requests={filteredRegistered} />
                     )}
-                    {notVotedRequests.length > 0 && (
-                        <RequestSection title="In Attesa di Valutazione" requests={notVotedRequests} />
+                    {filteredNotVoted.length > 0 && (
+                        <RequestSection title="In Attesa di Valutazione" requests={filteredNotVoted} />
                     )}
-                    {archivedRequests.length > 0 && (
-                        <RequestSection title="Richieste Archiviate" requests={archivedRequests} />
+                    {filteredArchived.length > 0 && (
+                        <RequestSection title="Richieste Archiviate" requests={filteredArchived} />
                     )}
-                    {!registeredRequests.length && !notVotedRequests.length && !archivedRequests.length && (
-                        <div className="flex items-center justify-center h-full">
-                            Nessuna richiesta registrata
-                        </div>
-                    )}
+                    {filteredRegistered.length === 0 &&
+                        filteredNotVoted.length === 0 &&
+                        filteredArchived.length === 0 && (
+                            <div className="flex items-center justify-center h-full">
+                                Nessuna richiesta trovata
+                            </div>
+                        )}
                 </>
             );
         }
 
-        return requests.length === 0
+        const filteredRequests = filterRequests(requests);
+
+        return filteredRequests.length === 0
             ? <div className="flex items-center justify-center h-full">Nessuna richiesta trovata</div>
-            : <RequestSection title="Tutte le Richieste" requests={requests} />;
+            : <RequestSection title="Tutte le Richieste" requests={filteredRequests} />;
     };
 
     return (
@@ -110,11 +132,11 @@ export default function VolunteerDashboard() {
                         <div />
                     </SidebarLayout>
                 </div>
-
                 <div className="relative flex-1 flex flex-col">
                     <SearchBar
                         className="mt-12 md:mt-0 p-4 md:px-8"
                         onRegisteredToggle={handleRegisteredToggle}
+                        onSearch={handleSearch}
                     />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         {showRequests && renderRequestContent()}

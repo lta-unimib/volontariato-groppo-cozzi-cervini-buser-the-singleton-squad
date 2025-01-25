@@ -23,6 +23,9 @@ import type React from "react";
  * @param onFilterClick (Optional) A callback function that is called when a filter is clicked.
  * Receives the filter string that was clicked.
  *
+ * @param onSearch (Optional) A callback function for handling search queries.
+ * Receives the search query string and returns an array of search results.
+ *
  * @param disabled (Optional) A boolean that determines whether the search bar is disabled.
  */
 export interface SearchBarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -33,5 +36,16 @@ export interface SearchBarProps extends React.HTMLAttributes<HTMLDivElement> {
     showFilters?: boolean;
     filters?: string[];
     onFilterClick?: (filter: string) => void;
+    onSearch?: (query: string) => SearchResult[];
     disabled?: boolean;
 }
+
+/**
+ * Represents a single search result item.
+ */
+export interface SearchResult {
+    label: string;
+    value: never;
+    description?: string;
+}
+
