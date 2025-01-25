@@ -4,7 +4,6 @@ import com.unimib.singletonsquad.doit.domain.common.Availability;
 import com.unimib.singletonsquad.doit.domain.common.DailyAvailability;
 import com.unimib.singletonsquad.doit.domain.common.MonthlyAvailability;
 import com.unimib.singletonsquad.doit.domain.common.WeeklyAvailability;
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.dto.received.AvailabilityDTO;
 import org.springframework.stereotype.Component;
 

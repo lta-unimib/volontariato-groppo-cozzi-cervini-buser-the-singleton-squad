@@ -2,7 +2,6 @@ package com.unimib.singletonsquad.doit.domain.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

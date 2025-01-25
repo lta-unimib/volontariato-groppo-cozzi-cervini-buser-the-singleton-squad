@@ -22,6 +22,7 @@ public class VolunteerRequestDatabaseService {
 
     private final IVolunteerRequestRepository repository;
     private final CityInfoDatabaseService cityRepository;
+    private static final String Error_Message = "VolunteerRequest not found with id ";
 
     /// Save a Request Into the database
     public VolunteerRequest save(VolunteerRequest volunteerRequest) {
@@ -44,13 +45,12 @@ public class VolunteerRequestDatabaseService {
     public VolunteerRequest getSpecificRequest(Long idRequest) {
         return repository.findById(idRequest)
                 .orElseThrow(() -> new RecordNotFoundGeneralException(
-                        "VolunteerRequest not found with id " + idRequest));
+                        Error_Message+ idRequest));
     }
 
     /// get specific request and check the date
     public VolunteerRequest getRequestForAddingNewOffer(Long idRequest) {
         VolunteerRequest volunteerRequest = getSpecificRequest(idRequest);
-        System.out.println(volunteerRequest.getEndDateTime());
         if(volunteerRequest.getEndDateTime().isBefore(LocalDateTime.now()))
             throw new IllegalArgumentException("End date is after start date");
         return volunteerRequest;
@@ -70,7 +70,7 @@ public class VolunteerRequestDatabaseService {
 
     private void validateRequestExists(Long id) {
         if (!repository.existsById(id)) {
-            throw new RecordNotFoundGeneralException("VolunteerRequest not found with id " + id);
+            throw new RecordNotFoundGeneralException( Error_Message+ id);
         }
     }
 
@@ -108,7 +108,7 @@ public class VolunteerRequestDatabaseService {
 
     public VolunteerRequest existsVolunteerRequestByVolunteer(Long idRequest, Volunteer volunteer) {
         return this.repository.getSpecificVolunteerRequestFeedback(volunteer.getId(), idRequest, LocalDateTime.now()).orElseThrow(
-                () -> new RecordNotFoundGeneralException("VolunteerRequest not found with id " + idRequest +" while existsVolunteerRequestByVolunteer"));
+                () -> new RecordNotFoundGeneralException( Error_Message + idRequest +" while existsVolunteerRequestByVolunteer"));
 
     }
 }

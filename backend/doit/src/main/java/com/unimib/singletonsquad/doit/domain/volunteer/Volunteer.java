@@ -11,6 +11,7 @@ import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
 import com.unimib.singletonsquad.doit.utils.data.EmailValidator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,21 +37,27 @@ public class Volunteer implements User {
 
     @Column(nullable = false, name = "name")
     @JsonProperty("firstName")
+    @NotBlank
     private String name;
 
     @Column(nullable = false, name = "surname")
     @JsonProperty("lastName")
+    @NotBlank
     private String surname;
 
     @Column(unique = true, nullable = false, name = "email")
     @JsonProperty("email")
     @Email
+    @NotBlank
     private String email;
 
     @Column(nullable = false)
     @JsonIgnore
+    @NotBlank
+
     private String password;
 
+    @NotBlank
     private String description;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

@@ -8,7 +8,6 @@ import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.exception.resource.InvalidDateException;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import lombok.AllArgsConstructor;
-import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -53,7 +52,6 @@ public class VolunteerOfferAcceptService {
     /// === SUPPORT ORGANIZATION ====
 
     private void checkOrganizationEmail(String organizationEmail, VolunteerOffer volunteer) throws IllegalAccessException {
-        System.out.println(volunteer);
         if(!volunteer.getVolunteerRequest().getOrganization().getEmail().equals(organizationEmail))
             throw new IllegalAccessException("Organization email not match");
     }

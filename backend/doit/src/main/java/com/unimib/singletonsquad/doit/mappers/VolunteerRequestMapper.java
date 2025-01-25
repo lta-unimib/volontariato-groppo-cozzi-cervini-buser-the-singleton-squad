@@ -22,8 +22,6 @@ import java.util.Locale;
 @AllArgsConstructor
 public class VolunteerRequestMapper {
 
-    private final AddressMapper addressMapper;
-
     /**
      * FIXME PER IL REFATCOTING PASSARE DIRETTAMENTE LE ORGANIZAZZIONI E NON LE EMAIL !!!!
      */
@@ -33,7 +31,6 @@ public class VolunteerRequestMapper {
         VolunteerRequest volunteerRequest = new VolunteerRequest();
         volunteerRequest.setOrganization(organization);
         volunteerRequest.setAddress(this.createNewAddress(volunteerRequestDTO.getAddress()));
-        //volunteerRequest.setFeedbacks(new ArrayList<>());
         volunteerRequest.setFeedbackMap(new HashMap<>());
         volunteerRequest.setVolunteerOffers(new ArrayList<>());
         return mapCommonFiled(volunteerRequest, volunteerRequestDTO);
@@ -41,11 +38,8 @@ public class VolunteerRequestMapper {
 
 
     /// UPDATE A VOLUNTEER REQUEST ONLY FROM PUT /request/{id}/
-    public VolunteerRequest updateVolunteerRequest(VolunteerRequest toBeUpdated, VolunteerRequestDTO volunteerRequestDTO, Organization organization) throws Exception {
+    public VolunteerRequest updateVolunteerRequest(VolunteerRequest toBeUpdated, VolunteerRequestDTO volunteerRequestDTO) throws Exception {
         toBeUpdated.setVolunteerOffers(toBeUpdated.getVolunteerOffers());
-        //toBeUpdated.setFeedbacks(toBeUpdated.getFeedbacks());
-        //toBeUpdated.getFeedbackMap().forEach((key, value) -> toBeUpdated.getFeedbackMap().put(key, value));
-        //toBeUpdated.setFeedbackMap(toBeUpdated.getFeedbackMap());
         toBeUpdated.setId(toBeUpdated.getId());
         toBeUpdated.setAddress(updateAddress(toBeUpdated.getAddress(), volunteerRequestDTO.getAddress()));
         return mapCommonFiled(toBeUpdated, volunteerRequestDTO);
@@ -66,11 +60,11 @@ public class VolunteerRequestMapper {
 
 
     private Address createNewAddress(AddressDTO addressDTO) {
-        return this.addressMapper.createAddress(addressDTO);
+        return AddressMapper.createAddress(addressDTO);
     }
 
     private Address updateAddress(Address address, AddressDTO addressDTO) {
-        return this.addressMapper.updateAddress(address, addressDTO);
+        return AddressMapper.updateAddress(address, addressDTO);
     }
 
     public static VolunteerRequestSendDTO mapToVolunteerRequestDTO(VolunteerRequest volunteerRequest) {
@@ -100,7 +94,7 @@ public class VolunteerRequestMapper {
     }
 
     private static LocalDateTime[] setTimeRangeAndStartTime(List<String> timeRange, String startTime, String endTime)
-            throws Exception {
+            throws IllegalArgumentException{
         if (timeRange != null && timeRange.size() == 2
                 && startTime != null && !startTime.isEmpty()
                 && endTime != null && !endTime.isEmpty()) {

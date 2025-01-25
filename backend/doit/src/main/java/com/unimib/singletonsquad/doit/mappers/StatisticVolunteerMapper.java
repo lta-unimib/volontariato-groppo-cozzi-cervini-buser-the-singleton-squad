@@ -12,5 +12,5 @@ public class StatisticVolunteerMapper {
         temp.setTotalVotes(0);
         temp.setVolunteer(volunteer);
         return temp;
-    };
+    }
 }

@@ -33,7 +33,7 @@ public class VolunteerProfileController  extends UserProfileController {
 
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> getVolunteerInformation(final HttpServletRequest request) throws RoleInfoNotFoundException {
+    public ResponseEntity<ResponseMessage> getVolunteerInformation(final HttpServletRequest request){
         Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(UserRole.VOLUNTEER, request);
         VolunteerDTO volunteerDTO = VolunteerMapper.toVolunteerDTO(volunteer);
         String messageResponse = String.format("getting info for %s", volunteerDTO.getEmail());

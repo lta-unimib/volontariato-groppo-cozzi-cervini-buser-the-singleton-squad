@@ -1,8 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;

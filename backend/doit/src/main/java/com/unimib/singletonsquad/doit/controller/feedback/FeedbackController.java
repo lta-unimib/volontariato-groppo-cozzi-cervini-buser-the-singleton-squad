@@ -15,8 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.relation.RoleInfoNotFoundException;
-
 @RequestMapping("/feedback")
 @RestController
 @AllArgsConstructor
@@ -27,22 +25,18 @@ public class FeedbackController {
     private static final UserRole organizationRole = UserRole.ORGANIZATION;
     private static final UserRole volunteerRole = UserRole.VOLUNTEER;
 
-
-    /// capire come passare il voto !!
     @PostMapping(value = "/organization/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> feedbackByOrganization(final @PathVariable("idOffer") Long idOffer, @RequestBody FeedbackDTO feedbackDTO,
-                                                                  final HttpServletRequest request) throws RoleInfoNotFoundException {
+                                                                  final HttpServletRequest request){
         Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(organizationRole, request);
-        System.out.println("Organization: " + organization);
         this.feedbackService.setOrganizationVoteOffer(organization, idOffer, feedbackDTO.getVote());
         return ResponseMessageUtil.createResponseSuccess("ok", HttpStatus.OK, null);
     }
 
 
-    /// Endpoint che valuta l'evento richiesta --> capire come passare il voto
     @PostMapping(value ="/volunteer/{idRequest}/")
     public ResponseEntity<ResponseMessage> feedBackByVolunteer(final HttpServletRequest request, final @RequestBody FeedbackDTO feedbackDTO,
-                                                               final @PathVariable("idRequest") Long idRequest) throws RoleInfoNotFoundException {
+                                                               final @PathVariable("idRequest") Long idRequest){
         Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(volunteerRole, request);
         this.feedbackService.setVolunteerVoteRequest(idRequest, volunteer, feedbackDTO.getVote());
         return ResponseMessageUtil.createResponseSuccess("ok", HttpStatus.OK, null);

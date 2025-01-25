@@ -1,6 +1,5 @@
 package com.unimib.singletonsquad.doit.controller.offerVolontario;
 
-import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
@@ -17,9 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.management.relation.RoleInfoNotFoundException;
-import java.awt.image.VolatileImage;
 import java.util.List;
 
 @RestController
