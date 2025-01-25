@@ -8,6 +8,7 @@ import { makeDeleteRequest } from "@/utils/api/apiUtils";
 import { useBack } from "@/hooks/header/useBack";
 import { ProfileHeaderProps } from "@/types/props/header/profileHeadersProps";
 import { ProfileActions } from "@/components/header/components/ProfileActions";
+import {useFavoriteOrganizations} from "@/hooks/useFavoriteOrganizations";
 /*
 import { useState, useEffect } from "react";
 import { makeGetRequest } from "@/utils/api/apiUtils";
@@ -27,34 +28,37 @@ export const ProfileHeader = ({
                               }: ProfileHeaderProps) => {
     const router = useRouter();
     const onBack = useBack();
-/*
-    const [hasSavedOrganization, setHasSavedOrganization] = useState(false);
-    const [hasParticipatedInEvent, setHasParticipatedInEvent] = useState(false);
 
-/!*    useEffect(() => {
-        const fetchProfileDetails = async () => {
-            if (!readOnly) return;
+    const { organizations } = useFavoriteOrganizations();
+    const hasSavedOrganization = organizations.some(org => org.organizationName === name);
 
-            try {
-                // Check if organization is saved (for volunteer)
-                if (role.toLowerCase() === 'organization') {
-                    const savedOrgResponse = await makeGetRequest(`/volunteer/saved-organizations/`);
-                    setHasSavedOrganization(savedOrgResponse.some((org: any) => org.id === profileData.id));
+    /*
+        const [hasParticipatedInEvent, setHasParticipatedInEvent] = useState(false);
+
+    /!*    useEffect(() => {
+            const fetchProfileDetails = async () => {
+                if (!readOnly) return;
+
+                try {
+                    // Check if organization is saved (for volunteer)
+                    if (role.toLowerCase() === 'organization') {
+                        const savedOrgResponse = await makeGetRequest(`/volunteer/saved-organizations/`);
+                        setHasSavedOrganization(savedOrgResponse.some((org: any) => org.id === profileData.id));
+                    }
+
+                    // Check event participation (for organization)
+                    if (role.toLowerCase() === 'volunteer') {
+                        const participationResponse = await makeGetRequest(`/organization/event-participants/`);
+                        setHasParticipatedInEvent(participationResponse.some((participant: any) => participant.id === profileData.id));
+                    }
+                } catch (error) {
+                    console.error("Error fetching profile details", error);
                 }
+            };
 
-                // Check event participation (for organization)
-                if (role.toLowerCase() === 'volunteer') {
-                    const participationResponse = await makeGetRequest(`/organization/event-participants/`);
-                    setHasParticipatedInEvent(participationResponse.some((participant: any) => participant.id === profileData.id));
-                }
-            } catch (error) {
-                console.error("Error fetching profile details", error);
-            }
-        };
-
-        fetchProfileDetails();
-    }, [readOnly, role, profileData]);*!/
-*/
+            fetchProfileDetails();
+        }, [readOnly, role, profileData]);*!/
+    */
 
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(profileData));
@@ -113,8 +117,8 @@ export const ProfileHeader = ({
                 <ProfileActions
                     role={role.toLowerCase() as 'volunteer' | 'organization'}
                     isOwnProfile={!readOnly}
-/*                  hasSavedOrganization={hasSavedOrganization}
-                    hasParticipatedInEvent={hasParticipatedInEvent}*/
+                    hasSavedOrganization={hasSavedOrganization}
+                    //hasParticipatedInEvent={hasParticipatedInEvent}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                     onRemoveSavedOrg={role.toLowerCase() === 'volunteer' ? handleRemoveSavedOrg : undefined}
