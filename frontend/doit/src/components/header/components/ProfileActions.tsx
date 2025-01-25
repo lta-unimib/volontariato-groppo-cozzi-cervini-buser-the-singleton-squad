@@ -1,6 +1,6 @@
 import { Button } from "@/components/core/Button";
 import { MdOutlineEdit, MdOutlineDelete, MdOutlineRemove } from "react-icons/md";
-import React from "react";
+import React, {useState} from "react";
 import {ProfileActionsProps} from "@/types/props/header/profileActionsProps";
 
 /**
@@ -21,8 +21,24 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
                                                                   isLoading
                                                               }) => {
     if (isLoading) {
-        return null;  // or return a spinner/loading component
+        return null;
     }
+
+    const [isSaved, setIsSaved] = useState(hasSavedOrganization);
+
+    const handleRemoveSavedOrg = async () => {
+        if (onRemoveSavedOrg) {
+            onRemoveSavedOrg();
+            setIsSaved(false);
+        }
+    };
+
+    const handleSaveOrg = async () => {
+        if (onSave) {
+            onSave();
+            setIsSaved(true);
+        }
+    };
 
     if (isOwnProfile) {
         // User is viewing their own profile
@@ -51,11 +67,11 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
     if (role === 'organization') {
         return (
             <div className="flex gap-2 mt-4 md:mt-12">
-                {hasSavedOrganization && onRemoveSavedOrg ? (
+                {isSaved && onRemoveSavedOrg ? (
                     <Button
                         variant="destructive"
                         size="default"
-                        onClick={onRemoveSavedOrg}
+                        onClick={handleRemoveSavedOrg}
                     >
                         <MdOutlineRemove className="mr-2" /> Rimuovi dai salvati
                     </Button>
@@ -63,7 +79,7 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
                     <Button
                         variant="secondary"
                         size="default"
-                        onClick={onSave}
+                        onClick={handleSaveOrg}
                     >
                         <MdOutlineEdit className="mr-2" /> Salva organizzazione
                     </Button>
