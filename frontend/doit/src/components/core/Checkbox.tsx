@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/core/Card";
 import { Label } from "@/components/core/Label";
 import { ScrollArea } from "@/components/core/ScrollArea";
 import { CheckboxProps } from "@/types/props/core/checkboxProps";
-import { useState, useId, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useCategories } from "@/hooks/useCategories";
 
 /**
@@ -23,25 +23,19 @@ export function Checkbox({
                              isSingleSelect = false,
                          }: CheckboxProps) {
     const { categories } = useCategories();
-    const componentId = useId();
     const [selectedOptions, setSelectedOptions] = useState<string[]>(initialSelected);
 
-    /**
-     * Handles the change of a checkbox selection.
-     *
-     * @param {string} optionId - The ID of the option being toggled.
-     */
     const handleCheckboxChange = useCallback(
-        (optionId: string) => {
+        (optionLabel: string) => {
             if (readOnly) return;
 
             let updatedSelected: string[];
             if (isSingleSelect) {
-                updatedSelected = selectedOptions[0] === optionId ? [] : [optionId];
+                updatedSelected = selectedOptions[0] === optionLabel ? [] : [optionLabel];
             } else {
-                updatedSelected = selectedOptions.includes(optionId)
-                    ? selectedOptions.filter((id) => id !== optionId)
-                    : [...selectedOptions, optionId];
+                updatedSelected = selectedOptions.includes(optionLabel)
+                    ? selectedOptions.filter((label) => label !== optionLabel)
+                    : [...selectedOptions, optionLabel];
             }
 
             setSelectedOptions(updatedSelected);
@@ -50,39 +44,30 @@ export function Checkbox({
         [selectedOptions, readOnly, isSingleSelect, onChangeAction]
     );
 
-    /**
-     * Generates a unique ID for an option to ensure it doesn't conflict.
-     *
-     * @param {string} optionId - The original ID of the option.
-     * @returns A unique ID string.
-     */
-    const generateOptionId = (optionId: string) => `${componentId}-${optionId}`;
-
     return (
         <Card className="w-full rounded-[24px]">
             <CardContent className="p-4">
                 <ScrollArea className="h-28">
                     <div className="space-y-1">
                         {categories.map((option) => {
-                            const uniqueOptionId = generateOptionId(option.id);
-                            const isSelected = selectedOptions.includes(option.id);
+                            const isSelected = selectedOptions.includes(option.label);
 
                             return (
                                 <div
-                                    key={uniqueOptionId}
+                                    key={option.label}
                                     className={`flex items-center space-x-2 py-2 ${readOnly ? "" : "cursor-pointer"}`}
                                 >
                                     <input
                                         type="checkbox"
-                                        id={uniqueOptionId}
+                                        id={option.label}
                                         checked={isSelected}
-                                        onChange={() => handleCheckboxChange(option.id)}
+                                        onChange={() => handleCheckboxChange(option.label)}
                                         className="hidden peer"
                                         disabled={readOnly}
                                         aria-label={option.label}
                                     />
                                     <label
-                                        htmlFor={uniqueOptionId}
+                                        htmlFor={option.label}
                                         className={`relative w-4 h-4 rounded-full border ${
                                             readOnly
                                                 ? isSelected
@@ -98,7 +83,7 @@ export function Checkbox({
                                         />
                                     </label>
                                     <Label
-                                        htmlFor={uniqueOptionId}
+                                        htmlFor={option.label}
                                         className={`${readOnly ? "" : "cursor-pointer"} text-sm font-normal`}
                                     >
                                         {option.label}

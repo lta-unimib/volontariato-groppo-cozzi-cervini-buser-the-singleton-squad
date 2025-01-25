@@ -16,7 +16,7 @@ import {VolunteerFormData} from "@/types/form/auth/volunteerFormData";
  * @param formatWebsiteUrl A function used to format the organization's website URL. It receives the raw URL string
  * and returns the formatted version, possibly adding "http://" or "https://" if not already present.
  */
-export interface OrganizationProfileContentProps {
+export interface ProfileContentProps {
     organizationProfile: OrganizationFormData;
     formatWebsiteUrl: (url: string) => string;
 }

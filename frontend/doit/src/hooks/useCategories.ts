@@ -34,14 +34,12 @@ export const useCategories = () => {
             if (response?.status === 200) {
                 let parsedCategories: Category[] = [];
 
-                // First, check if data contains categories
                 if (response.data && Array.isArray(response.data)) {
                     parsedCategories = response.data.map((category, index) => ({
                         id: `category_${index}`,
                         label: category
                     }));
                 }
-                // Fallback to parsing message if data is null
                 else if (response.message) {
                     parsedCategories = response.message
                         .replace(/^\[|]$/g, '')
@@ -52,7 +50,6 @@ export const useCategories = () => {
                         }));
                 }
 
-                console.log("Parsed Categories:", parsedCategories);
                 setCategories(parsedCategories);
             } else {
                 setError("Impossibile recuperare le categorie");

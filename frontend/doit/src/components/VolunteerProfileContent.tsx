@@ -4,9 +4,8 @@ import { Badge } from "@/components/core/Badge";
 import { Card, CardContent } from "@/components/core/Card";
 import { ScrollArea } from "@/components/core/ScrollArea";
 import { Calendar } from "@/components/form/availability/Calendar";
-import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
 import {useCategories} from "@/hooks/useCategories";
-import { VolunteerProfileContentProps } from "@/types/props/header/organizationProfileContentProps";
+import { VolunteerProfileContentProps } from "@/types/props/header/profileContentProps";
 
 /**
  * `VolunteerProfileContent` is a React component that displays detailed information about a volunteer's profile, including:
@@ -33,6 +32,8 @@ export const VolunteerProfileContent: React.FC<VolunteerProfileContentProps> = (
     const commonCategories = categories.filter(category =>
         volunteerProfile.preferences.includes(category.label)
     );
+
+    console.log(volunteerProfile.preferences);
 
     return (
         <>

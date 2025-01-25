@@ -23,7 +23,7 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
      */
     const handleClick = () => {
         const encodedData = encodeURIComponent(JSON.stringify(organizationData));
-        router.push(`/profile/organization?data=${encodedData}`);
+        router.push(`/detailed/organization?data=${encodedData}`);
     };
 
     /**

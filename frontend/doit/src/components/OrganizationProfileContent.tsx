@@ -2,7 +2,7 @@ import { ProfileHeader } from "@/components/header/ProfileHeader";
 import { Badge } from "@/components/core/Badge";
 import { Card, CardContent } from "@/components/core/Card";
 import { ScrollArea } from "@/components/core/ScrollArea";
-import { OrganizationProfileContentProps } from "@/types/props/header/organizationProfileContentProps";
+import { ProfileContentProps } from "@/types/props/header/profileContentProps";
 import React from "react";
 import {useCategories} from "@/hooks/useCategories";
 
@@ -16,7 +16,7 @@ import {useCategories} from "@/hooks/useCategories";
  *
  * @returns A comprehensive organization profile view
  */
-export const OrganizationProfileContent: React.FC<OrganizationProfileContentProps> = ({
+export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                                                                                           organizationProfile,
                                                                                           formatWebsiteUrl
                                                                                       }) => {

@@ -37,7 +37,7 @@ export default function RequestCard({
      */
     const handleClick = () => {
         const encodedData = encodeURIComponent(JSON.stringify({ ...requestData, role }));
-        router.push(`/detailed?data=${encodedData}`);
+        router.push(`/detailed/request?data=${encodedData}`);
     };
 
     return (

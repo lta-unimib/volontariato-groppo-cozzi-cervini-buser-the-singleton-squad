@@ -14,9 +14,13 @@ export interface Address {
  */
 export interface Organization {
     name: string;
+    organizationName: string;
     email: string;
     website: string;
     VATNumber: string;
+    city: string;
+    preferences: string[];
+    description: string;
 }
 
 /**
@@ -39,6 +43,10 @@ export interface Request {
  * Dati della richiesta con il ruolo specificato (volontario od organizzazione).
  */
 export interface DetailedRequestData extends Request {
+    role: 'volunteer' | 'organization';
+}
+
+export interface DetailedOrganizationData extends Organization {
     role: 'volunteer' | 'organization';
 }
 
