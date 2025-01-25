@@ -8,8 +8,9 @@ export interface RequestActionsProps {
     onRemoveSavedOrg?: () => void;
     onReview?: () => void;
     isSubscribed?: boolean;
-    isSavedOrg?: boolean;
+    hasSavedOrganization?: boolean;
     isEventExpired?: boolean;
     hasReviewed?: boolean;
+    isLoading?: boolean;
 }
 

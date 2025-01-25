@@ -5,9 +5,9 @@ import {
     MdOutlineBookmarkBorder,
     MdOutlineCheck,
     MdOutlineClose,
-    MdOutlineRateReview
+    MdOutlineRateReview, MdOutlineRemove
 } from "react-icons/md";
-import React from "react";
+import React, {useState} from "react";
 import {RequestActionsProps} from "@/types/props/header/requestActionsProps";
 
 
@@ -21,21 +21,43 @@ export const RequestActions: React.FC<RequestActionsProps> = ({
     onReview,
     onSubscribe,
     isSubscribed = false,
-    isSavedOrg = false,
+    hasSavedOrganization,
     isEventExpired = false,
-    hasReviewed = false
+    hasReviewed = false,
+    isLoading
 }) => {
+
+    if (isLoading) {
+        return null;
+    }
+
+    const [isSaved, setIsSaved] = useState(hasSavedOrganization);
+
+    const handleRemoveSavedOrg = async () => {
+        if (onRemoveSavedOrg) {
+            onRemoveSavedOrg();
+            setIsSaved(false);
+        }
+    };
+
+    const handleSaveOrg = async () => {
+        if (onSave) {
+            onSave();
+            setIsSaved(true);
+        }
+    };
+
     if (role === 'volunteer') {
         return (
             <div className="flex gap-2 mt-4 md:md-0">
                 {/* Save Organization Button - Conditional Styling */}
                 <Button
-                    variant={isSavedOrg ? "destructive" : "secondary"}
+                    variant={hasSavedOrganization ? "destructive" : "secondary"}
                     size="default"
-                    onClick={isSavedOrg ? onRemoveSavedOrg : onSave}
+                    onClick={hasSavedOrganization ? onRemoveSavedOrg : onSave}
                 >
                     <MdOutlineBookmarkBorder className="mr-2" />
-                    {isSavedOrg ? "Rimuovi dai Preferiti" : "Salva Organizzazione"}
+                    {hasSavedOrganization ? "Rimuovi dai Preferiti" : "Salva Organizzazione"}
                 </Button>
 
                 {/* Participate/Unsubscribe Button */}
@@ -67,17 +89,17 @@ export const RequestActions: React.FC<RequestActionsProps> = ({
                     </Button>
                 )}
 
-                {isEventExpired && isSavedOrg && (
+                {isEventExpired && hasSavedOrganization && (
                     <Button
                         variant="destructive"
                         size="default"
-                        onClick={onRemoveSavedOrg}
+                        onClick={handleRemoveSavedOrg}
                     >
-                        <MdOutlineBookmarkBorder className="mr-2" /> Rimuovi dai Preferiti
+                        <MdOutlineRemove className="mr-2" /> Rimuovi dai preferiti
                     </Button>
                 )}
 
-                {isEventExpired && !isSubscribed && !isSavedOrg && (
+                {isEventExpired && !isSubscribed && !hasSavedOrganization && (
                     <Button
                         variant="secondary"
                         size="default"

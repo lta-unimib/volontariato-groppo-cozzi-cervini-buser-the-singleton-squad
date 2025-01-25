@@ -73,7 +73,7 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
                         size="default"
                         onClick={handleRemoveSavedOrg}
                     >
-                        <MdOutlineRemove className="mr-2" /> Rimuovi dai salvati
+                        <MdOutlineRemove className="mr-2" /> Rimuovi dai preferiti
                     </Button>
                 ) : (
                     <Button

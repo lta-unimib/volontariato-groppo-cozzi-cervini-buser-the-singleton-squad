@@ -7,6 +7,7 @@ import { ButtonBack } from './components/ButtonBack';
 import {RequestActions} from './components/RequestAction';
 import Image from 'next/image';
 import { RequestHeaderProps } from "@/types/props/header/requestHeaderProps";
+import {useFavoriteOrganizations} from "@/hooks/useFavoriteOrganizations";
 
 /**
  * RequestHeader component that displays a header for a specific request.
@@ -42,6 +43,9 @@ export const RequestHeader = ({
             }
         }
     }, []);
+
+    const { organizations, loading } = useFavoriteOrganizations();
+    const hasSavedOrganization = organizations.some(org => org.organizationName === organizationName);
 
     /**
      * Handles the subscription action by sending a POST request to subscribe to the offer.
@@ -152,9 +156,10 @@ export const RequestHeader = ({
                         onUnsubscribe={handleUnsubscribe}
                         onRemoveSavedOrg={handleRemoveSavedOrg}
                         onReview={handleReview}
+                        hasSavedOrganization={hasSavedOrganization}
+                        isLoading={loading}
                         // Add the necessary props for the new scenarios
 /*                        isSubscribed={/!* Add logic to determine if subscribed *!/}
-                        isSavedOrg={/!* Add logic to determine if saved *!/}
                         isEventExpired={/!* Add logic to determine if event expired *!/}
                         hasReviewed={/!* Add logic to determine if reviewed *!/}*/
                     />

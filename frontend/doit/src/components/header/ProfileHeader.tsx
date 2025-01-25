@@ -48,6 +48,9 @@ export const ProfileHeader = ({
         await makeDeleteRequest(endpoint);
     };
 
+    const handleReview = () => {
+    };
+
     const handleSave = async () => {
         const endpoint = `/volunteer/favorite/organization/${name}/`;
         await makePostRequest(endpoint);
