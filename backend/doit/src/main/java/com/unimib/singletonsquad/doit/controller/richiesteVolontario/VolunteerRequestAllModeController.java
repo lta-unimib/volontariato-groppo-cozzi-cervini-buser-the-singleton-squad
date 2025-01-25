@@ -27,7 +27,8 @@ public class VolunteerRequestAllModeController {
     private final VolunteerRequestModeService volunteerRequestModeService;
 
     @GetMapping(value = "/sorted/")
-    public ResponseEntity<ResponseMessage> getVolunteerRequest(final HttpServletRequest request) throws Exception {
+    public ResponseEntity<ResponseMessage> getVolunteerRequest(final HttpServletRequest request) throws UnsupportedEncodingException,
+            InterruptedException, RoleInfoNotFoundException {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         List<VolunteerRequestSendDTO> volunteerRequestSortedList = this.volunteerRequestModeService.getAllRequestNotRegistered(email);
         return ResponseMessageUtil.createResponseSuccess("get all requests sorted", HttpStatus.OK, volunteerRequestSortedList);

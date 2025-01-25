@@ -52,9 +52,8 @@ public class VolunteerOfferController {
     /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
     @DeleteMapping("/unsubscribe/{idRequest}/")
     public ResponseEntity<ResponseMessage> deleteVolunteerOfferByRequest(@PathVariable final Long idRequest,
-                                                                final HttpServletRequest request) throws Exception {
+                                                                final HttpServletRequest request) throws RoleInfoNotFoundException {
         String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
-        System.out.println(email);
         this.volunteerOfferService.removeOfferByRequest(idRequest, email);
         return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
     }

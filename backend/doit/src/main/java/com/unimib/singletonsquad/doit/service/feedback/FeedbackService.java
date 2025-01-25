@@ -24,8 +24,6 @@ public class FeedbackService {
     private final VolunteerDatabaseService volunteerDatabaseService;
 
 
-    /// Il volontario aggiunge il voto per l'evento
-    /// fixme aggiungere anche il voto
     public void setOrganizationVoteOffer(Organization organization, Long offerId, double vote) {
         VolunteerOffer offer = volunteerOfferDatabaseService.existsVolunteerOfferByOrganization(offerId, organization);
         Volunteer volunteer = offer.getVolunteer();

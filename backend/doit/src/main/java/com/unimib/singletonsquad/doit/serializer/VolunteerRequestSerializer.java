@@ -11,18 +11,16 @@ import java.util.Map;
 
 public class VolunteerRequestSerializer {
 
+    private VolunteerRequestSerializer() {}
+
     public static List<VolunteerRequestDTO> serializeVolunteerRequests(Map<VolunteerRequest, List<Volunteer>> requestMap) {
         List<VolunteerRequestDTO> data = new ArrayList<>();
         for (Map.Entry<VolunteerRequest, List<Volunteer>> entry : requestMap.entrySet()) {
             VolunteerRequest volunteerRequest = entry.getKey();
             List<VolunteerDTO> volunteerDTOs = new ArrayList<>();
-
-            // Aggiungi i volontari come DTO
             for (Volunteer volunteer : entry.getValue()) {
                 volunteerDTOs.add(new VolunteerDTO(volunteer.getName(), volunteer.getSurname(), volunteer.getEmail(), volunteer.getDescription()));
             }
-
-            // Aggiungi la richiesta con i volontari
             data.add(new VolunteerRequestDTO(volunteerRequest.getId(), volunteerRequest.getTitle(), volunteerRequest.getDetailedDescription(), volunteerRequest.getCapacity(), createAddress(volunteerRequest.getAddress()), volunteerDTOs));
         }
         return data;

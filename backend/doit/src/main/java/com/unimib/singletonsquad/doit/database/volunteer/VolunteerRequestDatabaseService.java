@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,7 @@ public class VolunteerRequestDatabaseService {
 
     private final IVolunteerRequestRepository repository;
     private final CityInfoDatabaseService cityRepository;
-    private static final String Error_Message = "VolunteerRequest not found with id ";
+    private static final String ERROR_MESSAGE_EMAIL = "VolunteerRequest not found with id ";
 
     /// Save a Request Into the database
     public VolunteerRequest save(VolunteerRequest volunteerRequest) {
@@ -49,7 +48,7 @@ public class VolunteerRequestDatabaseService {
     public VolunteerRequest getSpecificRequest(Long idRequest) {
         return repository.findById(idRequest)
                 .orElseThrow(() -> new RecordNotFoundGeneralException(
-                        Error_Message+ idRequest));
+                        ERROR_MESSAGE_EMAIL + idRequest));
     }
 
     /// get specific request and check the date
@@ -74,7 +73,7 @@ public class VolunteerRequestDatabaseService {
 
     private void validateRequestExists(Long id) {
         if (!repository.existsById(id)) {
-            throw new RecordNotFoundGeneralException( Error_Message+ id);
+            throw new RecordNotFoundGeneralException( ERROR_MESSAGE_EMAIL + id);
         }
     }
 
@@ -112,11 +111,11 @@ public class VolunteerRequestDatabaseService {
 
     public VolunteerRequest existsVolunteerRequestByVolunteer(Long idRequest, Volunteer volunteer) {
         return this.repository.getSpecificVolunteerRequestFeedback(volunteer.getId(), idRequest, LocalDateTime.now()).orElseThrow(
-                () -> new RecordNotFoundGeneralException( Error_Message + idRequest +" while existsVolunteerRequestByVolunteer"));
+                () -> new RecordNotFoundGeneralException( ERROR_MESSAGE_EMAIL + idRequest +" while existsVolunteerRequestByVolunteer"));
 
     }
 
-    public List getAllVolunteerByRequest(Long idRequest) {
+    public List<Volunteer> getAllVolunteerByRequest(Long idRequest) {
         return this.repository.getAllVolunteerByRequest(idRequest);
     }
 

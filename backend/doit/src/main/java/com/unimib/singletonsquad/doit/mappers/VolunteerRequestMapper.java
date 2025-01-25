@@ -25,12 +25,7 @@ import java.util.Locale;
 public class VolunteerRequestMapper {
 
     private CityInfoDatabaseService cityInfoDatabaseService;
-    /**
-     * FIXME PER IL REFATCOTING PASSARE DIRETTAMENTE LE ORGANIZAZZIONI E NON LE EMAIL !!!!
-     */
-
-    /// CREATE A NEW VOLUNTEER REQUEST ONLY FROM /request/new/
-    public VolunteerRequest createVolunteerRequest(VolunteerRequestDTO volunteerRequestDTO, Organization organization) throws Exception {
+    public VolunteerRequest createVolunteerRequest(VolunteerRequestDTO volunteerRequestDTO, Organization organization){
         VolunteerRequest volunteerRequest = new VolunteerRequest();
         volunteerRequest.setOrganization(organization);
         volunteerRequest.setAddress(this.createNewAddress(volunteerRequestDTO.getAddress()));
@@ -41,8 +36,7 @@ public class VolunteerRequestMapper {
     }
 
 
-    /// UPDATE A VOLUNTEER REQUEST ONLY FROM PUT /request/{id}/
-    public VolunteerRequest updateVolunteerRequest(VolunteerRequest toBeUpdated, VolunteerRequestDTO volunteerRequestDTO) throws Exception {
+    public VolunteerRequest updateVolunteerRequest(VolunteerRequest toBeUpdated, VolunteerRequestDTO volunteerRequestDTO){
         toBeUpdated.setVolunteerOffers(toBeUpdated.getVolunteerOffers());
         toBeUpdated.setId(toBeUpdated.getId());
         toBeUpdated.setAddress(updateAddress(toBeUpdated.getAddress(), volunteerRequestDTO.getAddress()));
@@ -50,7 +44,7 @@ public class VolunteerRequestMapper {
     }
 
 
-    private static VolunteerRequest mapCommonFiled(VolunteerRequest volunteerRequest, VolunteerRequestDTO volunteerRequestDTO) throws Exception {
+    private static VolunteerRequest mapCommonFiled(VolunteerRequest volunteerRequest, VolunteerRequestDTO volunteerRequestDTO){
         volunteerRequest.setCapacity(volunteerRequestDTO.getVolunteerCapacity());
         volunteerRequest.setDetailedDescription(volunteerRequestDTO.getDescription());
         volunteerRequest.setTitle(volunteerRequestDTO.getTitle());

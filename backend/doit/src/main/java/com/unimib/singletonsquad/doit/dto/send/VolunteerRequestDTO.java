@@ -1,6 +1,5 @@
 package com.unimib.singletonsquad.doit.dto.send;
 
-import com.unimib.singletonsquad.doit.dto.send.AddressDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

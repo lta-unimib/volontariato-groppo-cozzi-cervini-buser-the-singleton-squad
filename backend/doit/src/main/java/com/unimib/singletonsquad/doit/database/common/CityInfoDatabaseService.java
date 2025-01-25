@@ -60,8 +60,7 @@ public class CityInfoDatabaseService {
 
     private CityInfo SaveRequestAndGet(@NotNull final String cityName) throws UnsupportedEncodingException,
             InterruptedException {
-        ///due to API can just get 1 request per second
-        Thread.sleep(800);
+        Thread.sleep(600);
         double[] coords = this.http.getCoordinatesFromOpenCage(cityName);
         CityInfoDTO cityInfoDTO = new CityInfoDTO();
         cityInfoDTO.setCityName(cityName);

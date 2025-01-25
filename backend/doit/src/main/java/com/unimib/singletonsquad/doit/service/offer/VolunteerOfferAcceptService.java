@@ -19,8 +19,6 @@ public class VolunteerOfferAcceptService {
     private final VolunteerOfferDatabaseService volunteerOfferDatabaseService;
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
 
-    //todo aggiungere e passare sempre la richiesta nei vari controlli
-
     public void acceptVolunteerOffer(Long idOffer, String organizationEmail) throws IllegalAccessException {
         VolunteerOffer volunteerOffer  = volunteerOfferDatabaseService.getVolunteerOffer(idOffer);
         checkStartDateAndEndDate(volunteerOffer.getVolunteerRequest());

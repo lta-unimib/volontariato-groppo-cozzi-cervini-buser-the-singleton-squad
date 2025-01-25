@@ -2,7 +2,6 @@ package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.IVolunteerOfferRepository;
 import lombok.AllArgsConstructor;
