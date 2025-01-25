@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItems";
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/core/ScrollArea";
@@ -17,8 +18,28 @@ import { useFavoriteOrganizations } from "@/hooks/useFavoriteOrganizations";
  *
  * @returns The layout displaying the favorite organizations with a loading state or error messages.
  */
+
 export default function FavoriteOrganizations() {
+    const [searchQuery, setSearchQuery] = useState("");
     const { organizations, loading, error } = useFavoriteOrganizations();
+
+    const handleSearch = (query: string) => {
+        setSearchQuery(query.toLowerCase());
+        return [];
+    };
+
+    const filterOrganizations = () => {
+        return organizations.filter(org =>
+            !searchQuery ||
+            org.organizationName.toLowerCase().includes(searchQuery) ||
+            org.description?.toLowerCase().includes(searchQuery) ||
+            org.preferences?.some(pref =>
+                pref.toLowerCase().includes(searchQuery)
+            )
+        );
+    };
+
+    const filteredOrganizations = filterOrganizations();
 
     return (
         <div className="w-full h-screen flex flex-col">
@@ -40,6 +61,7 @@ export default function FavoriteOrganizations() {
                         className="mt-12 md:mt-0 p-4 md:px-8"
                         showFilters={false}
                         showToggle={false}
+                        onSearch={handleSearch}
                     />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         <div className="space-y-4">
@@ -61,7 +83,7 @@ export default function FavoriteOrganizations() {
                                 >
                                     {error}
                                 </div>
-                            ) : organizations.length === 0 ? (
+                            ) : filteredOrganizations.length === 0 ? (
                                 <div
                                     className="flex items-center justify-center h-full text-gray-500"
                                     aria-label="Nessuna organizzazione"
@@ -80,7 +102,7 @@ export default function FavoriteOrganizations() {
                                         className="space-y-4"
                                         aria-labelledby="favorite-organizations-title"
                                     >
-                                        {organizations.map((org) => (
+                                        {filteredOrganizations.map((org) => (
                                             <OrganizationCard
                                                 key={org.organizationName || org.email}
                                                 organizationData={org}

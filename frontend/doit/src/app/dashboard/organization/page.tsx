@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { MdOutlineAdd } from "react-icons/md";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -27,12 +28,30 @@ import { RequestSection } from "@/components/RequestSection";
  * @returns The main dashboard component for the organization, including sidebar,
  * search bar, and request management.
  */
+
 export default function OrganizationDashboard() {
     const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState("");
     const { requests, loading, error } = useAllRequests("/request/all/organization/");
+
+    const handleSearch = (query: string) => {
+        setSearchQuery(query.toLowerCase());
+        return [];
+    };
+
+    const filterRequests = () => {
+        return requests.filter(request =>
+            !searchQuery ||
+            request.title.toLowerCase().includes(searchQuery) ||
+            request.description.toLowerCase().includes(searchQuery)
+        );
+    };
+
+    const filteredRequests = filterRequests();
 
     const handleRegisteredToggle = async (enabled: boolean) => {
         console.log("handleRegisteredToggle", enabled);
+
     };
 
     return (
@@ -55,6 +74,7 @@ export default function OrganizationDashboard() {
                         className="mt-12 md:mt-0 p-4 md:px-8"
                         label={"Termina"}
                         onRegisteredToggle={handleRegisteredToggle}
+                        onSearch={handleSearch}
                     />
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         <div className="space-y-4">
@@ -66,14 +86,14 @@ export default function OrganizationDashboard() {
                                 <div className="flex items-center justify-center h-full">
                                     {error}
                                 </div>
-                            ) : requests.length === 0 ? (
+                            ) : filteredRequests.length === 0 ? (
                                 <div className="flex items-center justify-center h-full">
                                     Nessuna richiesta trovata
                                 </div>
                             ) : (
                                 <RequestSection
                                     title="Tutte le Richieste"
-                                    requests={requests}
+                                    requests={filteredRequests}
                                     role="organization"
                                 />
                             )}
