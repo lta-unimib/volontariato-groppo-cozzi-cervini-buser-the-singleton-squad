@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.Setter;
 public class CityInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     @Column(nullable = false, name = "latitude")
     private double latitude;

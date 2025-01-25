@@ -24,6 +24,7 @@ public class VolunteerRequestController {
 
     private final VolunteerRequestService volunteerRequestService;
     private final RegisteredUserService registeredUserService;
+    private final VolunteerRequestMapper volunteerRequestMapper;
 
     /// Inserire una nuova richiesta
     @PostMapping(value = "/new/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,7 +41,7 @@ public class VolunteerRequestController {
             throws Exception {
        this.registeredUserService.extractRoleFromRequest(request);
        VolunteerRequest specificRequest = this.volunteerRequestService.getSpecificRequest(idRequest);
-       VolunteerRequestSendDTO requestDTO = VolunteerRequestMapper.mapToVolunteerRequestDTO(specificRequest);
+       VolunteerRequestSendDTO requestDTO = this.volunteerRequestMapper.mapToVolunteerRequestDTO(specificRequest);
        return ResponseMessageUtil.createResponseSuccess("volunteer request got", HttpStatus.OK,requestDTO);
     }
 

@@ -40,7 +40,7 @@ public class VolunteerOfferDatabaseService {
 
     public void deleteVolunteerOffer(Long requestId, String email){
         VolunteerOffer temp = volunteerOfferRepository.findVolunteerOfferForDeleting(email, requestId, LocalDateTime.now()).orElseThrow(
-                () -> {throw new RecordNotFoundGeneralException("Record not found");}
+                () -> new RecordNotFoundGeneralException("Record not found")
         );
         volunteerOfferRepository.delete(temp);
     }

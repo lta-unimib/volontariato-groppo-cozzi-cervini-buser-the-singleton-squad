@@ -54,6 +54,7 @@ public class VolunteerOfferController {
     public ResponseEntity<ResponseMessage> deleteVolunteerOfferByRequest(@PathVariable final Long idRequest,
                                                                 final HttpServletRequest request) throws Exception {
         String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
+        System.out.println(email);
         this.volunteerOfferService.removeOfferByRequest(idRequest, email);
         return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
     }

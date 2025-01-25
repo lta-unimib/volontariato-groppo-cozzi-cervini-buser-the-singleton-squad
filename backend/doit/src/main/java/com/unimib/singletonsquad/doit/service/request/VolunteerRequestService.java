@@ -9,6 +9,8 @@ import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Service
@@ -30,7 +32,7 @@ public class VolunteerRequestService {
             throws Exception {
             VolunteerRequest request = this.getSpecificRequest(id);
             checkOrganizationRequest(request, organization);
-            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO, organization);
+            VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO);
             this.volunteerRequestDatabaseService.updateRequest(temp, id);
     }
 
@@ -54,15 +56,15 @@ public class VolunteerRequestService {
     }
 
     /// GET ALL ORGANIZATION VOLUNTEER REQUEST
-    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationName(String name) {
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationName(String name) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByName(name);
-        return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempLista);
     }
 
     /// GET ALL ORGANIZATION BY EMAIL
-    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) {
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
-        return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempLista);
     }
 
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA

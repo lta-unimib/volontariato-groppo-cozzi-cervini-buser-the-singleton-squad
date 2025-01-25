@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.mappers;
 
+import com.unimib.singletonsquad.doit.database.common.CityInfoDatabaseService;
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
@@ -9,6 +10,7 @@ import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -22,6 +24,7 @@ import java.util.Locale;
 @AllArgsConstructor
 public class VolunteerRequestMapper {
 
+    private CityInfoDatabaseService cityInfoDatabaseService;
     /**
      * FIXME PER IL REFATCOTING PASSARE DIRETTAMENTE LE ORGANIZAZZIONI E NON LE EMAIL !!!!
      */
@@ -31,6 +34,7 @@ public class VolunteerRequestMapper {
         VolunteerRequest volunteerRequest = new VolunteerRequest();
         volunteerRequest.setOrganization(organization);
         volunteerRequest.setAddress(this.createNewAddress(volunteerRequestDTO.getAddress()));
+
         volunteerRequest.setFeedbackMap(new HashMap<>());
         volunteerRequest.setVolunteerOffers(new ArrayList<>());
         return mapCommonFiled(volunteerRequest, volunteerRequestDTO);
@@ -67,13 +71,13 @@ public class VolunteerRequestMapper {
         return AddressMapper.updateAddress(address, addressDTO);
     }
 
-    public static VolunteerRequestSendDTO mapToVolunteerRequestDTO(VolunteerRequest volunteerRequest) {
+
+    public VolunteerRequestSendDTO mapToVolunteerRequestDTO(VolunteerRequest volunteerRequest) throws UnsupportedEncodingException, InterruptedException {
         VolunteerRequestSendDTO requestDTO = new VolunteerRequestSendDTO();
         requestDTO.setId(volunteerRequest.getId());
         requestDTO.setTitle(volunteerRequest.getTitle());
         requestDTO.setVolunteerCapacity(volunteerRequest.getCapacity());
         requestDTO.setDescription(volunteerRequest.getDetailedDescription());
-
         requestDTO.setCategories(volunteerRequest.getVolunteerCategories());
         requestDTO.setAddress(AddressMapper.createAddressDTO(volunteerRequest.getAddress()));
         String[] start = extractDateTime(volunteerRequest.getStartDateTime());
@@ -82,6 +86,7 @@ public class VolunteerRequestMapper {
         requestDTO.setEndTime(end[1]);
         requestDTO.setTimeRange(List.of(start[0], end[0]));
         requestDTO.setOrganization(volunteerRequest.getOrganization());
+        requestDTO.setCityInfo(this.cityInfoDatabaseService.getCityInfo(requestDTO.getAddress().getCity()));
         return requestDTO;
     }
 
@@ -111,8 +116,7 @@ public class VolunteerRequestMapper {
         return new String[]{date, time};
     }
 
-    /// FIXME INSERIRLO IN UN MAPPER DTO APPOSITO
-    public static List<VolunteerRequestSendDTO> getRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) {
+    public List<VolunteerRequestSendDTO> getRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
         for (VolunteerRequest volunteersingle : volunteerRequest) {
             volunteerRequestDTOS.add(mapToVolunteerRequestDTO(volunteersingle));

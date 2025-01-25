@@ -17,12 +17,11 @@ public class Feedback {
 
     @Column(nullable = false, name = "vote")
     private double vote;
+
+    public void setVote(double vote) {
+        if(vote < 0)
+            throw new IllegalArgumentException("vote must be a positive number");
+        this.vote = vote;
+    }
+
 }
-
-/*
-    LA COSA PIù SEMPLICE DA FARE è CHE QUANDO APRI UNA PAGINA DEDICATA CHE CONTIENE,
-    GLI EVENTI A CUI TI SEI ISCRITTO, SI FA UNA CHIAMATA AD UN ENDPOINT CHE PRENDE
-    TUTTI GLI EVENTI CHE SONO CONCLUSI AL QUALE L'UTENTE SI è ISCRITTO E CHE HANNO VOTO
-    NULL.
-
- */

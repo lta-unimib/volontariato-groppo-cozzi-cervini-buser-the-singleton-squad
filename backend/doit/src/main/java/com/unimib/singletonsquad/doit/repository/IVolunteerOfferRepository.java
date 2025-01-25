@@ -24,7 +24,7 @@ public interface IVolunteerOfferRepository extends JpaRepository<VolunteerOffer,
 
     Optional<VolunteerOffer> findById(Long id);
 
-    @Query("SELECT o FROM VolunteerOffer as o WHERE o.volunteer.email = :email AND o.volunteerRequest.id = :requestId AND o.volunteerRequest.endDateTime <= :oggi")
+    @Query("SELECT o FROM VolunteerOffer as o WHERE o.volunteer.email = :email AND o.volunteerRequest.id = :requestId AND :oggi <= o.volunteerRequest.endDateTime")
     Optional<VolunteerOffer> findVolunteerOfferForDeleting(@Param("email") String email, @Param("requestId") Long requestId, @Param("oggi") LocalDateTime oggi);
 
 
