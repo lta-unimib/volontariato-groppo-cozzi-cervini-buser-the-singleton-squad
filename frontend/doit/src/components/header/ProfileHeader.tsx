@@ -1,31 +1,20 @@
 "use client";
 
 import { Button } from "@/components/core/Button";
-import { MdOutlineEdit, MdOutlineDelete } from "react-icons/md";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { makeDeleteRequest } from "@/utils/api/apiUtils";
 import { useBack } from "@/hooks/header/useBack";
 import { ProfileHeaderProps } from "@/types/props/header/profileHeadersProps";
+import { ProfileActions } from "@/components/header/components/ProfileActions";
+/*
+import { useState, useEffect } from "react";
+import { makeGetRequest } from "@/utils/api/apiUtils";
+*/
 
 /**
- * ProfileHeader component renders the profile section of a user with the option to edit or delete the profile.
- *
- * The component displays the user's profile picture, name, role, city, and availability status.
- * It also provides buttons for editing and deleting the profile.
- *
- * @component
- *
- * @param {ProfileHeaderProps} props - The props for the ProfileHeader component.
- * @param {string} props.name - The name of the user.
- * @param {string} props.role - The role of the user (e.g., "volunteer" or "organization").
- * @param {string} props.city - The city where the user is located.
- * @param {string} props.imageUrl - The URL for the user's profile picture.
- * @param {boolean} [props.isAvailable] - The availability status of the user (optional).
- * @param {object} props.profileData - The profile data used for editing the profile.
- *
- * @returns The rendered profile header component with edit and delete functionality.
+ * ProfileHeader component renders the profile section with dynamic actions
  */
 export const ProfileHeader = ({
                                   name,
@@ -34,9 +23,38 @@ export const ProfileHeader = ({
                                   imageUrl,
                                   isAvailable,
                                   profileData,
+                                  readOnly,
                               }: ProfileHeaderProps) => {
     const router = useRouter();
     const onBack = useBack();
+/*
+    const [hasSavedOrganization, setHasSavedOrganization] = useState(false);
+    const [hasParticipatedInEvent, setHasParticipatedInEvent] = useState(false);
+
+/!*    useEffect(() => {
+        const fetchProfileDetails = async () => {
+            if (!readOnly) return;
+
+            try {
+                // Check if organization is saved (for volunteer)
+                if (role.toLowerCase() === 'organization') {
+                    const savedOrgResponse = await makeGetRequest(`/volunteer/saved-organizations/`);
+                    setHasSavedOrganization(savedOrgResponse.some((org: any) => org.id === profileData.id));
+                }
+
+                // Check event participation (for organization)
+                if (role.toLowerCase() === 'volunteer') {
+                    const participationResponse = await makeGetRequest(`/organization/event-participants/`);
+                    setHasParticipatedInEvent(participationResponse.some((participant: any) => participant.id === profileData.id));
+                }
+            } catch (error) {
+                console.error("Error fetching profile details", error);
+            }
+        };
+
+        fetchProfileDetails();
+    }, [readOnly, role, profileData]);*!/
+*/
 
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(profileData));
@@ -44,10 +62,15 @@ export const ProfileHeader = ({
     };
 
     const handleDelete = async () => {
-        console.log("Profilo eliminato");
         const endpoint = `/profile/${role.toLowerCase()}/`;
         router.push("/");
         await makeDeleteRequest(endpoint);
+    };
+
+    const handleRemoveSavedOrg = async () => {
+    };
+
+    const handleReview = () => {
     };
 
     return (
@@ -85,15 +108,16 @@ export const ProfileHeader = ({
                         <p className="text-sm text-muted-foreground">{city}</p>
                     </div>
                 </div>
-                <div className="flex items-center space-x-4 mt-0 ml-48 lg:mt-12">
-                    <Button variant="destructive" size="icon" onClick={handleDelete}>
-                        <MdOutlineDelete />
-                    </Button>
-                    <Button variant="secondary" size="default" className="mt-0" onClick={handleEdit}>
-                        <MdOutlineEdit className="mr-2" />
-                        Modifica
-                    </Button>
-                </div>
+                <ProfileActions
+                    role={role.toLowerCase() as 'volunteer' | 'organization'}
+                    isOwnProfile={!readOnly}
+/*                    hasSavedOrganization={hasSavedOrganization}
+                    hasParticipatedInEvent={hasParticipatedInEvent}*/
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    onRemoveSavedOrg={role.toLowerCase() === 'volunteer' ? handleRemoveSavedOrg : undefined}
+                    onReview={handleReview}
+                />
             </div>
         </div>
     );

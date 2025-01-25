@@ -54,7 +54,7 @@ export default function VolunteerProfile() {
             );
         }
 
-        return <VolunteerProfileContent volunteerProfile={volunteerProfile} selectedDays={selectedDays} isAvailable={isAvailable} />;
+        return <VolunteerProfileContent volunteerProfile={volunteerProfile} selectedDays={selectedDays} isAvailable={isAvailable} readOnly={false} />;
     };
 
     return (

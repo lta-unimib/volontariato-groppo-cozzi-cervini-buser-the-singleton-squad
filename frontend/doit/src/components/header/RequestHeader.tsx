@@ -4,7 +4,7 @@ import { Badge } from "@/components/core/Badge";
 import { makeDeleteRequest, makePostRequest } from "@/utils/api/apiUtils";
 import { useBack } from "@/hooks/header/useBack";
 import { ButtonBack } from './components/ButtonBack';
-import { ProfileActions } from './components/ProfileAction';
+import {RequestActions} from './components/RequestAction';
 import Image from 'next/image';
 import { RequestHeaderProps } from "@/types/props/header/requestHeaderProps";
 
@@ -78,6 +78,29 @@ export const RequestHeader = ({
     const onBack = useBack();
 
     /**
+     * Handles the unsubscribe action by sending a POST request to unsubscribe from the offer.
+     */
+    const handleUnsubscribe = async () => {
+        const endpoint = `/offer/unsubscribe/${idRequest}/`;
+        await makePostRequest(endpoint);
+    };
+
+    /**
+     * Handles the remove saved organization action by sending a DELETE request to remove the organization from the favorites.
+     */
+    const handleRemoveSavedOrg = async () => {
+        const endpoint = `/volunteer/favorite/organization/${organizationName}/`;
+        await makeDeleteRequest(endpoint);
+    };
+
+    /**
+     * Handles the review action by navigating to the review page.
+     */
+    const handleReview = () => {
+        router.push(`/review/${idRequest}`);
+    };
+
+    /**
      * Maps category IDs to category labels by formatting the ID string.
      * @returns {Array} - An array of category objects with 'id' and 'label' properties.
      */
@@ -120,12 +143,20 @@ export const RequestHeader = ({
                     )}
                 </div>
                 {role && (
-                    <ProfileActions
+                    <RequestActions
                         role={role}
                         onEdit={handleEdit}
                         onDelete={handleDelete}
                         onSave={handleSave}
                         onSubscribe={handleSubscribe}
+                        onUnsubscribe={handleUnsubscribe}
+                        onRemoveSavedOrg={handleRemoveSavedOrg}
+                        onReview={handleReview}
+                        // Add the necessary props for the new scenarios
+/*                        isSubscribed={/!* Add logic to determine if subscribed *!/}
+                        isSavedOrg={/!* Add logic to determine if saved *!/}
+                        isEventExpired={/!* Add logic to determine if event expired *!/}
+                        hasReviewed={/!* Add logic to determine if reviewed *!/}*/
                     />
                 )}
             </div>

@@ -31,4 +31,5 @@ export interface ProfileHeaderProps {
     imageUrl: string;
     isAvailable?: boolean;
     profileData: ProfileData;
+    readonly readOnly: boolean;
 }

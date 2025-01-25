@@ -18,12 +18,11 @@ import {useCategories} from "@/hooks/useCategories";
  */
 export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                                                                                           organizationProfile,
-                                                                                          formatWebsiteUrl
+                                                                                          formatWebsiteUrl,
+                                                                                          readOnly
                                                                                       }) => {
-    // Retrieve categories using custom hook
     const { categories } = useCategories();
 
-    // Filter categories matching organization's preferences
     const commonCategories = categories.filter(category =>
         organizationProfile.preferences.includes(category.label)
     );
@@ -37,6 +36,7 @@ export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                     city={organizationProfile.city}
                     imageUrl="/placeholder.jpg"
                     profileData={organizationProfile}
+                    readOnly={readOnly}
                 />
             </div>
 
@@ -57,7 +57,7 @@ export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                                 <h3 className="text-xl font-semibold text-foreground mb-4">Areas of Interest</h3>
                                 <div className="flex flex-wrap gap-2">
                                     {commonCategories.map(category => (
-                                        <Badge key={category.id} variant="secondary" className="font-normal">
+                                        <Badge key={category.label} variant="secondary" className="font-normal">
                                             {category.label}
                                         </Badge>
                                     ))}

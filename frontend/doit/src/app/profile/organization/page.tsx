@@ -44,6 +44,7 @@ export default function OrganizationProfile() {
             <OrganizationProfileContent
                 organizationProfile={organizationProfile}
                 formatWebsiteUrl={formatWebsiteUrl}
+                readOnly={false}
             />
         );
     };

@@ -25,15 +25,14 @@ import { VolunteerProfileContentProps } from "@/types/props/header/profileConten
 export const VolunteerProfileContent: React.FC<VolunteerProfileContentProps> = ({
                                                                                     volunteerProfile,
                                                                                     selectedDays,
-                                                                                    isAvailable
+                                                                                    isAvailable,
+                                                                                    readOnly
                                                                                 }) => {
     const { categories } = useCategories();
 
     const commonCategories = categories.filter(category =>
         volunteerProfile.preferences.includes(category.label)
     );
-
-    console.log(volunteerProfile.preferences);
 
     return (
         <>
@@ -45,6 +44,7 @@ export const VolunteerProfileContent: React.FC<VolunteerProfileContentProps> = (
                     imageUrl="/placeholder.jpg"
                     isAvailable={isAvailable}
                     profileData={volunteerProfile}
+                    readOnly={readOnly}
                 />
             </div>
 
