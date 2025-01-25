@@ -1,5 +1,10 @@
 import { RequestFormData } from "@/types/form/request/requestFormData";
-import { validateCategories, validateDescription, validateVolunteerCapacity } from "@/utils/validation/requestFormValidation";
+import {
+    validateCategories,
+    validateDescription,
+    validateTitle,
+    validateVolunteerCapacity
+} from "@/utils/validation/requestFormValidation";
 
 /**
  * Custom hook to validate the request form data.
@@ -18,7 +23,8 @@ export const useRequestFormValidation = (formData: RequestFormData) => {
     const validationState = {
         areCategoriesValid: validateCategories(formData.categories),
         isDescriptionValid: validateDescription(formData.description),
-        isCapacityValid: validateVolunteerCapacity(formData.volunteerCapacity)
+        isCapacityValid: validateVolunteerCapacity(formData.volunteerCapacity),
+        isValidTitle: validateTitle(formData.title),
     };
 
     /**

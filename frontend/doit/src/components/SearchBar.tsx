@@ -1,11 +1,9 @@
 "use client"
 
-import React, {useCallback, useRef} from "react"
-import { useState } from "react"
+import React, { useState, useCallback, useRef } from "react"
 import {Search, X} from "lucide-react"
 import { Switch } from "@/components/core/Switch"
 import { Badge } from "@/components/core/Badge"
-import { SearchResult } from "@/types/props/searchBarProps"
 import {SearchBarProps} from "@/types/props/searchBarProps";
 
 /**
@@ -29,49 +27,37 @@ import {SearchBarProps} from "@/types/props/searchBarProps";
 
 
 export default function SearchBar({
-                                      className,
-                                      onRegisteredToggle,
-                                      label = "Iscritto",
-                                      showToggle = true,
-                                      showFilters = true,
-                                      filters = ["Filtro 1", "Filtro 2", "Filtro 3", "Filtro 4"],
-                                      onFilterClick,
-                                      onSearch,
-                                      disabled = false,
-                                      ...props
-                                  }: SearchBarProps) {
+    className,
+    onRegisteredToggle,
+    label = "Iscritto",
+    showToggle = true,
+    showFilters = true,
+    filters = ["Filtro 1", "Filtro 2", "Filtro 3", "Filtro 4"],
+    onFilterClick,
+    onSearch,
+    disabled = false,
+    ...props
+}: SearchBarProps) {
     const [searchTerm, setSearchTerm] = useState("")
-    const [searchResults, setSearchResults] = useState<SearchResult[]>([])
     const inputRef = useRef<HTMLInputElement>(null)
 
     const handleSearchInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
         setSearchTerm(value)
 
-        // Trigger search if onSearch prop is provided
-        if (onSearch && value.length > 2) {
-            const results = onSearch(value)
-            setSearchResults(results)
-        }
+        // Trigger search immediately on input change
+        onSearch?.(value)
     }, [onSearch])
-
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault()
-        if (onSearch) {
-            const results = onSearch(searchTerm)
-            setSearchResults(results)
-        }
-    }
 
     const clearSearch = () => {
         setSearchTerm("")
-        setSearchResults([])
+        onSearch?.("")
         inputRef.current?.focus()
     }
 
     return (
         <div className={`w-full mx-auto space-y-4 ${className}`} {...props}>
-            <form onSubmit={handleSearch} className="relative">
+            <div className="relative">
                 <div className="flex items-center">
                     <div className="relative flex-grow">
                         <input
@@ -104,7 +90,7 @@ export default function SearchBar({
                         </div>
                     )}
                 </div>
-            </form>
+            </div>
 
             {showFilters && (
                 <div className="flex flex-wrap gap-2">
@@ -117,20 +103,6 @@ export default function SearchBar({
                         >
                             {filter}
                         </Badge>
-                    ))}
-                </div>
-            )}
-
-            {searchResults.length > 0 && (
-                <div className="mt-2 space-y-2">
-                    {searchResults.map((result, index) => (
-                        <div
-                            key={index}
-                            className="p-2 bg-muted rounded hover:bg-muted/80 cursor-pointer"
-                            onClick={() => {/* Handle result selection */}}
-                        >
-                            {result.label}
-                        </div>
                     ))}
                 </div>
             )}
