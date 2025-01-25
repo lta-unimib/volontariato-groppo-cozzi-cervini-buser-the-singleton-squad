@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import SearchBar from "@/components/SearchBar";
 import { ScrollArea } from "@/components/core/ScrollArea";
@@ -14,6 +14,7 @@ import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItem
 import { IconType } from "react-icons";
 import { useAllRequests, useVolunteerRequests } from '@/hooks/useRequestsFetching';
 import { RequestSection } from '@/components/RequestSection';
+import {callAPIMarkers} from "@/hooks/maps/callAPIMarkers";
 
 /**
  * `VolunteerDashboard` Component.
@@ -33,6 +34,7 @@ export default function VolunteerDashboard() {
     const [showMap, setShowMap] = useState(false);
     const [isRegisteredView, setIsRegisteredView] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [mapLocations, setMapLocations] = useState<google.maps.LatLngLiteral[]>([]);
 
     const { requests, loading: allRequestsLoading, error: allRequestsError } =
         useAllRequests("/request/all/volunteer/sorted/");
@@ -118,6 +120,15 @@ export default function VolunteerDashboard() {
             : <RequestSection title="Tutte le Richieste" requests={filteredRequests} />;
     };
 
+    useEffect(() => {
+        const fetchMarkers = async () => {
+            const locations = await callAPIMarkers();
+            setMapLocations([...locations]);
+        };
+
+        fetchMarkers();
+    }, []);
+
     return (
         <div className={`w-full h-screen flex flex-col`}>
             <div className="flex w-full min-h-screen">
@@ -144,7 +155,7 @@ export default function VolunteerDashboard() {
                         {showMap && (
                             <div className="relative h-[calc(100vh-312px)] md:h-[calc(100vh-144px)] w-full">
                                 <GoogleMapsWrapper>
-                                    <GoogleMaps/>
+                                    <GoogleMaps locations={mapLocations}/>
                                 </GoogleMapsWrapper>
                             </div>
                         )}
