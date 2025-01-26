@@ -78,13 +78,13 @@ public class UserProfileService {
             case VOLUNTEER:
                 VolunteerDTO volunteerDTO = (VolunteerDTO) dto;
                 Volunteer volunteerData = this.volunteerDatabaseService.findVolunteerByEmail(email);
-                Volunteer toBeSaved = this.volunteerMapper.updateVolunteer(volunteerDTO, volunteerData);
+                Volunteer toBeSaved = VolunteerMapper.updateVolunteer(volunteerDTO, volunteerData);
                 this.volunteerDatabaseService.save(toBeSaved);
                 break;
             case ORGANIZATION:
                 OrganizationDTO organizationDTO = (OrganizationDTO) dto;
                 Organization organizationData = this.organizationDatabaseService.findOrganizationByEmail(email);
-                Organization toBeSavedOrg = this.organizationMapper.updateOrganizationInfos(organizationData, organizationDTO);
+                Organization toBeSavedOrg = OrganizationMapper.updateOrganizationInfos(organizationData, organizationDTO);
                 this.organizationDatabaseService.save(toBeSavedOrg);
                 break;
             default:

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegistrationVolunteerService {
 
-    private final VolunteerMapper volunteerMapper;
     private final VolunteerDatabaseService volunteerDatabaseService;
     private final AuthenticationSetUp authenticationSetUp;
 
@@ -24,7 +23,7 @@ public class RegistrationVolunteerService {
         if(this.isAlreadyRegistered(volunteerEmail))
             throw new UserAlreadyRegisteredGeneralException("The volunteer " +volunteer.getEmail() + " is already registered");
 
-        Volunteer user = this.volunteerMapper.createVolunteer(volunteer);
+        Volunteer user = VolunteerMapper.createVolunteer(volunteer);
         this.volunteerDatabaseService.save(user);
         return this.authenticationSetUp.setUpNewAuthSecurityContext(
                 volunteer.getPassword(), UserRole.VOLUNTEER.name(), volunteer.getEmail());

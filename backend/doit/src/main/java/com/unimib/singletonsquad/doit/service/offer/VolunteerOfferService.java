@@ -26,7 +26,7 @@ public class VolunteerOfferService {
     }
 
     /// ADD NEW OFFER
-    public void addNewOffer(Long requestId, Volunteer volunteer) throws Exception {
+    public void addNewOffer(Long requestId, Volunteer volunteer){
         VolunteerRequest volunteerRequest = this.volunteerRequestDatabaseService.getRequestForAddingNewOffer(requestId);
         this.volunteerOfferDatabaseService.getVolunteerOfferCheckSubscribe(volunteer.getId(), requestId);
         VolunteerOffer volunteerOffer = VolunteerOfferMapper.createAnOffer(volunteer, volunteerRequest);

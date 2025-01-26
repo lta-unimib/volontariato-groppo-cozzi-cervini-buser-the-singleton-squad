@@ -7,7 +7,7 @@ import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VolunteerMapper {
+public class    VolunteerMapper {
 
     private VolunteerMapper() {}
 
