@@ -10,7 +10,7 @@ import { RequestHeaderProps } from "@/types/props/header/requestHeaderProps";
 import {useFavoriteOrganizations} from "@/hooks/useFavoriteOrganizations";
 import {useAllRequests, useVolunteerRequests} from "@/hooks/useRequestsFetching";
 import ReviewDialog from '../review/ReviewDialog';
-import {useReviewSubmission} from "@/types/form/useReviewSubmission";
+import {useReviewSubmission} from "@/hooks/useReviewSubmission";
 
 export const RequestHeader = ({
                                   title,

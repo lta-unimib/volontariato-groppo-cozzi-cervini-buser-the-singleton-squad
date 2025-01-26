@@ -9,7 +9,8 @@ import { RequestHeader } from "@/components/header/RequestHeader";
 import { DetailedRequestData } from "@/types/request";
 import { dateUtils } from "@/utils/components/dateUtils";
 import { formatWebsiteUrl } from "@/utils/urlUtils";
-import { ReviewCardMock } from "@/components/review/ReviewCard"; // Importa la ReviewCard
+import { ReviewCardMock } from "@/components/review/ReviewCard";
+import {EmailList} from "@/components/EmailList"; // Importa la ReviewCard
 
 /**
  * `AboutSection` Component.
@@ -119,6 +120,8 @@ const DetailedRequestContent = () => {
     // Aggiungi logica per controllare se la data di fine è prima di oggi
     const isEndTimePassed = endDate < new Date();
 
+    console.log(requestData)
+
     return (
         <div className="flex flex-col lg:flex-row w-full">
             <div className="w-full h-screen flex flex-col">
@@ -141,6 +144,7 @@ const DetailedRequestContent = () => {
                                     <AboutSection description={requestData.description} />
                                     {isEndTimePassed && <ReviewCardMock type="request" />} {/* Mostra le recensioni solo se la data di fine è passata */}
                                     {requestData.role === "volunteer" && <ContactInfoSection organization={requestData.organization} />}
+                                    {requestData.role === "organization" && <EmailList idRequest={requestData.id as string} />}
                                 </div>
                                 <div className="space-y-4">
                                     <DateSection startDate={startDate} endDate={endDate} />

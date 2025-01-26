@@ -11,7 +11,7 @@ import { ProfileActions } from "@/components/header/components/ProfileActions";
 import { useFavoriteOrganizations } from "@/hooks/useFavoriteOrganizations";
 import { useState } from "react";
 import ReviewDialog from "../review/ReviewDialog";
-import { useReviewSubmission } from "@/types/form/useReviewSubmission";
+import { useReviewSubmission } from "@/hooks/useReviewSubmission";
 
 /**
  * ProfileHeader component renders the profile section with dynamic actions
