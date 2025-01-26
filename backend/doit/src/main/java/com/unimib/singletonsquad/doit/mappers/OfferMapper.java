@@ -14,7 +14,7 @@ public class OfferMapper {
         VolunteerOffer volunteerOffer = new VolunteerOffer();
         volunteerOffer.setVolunteer(volunteer);
         volunteerOffer.setVolunteerRequest(volunteerRequest);
-        volunteerOffer.setStatus(Status.PENDING);
+        volunteerOffer.setStatus(Status.ACCEPTED);
         volunteerOffer.setVotedByOrganization(false);
         volunteerOffer.setVotedByVolunteer(false);
         return volunteerOffer;

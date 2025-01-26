@@ -10,6 +10,8 @@ import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabas
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +59,9 @@ public class VolunteerRequestService {
     }
 
     /// GET ALL ORGANIZATION VOLUNTEER REQUEST
-    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationName(String name) {
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationName(String name) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByName(name);
-        return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempLista);
     }
 
     /// GET ALL ORGANIZATION VOLUNTEER REQUEST
@@ -75,9 +77,9 @@ public class VolunteerRequestService {
     }
 
     /// GET ALL ORGANIZATION BY EMAIL
-    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) {
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
-        return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempLista);
     }
 
     /// GET ALL ORGANIZATION BY EMAIL

@@ -25,7 +25,7 @@ public class AuthenticationController {
         if(!RegisteredUserService.isValidRole(role))
             throw new InvalidRoleGeneralException("Invalid role");
         String token = this.authenticationUserService.authenticate(auth, role);
-        return this.createMessageResponse(String.valueOf(UserRole.ORGANIZATION), token);
+        return createMessageResponse(String.valueOf(UserRole.ORGANIZATION), token);
     }
 
     private ResponseEntity<ResponseMessage> createMessageResponse( @PathVariable final String role, final String token){

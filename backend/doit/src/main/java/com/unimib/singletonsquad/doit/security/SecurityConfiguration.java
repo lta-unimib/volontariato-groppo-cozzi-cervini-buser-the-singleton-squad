@@ -22,52 +22,24 @@ public class SecurityConfiguration {
 
     private final AuthFilter customBearerTokenFilter;
 
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("http://localhost:[*]");
-        configuration.addAllowedOriginPattern("https://lta-unimib.github.io");
+
+        configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
+        configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("Content-Type");
+        configuration.setMaxAge(3600L);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-    /*
-        @Bean
-        public CorsConfigurationSource corsConfigurationSource() {
-            CorsConfiguration configuration = new CorsConfiguration();
 
-            // Allow Next.js development server
-            configuration.addAllowedOriginPattern("http://localhost:*");
-            configuration.addAllowedOriginPattern("http://127.0.0.1:*");
-
-            // Allow Next.js production deployments
-            configuration.addAllowedOriginPattern("https://*.vercel.app");
-            configuration.addAllowedOriginPattern("http://ec2-3-64-126-237.eu-central-1.compute.amazonaws.com");
-
-            // Allow Capacitor Android app
-            configuration.addAllowedOriginPattern("capacitor://localhost");
-            configuration.addAllowedOriginPattern("http://localhost"); // For Android WebView
-
-            // Allow methods and headers
-            configuration.addAllowedMethod("*");
-            configuration.addAllowedHeader("*");
-            configuration.setAllowCredentials(true);
-
-            // Expose headers that might be needed by your frontend
-            configuration.addExposedHeader("Authorization");
-            configuration.addExposedHeader("Content-Type");
-
-            // Optional: Set max age for preflight requests
-            configuration.setMaxAge(3600L);
-
-            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-            source.registerCorsConfiguration("/**", configuration);
-            return source;
-        }
-        */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -82,7 +54,10 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login/**",
-                                "/registration/**", "/authentication/**", "/request/test/**", "categories/all/").permitAll()
+                                "/registration/**",
+                                "/authentication/**",
+                                "/request/test/**",
+                                "/categories/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

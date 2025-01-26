@@ -9,7 +9,6 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +24,7 @@ public class CityInfoDatabaseService {
     private final CityInfoHTTPService http;
     private final Map<String, CityInfo> cityInfoMap = new HashMap<>();
 
+    ///
     public CityInfo getCityInfo(String cityName) throws UnsupportedEncodingException, InterruptedException {
         if (cityInfoMap.containsKey(cityName)) {
             return cityInfoMap.get(cityName);
@@ -33,12 +33,12 @@ public class CityInfoDatabaseService {
             if(cityInfo.isPresent())
                 return cityInfo.get();
             else
-                return this.getCityAndSave(cityName);
+                return this.SaveRequestAndGet(cityName);
         }
     }
 
     /// Salva la città nel database
-    public CityInfo saveCityInfo(@NotNull final CityInfo cityInfo){
+    private  CityInfo saveCityInfo(@NotNull final CityInfo cityInfo){
         CityInfo saved;
         if (!cityInfoMap.containsKey(cityInfo.getCityName())) {
             saved = this.cityInfoRepository.save(cityInfo);
@@ -53,14 +53,15 @@ public class CityInfoDatabaseService {
     private CityInfo createCityInfo(CityInfoDTO cityInfoDTO) {
         return this.cityInfoMapper.mapToCityInfo(cityInfoDTO);
     }
+
     private CityInfo saveDtoIntoDatabase(@NotNull final CityInfoDTO response){
         CityInfo temp = this.createCityInfo(response);
         return this.saveCityInfo(temp);
     }
-    private CityInfo getCityAndSave(@NotNull final String cityName) throws UnsupportedEncodingException,
+
+    private CityInfo SaveRequestAndGet(@NotNull final String cityName) throws UnsupportedEncodingException,
             InterruptedException {
-        ///due to API can just get 1 request per second
-        Thread.sleep(800);
+        Thread.sleep(600);
         double[] coords = this.http.getCoordinatesFromOpenCage(cityName);
         CityInfoDTO cityInfoDTO = new CityInfoDTO();
         cityInfoDTO.setCityName(cityName);

@@ -9,6 +9,7 @@ import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -18,27 +19,28 @@ public class VolunteerRequestModeService {
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
     private final VolunteerDatabaseService volunteerDatabaseService;
     private final VolunteerRequestMatchingService volunteerRequestMatchingService;
+    private final VolunteerRequestMapper volunteerRequestMapper;
 
-    public List<VolunteerRequestSendDTO> getAllRequestNotRegistered(@NotNull final String volunteerEmail) throws Exception {
+    public List<VolunteerRequestSendDTO> getAllRequestNotRegistered(@NotNull final String volunteerEmail) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> volunteerRequestToBeSorted = this.volunteerRequestDatabaseService.getAllRequestNotRegistered(volunteerEmail);
         Volunteer volunteer= this.volunteerDatabaseService.findVolunteerByEmail(volunteerEmail);
         List<VolunteerRequest> volunteerRequestSorted= this.volunteerRequestMatchingService.getVolunteerRequestBasedOnPreferences(volunteer, volunteerRequestToBeSorted);
-        return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequestSorted);
+        return this.volunteerRequestMapper.getRequestSendDTOList(volunteerRequestSorted);
     }
 
-    public List<VolunteerRequestSendDTO> getAllRequestRegistered(@NotNull final String volunteerEmail){
+    public List<VolunteerRequestSendDTO> getAllRequestRegistered(@NotNull final String volunteerEmail) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> volunteerRequests = this.volunteerRequestDatabaseService.getAllRequestRegistered(volunteerEmail);
-        return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
+        return this.volunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
     }
 
-    public List<VolunteerRequestSendDTO> getAllRequestNotVoted(@NotNull final String volunteerEmail){
+    public List<VolunteerRequestSendDTO> getAllRequestNotVoted(@NotNull final String volunteerEmail) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> volunteerRequests = this.volunteerRequestDatabaseService.getAllRequestNotVoted(volunteerEmail);
-        return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
+        return this.volunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
     }
 
-    public List<VolunteerRequestSendDTO> getAllRequestVoted(@NotNull final String volunteerEmail){
+    public List<VolunteerRequestSendDTO> getAllRequestVoted(@NotNull final String volunteerEmail) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> volunteerRequests = this.volunteerRequestDatabaseService.getALlRequestVoted(volunteerEmail);
-        return VolunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
+        return this.volunteerRequestMapper.getRequestSendDTOList(volunteerRequests);
     }
 
 }

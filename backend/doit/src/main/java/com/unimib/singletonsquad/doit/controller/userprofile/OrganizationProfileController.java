@@ -35,7 +35,7 @@ public class OrganizationProfileController extends UserProfileController {
 
     @GetMapping("/{nameOrganization}/")
     public ResponseEntity<ResponseMessage> getUserByName(final HttpServletRequest request, final @PathVariable("nameOrganization") String nameOrganization) throws UnsupportedEncodingException {
-        this.registeredUserService.checkAndGetRoleFromRequest(request);
+        this.registeredUserService.extractRoleFromRequest(request);
         String name = URLDecoder.decode(nameOrganization, "UTF-8");
         Organization organization = (Organization) this.userProfileService.getUserByName(name, userRole);
         String messageResponse = String.format("getting info for %s", name);

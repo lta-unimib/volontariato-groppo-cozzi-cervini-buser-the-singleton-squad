@@ -23,12 +23,12 @@ public class VolunteerPreferences {
 
     private String city;
 
-    @ElementCollection
+    @ElementCollection()
     @JsonProperty("preferences")
     private List<String> categories;
 
-    // Relazione OneToOne con Availability con CascadeType.ALL
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(nullable = false, name = "availability_id")
     private Availability availability;
 
     @Override

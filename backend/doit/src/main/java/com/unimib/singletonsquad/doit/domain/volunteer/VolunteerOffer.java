@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unimib.singletonsquad.doit.domain.common.Status;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
@@ -14,7 +15,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Entity
-@ToString
+@ToString(exclude = "volunteerRequest")
 @NoArgsConstructor
 @Table(name = "volunteer_offers")
 public class VolunteerOffer {
@@ -23,55 +24,52 @@ public class VolunteerOffer {
     @Column(nullable = false, unique = true)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "volunteer_id")  // La relazione non ha bisogno di cascata
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinColumn(name = "volunteer_request_id")  // La relazione non ha bisogno di cascata
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "volunteer_request_id")
+    @JsonBackReference
     private VolunteerRequest volunteerRequest;
 
-    // Indica se gli è stato assegnato il voto o meno
     @Column(nullable = false)
     private boolean votedByVolunteer;
-    /// voto dell'organizzazione dall'utente
+
     @Column(nullable = false)
     private boolean votedByOrganization;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "feedback_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Feedback feedback;
 
+    public Organization getOrganization() {
+        return volunteerRequest != null ? volunteerRequest.getOrganization() : null;
+    }
+
+    public boolean isVolunteerOffer(String volunteerEmail) {
+        return volunteer != null && volunteer.isVolunteerEmail(volunteerEmail);
+    }
+
+    public boolean isOrganizationOffer(String organizationEmail) {
+        return volunteerRequest != null && volunteerRequest.getOrganization() != null
+                && volunteerRequest.getOrganization().getEmail().equals(organizationEmail);
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof VolunteerOffer)) return false;
-        VolunteerOffer that = (VolunteerOffer) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(volunteer, that.volunteer) &&
-                status == that.status;
+        if (!(o instanceof VolunteerOffer that)) return false;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, volunteer, status);
-    }
-
-    // Metodo per ottenere l'organizzazione associata a questa offerta
-    public Organization getOrganization() {
-        return volunteerRequest.getOrganization();
-    }
-
-    // Verifica se l'email del volontario corrisponde a questa offerta
-    public boolean isVolunteerOffer(String volunteerEmail) {
-        return this.volunteer.isVolunteerEmail(volunteerEmail);
-    }
-
-    // Verifica se l'email dell'organizzazione corrisponde a questa offerta
-    public boolean isOrganizationOffer(String organizationEmail) {
-        return volunteerRequest.getOrganization().getEmail().equals(organizationEmail);
+        return Objects.hash(id);
     }
 }

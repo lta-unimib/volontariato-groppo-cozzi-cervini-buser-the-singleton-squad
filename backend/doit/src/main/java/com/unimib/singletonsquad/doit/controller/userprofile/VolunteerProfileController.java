@@ -34,10 +34,9 @@ public class VolunteerProfileController  extends UserProfileController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> getVolunteerInformation(final HttpServletRequest request){
-        String email = this.registeredUserService.getUserEmail(request);
-        Volunteer volunteer = (Volunteer) this.userProfileService.getUserByEmail(email, UserRole.VOLUNTEER);
+        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(UserRole.VOLUNTEER, request);
         VolunteerDTO volunteerDTO = VolunteerMapper.toVolunteerDTO(volunteer);
-        String messageResponse = String.format("getting info for %s", email);
+        String messageResponse = String.format("getting info for %s", volunteerDTO.getEmail());
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, volunteerDTO);
     }
 
@@ -55,7 +54,7 @@ public class VolunteerProfileController  extends UserProfileController {
     /// DELETE VOLUNTEER
     @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> deleteUser(final HttpServletRequest request) throws RoleInfoNotFoundException {
-        String email = validateTokenAndGetEmail(request, UserRole.VOLUNTEER);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         this.userProfileService.deleteUser(email, UserRole.VOLUNTEER);
         String messageResponse = String.format("deleted user %s", email);
         return super.sendResponseMessage(messageResponse, HttpStatus.OK, null);

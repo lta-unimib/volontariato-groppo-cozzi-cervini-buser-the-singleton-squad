@@ -7,9 +7,9 @@ public class EmailValidator {
     private EmailValidator() {}
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
-            "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})+$"
+            "^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z]{2,})+$",
+            Pattern.CASE_INSENSITIVE
     );
-
     public static boolean isValidEmail(String email) {
         if (email == null || email.length() < 5 || email.length() > 100)
             return false;

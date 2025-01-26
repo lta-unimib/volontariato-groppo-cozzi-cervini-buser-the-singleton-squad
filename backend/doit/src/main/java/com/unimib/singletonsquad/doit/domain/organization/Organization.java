@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.unimib.singletonsquad.doit.domain.common.User;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.utils.data.EmailValidator;
@@ -19,7 +20,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Builder
-@ToString
+@ToString(exclude = "volunteerRequests")
 @Table(name = "organization")
 public class Organization implements User {
     @Id
@@ -30,23 +31,28 @@ public class Organization implements User {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String description;
 
     @Column(unique = true, nullable = false)
     @Email
     private String email;
 
+    @Column(nullable = false)
     private String password;
+
     private String website;
     private String VATNumber;
 
+    @Column(nullable = false)
     private String city;
 
-    @ElementCollection
+    @ElementCollection()
     private List<String> categories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonManagedReference
     private List<VolunteerRequest> volunteerRequests = new ArrayList<>();
 
     public void setEmail(String email) {

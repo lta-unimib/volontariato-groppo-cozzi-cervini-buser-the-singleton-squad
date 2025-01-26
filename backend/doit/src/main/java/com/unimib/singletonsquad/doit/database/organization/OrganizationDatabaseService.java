@@ -23,6 +23,15 @@ public class OrganizationDatabaseService {
         return organizationRepository.save(organization);
     }
 
+    public boolean existsByEmail(String email) {
+        if(!organizationRepository.existsByEmail(email))
+            throw new RecordNotFoundGeneralException(ERROR_MESSAGE_EMAIL + email);
+        return true;
+    }
+
+
+
+
     public Organization findOrganizationById(Long id) {
         return organizationRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found for ID: " + id));
@@ -33,7 +42,7 @@ public class OrganizationDatabaseService {
                 .orElseThrow(() -> new RecordNotFoundGeneralException("No organization found with name: " + organizationName));
     }
 
-    public Organization findOrganizationByEmail(String email) {
+    public Organization findOrganizationByEmail(String email){
         return organizationRepository.findByEmail(email)
                 .orElseThrow(() -> new RecordNotFoundGeneralException(ERROR_MESSAGE_EMAIL + email));
     }

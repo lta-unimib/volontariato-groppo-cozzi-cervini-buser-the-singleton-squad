@@ -48,12 +48,11 @@ public class UserProfileService {
     }
 
     public User getUserByName(String username, UserRole role) throws InvalidRoleGeneralException {
-        if(role == UserRole.VOLUNTEER)
-                return this.organizationDatabaseService.findOrganizationByName(username);
-        else if(role == UserRole.ORGANIZATION)
-                throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
-        else
-            throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
+        return switch (role) {
+            case VOLUNTEER -> this.volunteerDatabaseService.findVolunteerByEmail(username);
+            case ORGANIZATION -> this.organizationDatabaseService.findOrganizationByName(username);
+            default -> throw new InvalidRoleGeneralException(ERROR_MESSAGE_EMAIL);
+        };
     }
 
 
