@@ -39,18 +39,6 @@ public class VolunteerOfferController {
 
     }
 
-    /*
-    /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
-    @DeleteMapping("/{idOffer}/")
-    public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable final Long idOffer,
-                                                                final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
-        UserRole role = this.registeredUserService.extractRoleFromRequest(request);
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(role, request);
-        this.volunteerOfferService.removeOffer(idOffer, email);
-        return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
-    }
-     */
-
     /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
     @DeleteMapping("/unsubscribe/{idRequest}/")
     public ResponseEntity<ResponseMessage> deleteVolunteerOfferByRequest(@PathVariable final Long idRequest,
@@ -70,6 +58,7 @@ public class VolunteerOfferController {
     }
 
     /*
+
     /// A ORGANIZATION ACCEPT A VOLUNTEER OFFER
     @PostMapping(value = "/accept/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> acceptOffer(final @PathVariable Long idOffer, final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
@@ -85,6 +74,16 @@ public class VolunteerOfferController {
         this.acceptService.rejectVolunteerOffer(idOffer, emailOrganization);
         return ResponseMessageUtil.createResponseSuccess(String.format("Reject offer %s", idOffer), HttpStatus.OK, null);
     }
-    */
 
+     /*
+    /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
+    @DeleteMapping("/{idOffer}/")
+    public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable final Long idOffer,
+                                                                final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
+        UserRole role = this.registeredUserService.extractRoleFromRequest(request);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(role, request);
+        this.volunteerOfferService.removeOffer(idOffer, email);
+        return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
+    }
+     */
 }

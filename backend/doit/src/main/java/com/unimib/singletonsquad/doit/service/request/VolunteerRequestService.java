@@ -65,7 +65,7 @@ public class VolunteerRequestService {
     }
 
     /// GET ALL ORGANIZATION VOLUNTEER REQUEST
-    public List<VolunteerRequestSendDTO> getAllExpiredRequestByOrganizationName(String name) {
+    public List<VolunteerRequestSendDTO> getAllExpiredRequestByOrganizationName(String name) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByName(name);
         List<VolunteerRequest> tempListaSend = new ArrayList<>();
         for (VolunteerRequest volunteerRequest : tempLista) {
@@ -73,7 +73,7 @@ public class VolunteerRequestService {
                 tempListaSend.add(volunteerRequest);
             }
         }
-        return VolunteerRequestMapper.getRequestSendDTOList(tempListaSend);
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempListaSend);
     }
 
     /// GET ALL ORGANIZATION BY EMAIL
@@ -83,7 +83,7 @@ public class VolunteerRequestService {
     }
 
     /// GET ALL ORGANIZATION BY EMAIL
-    public List<VolunteerRequestSendDTO> getAllExpiredRequestByOrganizationEmail(String email) {
+    public List<VolunteerRequestSendDTO> getAllExpiredRequestByOrganizationEmail(String email) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
         List<VolunteerRequest> tempListaSend = new ArrayList<>();
         for (VolunteerRequest volunteerRequest : tempLista) {
@@ -91,11 +91,11 @@ public class VolunteerRequestService {
                 tempListaSend.add(volunteerRequest);
             }
         }
-        return VolunteerRequestMapper.getRequestSendDTOList(tempListaSend);
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempListaSend);
     }
 
     /// GET ALL ORGANIZATION BY EMAIL
-    public List<VolunteerRequestSendDTO> getAllActiveRequestByOrganizationEmail(String email) {
+    public List<VolunteerRequestSendDTO> getAllActiveRequestByOrganizationEmail(String email) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
         List<VolunteerRequest> tempListaSend = new ArrayList<>();
         for (VolunteerRequest volunteerRequest : tempLista) {
@@ -103,7 +103,7 @@ public class VolunteerRequestService {
                 tempListaSend.add(volunteerRequest);
             }
         }
-        return VolunteerRequestMapper.getRequestSendDTOList(tempListaSend);
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempListaSend);
     }
 
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA

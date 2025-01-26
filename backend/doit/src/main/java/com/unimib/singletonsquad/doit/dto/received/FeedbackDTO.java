@@ -11,4 +11,6 @@ import lombok.Setter;
 public class FeedbackDTO {
     @NotNull
     double vote;
+    @NotNull
+    String email;
 }

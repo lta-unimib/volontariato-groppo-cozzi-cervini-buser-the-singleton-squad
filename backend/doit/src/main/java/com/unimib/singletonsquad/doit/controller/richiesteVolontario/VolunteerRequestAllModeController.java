@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.management.relation.RoleInfoNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -25,6 +24,7 @@ public class VolunteerRequestAllModeController {
 
     private final RegisteredUserService registeredUserService;
     private final VolunteerRequestModeService volunteerRequestModeService;
+
 
     @GetMapping(value = "/sorted/")
     public ResponseEntity<ResponseMessage> getVolunteerRequest(final HttpServletRequest request) throws UnsupportedEncodingException,

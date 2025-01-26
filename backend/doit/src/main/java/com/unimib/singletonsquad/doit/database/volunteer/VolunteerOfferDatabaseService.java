@@ -49,10 +49,6 @@ public class VolunteerOfferDatabaseService {
         volunteerOfferRepository.delete(temp);
     }
 
-    public VolunteerOffer existsVolunteerOfferByOrganization(final Long idOffer, final Organization organization) {
-        return this.volunteerOfferRepository.findByIdAndOrganizationCustom(organization, idOffer, LocalDateTime.now()).orElseThrow(
-                () -> new RecordNotFoundGeneralException("Record not found with id " + idOffer + " and organization " + organization + " enddate: " +LocalDateTime.now()));
-    }
 
     public void getVolunteerOfferCheckSubscribe(Long idVolunteer, Long idOffer) throws RecordNotFoundGeneralException {
          if(this.volunteerOfferRepository.checkValidation(idVolunteer, idOffer).isPresent())
@@ -63,6 +59,22 @@ public class VolunteerOfferDatabaseService {
     public VolunteerOffer getVolunteerOfferByIdVolunteerAndIdRequest(Long idVolunteer, Long idRequest){
         return this.volunteerOfferRepository.getVolunteerOfferByIdVolunteerAndIdRequest(idVolunteer, idRequest).orElseThrow( () ->{
             throw new RecordNotFoundGeneralException("Record not found with id " + idVolunteer);
+        });
+    }
+
+    /// getAllVoteByEventsByRequestId
+    public double getAllVoteByEventsByOfferId(Long id){
+        return volunteerOfferRepository.getAllVoteByEventsByOfferId(id);
+    }
+
+    public VolunteerOffer getVolunteerOfferByRequestId(Long idRequest, String idVolotario){
+        return this.volunteerOfferRepository.getVolunteerOfferByRequestId(idRequest, idVolotario, LocalDateTime.now()).orElseThrow( () ->{
+            throw new RecordNotFoundGeneralException("Record not found with id request " + idRequest);
+        });
+    }
+    public VolunteerOffer getVolunteerOfferByRequestId1(Long idRequest, String idVolotario, Organization organization){
+        return this.volunteerOfferRepository.getVolunteerOfferByRequestId1(idRequest, idVolotario, LocalDateTime.now(), organization).orElseThrow( () ->{
+            throw new RecordNotFoundGeneralException("Record not found with id request " + idRequest);
         });
     }
 
