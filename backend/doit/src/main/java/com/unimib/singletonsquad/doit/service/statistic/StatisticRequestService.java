@@ -14,8 +14,8 @@ public class StatisticRequestService {
 
     public JsonObject getRequestStatistic(Long requestId) {
         VolunteerRequest request = volunteerRequestDatabaseService.getSpecificRequest(requestId);
-        int totaleVoti = request.getTotalFeedbacks();
-        double media = (totaleVoti == 0) ? 0.0 : request.getSommaVoti()/totaleVoti;
+        Integer totaleVoti = request.getTotalFeedbacks();
+        Double media = (totaleVoti == 0) ? 0.0 : request.getSommaVoti()/totaleVoti;
         JsonObject statistic = new JsonObject();
         statistic.addProperty("totalVotes", totaleVoti);
         statistic.addProperty("mediaVotes", media);

@@ -7,11 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class StatisticOrganization {
 
     @Id
@@ -19,9 +22,9 @@ public class StatisticOrganization {
     @JsonIgnore
     private int id;
 
-    private double averageVotes;
-    private int totalFeedback;
-    private int numeroTotalePartecipanti;
+    private Double averageVotes;
+    private Integer totalFeedback;
+    private Integer numeroTotalePartecipanti;
 
     @OneToOne
     @JoinColumn(name = "organization_id")

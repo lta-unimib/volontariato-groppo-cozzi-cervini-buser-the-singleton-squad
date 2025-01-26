@@ -16,10 +16,10 @@ public class StatisticVolunteer {
     private Long id;
 
     @Column(nullable = false)
-    private int totalFeedback;
+    private Integer totalFeedback;
 
     @Column(nullable = false)
-    private double averageVotes;
+    private Double averageVotes;
 
 
     @OneToOne
