@@ -10,18 +10,10 @@ import { DetailedRequestData } from "@/types/request";
 import { dateUtils } from "@/utils/components/dateUtils";
 import { formatWebsiteUrl } from "@/utils/urlUtils";
 import {ReviewCard} from "@/components/review/ReviewCard";
-import {EmailList} from "@/components/EmailList"; // Importa la ReviewCard
+import {EmailList} from "@/components/EmailList";
 import { Button } from "@/components/core/Button";
 import { FaXTwitter, FaTiktok, FaInstagram, FaFacebook, FaPlus } from "react-icons/fa6";
 
-/**
- * `AboutSection` Component.
- *
- * Displays a section with the description of the request.
- *
- * @param description - The description text to be displayed.
- * @returns A card with the description of the request.
- */
 const AboutSection: React.FC<{ description: string }> = ({ description }) => (
     <Card className="rounded-2xl">
         <CardContent className="pt-6">
@@ -31,14 +23,6 @@ const AboutSection: React.FC<{ description: string }> = ({ description }) => (
     </Card>
 );
 
-/**
- * `ContactInfoSection` Component.
- *
- * Displays a section with the contact information of the organization.
- *
- * @param organization - The organization data to display.
- * @returns A card with the organization's contact information.
- */
 const ContactInfoSection: React.FC<{ organization: DetailedRequestData["organization"] }> = ({ organization }) => {
     return (
         <Card className="rounded-2xl">
@@ -100,15 +84,6 @@ const ContactInfoSection: React.FC<{ organization: DetailedRequestData["organiza
     );
 };
 
-/**
- * `DateSection` Component.
- *
- * Displays a section with the event start and end dates, and a calendar with the selected dates.
- *
- * @param startDate - The start date of the event.
- * @param endDate - The end date of the event.
- * @returns A card with the event dates and a calendar.
- */
 const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, endDate }) => {
     const selectedDates = dateUtils.getDateRange(startDate, endDate);
 
@@ -134,14 +109,6 @@ const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, 
     );
 };
 
-/**
- * `DetailedRequestContent` Component.
- *
- * This component fetches and displays the detailed information about a specific request.
- * It includes sections for about the request, contact info, event dates, and reviews.
- *
- * @returns A detailed view of the request with its related information.
- */
 const DetailedRequestContent = () => {
     const searchParams = useSearchParams();
     const encodedData = searchParams.get("data");
@@ -161,7 +128,6 @@ const DetailedRequestContent = () => {
 
     const [startDate, endDate] = requestData.timeRange.map((dateStr) => new Date(dateStr));
 
-    // Aggiungi logica per controllare se la data di fine è prima di oggi
     const isEndTimePassed = endDate < new Date();
 
     console.log(requestData)

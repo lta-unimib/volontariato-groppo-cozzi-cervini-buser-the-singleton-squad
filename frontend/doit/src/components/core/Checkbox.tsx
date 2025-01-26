@@ -6,16 +6,6 @@ import { CheckboxProps } from "@/types/props/core/checkboxProps";
 import { useState, useCallback } from "react";
 import { useCategories } from "@/hooks/useCategories";
 
-/**
- * A custom checkbox component that supports single or multiple selections.
- *
- * @param {CheckboxProps} props - The properties for the checkbox component.
- * @param {Function} [props.onChangeAction] - Callback triggered when the selected options change.
- * @param {string[]} [props.initialSelected=[]] - Array of initially selected option IDs.
- * @param {boolean} [props.readOnly=false] - Determines if the component is read-only.
- * @param {boolean} [props.isSingleSelect=false] - Enables single-select mode.
- * @returns The rendered Checkbox component.
- */
 export function Checkbox({
                              onChangeAction,
                              initialSelected = [],

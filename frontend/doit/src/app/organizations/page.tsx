@@ -9,16 +9,6 @@ import OrganizationCard from "@/components/card/OrganizationCard";
 import { useFavoriteOrganizations } from "@/hooks/useFavoriteOrganizations";
 import {Skeleton} from "@/components/sidebar/Skeleton";
 
-/**
- * `FavoriteOrganizations` Component.
- *
- * This component displays a list of the user's favorite organizations.
- * It manages loading and error states, and displays a list of organizations
- * with appropriate feedback messages.
- *
- * @returns The layout displaying the favorite organizations with a loading state or error messages.
- */
-
 export default function FavoriteOrganizations() {
     const [searchQuery, setSearchQuery] = useState("");
     const { organizations, loading, error } = useFavoriteOrganizations();
@@ -73,7 +63,7 @@ export default function FavoriteOrganizations() {
                                 </div>
                             ) : error ? (
                                 <div
-                                    className="flex items-center justify-center h-full text-red-500"
+                                    className="flex items-center justify-center h-full text-destructive"
                                     role="alert"
                                 >
                                     {error}

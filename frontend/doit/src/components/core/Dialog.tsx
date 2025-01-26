@@ -13,12 +13,6 @@ const DialogTrigger = DialogPrimitive.Trigger
 
 const DialogPortal = DialogPrimitive.Portal
 
-/**
- * DialogOverlay component wraps the Radix Overlay and applies custom styling for the overlay background.
- *
- * @param {React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>} props - The properties for the DialogOverlay component.
- * @returns JSX.Element The rendered DialogOverlay component.
- */
 const DialogOverlay = React.forwardRef<
     ComponentRef<typeof DialogPrimitive.Overlay>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -34,13 +28,6 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-/**
- * DialogContent component wraps the Radix Content and applies custom styling for the dialog content.
- *
- * @param {React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>} props - The properties for the DialogContent component.
- * @param {React.ReactNode} children - The content inside the DialogContent.
- * @returns JSX.Element The rendered DialogContent component.
- */
 const DialogContent = React.forwardRef<
     ComponentRef<typeof DialogPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
@@ -65,14 +52,6 @@ const DialogContent = React.forwardRef<
 ))
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
-/**
- * DialogHeader component wraps the dialog header with custom styling.
- *
- * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties for the DialogHeader component.
- * @param className - The additional styles for the DialogHeader component.
- *
- * @returns JSX.Element The rendered DialogHeader component.
- */
 const DialogHeader = ({
                           className,
                           ...props
@@ -87,14 +66,6 @@ const DialogHeader = ({
 )
 DialogHeader.displayName = "DialogHeader"
 
-/**
- * DialogFooter component wraps the dialog footer with custom styling.
- *
- * @param {React.HTMLAttributes<HTMLDivElement>} props - The properties for the DialogFooter component.
- * @param className - The additional styles for the DialogFooter component.
- *
- * @returns JSX.Element The rendered DialogFooter component.
- */
 const DialogFooter = ({
                           className,
                           ...props
@@ -109,12 +80,6 @@ const DialogFooter = ({
 )
 DialogFooter.displayName = "DialogFooter"
 
-/**
- * DialogTitle component wraps the Radix Title and applies custom styling for the dialog title.
- *
- * @param {React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>} props - The properties for the DialogTitle component.
- * @returns JSX.Element The rendered DialogTitle component.
- */
 const DialogTitle = React.forwardRef<
     ComponentRef<typeof DialogPrimitive.Title>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
@@ -130,12 +95,6 @@ const DialogTitle = React.forwardRef<
 ))
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
-/**
- * DialogDescription component wraps the Radix Description and applies custom styling for the dialog description.
- *
- * @param {React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>} props - The properties for the DialogDescription component.
- * @returns JSX.Element The rendered DialogDescription component.
- */
 const DialogDescription = React.forwardRef<
     ComponentRef<typeof DialogPrimitive.Description>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>

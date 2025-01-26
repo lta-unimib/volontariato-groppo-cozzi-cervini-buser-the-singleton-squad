@@ -2,19 +2,6 @@ import * as React from "react";
 import { cn } from "@/utils/cnUtils";
 import { InputProps } from "@/types/props/core/inputProps";
 
-/**
- * Input component renders a styled input field with optional icon support and error handling.
- *
- * @param {InputProps} props - The properties for the Input component.
- * @param {string} props.className - Additional CSS classes to apply to the input.
- * @param {string} [props.type='text'] - The input type (e.g., 'text', 'password', etc.).
- * @param {boolean} props.isInvalid - Whether the input is in an invalid state (used for error handling).
- * @param {boolean} props.isFocused - Whether the input is currently focused.
- * @param {Function} props.onChange - The callback function to handle value changes.
- * @param {React.ReactNode} [props.icon] - An optional icon to display inside the input.
- * @param {string} [props.value] - The value of the input field.
- * @returns {JSX.Element} The rendered input element with optional icon and error styles.
- */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ({
          className,

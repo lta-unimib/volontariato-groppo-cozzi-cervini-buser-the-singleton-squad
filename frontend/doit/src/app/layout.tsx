@@ -10,25 +10,11 @@ const roboto = Roboto({
     display: 'swap',
 });
 
-/**
- * Metadata for the root layout, including the title and description of the app.
- *
- * @type {Metadata}
- */
 export const metadata: Metadata = {
     title: "DoIT",
     description: "L'app di volontariato per la regione Lombardia",
 };
 
-/**
- * Root layout component for the application.
- * This component provides the global HTML structure, including the theme provider and font styling.
- *
- * @param {Object} props - The component props.
- * @param {React.ReactNode} props.children - The children elements to be rendered inside the layout.
- *
- * @returns The RootLayout component.
- */
 export default function RootLayout({
                                        children,
                                    }: Readonly<{

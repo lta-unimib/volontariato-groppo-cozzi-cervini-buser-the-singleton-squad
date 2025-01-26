@@ -4,22 +4,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { RequestCardProps } from "@/types/props/card/requestCardProps";
 
-/**
- * RequestCard component that displays a card with request details.
- * The card includes information about the organization, title, location, date, and an image.
- * When the card is clicked, it navigates to the detailed request page.
- *
- * @param {RequestCardProps} props - The properties for the RequestCard component.
- * @param {string} props.organization - The name of the organization making the request.
- * @param {string} props.title - The title of the request.
- * @param {string} props.location - The location where the request is available.
- * @param {string} props.date - The date the request was made or is relevant.
- * @param {string} props.image - The URL of the image to be displayed on the card.
- * @param {object} props.requestData - The data related to the request, passed to the detailed page.
- * @param {string} props.role - The role related to the request (e.g., "volunteer", "manager").
- *
- * @returns The RequestCard component.
- */
 export default function RequestCard({
                                         organization,
                                         title,
@@ -31,10 +15,6 @@ export default function RequestCard({
                                     }: RequestCardProps) {
     const router = useRouter();
 
-    /**
-     * Handles the click event on the request card.
-     * Encodes the request data and navigates to the detailed page with the encoded data.
-     */
     const handleClick = () => {
         const encodedData = encodeURIComponent(JSON.stringify({ ...requestData, role }));
         router.push(`/detailed/request?data=${encodedData}`);

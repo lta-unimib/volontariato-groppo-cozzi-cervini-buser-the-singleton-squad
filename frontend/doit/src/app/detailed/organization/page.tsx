@@ -6,12 +6,6 @@ import { OrganizationFormData } from "@/types/form/auth/organizationFormData";
 import {OrganizationProfileContent} from "@/components/OrganizationProfileContent";
 import {useSearchParams} from "next/navigation";
 
-/**
- * Component for displaying an organization's profile.
- * It fetches and renders profile data, showing a loading indicator while fetching.
- *
- * @returns The OrganizationProfile component.
- */
 export default function OrganizationProfile() {
     const searchParams = useSearchParams();
     const encodedData = searchParams.get("data");
@@ -29,11 +23,6 @@ export default function OrganizationProfile() {
         return <div>Nessun dato disponibile</div>;
     }
 
-    /**
-     * Renders the appropriate content based on loading, error, or available profile data.
-     *
-     * @returnsThe JSX content to be displayed.
-     */
     const renderProfileContent = () => {
 
         return (

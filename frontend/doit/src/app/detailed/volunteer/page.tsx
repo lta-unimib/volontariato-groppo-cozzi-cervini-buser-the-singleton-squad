@@ -6,10 +6,6 @@ import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
 import { VolunteerProfileContent } from "@/components/VolunteerProfileContent";
 import {useSearchParams} from "next/navigation";
 
-/**
- * Main component to display the volunteer profile.
- * @returns The rendered VolunteerProfile component.
- */
 export default function VolunteerProfile() {
     const [date] = useState<Date | undefined>(new Date());
     const searchParams = useSearchParams();
@@ -28,26 +24,14 @@ export default function VolunteerProfile() {
         return <div>Nessun dato disponibile</div>;
     }
 
-    /**
-     * Memoized calculation of selected days based on the volunteer's availability and the current date.
-     * @returns An array of selected dates corresponding to the volunteer's availability.
-     */
     const selectedDays = useMemo(() => {
         return date && volunteerProfile?.availability
             ? getSelectedDays(volunteerProfile.availability, date)
             : [];
     }, [date, volunteerProfile]);
 
-    /**
-     * Determines if the volunteer is available on the current date.
-     */
     const isAvailable = selectedDays.some((d) => d.toDateString() === new Date().toDateString());
 
-    /**
-     * Function to render the content of the profile.
-     * Displays a loading spinner, an error message, or the profile content based on the current state.
-     * @returns The content to render.
-     */
     const renderProfileContent = () => {
         return <VolunteerProfileContent volunteerProfile={volunteerProfile} readOnly={true} selectedDays={selectedDays} isAvailable={isAvailable} />;
     };
@@ -57,7 +41,6 @@ export default function VolunteerProfile() {
             <div className={`w-full h-screen flex flex-col`}>
                 <div className="flex w-full min-h-screen">
 
-                    {/* Main Content */}
                     <div className="flex-1 flex flex-col pb-28 md:pb-4">
                         {renderProfileContent()}
                     </div>

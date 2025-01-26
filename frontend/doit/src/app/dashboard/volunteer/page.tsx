@@ -8,7 +8,6 @@ import { Button } from "@/components/core/Button";
 import { GoogleMapsWrapper } from "@/components/maps/GoogleMapsWrapper";
 import { GoogleMaps } from "@/components/maps/GoogleMaps";
 import { MdMap } from "react-icons/md";
-
 import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItems";
 import { IconType } from "react-icons";
 import { useAllRequests, useVolunteerRequests } from '@/hooks/useRequestsFetching';
@@ -19,12 +18,11 @@ export default function VolunteerDashboard() {
     const [showRequests, setShowRequests] = useState(true);
     const [showMap, setShowMap] = useState(false);
     const [isSubscribedView, setIsSubscribedView] = useState(() => {
-        // Initialize from localStorage, default to false
         const savedState = localStorage.getItem('subscribedViewState');
         return savedState ? JSON.parse(savedState) : false;
     });
     const [searchQuery, setSearchQuery] = useState("");
-    const [mapLocations, setMapLocations] = useState<google.maps.LatLngLiteral[]>([]);
+    const [, setMapLocations] = useState<google.maps.LatLngLiteral[]>([]);
 
     const { requests, loading: allRequestsLoading, error: allRequestsError } =
         useAllRequests("/request/all/volunteer/sorted/");
@@ -54,29 +52,19 @@ export default function VolunteerDashboard() {
         const lowerQuery = searchQuery.toLowerCase();
 
         return requestList.filter(request => {
-            // Safely check title
             const titleMatch = request.title &&
                 request.title.toLowerCase().includes(lowerQuery);
-
-            // Safely check description
             const descriptionMatch = request.description &&
                 request.description.toLowerCase().includes(lowerQuery);
-
-            // Safely check categories
             const categoryMatch = request.categories &&
                 (Array.isArray(request.categories)
                     ? request.categories.some((category: string) =>
                         category.toLowerCase().includes(lowerQuery))
                     : request.categories.toLowerCase().includes(lowerQuery));
-
-            // Safely check city
             const cityMatch = request.address && request.address.city &&
                 request.address.city.toLowerCase().includes(lowerQuery);
-
-            // Safely check organization name
             const orgMatch = request.organization && request.organization.name &&
                 request.organization.name.toLowerCase().includes(lowerQuery);
-
             return titleMatch || descriptionMatch || categoryMatch ||
                 cityMatch || orgMatch;
         });
@@ -87,7 +75,6 @@ export default function VolunteerDashboard() {
         let filteredLocations;
 
         if (isSubscribedView) {
-            // Combine all subscribed requests
             filteredRequests = [
                 ...subscribedRequests,
                 ...notVotedRequests,
@@ -97,10 +84,8 @@ export default function VolunteerDashboard() {
             filteredRequests = requests;
         }
 
-        // Filter based on search query
         filteredRequests = filterRequests(filteredRequests);
 
-        // Get corresponding locations for filtered requests
         filteredLocations = filteredRequests.map((request: any) => ({
             lat: request.cityInfo.latitude,
             lng: request.cityInfo.longitude,

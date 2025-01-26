@@ -9,20 +9,9 @@ import { OrganizationFormData } from "@/types/form/auth/organizationFormData";
 import {OrganizationProfileContent} from "@/components/OrganizationProfileContent";
 import {Skeleton} from "@/components/sidebar/Skeleton";
 
-/**
- * Component for displaying an organization's profile.
- * It fetches and renders profile data, showing a loading indicator while fetching.
- *
- * @returns The OrganizationProfile component.
- */
 export default function OrganizationProfile() {
     const { profileData: organizationProfile, loading, error } = useProfileData<OrganizationFormData>("/profile/organization/");
 
-    /**
-     * Renders the appropriate content based on loading, error, or available profile data.
-     *
-     * @returnsThe JSX content to be displayed.
-     */
     const renderProfileContent = () => {
         if (loading) {
             return (

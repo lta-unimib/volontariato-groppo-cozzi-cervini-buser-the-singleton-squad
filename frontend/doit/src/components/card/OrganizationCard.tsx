@@ -6,16 +6,6 @@ import { OrganizationCardProps } from "@/types/props/card/organizationCardProps"
 import { Badge } from "@/components/core/Badge";
 import { useCategories } from "@/hooks/useCategories";
 
-/**
- * Component for displaying an organization's profile card.
- * It includes the organization's name, city, and related categories.
- *
- * @param {OrganizationCardProps} props - The properties for the organization card.
- * @param {Object} props.organizationData - The organization's data.
- * @returns The OrganizationCard component.
- */
-
-
 export default function OrganizationCard({ organizationData }: OrganizationCardProps) {
     const router = useRouter();
     const { categories, loading } = useCategories();
