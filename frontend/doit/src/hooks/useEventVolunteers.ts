@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useCallback, useEffect } from "react";
 import { makeGetRequest } from "@/utils/api/apiUtils";
 import { ApiResponse } from "@/types/request";
@@ -27,6 +29,8 @@ export const useEventVolunteers = () => {
     const [error, setError] = useState<string | null>(null);
 
     const fetchEventVolunteers = useCallback(async () => {
+        if (typeof window === 'undefined') return; // Previene l'esecuzione durante SSR
+
         setLoading(true);
         setError(null);
         try {
@@ -51,7 +55,7 @@ export const useEventVolunteers = () => {
     }, [fetchEventVolunteers]);
 
     return {
-        eventsData,
+        eventsData: eventsData || [], // Garantisce un array anche durante SSR
         loading,
         error,
         refetch: fetchEventVolunteers
