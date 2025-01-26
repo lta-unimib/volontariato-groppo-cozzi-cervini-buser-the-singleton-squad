@@ -61,6 +61,7 @@ public class FeedbackController {
         } else {
             Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(volunteerRole, request);
             this.feedbackService.setVolunteerVoteRequest(volunteer, Long.parseLong(idRequest), feedbackDTO.getVote());
+            System.out.println("tutto ok");
             return ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);
         }
     }

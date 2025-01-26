@@ -5,7 +5,7 @@ import { ScrollArea } from "@/components/core/ScrollArea";
 import { ProfileContentProps } from "@/types/props/header/profileContentProps";
 import React from "react";
 import { useCategories } from "@/hooks/useCategories";
-import {ReviewCardMock} from "@/components/review/ReviewCard"; // Assicurati di importare la ReviewCard
+import {ReviewCard} from "@/components/review/ReviewCard";
 
 /**
  * Renders a detailed profile page for an organization with various sections.
@@ -67,7 +67,7 @@ export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                         </Card>
                     </div>
                     <div className="space-y-4">
-                        <ReviewCardMock type="organization" />
+                        <ReviewCard type="organization" />
                         {/* Contact Information Section */}
                         <Card className="rounded-2xl">
                             <CardContent className="pt-6">

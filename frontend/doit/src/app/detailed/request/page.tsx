@@ -142,7 +142,7 @@ const DetailedRequestContent = () => {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div className="space-y-4">
                                     <AboutSection description={requestData.description} />
-                                    {isEndTimePassed && <ReviewCard type="request" />} {/* Mostra le recensioni solo se la data di fine è passata */}
+                                    {isEndTimePassed && <ReviewCard type="request" idRequest={requestData.id}/>} {/* Mostra le recensioni solo se la data di fine è passata */}
                                     {requestData.role === "volunteer" && <ContactInfoSection organization={requestData.organization} />}
                                     {requestData.role === "organization" && <EmailList idRequest={requestData.id as string} />}
                                 </div>

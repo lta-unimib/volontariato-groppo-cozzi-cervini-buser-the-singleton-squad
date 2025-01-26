@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2dd4524-598c-4f81-84b9-12bba55b0cf2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/feedback/FeedbackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/feedback/FeedbackController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/dto/received/FeedbackDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/dto/received/FeedbackDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/service/statistic/StatisticRequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/service/statistic/StatisticRequestService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/mappers/StatisticMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/mappers/StatisticMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/detailed/request/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/detailed/request/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/OrganizationProfileContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/OrganizationProfileContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/VolunteerProfileContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VolunteerProfileContent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/header/RequestHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/RequestHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/review/ReviewCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/review/ReviewCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hooks/useReview.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useReview.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useReviewSubmission.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useReviewSubmission.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constants.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,6 +22,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7

@@ -21,6 +21,7 @@ public class StatisticMapper {
         temp.setOrganization(organization);
         temp.setTotalNumberOfParticipants(0);
         temp.setAverageVotes(0.0);
+        temp.setTotalFeedback(0);
         return temp;
     }
 }

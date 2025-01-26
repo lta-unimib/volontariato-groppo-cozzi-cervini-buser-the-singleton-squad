@@ -124,6 +124,7 @@ export const RequestHeader = ({
             console.log("RATING: " + rating);
             console.log("ID REQUEST: " + idRequest);
             await submitReview(idRequest, rating);
+            location.reload();
         }
     };
 

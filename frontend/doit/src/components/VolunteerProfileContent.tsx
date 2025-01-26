@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/core/ScrollArea";
 import { Calendar } from "@/components/form/availability/Calendar";
 import { useCategories } from "@/hooks/useCategories";
 import { VolunteerProfileContentProps } from "@/types/props/header/profileContentProps";
-import {ReviewCardMock} from "@/components/review/ReviewCard";
+import {ReviewCard} from "@/components/review/ReviewCard";
 
 /**
  * `VolunteerProfileContent` is a React component that displays detailed information about a volunteer's profile, including:
@@ -95,7 +95,7 @@ export const VolunteerProfileContent: React.FC<VolunteerProfileContentProps> = (
                         </Card>
 
                         {/* Volunteer Review Card */}
-                        <ReviewCardMock type={"volunteer"}/>
+                        <ReviewCard type={"volunteer"}/>
 
                         {/* Contact Information Section */}
                         <Card className="rounded-2xl">
