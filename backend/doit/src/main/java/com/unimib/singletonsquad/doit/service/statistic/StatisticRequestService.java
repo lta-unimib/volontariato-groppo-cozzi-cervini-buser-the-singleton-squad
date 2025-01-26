@@ -14,11 +14,11 @@ public class StatisticRequestService {
 
     public JsonObject getRequestStatistic(Long requestId) {
         VolunteerRequest request = volunteerRequestDatabaseService.getSpecificRequest(requestId);
-        double totaleVoti = request.getSommaVoti();
-        double sommaVoti = request.getSommaVoti();
+        int totaleVoti = request.getTotalFeedbacks();
+        double media = (totaleVoti == 0) ? 0.0 : request.getSommaVoti()/totaleVoti;
         JsonObject statistic = new JsonObject();
         statistic.addProperty("totalVotes", totaleVoti);
-        statistic.addProperty("mediaVotes", sommaVoti);
+        statistic.addProperty("mediaVotes", media);
         return statistic;
     }
 

@@ -37,6 +37,7 @@ public class VolunteerRequest {
     @Column(nullable = true, name = "total_participants")
     private int totalParticipants = 0;
 
+    private int totalFeedbacks = 0;
     private double sommaVoti = 0.0;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

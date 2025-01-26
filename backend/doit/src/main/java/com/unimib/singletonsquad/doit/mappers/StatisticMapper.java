@@ -20,7 +20,7 @@ public class StatisticMapper {
         StatisticOrganization temp = new StatisticOrganization();
         temp.setOrganization(organization);
         temp.setNumeroTotalePartecipanti(0);
-        temp.setMediPesata(0.0);
+        temp.setAverageVotes(0.0);
         return temp;
     }
 }
