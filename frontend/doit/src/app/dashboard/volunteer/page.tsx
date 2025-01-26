@@ -82,6 +82,35 @@ export default function VolunteerDashboard() {
         });
     };
 
+    const getMapRequestsAndLocations = () => {
+        let filteredRequests;
+        let filteredLocations;
+
+        if (isSubscribedView) {
+            // Combine all subscribed requests
+            filteredRequests = [
+                ...subscribedRequests,
+                ...notVotedRequests,
+                ...archivedRequests
+            ];
+        } else {
+            filteredRequests = requests;
+        }
+
+        // Filter based on search query
+        filteredRequests = filterRequests(filteredRequests);
+
+        // Get corresponding locations for filtered requests
+        filteredLocations = filteredRequests.map((request: any) => ({
+            lat: request.cityInfo.latitude,
+            lng: request.cityInfo.longitude,
+        }));
+
+        return { filteredRequests, filteredLocations };
+    };
+
+    const { filteredRequests, filteredLocations } = getMapRequestsAndLocations();
+
     const renderRequestContent = () => {
         const loading = isSubscribedView ? registeredRequestsLoading : allRequestsLoading;
         const error = isSubscribedView ? registeredRequestsError : allRequestsError;
@@ -170,8 +199,9 @@ export default function VolunteerDashboard() {
                             <div className="relative h-[calc(100vh-312px)] md:h-[calc(100vh-146px)] w-full">
                                 <GoogleMapsWrapper>
                                     <GoogleMaps
-                                        locations={mapLocations}
-                                        requests={filterRequests(requests)}
+                                        locations={filteredLocations}
+                                        requests={filteredRequests}
+                                        isSubscribedView={isSubscribedView}
                                     />
                                 </GoogleMapsWrapper>
                             </div>
