@@ -43,8 +43,8 @@ public interface IVolunteerOfferRepository extends JpaRepository<VolunteerOffer,
     Optional<VolunteerOffer> getVolunteerOfferByIdVolunteerAndIdRequest(@Param("idVolunteer") Long idVolunteer, @Param("idOffer") Long idOffer);
 
 
-    /// ottenere tutti i voti relativi ad un evento
-    @Query("SELECT SUM(o.feedback.vote) from VolunteerOffer  as o where o.volunteerRequest.id = :idRequest ")
+    /// ottenere tutti i voti relativi ad un evento --> voto volotario
+    @Query("SELECT SUM(o.feedbackVolunteer.vote) from VolunteerOffer  as o where o.volunteerRequest.id = :idRequest ")
     Double getAllVoteByEventsByOfferId(@Param("idOffer") Long idRequest);
 
 

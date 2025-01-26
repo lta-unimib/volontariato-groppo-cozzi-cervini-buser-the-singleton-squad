@@ -1,14 +1,12 @@
 package com.unimib.singletonsquad.doit.service.feedback;
 
-import com.unimib.singletonsquad.doit.database.common.FeedbackDatabaseService;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferDatabaseService;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
-import com.unimib.singletonsquad.doit.domain.common.StatisticOrganization;
-import com.unimib.singletonsquad.doit.domain.common.StatisticVolunteer;
+import com.unimib.singletonsquad.doit.domain.volunteer.StatisticVolunteer;
 import com.unimib.singletonsquad.doit.domain.organization.FeedbackOrganization;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.domain.volunteer.Feedback;
+import com.unimib.singletonsquad.doit.domain.volunteer.FeedbackVolunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
@@ -35,7 +33,7 @@ public class FeedbackService {
             throw new IllegalAccessException("organization already voted");
         Volunteer volunteer = offer.getVolunteer();
         VolunteerRequest request = this.volunteerRequestDatabaseService.getSpecificRequest(offer.getVolunteerRequest().getId());
-        Feedback feedback = FeedbackMapper.createFeedback(vote);
+        FeedbackVolunteer feedback = FeedbackMapper.createFeedbackVolunteer(vote);
         offer.setVotedByOrganization(true);
         offer.setFeedbackVolunteer(feedback);
         volunteerRequestDatabaseService.save(request);

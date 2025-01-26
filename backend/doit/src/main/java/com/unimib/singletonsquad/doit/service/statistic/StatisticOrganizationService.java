@@ -2,7 +2,7 @@ package com.unimib.singletonsquad.doit.service.statistic;
 
 import com.unimib.singletonsquad.doit.database.organization.OrganizationDatabaseService;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
-import com.unimib.singletonsquad.doit.domain.common.StatisticOrganization;
+import com.unimib.singletonsquad.doit.domain.organization.StatisticOrganization;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import lombok.AllArgsConstructor;

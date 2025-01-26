@@ -1,15 +1,10 @@
-package com.unimib.singletonsquad.doit.domain.common;
+package com.unimib.singletonsquad.doit.domain.organization;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
-import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 
 @Getter

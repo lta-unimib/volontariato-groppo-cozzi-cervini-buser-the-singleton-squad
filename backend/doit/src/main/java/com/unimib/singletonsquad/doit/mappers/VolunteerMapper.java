@@ -1,6 +1,6 @@
 package com.unimib.singletonsquad.doit.mappers;
 
-import com.unimib.singletonsquad.doit.domain.common.StatisticVolunteer;
+import com.unimib.singletonsquad.doit.domain.volunteer.StatisticVolunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;

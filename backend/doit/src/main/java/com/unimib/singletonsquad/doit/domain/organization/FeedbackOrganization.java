@@ -21,8 +21,8 @@ public class FeedbackOrganization {
     private Long volunteerId;
 
     @ManyToOne
+    @JoinColumn(name = "volunteer_request_id")
     @JsonIgnore
     private VolunteerRequest volunteerRequest;
-
 
 }

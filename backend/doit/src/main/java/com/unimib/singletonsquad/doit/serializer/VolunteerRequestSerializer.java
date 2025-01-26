@@ -19,7 +19,7 @@ public class VolunteerRequestSerializer {
             VolunteerRequest volunteerRequest = entry.getKey();
             List<VolunteerDTO> volunteerDTOs = new ArrayList<>();
             for (Volunteer volunteer : entry.getValue()) {
-                volunteerDTOs.add(new VolunteerDTO(volunteer.getName(), volunteer.getSurname(), volunteer.getEmail(), volunteer.getDescription()));
+                volunteerDTOs.add(new VolunteerDTO(volunteer.getName(), volunteer.getSurname(), volunteer.getEmail(), volunteer.getVolunteerPreferences().getCity() ,volunteer.getVolunteerPreferences(), volunteer.getDescription()));
             }
             data.add(new VolunteerRequestDTO(volunteerRequest.getId(), volunteerRequest.getTitle(), volunteerRequest.getDetailedDescription(), volunteerRequest.getCapacity(), createAddress(volunteerRequest.getAddress()), volunteerDTOs));
         }

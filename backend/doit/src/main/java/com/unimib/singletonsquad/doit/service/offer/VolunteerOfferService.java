@@ -26,6 +26,7 @@ public class VolunteerOfferService {
     }
 
     /// ADD NEW OFFER
+    /// todo capire perché non toglie la capacità di 1
     public void addNewOffer(Long requestId, Volunteer volunteer) throws Exception {
         VolunteerRequest volunteerRequest = this.volunteerRequestDatabaseService.getRequestForAddingNewOffer(requestId);
          this.volunteerOfferDatabaseService.getVolunteerOfferCheckSubscribe(volunteer.getId(), requestId);
@@ -34,10 +35,13 @@ public class VolunteerOfferService {
         volunteerRequest.setTotalParticipants(totalParticipantsUpdate);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
         this.volunteerRequestControllerService.addVolunteerOffer(volunteerRequest.getId(), volunteerOffer);
+        volunteerRequest.setCapacity(volunteerRequest.getCapacity()-1);
+        this.volunteerRequestDatabaseService.save(volunteerRequest);
     }
 
 
     /// REMOVE A OFFER
+    /*
     public void removeOffer(long offerId, String email) throws IllegalAccessException {
     VolunteerOffer offer = volunteerOfferDatabaseService.getVolunteerOffer(offerId);
         if(offer.isOrganizationOffer(email) || offer.isVolunteerOffer(email)) {
@@ -45,6 +49,7 @@ public class VolunteerOfferService {
         } else
             throw new IllegalAccessException("Dont have the correct email");
     }
+    */
 
     /// REMOVE A OFFER
     public void removeOfferByRequest(long requestId, String email) {

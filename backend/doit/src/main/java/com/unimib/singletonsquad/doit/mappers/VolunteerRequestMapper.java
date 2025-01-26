@@ -30,7 +30,7 @@ public class VolunteerRequestMapper {
         volunteerRequest.setOrganization(organization);
         volunteerRequest.setAddress(this.createNewAddress(volunteerRequestDTO.getAddress()));
         volunteerRequest.setTotalParticipants(0);
-        volunteerRequest.setFeedbackMap(new HashMap<>());
+        volunteerRequest.setFeedbackList(new ArrayList<>());
         volunteerRequest.setVolunteerOffers(new ArrayList<>());
         return mapCommonFiled(volunteerRequest, volunteerRequestDTO);
     }

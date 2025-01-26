@@ -1,6 +1,6 @@
 package com.unimib.singletonsquad.doit.mappers;
 
-import com.unimib.singletonsquad.doit.domain.common.StatisticOrganization;
+import com.unimib.singletonsquad.doit.domain.organization.StatisticOrganization;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.dto.received.OrganizationDTO;
 import org.springframework.stereotype.Component;

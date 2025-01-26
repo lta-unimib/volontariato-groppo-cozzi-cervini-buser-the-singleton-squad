@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Feedback {
+public class FeedbackVolunteer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,5 +1,5 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
-/// TODO DIVIDERE I MAPPER IN DUE SEND E RECEIVED
+
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.FeedbackOrganization;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
@@ -7,17 +7,19 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@ToString(exclude = {"organization", "volunteerOffers", "feedbackMap"})
+@ToString(exclude = {"organization", "volunteerOffers", "feedbackList"})
 @EqualsAndHashCode
 @Entity
 @NoArgsConstructor
 public class VolunteerRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -34,6 +36,7 @@ public class VolunteerRequest {
 
     @Column(nullable = true, name = "total_participants")
     private int totalParticipants = 0;
+
     private double sommaVoti = 0.0;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -58,9 +61,8 @@ public class VolunteerRequest {
     @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<VolunteerOffer> volunteerOffers = new ArrayList<>(); // Excluded from serialization
 
-    @OneToMany(mappedBy = "feedbackOrganization", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedbackOrganization> feedbackList = new ArrayList<>();
-
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {
@@ -68,8 +70,6 @@ public class VolunteerRequest {
         }
         this.capacity = capacity;
     }
-
-
 
     public boolean hasCategory(String category) {
         return volunteerCategories.contains(category);

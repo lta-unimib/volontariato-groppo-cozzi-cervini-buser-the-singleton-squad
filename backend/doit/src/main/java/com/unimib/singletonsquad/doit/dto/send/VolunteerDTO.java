@@ -15,7 +15,7 @@ public class VolunteerDTO {
     private String lastName;
     private String email;
     private String city;
-    private VolunteerPreferencesDTO preferences;
+    private VolunteerPreferences preferences;
     private String description;
 
 
