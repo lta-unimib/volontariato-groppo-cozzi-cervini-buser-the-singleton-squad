@@ -41,4 +41,18 @@ public interface IVolunteerOfferRepository extends JpaRepository<VolunteerOffer,
 
     @Query("SELECT offer FROM VolunteerOffer offer WHERE offer.volunteer.id = :idVolunteer AND offer.volunteerRequest.id = :idOffer and offer.votedByVolunteer = false")
     Optional<VolunteerOffer> getVolunteerOfferByIdVolunteerAndIdRequest(@Param("idVolunteer") Long idVolunteer, @Param("idOffer") Long idOffer);
+
+
+    /// ottenere tutti i voti relativi ad un evento
+    @Query("SELECT SUM(o.feedback.vote) from VolunteerOffer  as o where o.volunteerRequest.id = :idRequest ")
+    Double getAllVoteByEventsByOfferId(@Param("idOffer") Long idRequest);
+
+
+    @Query("SELECT o from VolunteerOffer as o where o.volunteerRequest.id = :idRequest and o.volunteerRequest.endDateTime > :oggi and o.volunteer.email = :idVol")
+    Optional<VolunteerOffer> getVolunteerOfferByRequestId(@Param("idRequest") Long idRequest, @Param("idVol") String email , @Param("oggi") LocalDateTime oggi);
+
+    @Query("SELECT o from VolunteerOffer as o where o.volunteerRequest.id = :idRequest and o.volunteerRequest.endDateTime > :oggi and o.volunteer.email = :idVol and o.volunteerRequest.organization = :organization")
+    Optional<VolunteerOffer> getVolunteerOfferByRequestId1(@Param("idRequest") Long idRequest, @Param("idVol") String email , @Param("oggi") LocalDateTime oggi, @Param("organization") Organization organization);
+
+
 }

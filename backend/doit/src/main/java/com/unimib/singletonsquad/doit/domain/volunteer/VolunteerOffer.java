@@ -3,6 +3,7 @@ package com.unimib.singletonsquad.doit.domain.volunteer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unimib.singletonsquad.doit.domain.common.Status;
+import com.unimib.singletonsquad.doit.domain.organization.FeedbackOrganization;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -46,7 +47,12 @@ public class VolunteerOffer {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "feedback_id", referencedColumnName = "id")
     @JsonIgnore
-    private Feedback feedback;
+    private Feedback feedbackVolunteer;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "feedback_organization_id", referencedColumnName = "id")
+    @JsonIgnore
+    private FeedbackOrganization feedbackOrganization;
+
 
     public Organization getOrganization() {
         return volunteerRequest != null ? volunteerRequest.getOrganization() : null;

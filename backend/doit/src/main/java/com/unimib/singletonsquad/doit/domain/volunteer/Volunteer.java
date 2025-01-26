@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.unimib.singletonsquad.doit.domain.common.StatisticVolunteer;
 import com.unimib.singletonsquad.doit.domain.common.User;
+import com.unimib.singletonsquad.doit.domain.organization.FeedbackOrganization;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.exception.validation.EmailException;
 import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
@@ -82,6 +83,7 @@ public class Volunteer implements User {
     @OneToOne(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private StatisticVolunteer statistic;
+
 
     public void setEmail(String email) throws EmailException {
         if (!isValidEmail(email)) {

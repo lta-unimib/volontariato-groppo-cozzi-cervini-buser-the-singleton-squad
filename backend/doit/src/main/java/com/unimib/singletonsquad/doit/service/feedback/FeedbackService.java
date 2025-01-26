@@ -1,15 +1,19 @@
 package com.unimib.singletonsquad.doit.service.feedback;
 
+import com.unimib.singletonsquad.doit.database.common.FeedbackDatabaseService;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerDatabaseService;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerOfferDatabaseService;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
+import com.unimib.singletonsquad.doit.domain.common.StatisticOrganization;
 import com.unimib.singletonsquad.doit.domain.common.StatisticVolunteer;
+import com.unimib.singletonsquad.doit.domain.organization.FeedbackOrganization;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Feedback;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.mappers.FeedbackMapper;
+import com.unimib.singletonsquad.doit.service.statistic.StatisticOrganizationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +26,18 @@ public class FeedbackService {
     private final VolunteerOfferDatabaseService volunteerOfferDatabaseService;
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
     private final VolunteerDatabaseService volunteerDatabaseService;
+    private final StatisticOrganizationService statisticOrganizationService;
 
-
-    public void setOrganizationVoteOffer(Organization organization, Long offerId, double vote) {
-        VolunteerOffer offer = volunteerOfferDatabaseService.existsVolunteerOfferByOrganization(offerId, organization);
+    /// ========= L'ORGANIZZAZIONE VOTA IL VOLONTARIO ==============
+    public void setOrganizationVoteOffer(Organization organization, Long idRequest, String emailVolontario  ,double vote) throws IllegalAccessException {
+        VolunteerOffer offer = volunteerOfferDatabaseService.getVolunteerOfferByRequestId1(idRequest, emailVolontario, organization);
+        if(offer.isVotedByOrganization())
+            throw new IllegalAccessException("organization already voted");
         Volunteer volunteer = offer.getVolunteer();
         VolunteerRequest request = this.volunteerRequestDatabaseService.getSpecificRequest(offer.getVolunteerRequest().getId());
         Feedback feedback = FeedbackMapper.createFeedback(vote);
         offer.setVotedByOrganization(true);
-        request.addFeedback(offer, feedback);
-        offer.setFeedback(feedback);
+        offer.setFeedbackVolunteer(feedback);
         volunteerRequestDatabaseService.save(request);
         updateVolunteerStatistic(volunteer, vote);
     }
@@ -43,21 +49,29 @@ public class FeedbackService {
         volunteerDatabaseService.save(volunteer);
     }
 
-    /*
-        Il volontario che vota un determinato evento
-        --> la Statistica dell'evento è da fare, gabbo la faresti tui
-        implementandola come classe astratta
-     */
-
-    /// aggiungere il VOTO Statistica all'organizzazione
-    public void setVolunteerVoteRequest(Long idRequest, Volunteer volunteer, double vote) {
+    /// VOLONTARIO VOTA L'EVENTO
+    public void setVolunteerVoteRequest(Volunteer volunteer, Long idRequest, double vote) {
         VolunteerRequest request = this.volunteerRequestDatabaseService.getSpecificRequest(idRequest);
-        VolunteerOffer offer = this.volunteerOfferDatabaseService.getVolunteerOfferByIdVolunteerAndIdRequest(volunteer.getId(), idRequest);
-        Feedback feedback = new Feedback();
-        feedback.setVote(vote);
+        String id = volunteer.getEmail();
+        VolunteerOffer offer = this.volunteerOfferDatabaseService.getVolunteerOfferByRequestId(idRequest, id);
+        if(offer.isVotedByVolunteer())
+            throw new IllegalArgumentException("Volunteer is already voted");
+
         offer.setVotedByVolunteer(true);
-        request.addFeedback(offer, feedback);
+        FeedbackOrganization feedback = new FeedbackOrganization();
+        feedback.setVote(vote);
+        feedback.setVolunteerId(volunteer.getId());
+        feedback.setVolunteerRequest(request);
+        offer.setFeedbackOrganization(feedback);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(offer);
+        request.setSommaVoti(request.getSommaVoti()+vote);
+        Organization organization = request.getOrganization();
         this.volunteerRequestDatabaseService.save(request);
+        this.statisticOrganizationService.aggiornaMediaPesataOrganizzazione(organization);
+
+
     }
+
+
+
 }
