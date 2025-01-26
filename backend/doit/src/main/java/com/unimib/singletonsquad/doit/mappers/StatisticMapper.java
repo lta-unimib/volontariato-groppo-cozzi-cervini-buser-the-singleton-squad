@@ -19,7 +19,7 @@ public class StatisticMapper {
     public static StatisticOrganization createStaticOrganization(Organization organization) {
         StatisticOrganization temp = new StatisticOrganization();
         temp.setOrganization(organization);
-        temp.setNumeroTotalePartecipanti(0);
+        temp.setTotalNumberOfParticipants(0);
         temp.setAverageVotes(0.0);
         return temp;
     }

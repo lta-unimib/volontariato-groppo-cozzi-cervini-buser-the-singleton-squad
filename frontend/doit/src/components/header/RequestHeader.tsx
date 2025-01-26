@@ -25,7 +25,7 @@ export const RequestHeader = ({
 
     const [idRequest, setIdRequest] = useState<string | undefined>(undefined);
     const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
-    const { submitReview } = useReviewSubmission('request');
+    const { submitReview } = useReviewSubmission('volunteer');
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -121,6 +121,8 @@ export const RequestHeader = ({
 
     const handleReviewSubmit = async (rating: number) => {
         if (idRequest) {
+            console.log("RATING: " + rating);
+            console.log("ID REQUEST: " + idRequest);
             await submitReview(idRequest, rating);
         }
     };

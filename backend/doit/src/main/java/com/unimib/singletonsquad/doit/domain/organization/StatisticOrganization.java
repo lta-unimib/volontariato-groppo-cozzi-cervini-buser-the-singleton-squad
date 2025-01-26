@@ -24,7 +24,7 @@ public class StatisticOrganization {
 
     private Double averageVotes;
     private Integer totalFeedback;
-    private Integer numeroTotalePartecipanti;
+    private Integer totalNumberOfParticipants;
 
     @OneToOne
     @JoinColumn(name = "organization_id")
