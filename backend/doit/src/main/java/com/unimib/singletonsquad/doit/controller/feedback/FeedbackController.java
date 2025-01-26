@@ -26,44 +26,43 @@ public class FeedbackController {
     private static final UserRole organizationRole = UserRole.ORGANIZATION;
     private static final UserRole volunteerRole = UserRole.VOLUNTEER;
 
-    /// L'organizzazione vota il volontario
-    @PostMapping(value = "/volunteer/{idRequest}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> feedbackByOrganization(final @PathVariable("idRequest") Long idRequest,
-                                                                  @RequestBody FeedbackDTO feedbackDTO,
-                                                                  final HttpServletRequest request) throws IllegalAccessException {
-        Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(organizationRole, request);
-        this.feedbackService.setOrganizationVoteOffer(organization, idRequest, feedbackDTO.getEmail() ,feedbackDTO.getVote());
-        return ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);
-    }
-
-    /// Il volontario vota un evento
-    @PostMapping(value ="/organization/{idRequest}/")
-    public ResponseEntity<ResponseMessage> feedBackByVolunteer(final HttpServletRequest request, final @Valid @RequestBody FeedbackDTO feedbackDTO,
-                                                               final @PathVariable("idRequest") Long idRequest) throws IllegalAccessException {
-       Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(volunteerRole, request);
-       this.feedbackService.setVolunteerVoteRequest(volunteer,idRequest, feedbackDTO.getVote());
-       return ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);
-    }
 
     @PostMapping(value = "/{idRequest}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> feedback(final @PathVariable("idRequest") String idRequest,
-                                                                  @RequestBody FeedbackDTO feedbackDTO,
-                                                                  final HttpServletRequest request) throws IllegalAccessException {
+    public ResponseEntity<ResponseMessage> feedback(
+            final @PathVariable("idRequest") Long idRequest,
+            @RequestBody FeedbackDTO feedbackDTO,
+            final HttpServletRequest request) throws IllegalAccessException {
+
         UserRole role = registeredUserService.extractRoleFromRequest(request);
-        System.out.println("role: " + role);
-        System.out.println(feedbackDTO.getVote());
-        System.out.println(feedbackDTO.getEmail());
-        System.out.println(idRequest);
-        if(role == organizationRole) {
-            Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(organizationRole, request);
-            this.feedbackService.setOrganizationVoteOffer(organization, Long.parseLong(idRequest),feedbackDTO.getEmail() ,feedbackDTO.getVote());
-            return ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);
-        } else {
-            Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(volunteerRole, request);
-            this.feedbackService.setVolunteerVoteRequest(volunteer, Long.parseLong(idRequest), feedbackDTO.getVote());
-            System.out.println("tutto ok");
-            return ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);
-        }
+
+        return switch (role) {
+            case ORGANIZATION -> {
+                Organization organization = (Organization) registeredUserService
+                        .getUserInformationAndIsRegistered(organizationRole, request);
+
+                feedbackService.setOrganizationVoteOffer(
+                        organization,
+                        idRequest,
+                        feedbackDTO.getEmail(),
+                        feedbackDTO.getVote()
+                );
+
+                yield ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);
+            }
+            case VOLUNTEER -> {
+                Volunteer volunteer = (Volunteer) registeredUserService
+                        .getUserInformationAndIsRegistered(volunteerRole, request);
+
+                feedbackService.setVolunteerVoteRequest(
+                        volunteer,
+                        idRequest,
+                        feedbackDTO.getVote()
+                );
+
+                yield ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);
+            }
+            default -> throw new IllegalArgumentException("Invalid user role: " + role);
+        };
     }
 
 

@@ -38,18 +38,6 @@ public class VolunteerOfferService {
         this.volunteerRequestDatabaseService.save(volunteerRequest);
     }
 
-
-    /// REMOVE A OFFER
-    /*
-    public void removeOffer(long offerId, String email) throws IllegalAccessException {
-    VolunteerOffer offer = volunteerOfferDatabaseService.getVolunteerOffer(offerId);
-        if(offer.isOrganizationOffer(email) || offer.isVolunteerOffer(email)) {
-            this.volunteerOfferDatabaseService.deleteVolunteerOffer(offer);
-        } else
-            throw new IllegalAccessException("Dont have the correct email");
-    }
-    */
-
     /// REMOVE A OFFER
     public void removeOfferByRequest(long requestId, String email) {
         volunteerOfferDatabaseService.deleteVolunteerOffer(requestId, email);

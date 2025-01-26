@@ -1,7 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.statistics;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.gson.JsonObject;
 import com.unimib.singletonsquad.doit.domain.organization.StatisticOrganization;
 import com.unimib.singletonsquad.doit.domain.volunteer.StatisticVolunteer;
 import com.unimib.singletonsquad.doit.service.statistic.StatisticOrganizationService;
@@ -31,38 +30,24 @@ public class ReviewsController {
     private final StatisticRequestService statisticRequestService;
 
     @GetMapping("/request/{requestId}/")
-    public ResponseEntity<ResponseMessage> getRequestReviews(final HttpServletRequest request, @PathVariable Long requestId) throws RoleInfoNotFoundException {
+    public ResponseEntity<ResponseMessage> getRequestReviews(final HttpServletRequest request, @PathVariable Long requestId){
         registeredUserService.extractRoleFromRequest(request);
         JsonNode data = statisticRequestService.getRequestStatistic(requestId);
         return ResponseMessageUtil.createResponseSuccess("getting request info", HttpStatus.OK, data);
     }
 
     @GetMapping("/volunteer/{volunteerEmail}/")
-    public ResponseEntity<ResponseMessage> getVolunteerReviews(final HttpServletRequest request, @PathVariable String volunteerEmail) throws RoleInfoNotFoundException {
+    public ResponseEntity<ResponseMessage> getVolunteerReviews(final HttpServletRequest request, @PathVariable String volunteerEmail){
         registeredUserService.extractRoleFromRequest(request);
         StatisticVolunteer data = statisticVolunteerService.getVolunteerStatistic(volunteerEmail);
         return ResponseMessageUtil.createResponseSuccess("getting volunteer info", HttpStatus.OK, data);
     }
 
     @GetMapping("/organization/{organizationEmail}/")
-    public ResponseEntity<ResponseMessage> getOrganizationReviews(final HttpServletRequest request, @PathVariable String organizationEmail) throws RoleInfoNotFoundException {
+    public ResponseEntity<ResponseMessage> getOrganizationReviews(final HttpServletRequest request, @PathVariable String organizationEmail){
       registeredUserService.extractRoleFromRequest(request);
       StatisticOrganization data = statisticOrganizationService.getStatisticOrganization(organizationEmail);
       return ResponseMessageUtil.createResponseSuccess("getting organization info", HttpStatus.OK, data);
     }
 
-    /*
-    @GetMapping("request/{requestId}/volunteer/{volunteerId}")
-    public ResponseEntity<ResponseMessage> getVolunteerReviewsByRequest(final HttpServletRequest request,@PathVariable String requestId, @PathVariable String volunteerId) throws RoleInfoNotFoundException {
-        ResponseMessage responseMessage;
-        responseMessage = new ResponseMessage.Builder("categories").data("").build();
-        return ResponseEntity.ok(responseMessage);
-    }
-    @GetMapping("request/{requestId}/organization/{organizationId}")
-    public ResponseEntity<ResponseMessage> getOrganizationReviewsByRequest(final HttpServletRequest request, @PathVariable String requestId, @PathVariable String organizationId) throws RoleInfoNotFoundException {
-        ResponseMessage responseMessage;
-        responseMessage = new ResponseMessage.Builder("categories").data("").build();
-        return ResponseEntity.ok(responseMessage);
-    }
-    */
 }

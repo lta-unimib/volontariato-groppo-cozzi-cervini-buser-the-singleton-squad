@@ -50,11 +50,10 @@ public class RegisteredUserService {
             throws InvalidRoleGeneralException {
         String token = jwtUtils.getTokenFromRequest(request);
         String roleFromRequest = extractRoleFromToken(token);
-
         if (!isValidRole(roleFromRequest)) {
             throw new InvalidRoleGeneralException(String.format("Invalid role %s", roleFromRequest));
         }
-        return UserRole.valueOf(roleFromRequest);
+        return (roleFromRequest.equalsIgnoreCase("organization")) ? UserRole.ORGANIZATION : UserRole.VOLUNTEER;
     }
 
 
