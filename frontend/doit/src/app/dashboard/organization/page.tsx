@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { MdOutlineAdd } from "react-icons/md";
 
@@ -13,14 +12,25 @@ import { organizationMenuItems } from "@/utils/components/sidebar/organizationMe
 import { useAllRequests } from "@/hooks/useRequestsFetching";
 import { RequestSection } from "@/components/RequestSection";
 import {Skeleton} from "@/components/sidebar/Skeleton";
+import { useEffect, useState } from "react";
 
 export default function OrganizationDashboard() {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState("");
-    const [isExpiredView, setIsExpiredView] = useState(() => {
+    const [isExpiredView, setIsExpiredView] = useState(false);
+
+    useEffect(() => {
         const savedState = localStorage.getItem('expiredRequestsState');
-        return savedState ? JSON.parse(savedState) : false;
-    });
+        if (savedState) {
+            setIsExpiredView(JSON.parse(savedState));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isExpiredView !== undefined) {
+            localStorage.setItem('expiredRequestsState', JSON.stringify(isExpiredView));
+        }
+    }, [isExpiredView]);
 
     const {
         requests,
@@ -33,11 +43,6 @@ export default function OrganizationDashboard() {
     const handleSearch = (query: string) => {
         setSearchQuery(query.toLowerCase());
         return [];
-    };
-
-    const handleRegisteredToggle = (enabled: boolean) => {
-        setIsExpiredView(enabled);
-        localStorage.setItem('expiredRequestsState', JSON.stringify(enabled));
     };
 
     const filterRequests = () => {
@@ -54,6 +59,11 @@ export default function OrganizationDashboard() {
     };
 
     const filteredRequests = filterRequests();
+
+    const handleRegisteredToggle = (enabled: boolean) => {
+        setIsExpiredView(enabled);
+        localStorage.setItem('expiredRequestsState', JSON.stringify(enabled));
+    };
 
     return (
         <div className={`w-full h-screen flex flex-col`}>

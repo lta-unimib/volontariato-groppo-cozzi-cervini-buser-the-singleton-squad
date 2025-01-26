@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import React, { useState, useCallback, useRef, useEffect } from "react"
-import {Search, X} from "lucide-react"
-import { Switch } from "@/components/core/Switch"
-import { Badge } from "@/components/core/Badge"
-import {SearchBarProps} from "@/types/props/searchBarProps";
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import { Search, X } from "lucide-react";
+import { Switch } from "@/components/core/Switch";
+import { Badge } from "@/components/core/Badge";
+import { SearchBarProps } from "@/types/props/searchBarProps";
 
 export default function SearchBar({
                                       className,
@@ -18,40 +18,44 @@ export default function SearchBar({
                                       disabled = false,
                                       ...props
                                   }: SearchBarProps) {
-    const [searchTerm, setSearchTerm] = useState("")
-    const inputRef = useRef<HTMLInputElement>(null)
-    const [isToggled, setIsToggled] = useState(() => {
-        // Initialize from localStorage, default to false
-        const savedState = localStorage.getItem('subscribedViewState');
-        return savedState ? JSON.parse(savedState) : false;
-    });
+    const [searchTerm, setSearchTerm] = useState("");
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [isToggled, setIsToggled] = useState(false);
 
     useEffect(() => {
-        // Sync local state with prop callback
+        if (typeof window !== "undefined") {
+            const savedState = localStorage.getItem("subscribedViewState");
+            setIsToggled(savedState ? JSON.parse(savedState) : false);
+        }
+    }, []);
+
+    useEffect(() => {
         if (onSubscribedToggle) {
             onSubscribedToggle(isToggled);
         }
     }, [isToggled, onSubscribedToggle]);
 
-    const handleSearchInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
-        setSearchTerm(value)
-
-        // Trigger search immediately on input change
-        onSearch?.(value)
-    }, [onSearch])
+    const handleSearchInput = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value;
+            setSearchTerm(value);
+            onSearch?.(value);
+        },
+        [onSearch]
+    );
 
     const clearSearch = () => {
-        setSearchTerm("")
-        onSearch?.("")
-        inputRef.current?.focus()
-    }
+        setSearchTerm("");
+        onSearch?.("");
+        inputRef.current?.focus();
+    };
 
     const handleToggleChange = (checked: boolean) => {
         setIsToggled(checked);
-        // Persist toggle state in localStorage
-        localStorage.setItem('subscribedViewState', JSON.stringify(checked));
-    }
+        if (typeof window !== "undefined") {
+            localStorage.setItem("subscribedViewState", JSON.stringify(checked));
+        }
+    };
 
     return (
         <div className={`w-full mx-auto space-y-4 ${className}`} {...props}>
@@ -106,5 +110,5 @@ export default function SearchBar({
                 </div>
             )}
         </div>
-    )
+    );
 }

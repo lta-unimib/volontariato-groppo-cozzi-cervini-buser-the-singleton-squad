@@ -17,16 +17,24 @@ import { Skeleton } from '@/components/sidebar/Skeleton';
 export default function VolunteerDashboard() {
     const [showRequests, setShowRequests] = useState(true);
     const [showMap, setShowMap] = useState(false);
-    const [isSubscribedView, setIsSubscribedView] = useState(() => {
-        const savedState = localStorage.getItem('subscribedViewState');
-        return savedState ? JSON.parse(savedState) : false;
-    });
+    const [isSubscribedView, setIsSubscribedView] = useState(false); // Initialize with default value
     const [searchQuery, setSearchQuery] = useState("");
     const [, setMapLocations] = useState<google.maps.LatLngLiteral[]>([]);
 
+    useEffect(() => {
+        const savedState = localStorage.getItem('subscribedViewState');
+        if (savedState !== null) {
+            setIsSubscribedView(JSON.parse(savedState));
+        }
+    }, []);
+
+    // Save to localStorage whenever isSubscribedView changes
+    useEffect(() => {
+        localStorage.setItem('subscribedViewState', JSON.stringify(isSubscribedView));
+    }, [isSubscribedView]);
+
     const { requests, loading: allRequestsLoading, error: allRequestsError } =
         useAllRequests("/request/all/volunteer/sorted/");
-
     const {
         subscribedRequests,
         notVotedRequests,

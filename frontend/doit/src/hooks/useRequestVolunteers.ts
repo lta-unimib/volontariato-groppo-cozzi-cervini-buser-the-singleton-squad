@@ -21,12 +21,15 @@ interface Event {
     capacity: number;
 }
 
-export const useEventVolunteers = () => {
+export const useRequestVolunteers = () => {
     const [eventsData, setEventsData] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [mounted, setMounted] = useState(false);
 
     const fetchEventVolunteers = useCallback(async () => {
+        if (!mounted) return;
+
         setLoading(true);
         setError(null);
         try {
@@ -44,11 +47,18 @@ export const useEventVolunteers = () => {
         } finally {
             setLoading(false);
         }
+    }, [mounted]);
+
+    useEffect(() => {
+        setMounted(true);
+        return () => setMounted(false);
     }, []);
 
     useEffect(() => {
-        fetchEventVolunteers().catch(() => {});
-    }, [fetchEventVolunteers]);
+        if (mounted) {
+            fetchEventVolunteers().catch(() => {});
+        }
+    }, [fetchEventVolunteers, mounted]);
 
     return {
         eventsData,
