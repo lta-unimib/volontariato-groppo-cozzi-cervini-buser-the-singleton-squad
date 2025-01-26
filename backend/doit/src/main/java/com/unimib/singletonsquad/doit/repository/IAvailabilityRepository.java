@@ -11,5 +11,4 @@ import java.util.Optional;
 @Repository
 public interface IAvailabilityRepository extends JpaRepository<Availability, Integer> {
     Optional<Availability> findById(Long id);
-    boolean existsById(Long id);
 }

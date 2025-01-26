@@ -67,8 +67,8 @@ public class VolunteerOfferDatabaseService {
         return volunteerOfferRepository.getAllVoteByEventsByOfferId(id);
     }
 
-    public VolunteerOffer getVolunteerOfferByRequestId(Long idRequest, String idVolotario){
-        return this.volunteerOfferRepository.getVolunteerOfferByRequestId(idRequest, idVolotario, LocalDateTime.now()).orElseThrow( () ->{
+    public VolunteerOffer getVolunteerOfferByRequestId(Long idRequest, String emailVolontario){
+        return this.volunteerOfferRepository.getVolunteerOfferByRequestId(idRequest, emailVolontario, LocalDateTime.now()).orElseThrow( () ->{
             throw new RecordNotFoundGeneralException("Record not found with id request " + idRequest);
         });
     }

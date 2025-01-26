@@ -5,8 +5,7 @@ import lombok.*;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
-public class AddressDTO {
+public class AddressSendDTO {
     private String streetAddress;
     private String city;
     private String postalCode;

@@ -4,15 +4,15 @@ import com.unimib.singletonsquad.doit.domain.volunteer.StatisticVolunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;
-import lombok.AllArgsConstructor;
+import com.unimib.singletonsquad.doit.dto.send.ShortVolunteerInfoDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
-public class VolunteerMapper {
-    private AvailabilityMapper availabilityMapper;
+public class    VolunteerMapper {
 
-    public Volunteer mapToVolunteer(VolunteerDTO volunteerDTO){
+    private VolunteerMapper() {}
+
+    public static Volunteer mapToVolunteer(VolunteerDTO volunteerDTO){
         Volunteer volunteer = new Volunteer();
         volunteer.setName(volunteerDTO.getName());
         volunteer.setSurname(volunteerDTO.getSurname());
@@ -23,19 +23,19 @@ public class VolunteerMapper {
     }
 
 
-    public Volunteer createVolunteer(final VolunteerDTO volunteerDTO){
-        Volunteer volunteer = this.mapToVolunteer(volunteerDTO);
+    public static Volunteer createVolunteer(final VolunteerDTO volunteerDTO){
+        Volunteer volunteer = mapToVolunteer(volunteerDTO);
         StatisticVolunteer statisticVolunteer = StatisticMapper.createStatisticVolunteer(volunteer);
         volunteer.setStatistic(statisticVolunteer);
         VolunteerPreferences volunteerPreferences = new VolunteerPreferences();
         volunteerPreferences.setCity(volunteerDTO.getCity());
         volunteerPreferences.setCategories(volunteerDTO.getFavCategories());
-        volunteerPreferences.setAvailability(this.availabilityMapper.map(volunteerDTO.getAvailability()));
+        volunteerPreferences.setAvailability(AvailabilityMapper.map(volunteerDTO.getAvailability()));
         volunteer.setVolunteerPreferences(volunteerPreferences);
         return volunteer;
     }
 
-    public Volunteer updateVolunteer(final VolunteerDTO volunteerDTO, Volunteer volunteer){
+    public static Volunteer updateVolunteer(final VolunteerDTO volunteerDTO, Volunteer volunteer){
         volunteer.setName(volunteerDTO.getName());
         volunteer.setSurname(volunteerDTO.getSurname());
         volunteer.setDescription(volunteerDTO.getDescription());
@@ -48,7 +48,7 @@ public class VolunteerMapper {
 
         volunteerPreferences.setCity(volunteerDTO.getCity());
         volunteerPreferences.setCategories(volunteerDTO.getFavCategories());
-        volunteerPreferences.setAvailability(this.availabilityMapper.map(volunteerDTO.getAvailability()));
+        volunteerPreferences.setAvailability(AvailabilityMapper.map(volunteerDTO.getAvailability()));
 
         return volunteer;
     }
@@ -64,6 +64,10 @@ public class VolunteerMapper {
         volunteerDTO.setCity(volunteer.getVolunteerPreferences().getCity());
         volunteerDTO.setRole("Volunteer");
         return volunteerDTO;
+    }
+
+    public static ShortVolunteerInfoDTO toShortVolunteerInfoDTO(Volunteer volunteer) {
+        return new ShortVolunteerInfoDTO(volunteer.getEmail(), volunteer.getId());
     }
 
 }

@@ -17,7 +17,7 @@ public class StatisticOrganizationService {
     private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
     private final OrganizationDatabaseService organizationDatabaseService;
 
-    public void aggiornaMediaPesataOrganizzazione(Organization organization) {
+    public void aggiornaMediaPesataOrganizzazione(Organization organization) throws IllegalAccessException {
         List<VolunteerRequest> volunteerRequests = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(organization.getEmail());
         double sommatoria1 = 0;
         int sommaPartecipanti = 0;
@@ -25,11 +25,20 @@ public class StatisticOrganizationService {
             sommatoria1 = sommatoria1 + (volunteerRequest.getSommaVoti()/volunteerRequest.getTotalParticipants());
             sommaPartecipanti+=volunteerRequest.getTotalParticipants();
         }
+        if(sommaPartecipanti == 0)
+            throw new IllegalAccessException("Somma partecipanti non trovato --> serious problem");
 
         StatisticOrganization temp = organization.getStatisticOrganization();
-        temp.setMediPesata(sommatoria1/sommaPartecipanti);
+        temp.setAverageVotes(sommatoria1/sommaPartecipanti);
+        temp.setTotalFeedback(temp.getTotalFeedback()+1);
+        temp.setNumeroTotalePartecipanti(sommaPartecipanti);
         organization.setStatisticOrganization(temp);
         organizationDatabaseService.save(organization);
+    }
+
+    public StatisticOrganization getStatisticOrganization(String idOrganization) {
+        Organization organization = organizationDatabaseService.findOrganizationByEmail(idOrganization);
+        return organization.getStatisticOrganization();
     }
 
 }

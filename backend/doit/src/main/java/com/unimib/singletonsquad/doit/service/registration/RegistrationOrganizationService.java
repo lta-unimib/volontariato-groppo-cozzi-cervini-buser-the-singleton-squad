@@ -27,7 +27,7 @@ public class RegistrationOrganizationService {
             throw new UserAlreadyRegisteredGeneralException("An organization with name " + organization.getName() + " is already registered");
         }
 
-        Organization user = this.createVolunteer(organization);
+        Organization user = this.createOrganization(organization);
         this.organizationService.save(user);
         return this.authenticationSetUp.setUpNewAuthSecurityContext(organization.getPassword(), UserRole.ORGANIZATION.name(), organization.getEmail());
     }
@@ -52,8 +52,8 @@ public class RegistrationOrganizationService {
     }
 
 
-    private Organization createVolunteer(final OrganizationDTO volunteer){
-        return this.volunteerMapper.mapToOrganization(volunteer);
+    private Organization createOrganization(final OrganizationDTO organization) {
+        return OrganizationMapper.mapToOrganization(organization);
     }
 }
 

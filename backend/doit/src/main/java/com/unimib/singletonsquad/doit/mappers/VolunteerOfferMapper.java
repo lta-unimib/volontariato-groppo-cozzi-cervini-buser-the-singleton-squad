@@ -13,17 +13,17 @@ public class VolunteerOfferMapper {
 
     private VolunteerOfferMapper() {}
 
-    public static VolunteerOffer toOffer(Volunteer volunteer, VolunteerRequest volunteerRequest) {
+    /// Create an Offer
+    public static VolunteerOffer createAnOffer(Volunteer volunteer, VolunteerRequest volunteerRequest) {
         VolunteerOffer volunteerOffer = new VolunteerOffer();
         volunteerOffer.setVolunteer(volunteer);
         volunteerOffer.setVolunteerRequest(volunteerRequest);
-        volunteerOffer.setStatus(Status.PENDING);
-        volunteerOffer.setVotedByVolunteer(false);
+        volunteerOffer.setStatus(Status.ACCEPTED);
         volunteerOffer.setVotedByOrganization(false);
+        volunteerOffer.setVotedByVolunteer(false);
         return volunteerOffer;
     }
 
-    /// DI CAMBIARLO E FARLO IN UNA CLASSE SPECIFICA
     public static VolunteerOfferDTO toOfferDTO(VolunteerOffer volunteerOffer) {
         VolunteerOfferDTO dto = new VolunteerOfferDTO();
         dto.setVolunteerRequestId(volunteerOffer.getVolunteerRequest().getId());
@@ -34,8 +34,9 @@ public class VolunteerOfferMapper {
     public static List<VolunteerOfferDTO> getListVolunteerOfferDTO(List<VolunteerOffer> volunteerOfferList) {
         List<VolunteerOfferDTO> volunteerOfferDTOS = new ArrayList<>();
         for (VolunteerOffer v : volunteerOfferList) {
-            volunteerOfferDTOS.add(VolunteerOfferMapper.toOfferDTO(v));
+            volunteerOfferDTOS.add(toOfferDTO(v));
         }
         return volunteerOfferDTOS;
     }
+
 }

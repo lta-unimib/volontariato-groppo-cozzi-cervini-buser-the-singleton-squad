@@ -32,12 +32,13 @@ public class VolunteerRequest {
     private String detailedDescription;
 
     @Column(nullable = false, name = "capacity")
-    private int capacity;
+    private Integer capacity;
 
     @Column(nullable = true, name = "total_participants")
-    private int totalParticipants = 0;
+    private Integer totalParticipants = 0;
 
-    private double sommaVoti = 0.0;
+    private Integer totalFeedbacks = 0;
+    private Double sommaVoti = 0.0;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -64,8 +65,16 @@ public class VolunteerRequest {
     @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedbackOrganization> feedbackList = new ArrayList<>();
 
+
+    public void decreaseCapacity() {
+        if(this.capacity == 0)
+            throw new IllegalStateException("Siamo arrivati allo 0 della capacità");
+        this.capacity -= 1;
+    }
+
+
     public void setCapacity(int capacity) {
-        if (capacity <= 0) {
+        if (capacity < 0) {
             throw new IllegalArgumentException("Capacity must be a positive integer");
         }
         this.capacity = capacity;

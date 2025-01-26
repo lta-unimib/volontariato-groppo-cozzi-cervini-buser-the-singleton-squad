@@ -5,7 +5,9 @@ import com.unimib.singletonsquad.doit.domain.common.CityInfo;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
+import com.unimib.singletonsquad.doit.dto.send.ShortVolunteerInfoDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
+import com.unimib.singletonsquad.doit.mappers.VolunteerMapper;
 import com.unimib.singletonsquad.doit.repository.IVolunteerRequestRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,10 +134,11 @@ public class VolunteerRequestDatabaseService {
         return requestListAllEvents;
     }
 
-    public Map< VolunteerRequest, List<Volunteer>> getRequestSpecificiListAllEvents(Long idRequest) {
-        VolunteerRequest temp = this.getSpecificRequest(idRequest);
-        Map< VolunteerRequest, List<Volunteer>> requestListAllEvents = new HashMap<>();
-        requestListAllEvents.put(temp, getAllVolunteerByRequest(temp.getId()));
+    public List<ShortVolunteerInfoDTO> getRequestSpecificiListAllEvents(Long idRequest) {
+        List<ShortVolunteerInfoDTO> requestListAllEvents = new ArrayList<>();
+        for (Volunteer volunteer : getAllVolunteerByRequest(idRequest)) {
+            requestListAllEvents.add(VolunteerMapper.toShortVolunteerInfoDTO(volunteer));
+        }
         return requestListAllEvents;
     }
 

@@ -1,7 +1,6 @@
 package com.unimib.singletonsquad.doit.dto.received;
-
-
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -14,33 +13,33 @@ import java.util.List;
 @Setter
 public class VolunteerRequestDTO {
     @NotNull
-    @NotEmpty
+    @NotBlank
     private String title;
 
     @NotNull
-    @NotEmpty
     private List<String> timeRange;
 
     @NotNull
-    @NotEmpty
+    @NotBlank
     private AddressDTO address;
 
     @NotNull
     private List<String> categories;
 
     @NotNull
-    @NotEmpty
+    @NotBlank
     private String description;
 
     @NotNull
+    @Min(value = 1, message = "capacity must be greater or equal than 1")
     private Integer volunteerCapacity;
 
     @NotNull
-    @NotEmpty
+    @NotBlank
     private String startTime;
 
     @NotNull
-    @NotEmpty
+    @NotBlank
     private String endTime;
 
 

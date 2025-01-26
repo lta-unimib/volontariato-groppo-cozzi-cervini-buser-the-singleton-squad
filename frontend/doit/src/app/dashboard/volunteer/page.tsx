@@ -24,6 +24,7 @@ export default function VolunteerDashboard() {
         return savedState ? JSON.parse(savedState) : false;
     });
     const [searchQuery, setSearchQuery] = useState("");
+    const [mapLocations, setMapLocations] = useState<google.maps.LatLngLiteral[]>([]);
 
     const { requests, loading: allRequestsLoading, error: allRequestsError } =
         useAllRequests("/request/all/volunteer/sorted/");
@@ -33,10 +34,10 @@ export default function VolunteerDashboard() {
         notVotedRequests,
         archivedRequests,
         loading: registeredRequestsLoading,
-        error: registeredRequestsError
+        error: registeredRequestsError,
     } = useVolunteerRequests();
 
-    const OpportunityIcon: IconType = volunteerMenuItems.find(item => item.title === "Opportunità")?.icon as IconType;
+    const OpportunityIcon: IconType = volunteerMenuItems.find((item) => item.title === "Opportunità")?.icon as IconType;
 
     const handleSubscribedToggle = (enabled: boolean) => {
         setIsSubscribedView(enabled);
@@ -81,6 +82,35 @@ export default function VolunteerDashboard() {
         });
     };
 
+    const getMapRequestsAndLocations = () => {
+        let filteredRequests;
+        let filteredLocations;
+
+        if (isSubscribedView) {
+            // Combine all subscribed requests
+            filteredRequests = [
+                ...subscribedRequests,
+                ...notVotedRequests,
+                ...archivedRequests
+            ];
+        } else {
+            filteredRequests = requests;
+        }
+
+        // Filter based on search query
+        filteredRequests = filterRequests(filteredRequests);
+
+        // Get corresponding locations for filtered requests
+        filteredLocations = filteredRequests.map((request: any) => ({
+            lat: request.cityInfo.latitude,
+            lng: request.cityInfo.longitude,
+        }));
+
+        return { filteredRequests, filteredLocations };
+    };
+
+    const { filteredRequests, filteredLocations } = getMapRequestsAndLocations();
+
     const renderRequestContent = () => {
         const loading = isSubscribedView ? registeredRequestsLoading : allRequestsLoading;
         const error = isSubscribedView ? registeredRequestsError : allRequestsError;
@@ -95,11 +125,7 @@ export default function VolunteerDashboard() {
         }
 
         if (error) {
-            return (
-                <div className="flex items-center justify-center h-full">
-                    {error}
-                </div>
-            );
+            return <div className="flex items-center justify-center h-full">{error}</div>;
         }
 
         if (isSubscribedView) {
@@ -121,21 +147,31 @@ export default function VolunteerDashboard() {
                     {filteredRegistered.length === 0 &&
                         filteredNotVoted.length === 0 &&
                         filteredArchived.length === 0 && (
-                            <div className="flex items-center justify-center h-full">
-                                Nessuna richiesta trovata
-                            </div>
+                            <div className="flex items-center justify-center h-full">Nessuna richiesta trovata</div>
                         )}
                 </>
             );
         }
 
         const filteredRequests = filterRequests(requests);
+        console.log(filteredRequests);
 
-        return filteredRequests.length === 0
-            ? <div className="flex items-center justify-center h-full">Nessuna richiesta trovata</div>
-            : <RequestSection title="Tutte le Richieste" requests={filteredRequests} />;
+        return filteredRequests.length === 0 ? (
+            <div className="flex items-center justify-center h-full">Nessuna richiesta trovata</div>
+        ) : (
+            <RequestSection title="Tutte le Richieste" requests={filteredRequests} />
+        );
     };
 
+    useEffect(() => {
+        if (requests) {
+            const locations = requests.map((request: any) => ({
+                lat: request.cityInfo.latitude,
+                lng: request.cityInfo.longitude,
+            }));
+            setMapLocations(locations);
+        }
+    }, [requests]);
     return (
         <div className={`w-full h-screen flex flex-col`}>
             <div className="flex w-full min-h-screen">
@@ -160,14 +196,19 @@ export default function VolunteerDashboard() {
                         {showRequests && renderRequestContent()}
 
                         {showMap && (
-                            <div className="relative h-[calc(100vh-312px)] md:h-[calc(100vh-144px)] w-full">
+                            <div className="relative h-[calc(100vh-312px)] md:h-[calc(100vh-146px)] w-full">
                                 <GoogleMapsWrapper>
-                                    <GoogleMaps/>
+                                    <GoogleMaps
+                                        locations={filteredLocations}
+                                        requests={filteredRequests}
+                                        isSubscribedView={isSubscribedView}
+                                    />
                                 </GoogleMapsWrapper>
                             </div>
                         )}
                     </ScrollArea>
-                    <div className="absolute bottom-4 pb-32 md:pb-4 left-1/2 -translate-x-1/2 flex justify-center w-full">
+                    <div
+                        className="absolute bottom-4 pb-32 md:pb-4 left-1/2 -translate-x-1/2 flex justify-center w-full">
                         <Button
                             variant="default"
                             className="p-4 rounded-full !h-20 !w-20"
@@ -177,8 +218,8 @@ export default function VolunteerDashboard() {
                                 setShowMap(!showMap);
                             }}
                         >
-                            {showRequests && <MdMap className="!h-6 !w-6"/>}
-                            {showMap && <OpportunityIcon className="!h-6 !w-6"/>}
+                            {showRequests && <MdMap className="!h-6 !w-6" />}
+                            {showMap && <OpportunityIcon className="!h-6 !w-6" />}
                         </Button>
                     </div>
                 </div>
@@ -186,3 +227,4 @@ export default function VolunteerDashboard() {
         </div>
     );
 }
+

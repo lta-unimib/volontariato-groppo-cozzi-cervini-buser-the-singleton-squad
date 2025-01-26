@@ -48,10 +48,10 @@ public interface IVolunteerOfferRepository extends JpaRepository<VolunteerOffer,
     Double getAllVoteByEventsByOfferId(@Param("idOffer") Long idRequest);
 
 
-    @Query("SELECT o from VolunteerOffer as o where o.volunteerRequest.id = :idRequest and o.volunteerRequest.endDateTime > :oggi and o.volunteer.email = :idVol")
+    @Query("SELECT o from VolunteerOffer as o where o.volunteerRequest.id = :idRequest and :oggi > o.volunteerRequest.endDateTime and o.volunteer.email = :idVol")
     Optional<VolunteerOffer> getVolunteerOfferByRequestId(@Param("idRequest") Long idRequest, @Param("idVol") String email , @Param("oggi") LocalDateTime oggi);
 
-    @Query("SELECT o from VolunteerOffer as o where o.volunteerRequest.id = :idRequest and o.volunteerRequest.endDateTime > :oggi and o.volunteer.email = :idVol and o.volunteerRequest.organization = :organization")
+    @Query("SELECT o from VolunteerOffer as o where o.volunteerRequest.id = :idRequest and  :oggi > o.volunteerRequest.endDateTime  and o.volunteer.email = :idVol and o.volunteerRequest.organization = :organization")
     Optional<VolunteerOffer> getVolunteerOfferByRequestId1(@Param("idRequest") Long idRequest, @Param("idVol") String email , @Param("oggi") LocalDateTime oggi, @Param("organization") Organization organization);
 
 

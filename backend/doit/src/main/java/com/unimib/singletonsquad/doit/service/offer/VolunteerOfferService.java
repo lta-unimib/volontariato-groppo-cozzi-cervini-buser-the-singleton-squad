@@ -5,7 +5,7 @@ import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabas
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
-import com.unimib.singletonsquad.doit.mappers.OfferMapper;
+import com.unimib.singletonsquad.doit.mappers.VolunteerOfferMapper;
 import com.unimib.singletonsquad.doit.service.request.VolunteerRequestService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,16 +26,15 @@ public class VolunteerOfferService {
     }
 
     /// ADD NEW OFFER
-    /// todo capire perché non toglie la capacità di 1
-    public void addNewOffer(Long requestId, Volunteer volunteer) throws Exception {
+    public void addNewOffer(Long requestId, Volunteer volunteer){
         VolunteerRequest volunteerRequest = this.volunteerRequestDatabaseService.getRequestForAddingNewOffer(requestId);
-         this.volunteerOfferDatabaseService.getVolunteerOfferCheckSubscribe(volunteer.getId(), requestId);
-        VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteer, volunteerRequest);
+        this.volunteerOfferDatabaseService.getVolunteerOfferCheckSubscribe(volunteer.getId(), requestId);
+        VolunteerOffer volunteerOffer = VolunteerOfferMapper.createAnOffer(volunteer, volunteerRequest);
         int totalParticipantsUpdate = volunteerRequest.getTotalParticipants()+1;
         volunteerRequest.setTotalParticipants(totalParticipantsUpdate);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
         this.volunteerRequestControllerService.addVolunteerOffer(volunteerRequest.getId(), volunteerOffer);
-        volunteerRequest.setCapacity(volunteerRequest.getCapacity()-1);
+        volunteerRequest.decreaseCapacity();
         this.volunteerRequestDatabaseService.save(volunteerRequest);
     }
 

@@ -1,5 +1,7 @@
 package com.unimib.singletonsquad.doit.mappers;
+import com.unimib.singletonsquad.doit.domain.organization.FeedbackOrganization;
 import com.unimib.singletonsquad.doit.domain.volunteer.FeedbackVolunteer;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 
 public class FeedbackMapper {
 
@@ -10,5 +12,12 @@ public class FeedbackMapper {
         feedback.setVote(voto);
         return feedback;
     }
-    /// todo aggiungere il feedbackOrganization
+
+    public static FeedbackOrganization createFeedbackOrganization(double voto, Long userId, VolunteerRequest volunteerRequest) {
+        FeedbackOrganization feedback = new FeedbackOrganization();
+        feedback.setVote(voto);
+        feedback.setVolunteerId(userId);
+        feedback.setVolunteerRequest(volunteerRequest);
+        return feedback;
+    }
 }

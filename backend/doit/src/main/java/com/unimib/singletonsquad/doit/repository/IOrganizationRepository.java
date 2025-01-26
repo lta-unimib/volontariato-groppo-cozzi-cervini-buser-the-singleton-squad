@@ -11,8 +11,6 @@ import java.util.Optional;
 @Primary
 public interface IOrganizationRepository extends JpaRepository<Organization, Long> {
     Organization findByName(String name);
-    boolean existsByName(String name);
     boolean existsByEmail(String email);
     Optional<Organization> findByEmail(String email);
-    void deleteByEmail(String email);
 }

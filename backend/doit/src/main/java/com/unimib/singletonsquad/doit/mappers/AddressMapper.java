@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.mappers;
 
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.dto.received.AddressDTO;
+import com.unimib.singletonsquad.doit.dto.send.AddressSendDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,6 +32,18 @@ public class AddressMapper {
         return addressDTO;
     }
 
+    public static AddressSendDTO createAddressSendDTO(Address address){
+        AddressSendDTO temp = new AddressSendDTO();
+        temp.setCity(address.getCity());
+        temp.setStreetAddress(address.getStreetAddress());
+        temp.setPostalCode(address.getPostalCode());
+        temp.setHouseNumber(address.getHouseNumber());
+        temp.setAdditionalInformation(address.getAdditionalInformation());
+        return temp;
+    }
+
+
+    /// UPDATE AN ADDRESS
     public static Address updateAddress(Address address, AddressDTO addressDTO){
         String city = addressDTO.getCity();
         if(city != null && !city.isEmpty()) {

@@ -9,7 +9,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AvailabilityMapper {
-    public Availability map(AvailabilityDTO availabilityDTO) {
+
+    private AvailabilityMapper() {}
+
+    public static Availability map(AvailabilityDTO availabilityDTO) {
         Availability availability;
         switch (availabilityDTO.getMode()) {
             case "daily": {
