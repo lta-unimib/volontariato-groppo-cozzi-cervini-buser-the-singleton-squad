@@ -4,15 +4,20 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Badge } from "@/components/core/Badge";
 import { useCategories } from "@/hooks/useCategories";
-import {VolunteerCardProps} from "@/types/props/card/volunteerCardProps";
+import { VolunteerCardProps } from "@/types/props/card/volunteerCardProps";
+import {Star} from "lucide-react";
 
-export default function VolunteerCard({ volunteerData }: VolunteerCardProps) {
+export default function VolunteerCard({ volunteerData, requestId }: VolunteerCardProps) {
     const router = useRouter();
     const { categories } = useCategories();
 
     const handleClick = () => {
         const encodedData = encodeURIComponent(JSON.stringify(volunteerData));
-        router.push(`/detailed/volunteer?data=${encodedData}`);
+        const url = requestId
+            ? `/detailed/volunteer?data=${encodedData}&mode=review&id=${requestId}`
+            : `/detailed/volunteer?data=${encodedData}`;
+
+        router.push(url);
     };
 
     const commonCategories = categories.filter(category =>
@@ -24,7 +29,16 @@ export default function VolunteerCard({ volunteerData }: VolunteerCardProps) {
             className="flex items-stretch gap-4 rounded-2xl cursor-pointer hover:shadow-md transition-shadow"
             onClick={handleClick}
         >
-            <div className="flex-1">
+            <div className="flex-1 relative">
+                {requestId && (
+                    <div className="absolute top-4 right-3">
+                        <Star
+                            className="h-5 w-5 text-primary"
+                            aria-hidden="true"
+                        />
+                    </div>
+                )}
+
                 <CardHeader className="pb-4 md:pb-6">
                     <CardDescription className="text-sm md:text-base">Volontario</CardDescription>
                     <CardTitle className="text-lg md:text-xl">

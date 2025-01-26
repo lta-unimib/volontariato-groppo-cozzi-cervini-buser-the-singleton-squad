@@ -18,7 +18,7 @@ export default function OrganizationSignUp() {
     return (
         <div className={`w-full h-screen flex flex-col`}>
             {/* Header section for smaller screens */}
-            <div className="block lg:hidden">
+            <div className="block md:hidden">
                 <FormHeader
                     title="Registra una organizzazione"
                     subtitle="Aggiungi una nuova organizzazione e raggiungi più volontari possibili"

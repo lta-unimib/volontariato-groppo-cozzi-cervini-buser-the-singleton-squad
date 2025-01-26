@@ -2,7 +2,7 @@ export interface ProfileActionsProps {
     role: 'volunteer' | 'organization';
     isOwnProfile: boolean;
     hasSavedOrganization?: boolean;
-    isSubscribed?: boolean;
+    hasPartecipatedInEvent?: boolean;
     onEdit?: () => void;
     onDelete?: () => void;
     onRemoveSavedOrg?: () => void;

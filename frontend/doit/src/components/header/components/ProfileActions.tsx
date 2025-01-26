@@ -1,5 +1,5 @@
 import { Button } from "@/components/core/Button";
-import { MdOutlineEdit, MdOutlineDelete, MdOutlineRemove } from "react-icons/md";
+import {MdOutlineEdit, MdOutlineDelete, MdOutlineRemove, MdOutlineRateReview} from "react-icons/md";
 import React, {useState} from "react";
 import {ProfileActionsProps} from "@/types/props/header/profileActionsProps";
 
@@ -16,7 +16,7 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
                                                                   onRemoveSavedOrg,
                                                                   onReview,
                                                                   isOwnProfile,
-                                                                  isSubscribed,
+                                                                  hasPartecipatedInEvent,
                                                                   hasSavedOrganization,
                                                                   isLoading
                                                               }) => {
@@ -37,6 +37,12 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
         if (onSave) {
             onSave();
             setIsSaved(true);
+        }
+    };
+
+    const handleReview = async () => {
+        if (onReview) {
+            onReview();
         }
     };
 
@@ -88,16 +94,15 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
         );
     }
 
-    // For organization viewing a volunteer profile
     return (
-        <div className="flex gap-2 mt-4 md:mt-0">
-            {isSubscribed && (
+        <div className="flex gap-2 mt-4 md:mt-12">
+            {hasPartecipatedInEvent && (
                 <Button
                     variant="default"
                     size="default"
-                    onClick={onReview}
+                    onClick={handleReview}
                 >
-                    Recensisci
+                    <MdOutlineRateReview className="mr-2" /> Recensisci
                 </Button>
             )}
         </div>

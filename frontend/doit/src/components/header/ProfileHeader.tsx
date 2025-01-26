@@ -4,11 +4,14 @@ import { Button } from "@/components/core/Button";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {makeDeleteRequest, makePostRequest} from "@/utils/api/apiUtils";
+import { makeDeleteRequest, makePostRequest } from "@/utils/api/apiUtils";
 import { useBack } from "@/hooks/header/useBack";
 import { ProfileHeaderProps } from "@/types/props/header/profileHeadersProps";
 import { ProfileActions } from "@/components/header/components/ProfileActions";
-import {useFavoriteOrganizations} from "@/hooks/useFavoriteOrganizations";
+import { useFavoriteOrganizations } from "@/hooks/useFavoriteOrganizations";
+import { useState } from "react";
+import ReviewDialog from "../review/ReviewDialog";
+import { useReviewSubmission } from "@/types/form/useReviewSubmission";
 
 /**
  * ProfileHeader component renders the profile section with dynamic actions
@@ -28,6 +31,15 @@ export const ProfileHeader = ({
     const { organizations, loading } = useFavoriteOrganizations();
     const hasSavedOrganization = organizations.some(org => org.organizationName === name);
 
+    const searchParams = new URLSearchParams(window.location.search);
+    const isReviewMode = searchParams.get("mode") === "review";
+    const idRequest = searchParams.get("id");
+
+    const hasParticipatedInEvent = isReviewMode ? true : undefined;
+
+    const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
+    const { submitReview } = useReviewSubmission("volunteer");
+
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(profileData));
         router.push(`/signup/${role.toLowerCase()}?mode=edit&data=${encodedData}`);
@@ -45,6 +57,13 @@ export const ProfileHeader = ({
     };
 
     const handleReview = () => {
+        setIsReviewDialogOpen(true);
+    };
+
+    const handleReviewSubmit = async (rating: number) => {
+        if (profileData?.email && idRequest) {
+            await submitReview(idRequest, rating, profileData.email);
+        }
     };
 
     const handleSave = async () => {
@@ -88,16 +107,23 @@ export const ProfileHeader = ({
                     </div>
                 </div>
                 <ProfileActions
-                    role={role.toLowerCase() as 'volunteer' | 'organization'}
+                    role={role.toLowerCase() as "volunteer" | "organization"}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
-                    onRemoveSavedOrg={role.toLowerCase() === 'organization' ? handleRemoveSavedOrg : undefined}
+                    onRemoveSavedOrg={role.toLowerCase() === "organization" ? handleRemoveSavedOrg : undefined}
                     onReview={handleReview}
                     onSave={handleSave}
                     isOwnProfile={!readOnly}
                     hasSavedOrganization={hasSavedOrganization}
-                    //isSubscribed={hasParticipatedInEvent}
+                    hasPartecipatedInEvent={hasParticipatedInEvent}
                     isLoading={loading}
+                />
+                <ReviewDialog
+                    type="volunteer"
+                    volunteerName={name}
+                    isOpen={isReviewDialogOpen}
+                    onOpenChange={setIsReviewDialogOpen}
+                    onSubmit={handleReviewSubmit}
                 />
             </div>
         </div>

@@ -9,6 +9,8 @@ import Image from 'next/image';
 import { RequestHeaderProps } from "@/types/props/header/requestHeaderProps";
 import {useFavoriteOrganizations} from "@/hooks/useFavoriteOrganizations";
 import {useVolunteerRequests} from "@/hooks/useRequestsFetching";
+import ReviewDialog from '../review/ReviewDialog';
+import {useReviewSubmission} from "@/types/form/useReviewSubmission";
 
 export const RequestHeader = ({
                                   title,
@@ -22,6 +24,8 @@ export const RequestHeader = ({
     const onBack = useBack();
 
     const [idRequest, setIdRequest] = useState<string | undefined>(undefined);
+    const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
+    const { submitReview } = useReviewSubmission('request');
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -105,7 +109,13 @@ export const RequestHeader = ({
      * Handles the review action by navigating to the review page.
      */
     const handleReview = () => {
-        router.push(`/review/${idRequest}`);
+        setIsReviewDialogOpen(true);
+    };
+
+    const handleReviewSubmit = async (rating: number) => {
+        if (idRequest) {
+            await submitReview(idRequest, rating);
+        }
     };
 
     /**
@@ -175,6 +185,13 @@ export const RequestHeader = ({
                         isLoading={organizationsLoading || requestsLoading}
                     />
                 )}
+                <ReviewDialog
+                    type="request"
+                    requestName={title}
+                    isOpen={isReviewDialogOpen}
+                    onOpenChange={setIsReviewDialogOpen}
+                    onSubmit={handleReviewSubmit}
+                />
             </div>
         </div>
     );
