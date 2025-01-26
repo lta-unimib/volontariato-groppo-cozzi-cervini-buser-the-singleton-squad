@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.statistics;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.JsonObject;
 import com.unimib.singletonsquad.doit.domain.organization.StatisticOrganization;
 import com.unimib.singletonsquad.doit.domain.volunteer.StatisticVolunteer;
@@ -32,7 +33,7 @@ public class ReviewsController {
     @GetMapping("/request/{requestId}/")
     public ResponseEntity<ResponseMessage> getRequestReviews(final HttpServletRequest request, @PathVariable Long requestId) throws RoleInfoNotFoundException {
         registeredUserService.extractRoleFromRequest(request);
-        JsonObject data = statisticRequestService.getRequestStatistic(requestId);
+        JsonNode data = statisticRequestService.getRequestStatistic(requestId);
         return ResponseMessageUtil.createResponseSuccess("getting request info", HttpStatus.OK, data);
     }
 

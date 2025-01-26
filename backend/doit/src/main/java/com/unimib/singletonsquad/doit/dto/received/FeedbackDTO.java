@@ -15,7 +15,7 @@ public class FeedbackDTO {
     @NotNull
     @Min(value = 1, message = "Vote must be between 1 and 5")
     @Max(value = 5, message = "Vote must be between 1 and 5")
-    double vote;
+    Double   vote;
     @Email
     @Nullable
     String email;
