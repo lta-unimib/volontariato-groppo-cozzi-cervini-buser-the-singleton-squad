@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.mappers;
 
+import com.unimib.singletonsquad.doit.domain.volunteer.StatisticVolunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;
@@ -24,6 +25,8 @@ public class VolunteerMapper {
 
     public Volunteer createVolunteer(final VolunteerDTO volunteerDTO){
         Volunteer volunteer = this.mapToVolunteer(volunteerDTO);
+        StatisticVolunteer statisticVolunteer = StatisticMapper.createStatisticVolunteer(volunteer);
+        volunteer.setStatistic(statisticVolunteer);
         VolunteerPreferences volunteerPreferences = new VolunteerPreferences();
         volunteerPreferences.setCity(volunteerDTO.getCity());
         volunteerPreferences.setCategories(volunteerDTO.getFavCategories());

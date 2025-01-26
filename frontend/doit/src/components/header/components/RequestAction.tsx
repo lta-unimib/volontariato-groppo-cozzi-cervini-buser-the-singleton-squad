@@ -6,7 +6,8 @@ import {
     MdOutlineCheck,
     MdOutlineClose,
     MdOutlineRateReview,
-    MdOutlineRemove
+    MdOutlineRemove,
+    MdOutlineAutorenew
 } from "react-icons/md";
 import React, { useState } from "react";
 import { RequestActionsProps } from "@/types/props/header/requestActionsProps";
@@ -19,11 +20,13 @@ export const RequestActions: React.FC<RequestActionsProps> = ({
                                                                   onUnsubscribe,
                                                                   onRemoveSavedOrg,
                                                                   onReview,
+                                                                    onRenew,
                                                                   onSubscribe,
                                                                   isSubscribed,
                                                                   hasSavedOrganization,
                                                                   isEventExpired,
                                                                   hasNotReviewed,
+                                                                    isTerminated,
                                                                   isLoading
                                                               }) => {
     if (isLoading) {
@@ -66,6 +69,12 @@ export const RequestActions: React.FC<RequestActionsProps> = ({
             onReview();
         }
     };
+
+    const handleRenew = async () => {
+        if(onRenew) {
+            onRenew();
+        }
+    }
 
     const OrganizationSaveButton = () => (
         isLocalSaved ? (
@@ -171,23 +180,20 @@ export const RequestActions: React.FC<RequestActionsProps> = ({
     if (role === 'organization') {
         return (
             <div className="flex gap-2 mt-4 md:md-0">
-                <Button
-                    variant="destructive"
-                    size="icon"
-                    onClick={onDelete}
-                >
+                <Button variant="destructive" size="icon" onClick={onDelete}>
                     <MdOutlineDelete />
                 </Button>
-                <Button
-                    variant="secondary"
-                    size="default"
-                    onClick={onEdit}
-                >
-                    <MdOutlineEdit className="mr-2" /> Modifica
-                </Button>
+                {!isTerminated ? (
+                    <Button variant="secondary" size="default" onClick={onEdit}>
+                        <MdOutlineEdit className="mr-2" /> Modifica
+                    </Button>
+                ) : (
+                    <Button variant="default" size="default" onClick={handleRenew}>
+                        <MdOutlineAutorenew className="mr-2" /> Riproponi
+                    </Button>
+                )}
             </div>
         );
     }
-
     return null;
 };

@@ -1,0 +1,23 @@
+# Ignora la cartella dei file generati dal build di Maven
+target/
+
+# Ignora le configurazioni e file generati da IntelliJ IDEA
+.idea/
+*.iml
+
+# Ignora i wrapper di Maven non necessari
+.mvn/
+mvnw
+mvnw.cmd
+
+# Ignora la directory Git
+.git/
+.gitignore
+
+# Ignora file temporanei o di log
+*.log
+*.tmp
+
+# Ignora file di sistema (Windows/Mac/Linux)
+.DS_Store
+Thumbs.db

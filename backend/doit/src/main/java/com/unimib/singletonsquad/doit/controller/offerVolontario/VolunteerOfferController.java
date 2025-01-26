@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.controller.offerVolontario;
 
+import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerOfferMapper;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.management.relation.RoleInfoNotFoundException;
 import java.util.List;
 
@@ -25,34 +25,24 @@ import java.util.List;
 public class VolunteerOfferController {
     private final VolunteerOfferService volunteerOfferService;
     private final RegisteredUserService registeredUserService;
-    private final VolunteerOfferAcceptService acceptService;
+    ///private final VolunteerOfferAcceptService acceptService;
 
 
     /// L'UTENTE ACCETTA LA RICHIESTA DI VOLONTARIATO
     @PostMapping(value = "/subscribe/{requestId}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> createVolunteerOffer(final HttpServletRequest request,
-                                                  final @PathVariable String requestId)
+                                                  final @PathVariable Long requestId)
             throws Exception {
-            String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
-            this.volunteerOfferService.addNewOffer(Long.parseLong(requestId), email);
-            return  ResponseMessageUtil.createResponseSuccess("volunteer offer saved", HttpStatus.OK, null);
+        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(UserRole.VOLUNTEER, request);
+        this.volunteerOfferService.addNewOffer(requestId,volunteer);
+        return  ResponseMessageUtil.createResponseSuccess("volunteer offer saved", HttpStatus.OK, null);
 
-    }
-
-    /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
-    @DeleteMapping("/{idOffer}/")
-    public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable final Long idOffer,
-                                                                final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
-        UserRole role = UserRole.valueOf(this.registeredUserService.checkAndGetRoleFromRequest(request));
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(role, request);
-        this.volunteerOfferService.removeOffer(idOffer, email);
-        return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
     }
 
     /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
     @DeleteMapping("/unsubscribe/{idRequest}/")
     public ResponseEntity<ResponseMessage> deleteVolunteerOfferByRequest(@PathVariable final Long idRequest,
-                                                                final HttpServletRequest request) throws Exception {
+                                                                final HttpServletRequest request) throws RoleInfoNotFoundException {
         String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.VOLUNTEER, request);
         this.volunteerOfferService.removeOfferByRequest(idRequest, email);
         return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
@@ -66,6 +56,8 @@ public class VolunteerOfferController {
         List<VolunteerOfferDTO> volunteerOfferDTOS = VolunteerOfferMapper.getListVolunteerOfferDTO(volunteerOffers);
         return ResponseMessageUtil.createResponseSuccess("get all volunteer offers", HttpStatus.OK, volunteerOfferDTOS);
     }
+
+    /*
 
     /// A ORGANIZATION ACCEPT A VOLUNTEER OFFER
     @PostMapping(value = "/accept/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -83,4 +75,15 @@ public class VolunteerOfferController {
         return ResponseMessageUtil.createResponseSuccess(String.format("Reject offer %s", idOffer), HttpStatus.OK, null);
     }
 
+     /*
+    /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
+    @DeleteMapping("/{idOffer}/")
+    public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable final Long idOffer,
+                                                                final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
+        UserRole role = this.registeredUserService.extractRoleFromRequest(request);
+        String email = this.registeredUserService.getUserEmailAndIsRegistered(role, request);
+        this.volunteerOfferService.removeOffer(idOffer, email);
+        return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
+    }
+     */
 }

@@ -70,6 +70,7 @@ export function RequestForm() {
 
     const {
         isEditing,
+        isRenewing,
         initialDataLoaded,
         handleSubmit
     } = useFormInitialization({
@@ -92,10 +93,10 @@ export function RequestForm() {
         console.log("TimeRange Updated:", [fromDateStr, toDateStr]);  // Debug: Date range aggiornato
     };
 
-    if (!initialDataLoaded && isEditing) {
+    if (!initialDataLoaded && (isEditing || isRenewing)) {
         return <div>Loading...</div>;
     }
-
+    {console.log(""+formData.categories);}
     return (
         <div className="flex items-center justify-center px-4">
             <BaseForm
@@ -112,7 +113,7 @@ export function RequestForm() {
                     <Input
                         placeholder="Titolo"
                         className="rounded-full"
-                        value={isEditing ? formData.title : undefined}
+                        value={isEditing || isRenewing ? formData.title : undefined}
                         onChange={(e) => {
                             updateField("title", e.target.value);
                         }}
@@ -153,21 +154,25 @@ export function RequestForm() {
                                 additionalInfo: address.additionalInfo || ""
                             });
                         }}
-                        initialAddress={isEditing ? formData.address : undefined}
+                        initialAddress={isEditing || isRenewing ? formData.address : undefined}
                     />
 
                     <Checkbox
                         onChangeAction={(categories) => {
-                            console.log("Categorie cambiate:", categories);
+                            console.log("Categories changed:", categories);
                             updateField("categories", categories);
                         }}
-                        initialSelected={isEditing ? formData.categories : []}
+                        initialSelected={
+                            (isEditing || isRenewing) && formData.categories
+                                ? formData.categories
+                                : []
+                        }
                     />
 
                     <Textarea
                         placeholder="Descrizione della richiesta di volontariato"
                         className="rounded-2xl min-h-[100px]"
-                        value={isEditing ? formData.description : undefined}
+                        value={isEditing || isRenewing ? formData.description : undefined}
                         onChange={(e) => {
                             updateField("description", e.target.value);
                         }}
@@ -176,7 +181,7 @@ export function RequestForm() {
                     <Input
                         placeholder="Capacità massima di volontari"
                         className="rounded-full"
-                        value={isEditing ? formData.volunteerCapacity : undefined}
+                        value={isEditing || isRenewing ? formData.volunteerCapacity : undefined}
                         onChange={(e) => {
                             updateField("volunteerCapacity", e.target.value);
                         }}

@@ -1,24 +1,25 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.unimib.singletonsquad.doit.domain.common.Address;
+import com.unimib.singletonsquad.doit.domain.organization.FeedbackOrganization;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
-import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"organization", "volunteerOffers", "feedbackList"})
 @EqualsAndHashCode
 @Entity
 @NoArgsConstructor
 public class VolunteerRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -33,6 +34,11 @@ public class VolunteerRequest {
     @Column(nullable = false, name = "capacity")
     private int capacity;
 
+    @Column(nullable = true, name = "total_participants")
+    private int totalParticipants = 0;
+
+    private double sommaVoti = 0.0;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Address address;
@@ -43,28 +49,26 @@ public class VolunteerRequest {
     @Column(nullable = false)
     private LocalDateTime endDateTime;
 
-    @ManyToOne
-    @JsonSerialize(using = OrganizationNameSerializer.class)
-    private Organization organization;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Organization organization; // Excluded from serialization
 
     @ElementCollection
     @CollectionTable(name = "volunteer_request_categories", joinColumns = @JoinColumn(name = "volunteer_request_id"))
     @Column(name = "category")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<String> volunteerCategories;
+    private List<String> volunteerCategories = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VolunteerOffer> volunteerOffers;
+    @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<VolunteerOffer> volunteerOffers = new ArrayList<>(); // Excluded from serialization
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FeedbackVolunteerRequest> feedbackVolunteerRequests;
+    @OneToMany(mappedBy = "volunteerRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FeedbackOrganization> feedbackList = new ArrayList<>();
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Capacity must be a positive integer");
-        } else {
-            this.capacity = capacity;
         }
+        this.capacity = capacity;
     }
 
     public boolean hasCategory(String category) {

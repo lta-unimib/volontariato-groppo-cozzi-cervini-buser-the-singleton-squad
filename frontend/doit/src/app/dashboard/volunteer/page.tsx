@@ -48,11 +48,37 @@ export default function VolunteerDashboard() {
     };
 
     const filterRequests = (requestList: any[]) => {
-        return requestList.filter(request =>
-            !searchQuery ||
-            request.title.toLowerCase().includes(searchQuery) ||
-            request.description.toLowerCase().includes(searchQuery)
-        );
+        if (!searchQuery) return requestList;
+
+        const lowerQuery = searchQuery.toLowerCase();
+
+        return requestList.filter(request => {
+            // Safely check title
+            const titleMatch = request.title &&
+                request.title.toLowerCase().includes(lowerQuery);
+
+            // Safely check description
+            const descriptionMatch = request.description &&
+                request.description.toLowerCase().includes(lowerQuery);
+
+            // Safely check categories
+            const categoryMatch = request.categories &&
+                (Array.isArray(request.categories)
+                    ? request.categories.some((category: string) =>
+                        category.toLowerCase().includes(lowerQuery))
+                    : request.categories.toLowerCase().includes(lowerQuery));
+
+            // Safely check city
+            const cityMatch = request.address && request.address.city &&
+                request.address.city.toLowerCase().includes(lowerQuery);
+
+            // Safely check organization name
+            const orgMatch = request.organization && request.organization.name &&
+                request.organization.name.toLowerCase().includes(lowerQuery);
+
+            return titleMatch || descriptionMatch || categoryMatch ||
+                cityMatch || orgMatch;
+        });
     };
 
     const renderRequestContent = () => {

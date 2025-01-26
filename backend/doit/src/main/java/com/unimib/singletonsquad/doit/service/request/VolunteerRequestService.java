@@ -4,11 +4,16 @@ import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerRequestDTO;
-import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;;
+import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestSendDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.io.UnsupportedEncodingException;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,15 +59,51 @@ public class VolunteerRequestService {
     }
 
     /// GET ALL ORGANIZATION VOLUNTEER REQUEST
-    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationName(String name) {
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationName(String name) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByName(name);
-        return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempLista);
+    }
+
+    /// GET ALL ORGANIZATION VOLUNTEER REQUEST
+    public List<VolunteerRequestSendDTO> getAllExpiredRequestByOrganizationName(String name) throws UnsupportedEncodingException, InterruptedException {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByName(name);
+        List<VolunteerRequest> tempListaSend = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : tempLista) {
+            if (volunteerRequest.getEndDateTime().isBefore(LocalDateTime.now())) {
+                tempListaSend.add(volunteerRequest);
+            }
+        }
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempListaSend);
     }
 
     /// GET ALL ORGANIZATION BY EMAIL
-    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) {
+    public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
-        return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempLista);
+    }
+
+    /// GET ALL ORGANIZATION BY EMAIL
+    public List<VolunteerRequestSendDTO> getAllExpiredRequestByOrganizationEmail(String email) throws UnsupportedEncodingException, InterruptedException {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
+        List<VolunteerRequest> tempListaSend = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : tempLista) {
+            if (volunteerRequest.getEndDateTime().isBefore(LocalDateTime.now())) {
+                tempListaSend.add(volunteerRequest);
+            }
+        }
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempListaSend);
+    }
+
+    /// GET ALL ORGANIZATION BY EMAIL
+    public List<VolunteerRequestSendDTO> getAllActiveRequestByOrganizationEmail(String email) throws UnsupportedEncodingException, InterruptedException {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
+        List<VolunteerRequest> tempListaSend = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : tempLista) {
+            if (volunteerRequest.getEndDateTime().isAfter(LocalDateTime.now())) {
+                tempListaSend.add(volunteerRequest);
+            }
+        }
+        return this.volunteerRequestMapper.getRequestSendDTOList(tempListaSend);
     }
 
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA

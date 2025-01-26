@@ -137,7 +137,6 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseMessage> handleGenericException(Exception ex) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, String.format("Internal server error: %s", ex.getMessage()));

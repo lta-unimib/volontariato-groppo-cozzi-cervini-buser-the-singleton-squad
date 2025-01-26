@@ -10,6 +10,7 @@ import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
 import com.unimib.singletonsquad.doit.utils.data.EmailValidator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,40 +36,51 @@ public class Volunteer implements User {
 
     @Column(nullable = false, name = "name")
     @JsonProperty("firstName")
+    @NotBlank
     private String name;
 
     @Column(nullable = false, name = "surname")
     @JsonProperty("lastName")
+    @NotBlank
     private String surname;
 
     @Column(unique = true, nullable = false, name = "email")
     @JsonProperty("email")
     @Email
+    @NotBlank
     private String email;
 
     @Column(nullable = false)
     @JsonIgnore
+    @NotBlank
+
     private String password;
 
+    @NotBlank
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private VolunteerPreferences volunteerPreferences;
 
     @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<VolunteerOffer> volunteerOffers;
+    private List<VolunteerOffer> volunteerOffers = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "favorite_organizations",
             joinColumns = @JoinColumn(name = "volunteer_id"),
             inverseJoinColumns = @JoinColumn(name = "organization_id")
     )
-    @JsonSerialize(using = OrganizationNameSerializer.class)  // Serializzazione personalizzata
+    @JsonSerialize(using = OrganizationNameSerializer.class)
+    @JsonIgnore
     private List<Organization> favoriteOrganizations = new ArrayList<>();
+
+    @OneToOne(mappedBy = "volunteer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private StatisticVolunteer statistic;
 
 
     public void setEmail(String email) throws EmailException {
@@ -83,7 +95,7 @@ public class Volunteer implements User {
     }
 
     private static boolean isValidEmail(String email) {
-       return EmailValidator.isValidEmail(email);
+        return EmailValidator.isValidEmail(email);
     }
 
     public void removeOrganizationFromFavourite(Organization organization) {
@@ -104,6 +116,8 @@ public class Volunteer implements User {
                 Objects.equals(surname, volunteer.surname) &&
                 Objects.equals(email, volunteer.email);
     }
+
+
 
     @Override
     public int hashCode() {

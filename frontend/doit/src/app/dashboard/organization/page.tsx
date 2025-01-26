@@ -14,45 +14,46 @@ import { useAllRequests } from "@/hooks/useRequestsFetching";
 import { RequestSection } from "@/components/RequestSection";
 import {Skeleton} from "@/components/sidebar/Skeleton";
 
-/**
- * `OrganizationDashboard` Component.
- *
- * This is the dashboard page for users with the "organization" role.
- * It displays a sidebar, a search bar, and a section for managing requests.
- * The page shows all requests related to the organization and provides a button
- * to navigate to a page for creating new requests.
- *
- * It uses the `useAllRequests` hook to fetch requests from the backend and conditionally
- * renders loading, error, or request data.
- *
- * @returns The main dashboard component for the organization, including sidebar,
- * search bar, and request management.
- */
-
 export default function OrganizationDashboard() {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState("");
-    const { requests, loading, error } = useAllRequests("/request/all/organization/");
+    const [isExpiredView, setIsExpiredView] = useState(() => {
+        const savedState = localStorage.getItem('expiredRequestsState');
+        return savedState ? JSON.parse(savedState) : false;
+    });
+
+    const {
+        requests,
+        loading,
+        error
+    } = useAllRequests(
+        isExpiredView ? "/request/all/expired/" : "/request/all/active/"
+    );
 
     const handleSearch = (query: string) => {
         setSearchQuery(query.toLowerCase());
         return [];
     };
 
+    const handleRegisteredToggle = (enabled: boolean) => {
+        setIsExpiredView(enabled);
+        localStorage.setItem('expiredRequestsState', JSON.stringify(enabled));
+    };
+
     const filterRequests = () => {
+        console.log(requests.filter(request => request.timeRange));
         return requests.filter(request =>
             !searchQuery ||
             request.title.toLowerCase().includes(searchQuery) ||
-            request.description.toLowerCase().includes(searchQuery)
+            request.description.toLowerCase().includes(searchQuery) ||
+            request.categories?.some(cat =>
+                cat.toLowerCase().includes(searchQuery)
+            ) ||
+            request.address.city.toLowerCase().includes(searchQuery)
         );
     };
 
     const filteredRequests = filterRequests();
-
-    const handleRegisteredToggle = async (enabled: boolean) => {
-        console.log("handleRegisteredToggle", enabled);
-
-    };
 
     return (
         <div className={`w-full h-screen flex flex-col`}>
@@ -93,7 +94,7 @@ export default function OrganizationDashboard() {
                                 </div>
                             ) : (
                                 <RequestSection
-                                    title="Tutte le Richieste"
+                                    title={isExpiredView ? "Richieste Terminate" : "Tutte le Richieste"}
                                     requests={filteredRequests}
                                     role="organization"
                                 />

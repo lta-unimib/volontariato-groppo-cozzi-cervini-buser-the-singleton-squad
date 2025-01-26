@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.mappers;
 
+import com.unimib.singletonsquad.doit.domain.organization.StatisticOrganization;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.dto.received.OrganizationDTO;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ public class OrganizationMapper {
         organization.setPassword(organizationDTO.getPassword());
         organization.setVATNumber(organizationDTO.getVatNumber());
         organization.setCity(organizationDTO.getCity());
+        StatisticOrganization statisticOrganization = StatisticMapper.createStaticOrganization(organization);
+        organization.setStatisticOrganization(statisticOrganization);
         return organization;
     }
 
