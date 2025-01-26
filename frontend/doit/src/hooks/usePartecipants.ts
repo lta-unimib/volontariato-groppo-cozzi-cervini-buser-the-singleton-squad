@@ -15,7 +15,7 @@ export function useParticipants(idRequest: string) {
     useEffect(() => {
         (async () => {
             try {
-                const response = await makeGetRequest<ApiResponse<Participant[]>>(`/request/volunteer/list/${idRequest}`);
+                const response = await makeGetRequest<ApiResponse<Participant[]>>(`/request/volunteer/list/${idRequest}/`);
 
                 if (response.status === 200 && response.data) {
                     setParticipants(response.data as unknown as Participant[]);

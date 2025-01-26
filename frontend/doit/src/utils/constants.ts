@@ -6,5 +6,5 @@
  *
  * @constant {string} API_BASE_LINK - The base URL of the API server.
  */
-export const API_BASE_LINK = "https://doit-app-gwm0.onrender.com";
+export const API_BASE_LINK = "http://localhost:8080";//"https://doit-app-gwm0.onrender.com";
 export const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_KEY;
