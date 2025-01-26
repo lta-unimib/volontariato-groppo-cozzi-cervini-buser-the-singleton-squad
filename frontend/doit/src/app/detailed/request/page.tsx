@@ -11,6 +11,8 @@ import { dateUtils } from "@/utils/components/dateUtils";
 import { formatWebsiteUrl } from "@/utils/urlUtils";
 import {ReviewCard} from "@/components/review/ReviewCard";
 import {EmailList} from "@/components/EmailList"; // Importa la ReviewCard
+import { Button } from "@/components/core/Button";
+import { FaXTwitter, FaTiktok, FaInstagram, FaFacebook, FaPlus } from "react-icons/fa6";
 
 /**
  * `AboutSection` Component.
@@ -51,6 +53,48 @@ const ContactInfoSection: React.FC<{ organization: DetailedRequestData["organiza
                     </li>
                     <li>Partita IVA: {organization.VATNumber}</li>
                 </ul>
+                <div className="flex items-center gap-2 mt-6">
+                    <Button
+                        size="icon"
+                        variant="outline"
+                        className="rounded-full"
+                        onClick={() => window.open('https://www.instagram.com', '_blank')}
+                    >
+                        <FaInstagram className="w-5 h-5" />
+                    </Button>
+                    <Button
+                        size="icon"
+                        variant="outline"
+                        className="rounded-full"
+                        onClick={() => window.open('https://www.facebook.com', '_blank')}
+                    >
+                        <FaFacebook className="w-5 h-5" />
+                    </Button>
+                    <Button
+                        size="icon"
+                        variant="outline"
+                        className="rounded-full"
+                        onClick={() => window.open('https://www.tiktok.com', '_blank')}
+                    >
+                        <FaTiktok className="w-5 h-5" />
+                    </Button>
+                    <Button
+                        size="icon"
+                        variant="outline"
+                        className="rounded-full"
+                        onClick={() => window.open('https://www.x.com', '_blank')}
+                    >
+                        <FaXTwitter className="w-5 h-5" />
+                    </Button>
+                    <Button
+                        size="icon"
+                        variant="secondary"
+                        className="rounded-full"
+                        onClick={() => {/* Add custom action */}}
+                    >
+                        <FaPlus className="w-5 h-5" />
+                    </Button>
+                </div>
             </CardContent>
         </Card>
     );
@@ -141,13 +185,13 @@ const DetailedRequestContent = () => {
                         <ScrollArea className="flex-1 p-4 md:px-8">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div className="space-y-4">
-                                    <AboutSection description={requestData.description} />
-                                    {isEndTimePassed && <ReviewCard type="request" />} {/* Mostra le recensioni solo se la data di fine è passata */}
-                                    {requestData.role === "volunteer" && <ContactInfoSection organization={requestData.organization} />}
-                                    {requestData.role === "organization" && <EmailList idRequest={requestData.id as string} />}
+                                    <DateSection startDate={startDate} endDate={endDate} />
                                 </div>
                                 <div className="space-y-4">
-                                    <DateSection startDate={startDate} endDate={endDate} />
+                                    <AboutSection description={requestData.description} />
+                                    {isEndTimePassed && <ReviewCard type="request" />}
+                                    {requestData.role === "volunteer" && <ContactInfoSection organization={requestData.organization} />}
+                                    {requestData.role === "organization" && <EmailList idRequest={requestData.id as string} />}
                                 </div>
                             </div>
                         </ScrollArea>

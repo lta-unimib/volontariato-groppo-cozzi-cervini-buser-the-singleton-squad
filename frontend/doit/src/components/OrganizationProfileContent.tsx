@@ -5,7 +5,9 @@ import { ScrollArea } from "@/components/core/ScrollArea";
 import { ProfileContentProps } from "@/types/props/header/profileContentProps";
 import React from "react";
 import { useCategories } from "@/hooks/useCategories";
-import {ReviewCardMock} from "@/components/review/ReviewCard"; // Assicurati di importare la ReviewCard
+import {ReviewCardMock} from "@/components/review/ReviewCard";
+import {Button} from "@/components/core/Button";
+import {FaFacebook, FaInstagram, FaPlus, FaTiktok, FaXTwitter} from "react-icons/fa6";
 
 /**
  * Renders a detailed profile page for an organization with various sections.
@@ -81,6 +83,48 @@ export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                                     </li>
                                     <li>VAT Number: {organizationProfile.VATNumber}</li>
                                 </ul>
+                                <div className="flex items-center gap-2 mt-6">
+                                    <Button
+                                        size="icon"
+                                        variant="outline"
+                                        className="rounded-full"
+                                        onClick={() => window.open('https://www.instagram.com', '_blank')}
+                                    >
+                                        <FaInstagram className="w-5 h-5" />
+                                    </Button>
+                                    <Button
+                                        size="icon"
+                                        variant="outline"
+                                        className="rounded-full"
+                                        onClick={() => window.open('https://www.facebook.com', '_blank')}
+                                    >
+                                        <FaFacebook className="w-5 h-5" />
+                                    </Button>
+                                    <Button
+                                        size="icon"
+                                        variant="outline"
+                                        className="rounded-full"
+                                        onClick={() => window.open('https://www.tiktok.com', '_blank')}
+                                    >
+                                        <FaTiktok className="w-5 h-5" />
+                                    </Button>
+                                    <Button
+                                        size="icon"
+                                        variant="outline"
+                                        className="rounded-full"
+                                        onClick={() => window.open('https://www.x.com', '_blank')}
+                                    >
+                                        <FaXTwitter className="w-5 h-5" />
+                                    </Button>
+                                    <Button
+                                        size="icon"
+                                        variant="secondary"
+                                        className="rounded-full"
+                                        onClick={() => {/* Add custom action */}}
+                                    >
+                                        <FaPlus className="w-5 h-5" />
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                     </div>
