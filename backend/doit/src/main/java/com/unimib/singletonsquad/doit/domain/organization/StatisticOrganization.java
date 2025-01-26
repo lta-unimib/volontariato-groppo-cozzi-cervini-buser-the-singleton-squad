@@ -16,9 +16,11 @@ public class StatisticOrganization {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
 
-    private double mediPesata;
+    private double averageVotes;
+    private int totalFeedback;
     private int numeroTotalePartecipanti;
 
     @OneToOne

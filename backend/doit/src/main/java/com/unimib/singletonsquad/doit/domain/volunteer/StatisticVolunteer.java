@@ -12,10 +12,11 @@ public class StatisticVolunteer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
     @Column(nullable = false)
-    private int totalVotes;
+    private int totalFeedback;
 
     @Column(nullable = false)
     private double averageVotes;
@@ -23,16 +24,16 @@ public class StatisticVolunteer {
 
     @OneToOne
     @JoinColumn(name = "volunteer_id")
-    @JsonIgnore// Colonna che contiene la chiave esterna
+    @JsonIgnore
     private Volunteer volunteer;
 
 
     public void addAverageVotes(double newVoto){
         addVotes();
-        this.averageVotes = (newVoto+averageVotes)/totalVotes;
+        this.averageVotes = (newVoto+averageVotes)/ totalFeedback;
     }
     public void addVotes(){
-        this.totalVotes++;
+        this.totalFeedback++;
     }
 
 

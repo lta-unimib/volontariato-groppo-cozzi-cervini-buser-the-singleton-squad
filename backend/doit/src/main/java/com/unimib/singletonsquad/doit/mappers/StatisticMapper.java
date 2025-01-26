@@ -11,7 +11,7 @@ public class StatisticMapper {
     public static StatisticVolunteer createStatisticVolunteer(Volunteer volunteer) {
         StatisticVolunteer temp = new StatisticVolunteer();
         temp.setAverageVotes(0.0);
-        temp.setTotalVotes(0);
+        temp.setTotalFeedback(0);
         temp.setVolunteer(volunteer);
         return temp;
     }

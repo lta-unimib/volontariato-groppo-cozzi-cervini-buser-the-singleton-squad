@@ -26,12 +26,19 @@ public class StatisticOrganizationService {
             sommaPartecipanti+=volunteerRequest.getTotalParticipants();
         }
         if(sommaPartecipanti == 0)
-            throw new IllegalAccessException("Somma partecipanti non trovato --> serius problmes");
+            throw new IllegalAccessException("Somma partecipanti non trovato --> serious problem");
+
         StatisticOrganization temp = organization.getStatisticOrganization();
-        temp.setMediPesata(sommatoria1/sommaPartecipanti);
+        temp.setAverageVotes(sommatoria1/sommaPartecipanti);
+        temp.setTotalFeedback(temp.getTotalFeedback()+1);
         temp.setNumeroTotalePartecipanti(sommaPartecipanti);
         organization.setStatisticOrganization(temp);
         organizationDatabaseService.save(organization);
+    }
+
+    public StatisticOrganization getStatisticOrganization(String idOrganization) {
+        Organization organization = organizationDatabaseService.findOrganizationByEmail(idOrganization);
+        return organization.getStatisticOrganization();
     }
 
 }
