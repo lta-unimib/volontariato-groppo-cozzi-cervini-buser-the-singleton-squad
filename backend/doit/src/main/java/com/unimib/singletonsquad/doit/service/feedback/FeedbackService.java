@@ -69,7 +69,7 @@ public class FeedbackService {
         offer.setVotedByVolunteer(true);
         FeedbackOrganization feedback = FeedbackMapper.createFeedbackOrganization(vote, volunteer.getId(), request);
         offer.setFeedbackOrganization(feedback);
-
+        request.setTotalFeedbacks(request.getTotalFeedbacks() + 1);
         request.setSommaVoti(request.getSommaVoti() + vote);
         Organization organization = request.getOrganization();
 
