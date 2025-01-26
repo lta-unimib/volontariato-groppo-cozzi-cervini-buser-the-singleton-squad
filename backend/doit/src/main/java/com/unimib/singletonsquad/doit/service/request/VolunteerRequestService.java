@@ -9,6 +9,9 @@ import com.unimib.singletonsquad.doit.mappers.VolunteerRequestMapper;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -59,10 +62,46 @@ public class VolunteerRequestService {
         return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
     }
 
+    /// GET ALL ORGANIZATION VOLUNTEER REQUEST
+    public List<VolunteerRequestSendDTO> getAllExpiredRequestByOrganizationName(String name) {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByName(name);
+        List<VolunteerRequest> tempListaSend = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : tempLista) {
+            if (volunteerRequest.getEndDateTime().isBefore(LocalDateTime.now())) {
+                tempListaSend.add(volunteerRequest);
+            }
+        }
+        return VolunteerRequestMapper.getRequestSendDTOList(tempListaSend);
+    }
+
     /// GET ALL ORGANIZATION BY EMAIL
     public List<VolunteerRequestSendDTO> getAllRequestByOrganizationEmail(String email) {
         List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
         return VolunteerRequestMapper.getRequestSendDTOList(tempLista);
+    }
+
+    /// GET ALL ORGANIZATION BY EMAIL
+    public List<VolunteerRequestSendDTO> getAllExpiredRequestByOrganizationEmail(String email) {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
+        List<VolunteerRequest> tempListaSend = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : tempLista) {
+            if (volunteerRequest.getEndDateTime().isBefore(LocalDateTime.now())) {
+                tempListaSend.add(volunteerRequest);
+            }
+        }
+        return VolunteerRequestMapper.getRequestSendDTOList(tempListaSend);
+    }
+
+    /// GET ALL ORGANIZATION BY EMAIL
+    public List<VolunteerRequestSendDTO> getAllActiveRequestByOrganizationEmail(String email) {
+        List<VolunteerRequest> tempLista = this.volunteerRequestDatabaseService.getAllRequestOrganizationByEmail(email);
+        List<VolunteerRequest> tempListaSend = new ArrayList<>();
+        for (VolunteerRequest volunteerRequest : tempLista) {
+            if (volunteerRequest.getEndDateTime().isAfter(LocalDateTime.now())) {
+                tempListaSend.add(volunteerRequest);
+            }
+        }
+        return VolunteerRequestMapper.getRequestSendDTOList(tempListaSend);
     }
 
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA

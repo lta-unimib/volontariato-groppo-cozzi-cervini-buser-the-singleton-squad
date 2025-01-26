@@ -17,6 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleInfoNotFoundException;
+import java.util.List;
+
 @RestController
 @RequestMapping("/request")
 @AllArgsConstructor
@@ -66,4 +69,21 @@ public class VolunteerRequestController {
         return ResponseMessageUtil.createResponseSuccess("volunteer request updated", HttpStatus.OK, null);
     }
 
+    /// Get all Organization Request by his name
+    @GetMapping(value = "/all/expired/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseMessage> getAllExpiredVolunteerRequestOrganization(final HttpServletRequest request) throws RoleInfoNotFoundException {
+        String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
+        List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllExpiredRequestByOrganizationEmail(email);
+        return ResponseMessageUtil.createResponseSuccess("get all request by organization: " + email,
+                HttpStatus.OK, volunteerRequestList);
+    }
+
+    /// Get all Organization Request by his name
+    @GetMapping(value = "/all/active/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseMessage> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws RoleInfoNotFoundException {
+        String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
+        List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllActiveRequestByOrganizationEmail(email);
+        return ResponseMessageUtil.createResponseSuccess("get all request by organization: " + email,
+                HttpStatus.OK, volunteerRequestList);
+    }
 }

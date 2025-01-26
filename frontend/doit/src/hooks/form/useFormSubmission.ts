@@ -91,6 +91,7 @@ class FormSubmissionService {
         formData: FormData;
         loginUserType?: LoginType;
         isEditing?: boolean;
+        isRenewing?: boolean;
         idRequest?: string;
     }) {
         const { formType, formData, loginUserType, isEditing, idRequest } = options;

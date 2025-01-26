@@ -51,7 +51,8 @@ export default function VolunteerDashboard() {
         return requestList.filter(request =>
             !searchQuery ||
             request.title.toLowerCase().includes(searchQuery) ||
-            request.description.toLowerCase().includes(searchQuery)
+            request.description.toLowerCase().includes(searchQuery) ||
+            request.type.toLowerCase().includes(searchQuery)
         );
     };
 

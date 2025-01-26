@@ -8,7 +8,7 @@ import {RequestActions} from './components/RequestAction';
 import Image from 'next/image';
 import { RequestHeaderProps } from "@/types/props/header/requestHeaderProps";
 import {useFavoriteOrganizations} from "@/hooks/useFavoriteOrganizations";
-import {useVolunteerRequests} from "@/hooks/useRequestsFetching";
+import {useAllRequests, useVolunteerRequests} from "@/hooks/useRequestsFetching";
 
 export const RequestHeader = ({
                                   title,
@@ -38,6 +38,8 @@ export const RequestHeader = ({
     }, []);
 
     const { organizations, loading: organizationsLoading } = useFavoriteOrganizations();
+    const { requests, loading: requestLoading } = useAllRequests("/request/all/expired/");
+    const isTermianted = requests.some(request => request.id === idRequest);
     const hasSavedOrganization = organizations.some(org => org.organizationName === organizationName);
 
     const {
@@ -100,6 +102,11 @@ export const RequestHeader = ({
         const endpoint = `/volunteer/favorite/organization/${organizationName}/`;
         await makeDeleteRequest(endpoint);
     };
+
+    const handleRenew = async () => {
+        const encodedData = encodeURIComponent(JSON.stringify(requestData));
+        router.push(`/request/?mode=renew&data=${encodedData}`);
+    }
 
     /**
      * Handles the review action by navigating to the review page.
@@ -168,11 +175,13 @@ export const RequestHeader = ({
                         // Volunteer can review a request after participating
                         onReview={handleReview}
 
+                        isTerminated = {isTermianted}
+                        onRenew={handleRenew}
                         hasSavedOrganization={hasSavedOrganization}
                         isSubscribed={isSubscribed}
                         isEventExpired={isEventExpired}
                         hasNotReviewed={hasNotReviewed}
-                        isLoading={organizationsLoading || requestsLoading}
+                        isLoading={organizationsLoading || requestsLoading || requestLoading}
                     />
                 )}
             </div>

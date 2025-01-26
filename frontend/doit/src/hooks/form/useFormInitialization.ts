@@ -32,6 +32,7 @@ export function useFormInitialization<T extends FormDataType>({
                                                               }: FormInitializationProps<T>) {
     const searchParams = useSearchParams();
     const isEditing = searchParams.get('mode') === 'edit'; // Check if the form is in edit mode
+    const isRenewing = searchParams.get('mode') === 'renew';
     const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
     const [initialDataLoaded, setInitialDataLoaded] = useState(false); // State for tracking if initial data is loaded
 
@@ -40,7 +41,7 @@ export function useFormInitialization<T extends FormDataType>({
      * Decodes the data passed in the URL parameters and sets the form data.
      */
     useEffect(() => {
-        if (isEditing && !initialDataLoaded) {
+        if ( (isRenewing || isEditing) && !initialDataLoaded) {
             const encodedData = searchParams.get('data');
             if (encodedData) {
                 try {
@@ -56,7 +57,7 @@ export function useFormInitialization<T extends FormDataType>({
                 }
             }
         }
-    }, [isEditing, searchParams, setFormDataAction, initialDataLoaded]);
+    }, [isRenewing, isEditing, searchParams, setFormDataAction, initialDataLoaded]);
 
     /**
      * Handles form submission, including password hashing if the form is not in edit mode.
@@ -73,7 +74,8 @@ export function useFormInitialization<T extends FormDataType>({
             const finalFormData = { ...formData } as Mutable<T> & { password?: string };
 
             // Hash the password if the form is not in edit mode and password is present
-            if (!isEditing && formData.password) {
+            // potential failure
+            if ((!isRenewing && !isEditing) && formData.password) {
                 const salt = await bcryptjs.genSalt(10);
                 finalFormData.password = await bcryptjs.hash(formData.password, salt);
             }
@@ -97,6 +99,7 @@ export function useFormInitialization<T extends FormDataType>({
 
     return {
         isEditing,
+        isRenewing,
         showPassword,
         setShowPassword,
         initialDataLoaded,
