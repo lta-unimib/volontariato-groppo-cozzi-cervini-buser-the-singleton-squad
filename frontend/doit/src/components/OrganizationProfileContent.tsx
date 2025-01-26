@@ -69,7 +69,7 @@ export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                         </Card>
                     </div>
                     <div className="space-y-4">
-                        <ReviewCard type="organization" />
+                        <ReviewCard type="organization" idRequest={organizationProfile.email}/>
                         {/* Contact Information Section */}
                         <Card className="rounded-2xl">
                             <CardContent className="pt-6">

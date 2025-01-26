@@ -95,7 +95,7 @@ export const VolunteerProfileContent: React.FC<VolunteerProfileContentProps> = (
                         </Card>
 
                         {/* Volunteer Review Card */}
-                        <ReviewCard type={"volunteer"}/>
+                        <ReviewCard type={"volunteer"} idRequest={volunteerProfile.email}/>
 
                         {/* Contact Information Section */}
                         <Card className="rounded-2xl">
