@@ -20,11 +20,23 @@ export const useRequestFormValidation = (formData: RequestFormData) => {
      * @property {boolean} isDescriptionValid - Indicates if the description is valid.
      * @property {boolean} isCapacityValid - Indicates if the volunteer capacity is valid.
      */
+    const isDateValid = (dateStr: string) => {
+        if (!dateStr) return false;
+        const inputDate = new Date(dateStr);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return inputDate >= today;
+    };
+
     const validationState = {
         areCategoriesValid: validateCategories(formData.categories),
         isDescriptionValid: validateDescription(formData.description),
         isCapacityValid: validateVolunteerCapacity(formData.volunteerCapacity),
         isValidTitle: validateTitle(formData.title),
+        isValidTimeRange: (formData.timeRange[0] !== '' &&
+            formData.timeRange[1] !== '' &&
+            isDateValid(formData.timeRange[0]) &&
+            isDateValid(formData.timeRange[1]))
     };
 
     /**
