@@ -28,19 +28,12 @@ import { RequestSection } from "@/components/RequestSection";
  * @returns The main dashboard component for the volunteer, including sidebar,
  * search bar, requests sections, and a toggleable map view.
  */
-export interface MapLocationInfo {
-    street: string;
-    city: string;
-}
-
-
 export default function VolunteerDashboard() {
     const [showRequests, setShowRequests] = useState(true);
     const [showMap, setShowMap] = useState(false);
     const [isRegisteredView, setIsRegisteredView] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [mapLocations, setMapLocations] = useState<google.maps.LatLngLiteral[]>([]);
-    const [mapLocationInfo, setMapLocationInfo] = useState<MapLocationInfo[]>([]);
 
     const { requests, loading: allRequestsLoading, error: allRequestsError } =
         useAllRequests("/request/all/volunteer/sorted/");
@@ -115,6 +108,7 @@ export default function VolunteerDashboard() {
         }
 
         const filteredRequests = filterRequests(requests);
+        console.log(filteredRequests);
 
         return filteredRequests.length === 0 ? (
             <div className="flex items-center justify-center h-full">Nessuna richiesta trovata</div>
@@ -130,15 +124,8 @@ export default function VolunteerDashboard() {
                 lng: request.cityInfo.longitude,
             }));
             setMapLocations(locations);
-
-            const locationsInfo = requests.map((request: any) => ({
-                street: request.address.street,
-                city: request.address.city,
-            }));
-            setMapLocationInfo(locationsInfo);
         }
     }, [requests]);
-
     return (
         <div className={`w-full h-screen flex flex-col`}>
             <div className="flex w-full min-h-screen">
@@ -165,12 +152,16 @@ export default function VolunteerDashboard() {
                         {showMap && (
                             <div className="relative h-[calc(100vh-312px)] md:h-[calc(100vh-146px)] w-full">
                                 <GoogleMapsWrapper>
-                                    <GoogleMaps locations={mapLocations} mapLocationInfo={mapLocationInfo}/>
+                                    <GoogleMaps
+                                        locations={mapLocations}
+                                        requests={filterRequests(requests)}
+                                    />
                                 </GoogleMapsWrapper>
                             </div>
                         )}
                     </ScrollArea>
-                    <div className="absolute bottom-4 pb-32 md:pb-4 left-1/2 -translate-x-1/2 flex justify-center w-full">
+                    <div
+                        className="absolute bottom-4 pb-32 md:pb-4 left-1/2 -translate-x-1/2 flex justify-center w-full">
                         <Button
                             variant="default"
                             className="p-4 rounded-full !h-20 !w-20"
