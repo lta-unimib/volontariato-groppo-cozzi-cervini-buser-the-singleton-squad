@@ -39,7 +39,7 @@ public class FeedbackController {
     /// Il volontario vota un evento
     @PostMapping(value ="/organization/{idRequest}/")
     public ResponseEntity<ResponseMessage> feedBackByVolunteer(final HttpServletRequest request, final @Valid @RequestBody FeedbackDTO feedbackDTO,
-                                                               final @PathVariable("idRequest") Long idRequest){
+                                                               final @PathVariable("idRequest") Long idRequest) throws IllegalAccessException {
        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(volunteerRole, request);
        this.feedbackService.setVolunteerVoteRequest(volunteer,idRequest, feedbackDTO.getVote());
        return ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);

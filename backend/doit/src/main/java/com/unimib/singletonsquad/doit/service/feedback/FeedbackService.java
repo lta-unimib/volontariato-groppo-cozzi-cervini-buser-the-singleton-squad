@@ -40,7 +40,7 @@ public class FeedbackService {
 
     /// Il volontario che vota una richiesta di un'organizzazione
     @Transactional
-    public void setVolunteerVoteRequest(Volunteer volunteer, Long requestId, double vote) {
+    public void setVolunteerVoteRequest(Volunteer volunteer, Long requestId, double vote) throws IllegalAccessException {
         VolunteerRequest request = volunteerRequestDatabaseService.getSpecificRequest(requestId);
         VolunteerOffer offer = volunteerOfferDatabaseService.getVolunteerOfferByRequestId(requestId, volunteer.getEmail());
         updateOfferWithVolunteerFeedback(offer, volunteer, vote, request);
@@ -61,7 +61,7 @@ public class FeedbackService {
         offer.setFeedbackVolunteer(feedback);
     }
 
-    private void updateOfferWithVolunteerFeedback(VolunteerOffer offer, Volunteer volunteer, double vote, VolunteerRequest request) {
+    private void updateOfferWithVolunteerFeedback(VolunteerOffer offer, Volunteer volunteer, double vote, VolunteerRequest request) throws IllegalAccessException {
         if (offer.isVotedByVolunteer()) {
             throw new IllegalArgumentException("Volunteer has already voted");
         }
