@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { organizationMenuItems } from "@/utils/components/sidebar/organizationMenuItems";
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/core/ScrollArea";
@@ -8,81 +8,12 @@ import SearchBar from "@/components/SearchBar";
 import { Skeleton } from "@/components/sidebar/Skeleton";
 import VolunteerCard from "@/components/card/VolunteerCard";
 import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
-import {Card, CardContent, CardTitle} from "@/components/core/Card";
-
-interface Address {
-    id: number;
-    streetAddress: string;
-    city: string;
-    postalCode: string;
-    houseNumber: string;
-    additionalInformation?: string;
-}
-
-interface Event {
-    id: number;
-    title: string;
-    detailedDescription: string;
-    address: Address;
-    volunteers: Partial<VolunteerFormData>[];
-    capacity: number;
-}
-
-interface EventResponse {
-    message: string;
-    data: Event[];
-    status: string;
-}
+import { Card, CardContent, CardTitle } from "@/components/core/Card";
+import {useEventVolunteers} from "@/hooks/useRequestVolunteers";
 
 export default function EventVolunteers() {
     const [searchQuery] = useState("");
-    const [eventsData, setEventsData] = useState<Event[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const mockResponse: EventResponse = {
-                    message: "get",
-                    status: "OK",
-                    data: [
-                        {
-                            id: 10,
-                            title: "Aiuto animali marini",
-                            detailedDescription: "Descrizione",
-                            address: {
-                                id: 10,
-                                streetAddress: "Via Giacomo Matteotti",
-                                city: "Bovisio-Masciago",
-                                postalCode: "20813",
-                                houseNumber: "1",
-                                additionalInformation: "Interno 2"
-                            },
-                            volunteers: [
-                                {
-                                    email: "andreacozzi@gmail.com",
-                                    firstName: "Andrea",
-                                    lastName: "Cozzi",
-                                    city: "Bovisio-Masciago",
-                                    preferences: ["Ambiente", "Animali"]
-                                }
-                            ],
-                            capacity: 2
-                        }
-                    ]
-                };
-
-                setEventsData(mockResponse.data);
-                setLoading(false);
-            } catch (err) {
-                setError("Failed to fetch events");
-                setLoading(false);
-            }
-        };
-
-        void fetchEvents();
-    }, []);
+    const { eventsData, loading, error } = useEventVolunteers();
 
     const filterVolunteers = (volunteers: Partial<VolunteerFormData>[]) => {
         return volunteers.filter(volunteer =>
@@ -158,7 +89,7 @@ export default function EventVolunteers() {
                                                             <VolunteerCard
                                                                 key={volunteer.email}
                                                                 volunteerData={volunteer as VolunteerFormData}
-                                                                requestId={event.id} // Pass the requestId here
+                                                                requestId={event.id}
                                                             />
                                                         ))
                                                     )}

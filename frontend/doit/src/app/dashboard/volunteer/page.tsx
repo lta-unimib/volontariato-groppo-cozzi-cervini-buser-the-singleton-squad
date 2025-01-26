@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import SearchBar from "@/components/SearchBar";
 import { ScrollArea } from "@/components/core/ScrollArea";
