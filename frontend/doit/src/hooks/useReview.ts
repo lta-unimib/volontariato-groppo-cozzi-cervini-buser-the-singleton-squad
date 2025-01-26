@@ -22,7 +22,7 @@ export const useReviews = (type: "volunteer" | "organization" | "request") => {
         setLoading(true);
         setError(null);
         try {
-            const response = await makeGetRequest<ApiResponse>(`/${type}/reviews/`);
+            const response = await makeGetRequest<ApiResponse>(`/reviews/${type}/`);
 
             if (response?.status === 200 && response.data && 'averageRating' in response.data && 'totalReviews' in response.data) {
                 setReviewData(response.data as ReviewFormData);

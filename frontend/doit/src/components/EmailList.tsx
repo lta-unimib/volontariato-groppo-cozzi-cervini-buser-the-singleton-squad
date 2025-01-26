@@ -18,7 +18,7 @@ export const EmailList: React.FC<EmailListProps> = ({ idRequest }) => {
 
     if (loading) {
         return (
-            <Card className="w-full max-w-md rounded-2xl shadow-lg">
+            <Card className="w-full rounded-2xl shadow-lg">
                 <CardHeader className="flex flex-row items-center justify-between flex-wrap gap-2 pb-6">
                     <CardTitle>Partecipanti all'evento</CardTitle>
                     <Button disabled className="rounded-full pt-4">
@@ -34,7 +34,7 @@ export const EmailList: React.FC<EmailListProps> = ({ idRequest }) => {
 
     if (error) {
         return (
-            <Card className="w-full max-w-md rounded-2xl shadow-lg">
+            <Card className="w-full rounded-2xl shadow-lg">
                 <CardHeader className="flex flex-row items-center justify-between flex-wrap gap-2 pb-6">
                     <CardTitle>Partecipanti all'evento</CardTitle>
                     <Button disabled className="rounded-full">
@@ -49,7 +49,7 @@ export const EmailList: React.FC<EmailListProps> = ({ idRequest }) => {
     }
 
     return (
-        <Card className="w-full max-w-md rounded-2xl shadow-lg">
+        <Card className="w-full rounded-2xl shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between flex-wrap gap-2 pb-6">
                 <CardTitle>Partecipanti all'evento</CardTitle>
                 <Button onClick={sendEmailToAll} disabled={participants.length === 0} className="rounded-full">

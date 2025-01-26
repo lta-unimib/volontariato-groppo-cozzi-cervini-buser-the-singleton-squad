@@ -3,7 +3,7 @@ import { makeGetRequest } from "@/utils/api/apiUtils";
 import { ApiResponse } from "@/types/apiResponse";
 
 export interface Participant {
-    id: string;
+    id: number;
     email: string;
 }
 
@@ -15,10 +15,10 @@ export function useParticipants(idRequest: string) {
     useEffect(() => {
         (async () => {
             try {
-                const response = await makeGetRequest<ApiResponse<Participant[]>>(`/request/volunteer/list/${idRequest}`);
+                const response = await makeGetRequest<ApiResponse<Participant[]>>(`/request/volunteer/list/${idRequest}/`);
 
                 if (response.status === 200 && response.data) {
-                    setParticipants(response.data.data || []);
+                    setParticipants(response.data as unknown as Participant[]);
                 } else {
                     setError("Failed to fetch participants");
                 }

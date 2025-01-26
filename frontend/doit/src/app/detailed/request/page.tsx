@@ -9,7 +9,7 @@ import { RequestHeader } from "@/components/header/RequestHeader";
 import { DetailedRequestData } from "@/types/request";
 import { dateUtils } from "@/utils/components/dateUtils";
 import { formatWebsiteUrl } from "@/utils/urlUtils";
-import { ReviewCardMock } from "@/components/review/ReviewCard";
+import {ReviewCard} from "@/components/review/ReviewCard";
 import {EmailList} from "@/components/EmailList"; // Importa la ReviewCard
 
 /**
@@ -142,7 +142,7 @@ const DetailedRequestContent = () => {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div className="space-y-4">
                                     <AboutSection description={requestData.description} />
-                                    {isEndTimePassed && <ReviewCardMock type="request" />} {/* Mostra le recensioni solo se la data di fine è passata */}
+                                    {isEndTimePassed && <ReviewCard type="request" />} {/* Mostra le recensioni solo se la data di fine è passata */}
                                     {requestData.role === "volunteer" && <ContactInfoSection organization={requestData.organization} />}
                                     {requestData.role === "organization" && <EmailList idRequest={requestData.id as string} />}
                                 </div>
