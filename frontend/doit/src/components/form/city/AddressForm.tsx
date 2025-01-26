@@ -12,24 +12,11 @@ import { useFormFocus } from "@/hooks/form/useFormFocus";
 import { useAddressFormValidator } from '@/hooks/form/validator/useAddressFormValidator';
 import { CityForm } from '@/components/form/city/CityForm';
 
-/**
- * Props for the `AddressForm` component.
- * @param onSaveAction - A callback function to handle saving the address data.
- * @param initialAddress - An optional initial address data to populate the form.
- */
 interface AddressDialogProps {
     onSaveAction: (data: AddressFormData) => void;
     initialAddress?: AddressFormData;
 }
 
-/**
- * A form to collect and save an address.
- * Allows the user to input street, number, city, postal code, and additional information.
- * Displays the current address when available and allows editing.
- *
- * @param - The props for the AddressForm component.
- * @returns The rendered AddressForm component.
- */
 const AddressForm: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddress }) => {
     const [open, setOpen] = React.useState(false);
     const [savedAddress, setSavedAddress] = React.useState<AddressFormData | null>(initialAddress || null);
@@ -61,20 +48,11 @@ const AddressForm: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddres
         }
     }, [initialAddress, setAddressData]);
 
-    /**
-     * Handles changes to input fields by updating the corresponding field in the form data.
-     * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
-     */
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         updateField(name as keyof AddressFormData, value);
     };
 
-    /**
-     * Handles the change in the city and postal code (CAP) field.
-     * @param {string} selectedCity - The selected city.
-     * @param {string} [selectedCap] - The selected postal code (optional).
-     */
     const handleCityChange = (selectedCity: string, selectedCap?: string) => {
         updateField('city', selectedCity);
         if (selectedCap) {
@@ -82,10 +60,6 @@ const AddressForm: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddres
         }
     };
 
-    /**
-     * Handles saving the address data when the user clicks the Save button.
-     * The form data is validated before saving.
-     */
     const handleSave = () => {
         if (isValid()) {
             setSavedAddress(addressData);
@@ -94,10 +68,6 @@ const AddressForm: React.FC<AddressDialogProps> = ({ onSaveAction, initialAddres
         }
     };
 
-    /**
-     * Constructs the display text for the saved address, showing street, number, city, postal code, and additional info if available.
-     * @returns The formatted address string for display.
-     */
     const getDisplayText = () => {
         if (savedAddress && (savedAddress.street || savedAddress.number || savedAddress.city || savedAddress.postalCode || savedAddress.additionalInfo)) {
             let text = `${savedAddress.street || ''} ${savedAddress.number || ''}`.trim();

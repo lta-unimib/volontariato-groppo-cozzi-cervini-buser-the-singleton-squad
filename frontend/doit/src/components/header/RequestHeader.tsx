@@ -62,9 +62,6 @@ export const RequestHeader = ({
     console.log("Ero iscritto ed ho recensito", isEventExpired);
     console.log("Ero iscritto e non ho recensito", hasNotReviewed);
 
-    /**
-     * Handles the subscription action by sending a POST request to subscribe to the offer.
-     */
     const handleSubscribe = async () => {
         const endpoint = `/offer/subscribe/${idRequest}/`;
         await makePostRequest(endpoint);
@@ -75,33 +72,21 @@ export const RequestHeader = ({
         await makeDeleteRequest(endpoint);
     };
 
-    /**
-     * Handles the save action by sending a POST request to save the organization to the favorites.
-     */
     const handleSave = async () => {
         const endpoint = `/volunteer/favorite/organization/${organizationName}/`;
         await makePostRequest(endpoint);
     };
 
-    /**
-     * Handles the delete action by sending a DELETE request to remove the request and navigate back.
-     */
     const handleDelete = async () => {
         await makeDeleteRequest(`/request/${idRequest}/`);
         router.back();
     };
 
-    /**
-     * Navigates to the edit page with the request data encoded in the URL.
-     */
     const handleEdit = () => {
         const encodedData = encodeURIComponent(JSON.stringify(requestData));
         router.push(`/request/?mode=edit&data=${encodedData}`);
     };
 
-    /**
-     * Handles the remove saved organization action by sending a DELETE request to remove the organization from the favorites.
-     */
     const handleRemoveSavedOrg = async () => {
         const endpoint = `/volunteer/favorite/organization/${organizationName}/`;
         await makeDeleteRequest(endpoint);
@@ -112,9 +97,6 @@ export const RequestHeader = ({
         router.push(`/request/?mode=renew&data=${encodedData}`);
     }
 
-    /**
-     * Handles the review action by navigating to the review page.
-     */
     const handleReview = () => {
         setIsReviewDialogOpen(true);
     };
@@ -128,10 +110,6 @@ export const RequestHeader = ({
         }
     };
 
-    /**
-     * Maps category IDs to category labels by formatting the ID string.
-     * @returns {Array} - An array of category objects with 'id' and 'label' properties.
-     */
     const selectedCategories = requestData.categories
         ? requestData.categories
             .map((categoryId: string) => ({

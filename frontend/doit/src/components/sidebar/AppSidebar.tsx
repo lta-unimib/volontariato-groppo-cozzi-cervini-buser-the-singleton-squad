@@ -29,19 +29,6 @@ type AppSidebarProps = {
     collapsible?: SidebarProps["collapsible"];
 }
 
-/**
- * AppSidebar component that renders a sidebar menu with navigation items.
- * It highlights the currently active menu item based on the current URL path.
- *
- * @component
- * @param {Object} props - Component props
- * @param {MenuItem[]} props.menuItems - List of menu items to display in the sidebar
- * @param {SidebarProps["side"]} [props.side] - The side on which the sidebar appears (left or right)
- * @param {SidebarProps["variant"]} [props.variant] - The visual style of the sidebar
- * @param {SidebarProps["collapsible"]} [props.collapsible] - Determines if the sidebar is collapsible
- *
- * @returns The rendered sidebar component
- */
 
 export function AppSidebar({
                                menuItems,

@@ -1,5 +1,6 @@
-"use client";
+"use client"
 
+import { useState } from "react";
 import { organizationMenuItems } from "@/utils/components/sidebar/organizationMenuItems";
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/core/ScrollArea";
@@ -8,36 +9,19 @@ import { Skeleton } from "@/components/sidebar/Skeleton";
 import VolunteerCard from "@/components/card/VolunteerCard";
 import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
 import { Card, CardContent, CardTitle } from "@/components/core/Card";
-import { useRequestVolunteers } from "@/hooks/useRequestVolunteers";
-import { useEffect, useState } from "react";
+import {useEventVolunteers} from "@/hooks/useEventVolunteers";
 
 export default function EventVolunteers() {
     const [searchQuery] = useState("");
-    const { eventsData, loading, error } = useRequestVolunteers();
-    const [volunteersState, setVolunteersState] = useState<Partial<VolunteerFormData>[]>([]);
-
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const savedState = localStorage.getItem("volunteersState");
-            if (savedState) {
-                setVolunteersState(JSON.parse(savedState));
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        if (typeof window !== "undefined" && volunteersState.length > 0) {
-            localStorage.setItem("volunteersState", JSON.stringify(volunteersState));
-        }
-    }, [volunteersState]);
+    const { eventsData, loading, error } = useEventVolunteers();
 
     const filterVolunteers = (volunteers: Partial<VolunteerFormData>[]) => {
-        return volunteers.filter((volunteer) =>
+        return volunteers.filter(volunteer =>
             !searchQuery ||
             volunteer.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             volunteer.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             volunteer.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            volunteer.preferences?.some((pref) =>
+            volunteer.preferences?.some(pref =>
                 pref.toLowerCase().includes(searchQuery.toLowerCase())
             )
         );

@@ -2,22 +2,14 @@
 
 import { API_BASE_LINK } from "@/utils/constants";
 
-/**
- * Generic API response type.
- */
+
 interface ApiResponse<T> {
     status: number;
     data?: T;
     message?: string;
 }
 
-/**
- * Makes a POST request to the specified endpoint.
- *
- * @param endpoint The API endpoint to make the request to.
- * @param data Optional data to send in the request body.
- * @returns A promise that resolves to the API response.
- */
+
 export async function makePostRequest<T>(
     endpoint: string,
     data?: unknown,
@@ -53,12 +45,7 @@ export async function makePostRequest<T>(
     }
 }
 
-/**
- * Makes a GET request to the specified endpoint.
- *
- * @param endpoint The API endpoint to make the request to.
- * @returns A promise that resolves to the API response.
- */
+
 export async function makeGetRequest<T>(
     endpoint: string,
 ): Promise<ApiResponse<T>> {
@@ -92,14 +79,6 @@ export async function makeGetRequest<T>(
     }
 }
 
-/**
- * Makes a PUT or PATCH request to the specified endpoint.
- *
- * @param endpoint The API endpoint to make the request to.
- * @param data Optional data to send in the request body.
- * @param method The HTTP method (PUT or PATCH). Default is PUT.
- * @returns A promise that resolves to the API response.
- */
 export async function makeUpdateRequest<T>(
     endpoint: string,
     data?: unknown,
@@ -136,13 +115,6 @@ export async function makeUpdateRequest<T>(
     }
 }
 
-/**
- * Makes a DELETE request to the specified endpoint.
- *
- * @param endpoint The API endpoint to make the request to.
- * @param data Optional data to send in the request body.
- * @returns A promise that resolves to the API response.
- */
 export async function makeDeleteRequest<T>(
     endpoint: string,
     data?: unknown,

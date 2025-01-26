@@ -1,21 +1,10 @@
 import { useState, useCallback } from 'react';
 
-/**
- * Custom hook to manage form data with update, reset, and set functionality.
- *
- * @template T - The shape of the form data object.
- * @param {T} initialData - The initial data to set for the form.
- * @returns - An object containing the form data and functions to manipulate it.
- */
+
 export function useFormData<T extends object>(initialData: T) {
     const [formData, setFormDataState] = useState<T>(initialData);
 
-    /**
-     * Updates a specific field in the form data.
-     *
-     * @param field - The field key to update.
-     * @param value - The new value to set for the field.
-     */
+
     const updateField = useCallback(<K extends keyof T>(
         field: K,
         value: T[K]

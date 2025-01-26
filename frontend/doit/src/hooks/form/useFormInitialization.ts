@@ -20,12 +20,6 @@ type HandleSubmitFunction<T> = (data: T) => Promise<{
     message?: string;
 }>;
 
-/**
- * Custom hook to handle form initialization, editing state, and submission logic.
- * @param setFormDataAction Action to update form data
- * @param formData Initial form data
- * @returns Form state, handleSubmit function, and UI helpers
- */
 export function useFormInitialization<T extends FormDataType>({
                                                                   setFormDataAction,
                                                                   formData

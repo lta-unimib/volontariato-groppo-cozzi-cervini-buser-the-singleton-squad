@@ -6,31 +6,16 @@ import { Calendar, DateRange as DayPickerDateRange } from "@/components/form/ava
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter } from "@/components/core/Dialog"
 import DateSelector from "./DateSelector"
 
-/**
- * Represents a date range with a `from` and `to` date.
- */
 interface DateRange {
     from: Date | undefined
     to: Date | undefined
 }
 
-/**
- * Props for the `DatePickerDialog` component.
- * @param onSaveAction - Callback function to handle saving the selected date range.
- * @param initialDates - Optional initial dates as an array of strings in "yyyy-MM-dd" format.
- */
 interface DatePickerDialogProps {
     onSaveAction: (from: Date, to: Date) => void
     initialDates?: [string, string]
 }
 
-/**
- * A dialog component for selecting a date range. It allows users to pick a start date and end date,
- * with validation for selecting valid ranges.
- *
- * @param {DatePickerDialogProps} props - The props for the `DatePickerDialog` component.
- * @returns The rendered date picker dialog.
- */
 export function DatePickerDialog({ onSaveAction, initialDates }: DatePickerDialogProps) {
     const [dateRange, setDateRange] = useState<DateRange | undefined>(
         initialDates
@@ -55,11 +40,6 @@ export function DatePickerDialog({ onSaveAction, initialDates }: DatePickerDialo
         "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"
     ]
 
-    /**
-     * Validates the selected date range.
-     * @param {DateRange | undefined} range - The selected date range to validate.
-     * @returns An error message if invalid, otherwise null.
-     */
     const validateDateRange = (range: DateRange | undefined) => {
         const today = startOfDay(new Date())
 
@@ -74,10 +54,6 @@ export function DatePickerDialog({ onSaveAction, initialDates }: DatePickerDialo
         return null
     }
 
-    /**
-     * Updates all states related to the date range, including error messages and selected dates.
-     * @param {DayPickerDateRange | undefined} range - The selected date range.
-     */
     const updateAllStates = (range: DayPickerDateRange | undefined) => {
         const convertedRange: DateRange | undefined = range ? {
             from: range.from,
@@ -95,10 +71,6 @@ export function DatePickerDialog({ onSaveAction, initialDates }: DatePickerDialo
         !isBefore(dateRange.from, startOfDay(new Date())) &&
         !isBefore(dateRange.to, dateRange.from)
 
-    /**
-     * Handles the save action when the user clicks on the "Salva" button.
-     * If the date range is valid, it triggers the `onSaveAction` callback.
-     */
     const handleSave = () => {
         if (dateRange?.from && dateRange?.to && isDateRangeValid) {
             onSaveAction(dateRange.from, dateRange.to)
@@ -106,9 +78,6 @@ export function DatePickerDialog({ onSaveAction, initialDates }: DatePickerDialo
         }
     }
 
-    /**
-     * Handles the cancel action, resetting the form and closing the dialog.
-     */
     const handleCancel = () => {
         setDateRange(undefined)
         setError(null)

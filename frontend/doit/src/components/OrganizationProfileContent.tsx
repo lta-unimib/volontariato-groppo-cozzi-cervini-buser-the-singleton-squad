@@ -9,16 +9,6 @@ import {ReviewCard} from "@/components/review/ReviewCard";
 import {Button} from "@/components/core/Button";
 import {FaFacebook, FaInstagram, FaPlus, FaTiktok, FaXTwitter} from "react-icons/fa6";
 
-/**
- * Renders a detailed profile page for an organization with various sections.
- *
- * @component
- * @param props - The component properties
- * @param organizationProfile - The detailed profile information of the organization
- * @param formatWebsiteUrl - A function to format the organization's website URL
- *
- * @returns A comprehensive organization profile view
- */
 export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                                                                               organizationProfile,
                                                                               formatWebsiteUrl,

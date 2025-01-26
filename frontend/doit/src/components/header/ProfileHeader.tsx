@@ -13,9 +13,6 @@ import { useState } from "react";
 import ReviewDialog from "../review/ReviewDialog";
 import { useReviewSubmission } from "@/hooks/useReviewSubmission";
 
-/**
- * ProfileHeader component renders the profile section with dynamic actions
- */
 export const ProfileHeader = ({
                                   name,
                                   role,

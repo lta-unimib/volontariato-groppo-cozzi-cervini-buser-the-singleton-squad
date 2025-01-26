@@ -16,19 +16,6 @@ import { Input } from "@/components/core/Input";
 import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
 import { useFormData } from "@/hooks/form/useFormData";
 
-/**
- * `VolunteerForm` component for creating or editing a volunteer profile.
- *
- * This component includes fields for first name, last name, email, password, availability,
- * city, preferences, and description. It handles form submission, validation, and conditional
- * rendering based on whether the form is in "edit" or "create" mode.
- *
- * It uses hooks for form initialization, submission, validation, focus management, and data storage.
- * Additionally, it includes functionality for showing/hiding the password, selecting availability,
- * and managing preferences.
- *
- * @returns - The rendered form for creating or editing a volunteer profile.
- */
 export function VolunteerForm() {
 
     // Initial form data

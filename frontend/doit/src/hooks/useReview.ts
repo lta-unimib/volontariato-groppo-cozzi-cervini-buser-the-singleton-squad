@@ -2,9 +2,6 @@ import { useState, useCallback, useEffect } from "react";
 import { makeGetRequest } from "@/utils/api/apiUtils";
 import { ApiResponse } from "@/types/request";
 
-/**
- * Custom hook to manage and fetch the reviews summary for volunteer, organization, or request.
- */
 interface ReviewFormData {
     averageRating: number;
     totalReviews: number;
@@ -15,9 +12,7 @@ export const useReviews = (type: "volunteer" | "organization" | "request", idReq
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    /**
-     * Fetches the review summary for the specified type (volunteer, organization, or request).
-     */
+
     const fetchReviews = useCallback(async () => {
         setLoading(true);
         setError(null);

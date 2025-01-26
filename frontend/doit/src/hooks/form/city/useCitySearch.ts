@@ -1,20 +1,11 @@
 import { useState, useEffect } from 'react';
 import { CityFormData } from '@/types/form/city/cityFormData';
 
-/**
- * Custom hook to manage the city search functionality.
- * Fetches cities from an API and filters them based on the search query.
- * @returns - The city data, error, search query, and setter for the search query.
- */
 export const useCitySearch = () => {
     const [cities, setCities] = useState<CityFormData[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>("");
 
-    /**
-     * Fetches cities data from the API on mount and handles errors.
-     * Clears cities and error when the component is unmounted.
-     */
     useEffect(() => {
         const fetchCities = async () => {
             try {
@@ -51,10 +42,7 @@ export const useCitySearch = () => {
         };
     }, []);
 
-    /**
-     * Filters the cities list based on the search query.
-     * @returns {CityFormData[]} - The filtered list of cities matching the search query.
-     */
+
     const filteredCities = cities.filter((city) =>
         city.nome.toLowerCase().includes(searchQuery.toLowerCase())
     );

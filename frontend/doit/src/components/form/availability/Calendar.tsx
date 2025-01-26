@@ -8,17 +8,6 @@ import type { DateRange } from "react-day-picker"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
-/**
- * Calendar component that wraps the `DayPicker` from `react-day-picker` and provides custom styling.
- *
- * @param {Object} props - The properties passed to the component.
- * @param {string} [props.className] - Additional custom class names to be applied to the calendar container.
- * @param {Record<string, string>} [props.classNames] - Custom class names for specific calendar elements (e.g., months, table, day).
- * @param {boolean} [props.showOutsideDays=true] - Whether to show days outside the current month in the calendar view.
- * @param {DateRange} [props.selected] - The selected date range (from and to date).
- *
- * @returns The rendered calendar component.
- */
 function Calendar({
                       className,
                       classNames,

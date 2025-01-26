@@ -7,15 +7,6 @@ interface Category {
     label: string;
 }
 
-/**
- * Custom hook to fetch and manage categories from the API.
- *
- * @returns {Object} The hook's return values.
- * @returns {Category[]} categories - The list of fetched categories.
- * @returns {boolean} loading - Indicates if the data is still being fetched.
- * @returns {string | null} error - Contains an error message if fetching fails.
- * @returns fetch - Function to manually trigger a category fetch.
- */
 export const useCategories = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);

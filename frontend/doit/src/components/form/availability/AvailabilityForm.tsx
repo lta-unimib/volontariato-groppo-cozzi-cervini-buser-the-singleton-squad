@@ -18,13 +18,6 @@ const MODES = {
     MONTHLY: 'monthly'
 };
 
-/**
- * Component to handle time selection for daily availability mode.
- *
- * @param {Object} props - The component props.
- * @param {string[]} props.selectedTimeRange - The currently selected time range.
- * @param {(time: string) => void} props.handleTimeSelect - Function to handle time selection.
- */
 const TimeSelection = ({
                            selectedTimeRange,
                            handleTimeSelect
