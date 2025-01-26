@@ -11,16 +11,6 @@ const labelVariants = cva(
     "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 );
 
-/**
- * `Label` component that uses Radix UI for adding labels to input or other form components.
- * The component supports configurable style variants and utilizes `class-variance-authority`
- * for flexible style management.
- *
- * @param {React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>} props - Properties to be passed to the Radix UI `Label` component.
- * @param {VariantProps<typeof labelVariants>} [props.variant] - Optional style variants that can be applied to the component.
- *
- * @returns {React.ReactElement} - The rendered `Label` component.
- */
 const Label = React.forwardRef<
     ComponentRef<typeof LabelPrimitive.Root>,
     React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &

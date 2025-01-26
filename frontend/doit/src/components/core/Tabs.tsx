@@ -5,27 +5,8 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "@/utils/cnUtils";
 
-/**
- * The root component that wraps the entire Tabs structure.
- *
- * This component is used as a container for the tabbed interface.
- * It should contain `TabsList`, `TabsTrigger`, and `TabsContent` to form the complete tab structure.
- *
- * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>} props - The properties passed to the Tabs root component.
- * @returns {JSX.Element} The rendered Tabs root component.
- */
 const Tabs = TabsPrimitive.Root;
 
-/**
- * A component that renders the list of tab triggers.
- *
- * `TabsList` is used to contain the individual tab triggers (`TabsTrigger`), aligning them horizontally.
- * It also manages the styling and layout of the tab list.
- *
- * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>} props - The properties passed to the Tabs list component.
- * @param {React.Ref} ref - A ref passed to the list element.
- * @returns {JSX.Element} The rendered Tabs list component.
- */
 const TabsList = React.forwardRef<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>

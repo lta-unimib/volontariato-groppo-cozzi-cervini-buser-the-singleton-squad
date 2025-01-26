@@ -5,16 +5,6 @@ import * as SwitchPrimitives from "@radix-ui/react-switch"
 
 import { cn } from "@/utils/cnUtils"
 
-/**
- * A customizable switch component built using Radix UI's switch primitives.
- *
- * The `Switch` component allows users to toggle between two states, such as on/off, using a sliding thumb.
- * The appearance and behavior can be customized using CSS classes.
- *
- * @param {React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>} props - The properties passed to the Switch component.
- * @param {React.Ref} ref - A ref passed to the root switch element.
- * @returns {JSX.Element} The rendered Switch component.
- */
 const Switch = React.forwardRef<
     HTMLButtonElement,
     React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>

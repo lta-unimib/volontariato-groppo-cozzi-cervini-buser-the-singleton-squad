@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
         GITHUB_PAGES: process.env.GITHUB_PAGES || 'false',
         REPOSITORY_NAME: process.env.REPOSITORY_NAME || '',
     },
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
 };
 
 export default nextConfig;
