@@ -1,0 +1,54 @@
+\title{Specifica Supplementare}
+\author{Matteo Cervini \and Andrea Cozzi \and Gabriele Groppo \and Daniele Buser}
+\date{Scadenza: 11 Gennaio, 2025}
+
+\maketitle
+
+\subsubsection{Nota Introduttiva}
+\begin{itemize}
+\item \textbf{Disciplina:} Requisiti
+\item \textbf{Due:} 11 Gennaio, 2025 1:00 AM (GMT+1) → 11 Gennaio, 2025 7:00 PM (GMT+1)
+\item \textbf{Priority:} Medio
+\item \textbf{Projects:} DoIT-2
+\end{itemize}
+
+\subsubsection{Requisiti Funzionali}
+
+\paragraph{Registrazione e Gestione degli Utenti}
+
+\begin{enumerate}
+    \item Devono essere richieste informazioni obbligatorie per la registrazione, quali:
+    \begin{itemize}
+        \item Nome e cognome (o ragione sociale per aziende/enti)
+        \item Email \sout{e numero di telefono}
+        \item Password sicura con requisiti minimi di complessità
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Server e Servizi di Hosting}
+
+Il progetto DoIT utilizzerà una soluzione di hosting cloud per garantire scalabilità e affidabilità:
+
+\begin{itemize}
+    \item \textbf{Cloud Provider}:
+    \begin{itemize}
+        \item \sout{Firebase sarà utilizzato come piattaforma principale.}
+        \item \underline{Render è usato per hostare il server}
+    \end{itemize}
+    \item \textbf{Database}: 
+    \begin{itemize}
+        \item \underline{Neon Database hosta il database remoto}
+        \item PostgreSQL per dati strutturati
+        \item \sout{Firestore per dati non strutturati}
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Esigenze di Storage}
+
+Per la gestione dei dati, il sistema utilizzerà:
+
+\begin{itemize}
+    \item PostgreSQL per dati strutturati
+    \item \sout{Firebase Firestore} \underline{Neon} per messaggistica
+    \item \sout{Firebase Storage} \underline{Neon} per file utente
+\end{itemize}

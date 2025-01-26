@@ -1,0 +1,36 @@
+\title{ContrattoOrdinaRichiesteSuPreferenzeUtente}
+\author{Daniele Buser}
+\date{Scadenza: 13 Gennaio, 2025}
+
+\maketitle
+
+\begin{description}
+    \item[Assigned:] Daniele Buser
+    \item[Disciplina:] Requisiti
+    \item[Due:] 13 Gennaio, 2025 1:00 AM (GMT+1) → 13 Gennaio, 2025 11:00 PM (GMT+1)
+    \item[Parent-task:] Contratti
+    \item[Priority:] Bassa
+    \item[Projects:] DoIT-2
+\end{description}
+
+\subsection*{Contratto \textbf{CO04}: sortRequestsOnUserPreferences}
+
+
+\fbox{\begin{minipage}{\textwidth}
+    \textbf{Operazione:} sortRequestsOnUserPreferences(requests, user\_preferences)
+
+    \textbf{Riferimenti:} casi d'uso: RicercaAbbinata
+
+    \subsubsection*{Pre-Condizioni:}
+    \begin{itemize}
+        \item Il sistema deve essere attivo.
+        \item Il database deve contenere richieste di volontariato disponibili.
+        \item Le preferenze utente devono essere registrate nel database.
+    \end{itemize}
+
+    \subsubsection*{Post-Condizioni:}
+    \begin{itemize}
+        \item Viene restituita una lista di richieste ordinate in base alla compatibilità con le preferenze utente.
+        \item Se non ci sono corrispondenze, il sistema mostra una vista generica.
+    \end{itemize}
+\end{minipage}}

@@ -1,0 +1,150 @@
+\title{Specifica Supplementare}
+\author{Matteo Cervini \and Andrea Cozzi \and Gabriele Groppo \and Daniele Buser}
+\date{Scadenza: 11 Gennaio, 2025}
+
+\maketitle
+
+\subsubsection{Nota Introduttiva}
+\begin{itemize}
+\item \textbf{Disciplina:} Requisiti
+\item \textbf{Due:} 11 Gennaio, 2025 1:00 AM (GMT+1) → 11 Gennaio, 2025 7:00 PM (GMT+1)
+\item \textbf{Priority:} Medio
+\item \textbf{Projects:} DoIT-2
+\end{itemize}
+
+\subsubsection{Glossario Tecnico}
+
+\begin{itemize}
+
+\item \textbf{Autenticazione}
+
+Processo di verifica dell'identità dell'utente effettuato tramite email e password. È un passaggio obbligatorio durante la registrazione che garantisce la sicurezza e l'unicità dell'account.
+
+\item \textbf{Crittografia}
+
+Tecnica di sicurezza utilizzata per proteggere i dati sensibili degli utenti nel sistema. È un requisito non funzionale che garantisce la protezione delle informazioni personali memorizzate.
+
+\item \textbf{Dashboard Personale}
+
+Interfaccia utente principale mostrata dopo il login, contenente:
+\begin{itemize}
+    \item Opportunità di volontariato consigliate
+    \item Riepilogo del profilo utente
+    \item Altre funzionalità personalizzate
+\end{itemize}
+
+\item \textbf{Form di Registrazione}
+
+Modulo di registrazione che raccoglie informazioni specifiche del volontario. Include:
+\begin{itemize}
+    \item Campi obbligatori da compilare
+    \item Validazione in tempo reale
+\end{itemize}
+
+\item \textbf{Login Automatico}
+
+Processo che avviene dopo la registrazione completata con successo, permettendo l'accesso immediato alla dashboard personale senza necessità di inserire nuovamente le credenziali.
+
+\item \textbf{Opportunità}
+
+Attività di volontariato disponibili sulla piattaforma che vengono:
+\begin{itemize}
+    \item Consigliate ai volontari sulla dashboard
+    \item Filtrate in base al profilo dell'utente e area geografica
+    \item Presentate dopo la registrazione
+    \item Pubblicate solo da Organizzazioni verificate
+    \item Non sovrapponibili temporalmente per lo stesso volontario
+\end{itemize}
+
+\item \textbf{Organizzazione}
+
+Tipologia di account alternativa a quella del volontario, con funzionalità e processo di registrazione specifici.
+
+\item \textbf{Profilo}
+
+Insieme delle informazioni che caratterizzano il volontario, composto da:
+\begin{itemize}
+    \item Informazioni aggiuntive fornite durante la registrazione
+    \item Stato di completezza e verifica
+\end{itemize}
+
+\item \textbf{Registrazione}
+
+Processo di creazione di un nuovo account volontario che include:
+\begin{itemize}
+    \item Verifica dei prerequisiti (account Google)
+    \item Raccolta dati tramite form
+    \item Validazione in tempo reale
+    \item Tempo massimo di completamento: 5 minuti
+\end{itemize}
+
+\item \textbf{Storage Sicuro}
+
+Sistema di memorizzazione dei dati personali che implementa:
+\begin{itemize}
+    \item Crittografia delle informazioni sensibili
+    \item Protezione dei dati personali
+    \item Conformità con i requisiti di sicurezza
+\end{itemize}
+
+\item \textbf{Validazione Real-time}
+
+Sistema di controllo immediato dei dati inseriti che:
+\begin{itemize}
+    \item Verifica la correttezza delle informazioni
+    \item Mostra messaggi di errore specifici
+    \item Impedisce la sottomissione di dati non validi
+\end{itemize}
+
+\item \textbf{Volontario}
+
+Utente registrato nella piattaforma che:
+\begin{itemize}
+    \item Ha completato il processo di registrazione
+    \item Può accedere alle opportunità di volontariato
+    \item Può offrire disponibilità per attività non sovrapposte temporalmente
+    \item Deve specificare competenze e disponibilità temporali
+\end{itemize}
+
+\item \textbf{Area Geografica}
+
+Zona territoriale in cui il volontario è disponibile ad operare, specificata durante l'offerta di disponibilità per un'attività di volontariato.
+
+\item \textbf{Chat Integrata}
+
+Sistema di messaggistica interno alla piattaforma che permette la comunicazione diretta tra Volontari e Organizzazioni dopo l'offerta di disponibilità.
+
+\item \textbf{Competenze}
+
+Capacità e abilità specifiche richieste dalle Organizzazioni e selezionabili dai Volontari durante l'offerta di disponibilità per un'attività.
+
+\item \textbf{Mappa Interattiva}
+
+Visualizzazione geografica delle richieste di volontariato disponibili che permette ai volontari di:
+\begin{itemize}
+    \item Visualizzare la distribuzione delle opportunità sul territorio
+    \item Interagire direttamente con le richieste
+    \item Filtrare le attività per zona
+\end{itemize}
+
+\item \textbf{Organizzazione Verificata}
+
+Status speciale assegnato alle organizzazioni che hanno completato un processo di verifica nel sistema, requisito necessario per pubblicare richieste di volontariato.
+
+\item \textbf{Controllo Duplicato Account}
+
+Sistema che verifica l'esistenza di un account già registrato associato alla stessa organizzazione, impedendo la duplicazione degli account e fornendo all'utente le alternative per risolvere eventuali conflitti.
+
+\item \textbf{Errore di Registrazione}
+
+Messaggio che il sistema mostra quando il processo di registrazione non può essere completato, generalmente dovuto a dati mancanti, errati o duplicati. L'errore fornisce solitamente dettagli specifici per correggere il problema.
+
+\item \textbf{Conferma di Registrazione}
+
+La fase finale del processo di registrazione in cui l'organizzazione approva i dati inseriti e conferma la creazione del proprio account, permettendo al sistema di procedere con il login automatico e il reindirizzamento alla dashboard.
+
+\item \textbf{Piattaforma}
+
+Il sistema complessivo che include sia le funzionalità per i volontari che quelle per le organizzazioni, come la gestione dei profili, l'accesso alle opportunità di volontariato e le interazioni tra le diverse entità.
+
+\end{itemize}
