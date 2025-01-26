@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class ShortVolunteerInfoDTO {
+public class ShortVolunteerDTO {
     @JsonProperty("email")
     String email;
     @JsonProperty("id")

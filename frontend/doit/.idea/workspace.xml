@@ -5,12 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2dd4524-598c-4f81-84b9-12bba55b0cf2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/richiesteVolontario/VolunteerRequestAllOrganizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/richiesteVolontario/VolunteerRequestAllOrganizationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/richiesteVolontario/VolunteerRequestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/richiesteVolontario/VolunteerRequestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/service/request/VolunteerRequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/service/request/VolunteerRequestService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useRequestVolunteers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/richiesteVolontario/VolunteerRequestVolunteerListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/controller/richiesteVolontario/VolunteerRequestVolunteerListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/database/volunteer/VolunteerRequestDatabaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/database/volunteer/VolunteerRequestDatabaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/dto/send/ShortVolunteerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/dto/send/ShortVolunteerDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/mappers/VolunteerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/mappers/VolunteerMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/service/request/VolunteerRequestListService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/service/request/VolunteerRequestListService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/form/request/RequestForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/request/RequestForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/form/useFormInitialization.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/useFormInitialization.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/volunteer/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/volunteer/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/reviews/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/reviews/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useReviewSubmission.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useReviewSubmission.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constants.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

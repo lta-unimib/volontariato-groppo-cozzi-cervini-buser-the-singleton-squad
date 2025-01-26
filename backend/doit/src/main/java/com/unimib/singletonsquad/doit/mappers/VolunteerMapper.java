@@ -4,7 +4,7 @@ import com.unimib.singletonsquad.doit.domain.volunteer.StatisticVolunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;
-import com.unimib.singletonsquad.doit.dto.send.ShortVolunteerInfoDTO;
+import com.unimib.singletonsquad.doit.dto.send.ShortVolunteerDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -66,8 +66,8 @@ public class    VolunteerMapper {
         return volunteerDTO;
     }
 
-    public static ShortVolunteerInfoDTO toShortVolunteerInfoDTO(Volunteer volunteer) {
-        return new ShortVolunteerInfoDTO(volunteer.getEmail(), volunteer.getId());
+    public static ShortVolunteerDTO toShortVolunteerInfoDTO(Volunteer volunteer) {
+        return new ShortVolunteerDTO(volunteer.getEmail(), volunteer.getId());
     }
 
 }
