@@ -1,6 +1,7 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,9 +17,11 @@ public class StatisticVolunteer {
     private Long id;
 
     @Column(nullable = false)
+    @JsonProperty("totalReviews")
     private Integer totalFeedback;
 
     @Column(nullable = false)
+    @JsonProperty("averageRating")
     private Double averageVotes;
 
 
