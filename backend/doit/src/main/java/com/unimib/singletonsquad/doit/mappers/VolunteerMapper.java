@@ -4,6 +4,7 @@ import com.unimib.singletonsquad.doit.domain.volunteer.StatisticVolunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerPreferences;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerDTO;
+import com.unimib.singletonsquad.doit.dto.send.ShortVolunteerInfoDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -63,6 +64,10 @@ public class    VolunteerMapper {
         volunteerDTO.setCity(volunteer.getVolunteerPreferences().getCity());
         volunteerDTO.setRole("Volunteer");
         return volunteerDTO;
+    }
+
+    public static ShortVolunteerInfoDTO toShortVolunteerInfoDTO(Volunteer volunteer) {
+        return new ShortVolunteerInfoDTO(volunteer.getEmail(), volunteer.getId());
     }
 
 }

@@ -3,6 +3,7 @@ import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabas
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
+import com.unimib.singletonsquad.doit.dto.send.ShortVolunteerInfoDTO;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.serializer.VolunteerRequestSerializer;
 import lombok.AllArgsConstructor;
@@ -23,10 +24,9 @@ public class VolunteerRequestListService {
         return VolunteerRequestSerializer.serializeVolunteerRequests(requestMap);
     }
 
-    public Object getRequestListSpecific(Organization organization, Long eventId) {
+    public List<ShortVolunteerInfoDTO> getRequestListSpecific(Organization organization, Long eventId) {
         checkCorrectEventId(organization, eventId);
-        Map<VolunteerRequest, List<Volunteer>> requestMap = this.volunteerRequestDatabaseService.getRequestSpecificiListAllEvents(eventId);
-        return VolunteerRequestSerializer.serializeVolunteerRequests(requestMap);
+        return this.volunteerRequestDatabaseService.getRequestSpecificiListAllEvents(eventId);
     }
 
     private void checkCorrectEventId(Organization organization, Long eventId) {
