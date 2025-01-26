@@ -35,7 +35,8 @@ export default function FavoriteOrganizations() {
             org.description?.toLowerCase().includes(searchQuery) ||
             org.preferences?.some(pref =>
                 pref.toLowerCase().includes(searchQuery)
-            )
+            ) ||
+            org.city?.toLowerCase().includes(searchQuery)
         );
     };
 

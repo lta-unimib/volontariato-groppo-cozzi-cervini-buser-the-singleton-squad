@@ -41,10 +41,15 @@ export default function OrganizationDashboard() {
     };
 
     const filterRequests = () => {
+        console.log(requests.filter(request => request.timeRange));
         return requests.filter(request =>
             !searchQuery ||
             request.title.toLowerCase().includes(searchQuery) ||
-            request.description.toLowerCase().includes(searchQuery)
+            request.description.toLowerCase().includes(searchQuery) ||
+            request.categories?.some(cat =>
+                cat.toLowerCase().includes(searchQuery)
+            ) ||
+            request.address.city.toLowerCase().includes(searchQuery)
         );
     };
 
