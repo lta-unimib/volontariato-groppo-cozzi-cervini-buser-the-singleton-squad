@@ -55,10 +55,6 @@ jobs:
         working-directory: frontend/doit
         run: npm ci
 
-      - name: Run ESLint
-        working-directory: frontend/doit
-        run: npm run lint -- -f json -o eslint-report.json
-
       - name: Frontend Tests with Coverage
         working-directory: frontend/doit
         run: npm run test

@@ -19,8 +19,8 @@ export const formatDateRange = (timeRange: [string, string]) => {
 };
 
 export const dateUtils = {
-    getDateRange: (startDate: Date, endDate: Date) => {
-        const dates = [];
+    getDateRange: (startDate: Date, endDate: Date): Date[] => {
+        const dates: Date[] = [];
         const currentDate = new Date(startDate);
         while (currentDate <= endDate) {
             dates.push(new Date(currentDate));
@@ -29,7 +29,7 @@ export const dateUtils = {
         return dates;
     },
 
-    formatDate: (date: Date) => {
+    formatDate: (date: Date): string => {
         return date.toLocaleDateString('it-IT', {
             day: '2-digit',
             month: 'long',
