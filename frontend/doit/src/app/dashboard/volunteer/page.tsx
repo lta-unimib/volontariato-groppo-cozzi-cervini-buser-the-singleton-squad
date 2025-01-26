@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import SearchBar from "@/components/SearchBar";
 import { ScrollArea } from "@/components/core/ScrollArea";
@@ -12,9 +12,8 @@ import { MdMap } from "react-icons/md";
 
 import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItems";
 import { IconType } from "react-icons";
-import { useAllRequests, useVolunteerRequests } from '@/hooks/useRequestsFetching';
-import { RequestSection } from '@/components/RequestSection';
-import {callAPIMarkers} from "@/hooks/maps/callAPIMarkers";
+import { useAllRequests, useVolunteerRequests } from "@/hooks/useRequestsFetching";
+import { RequestSection } from "@/components/RequestSection";
 
 /**
  * `VolunteerDashboard` Component.
@@ -29,12 +28,19 @@ import {callAPIMarkers} from "@/hooks/maps/callAPIMarkers";
  * @returns The main dashboard component for the volunteer, including sidebar,
  * search bar, requests sections, and a toggleable map view.
  */
+export interface MapLocationInfo {
+    street: string;
+    city: string;
+}
+
+
 export default function VolunteerDashboard() {
     const [showRequests, setShowRequests] = useState(true);
     const [showMap, setShowMap] = useState(false);
     const [isRegisteredView, setIsRegisteredView] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [mapLocations, setMapLocations] = useState<google.maps.LatLngLiteral[]>([]);
+    const [mapLocationInfo, setMapLocationInfo] = useState<MapLocationInfo[]>([]);
 
     const { requests, loading: allRequestsLoading, error: allRequestsError } =
         useAllRequests("/request/all/volunteer/sorted/");
@@ -44,10 +50,10 @@ export default function VolunteerDashboard() {
         notVotedRequests,
         archivedRequests,
         loading: registeredRequestsLoading,
-        error: registeredRequestsError
+        error: registeredRequestsError,
     } = useVolunteerRequests();
 
-    const OpportunityIcon: IconType = volunteerMenuItems.find(item => item.title === "Opportunità")?.icon as IconType;
+    const OpportunityIcon: IconType = volunteerMenuItems.find((item) => item.title === "Opportunità")?.icon as IconType;
 
     const handleRegisteredToggle = (enabled: boolean) => {
         setIsRegisteredView(enabled);
@@ -55,14 +61,15 @@ export default function VolunteerDashboard() {
 
     const handleSearch = (query: string) => {
         setSearchQuery(query.toLowerCase());
-        return []; // No specific search results needed
+        return [];
     };
 
     const filterRequests = (requestList: any[]) => {
-        return requestList.filter(request =>
-            !searchQuery ||
-            request.title.toLowerCase().includes(searchQuery) ||
-            request.description.toLowerCase().includes(searchQuery)
+        return requestList.filter(
+            (request) =>
+                !searchQuery ||
+                request.title.toLowerCase().includes(searchQuery) ||
+                request.description.toLowerCase().includes(searchQuery)
         );
     };
 
@@ -73,17 +80,13 @@ export default function VolunteerDashboard() {
         if (loading) {
             return (
                 <div className="flex mt-10 items-center justify-center h-full">
-                    <AiOutlineLoading3Quarters className="text-4xl animate-spin"/>
+                    <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
                 </div>
             );
         }
 
         if (error) {
-            return (
-                <div className="flex items-center justify-center h-full">
-                    {error}
-                </div>
-            );
+            return <div className="flex items-center justify-center h-full">{error}</div>;
         }
 
         if (isRegisteredView) {
@@ -105,9 +108,7 @@ export default function VolunteerDashboard() {
                     {filteredRegistered.length === 0 &&
                         filteredNotVoted.length === 0 &&
                         filteredArchived.length === 0 && (
-                            <div className="flex items-center justify-center h-full">
-                                Nessuna richiesta trovata
-                            </div>
+                            <div className="flex items-center justify-center h-full">Nessuna richiesta trovata</div>
                         )}
                 </>
             );
@@ -115,19 +116,28 @@ export default function VolunteerDashboard() {
 
         const filteredRequests = filterRequests(requests);
 
-        return filteredRequests.length === 0
-            ? <div className="flex items-center justify-center h-full">Nessuna richiesta trovata</div>
-            : <RequestSection title="Tutte le Richieste" requests={filteredRequests} />;
+        return filteredRequests.length === 0 ? (
+            <div className="flex items-center justify-center h-full">Nessuna richiesta trovata</div>
+        ) : (
+            <RequestSection title="Tutte le Richieste" requests={filteredRequests} />
+        );
     };
 
     useEffect(() => {
-        const fetchMarkers = async () => {
-            const locations = await callAPIMarkers();
-            setMapLocations([...locations]);
-        };
+        if (requests) {
+            const locations = requests.map((request: any) => ({
+                lat: request.cityInfo.latitude,
+                lng: request.cityInfo.longitude,
+            }));
+            setMapLocations(locations);
 
-        fetchMarkers();
-    }, []);
+            const locationsInfo = requests.map((request: any) => ({
+                street: request.address.street,
+                city: request.address.city,
+            }));
+            setMapLocationInfo(locationsInfo);
+        }
+    }, [requests]);
 
     return (
         <div className={`w-full h-screen flex flex-col`}>
@@ -155,7 +165,7 @@ export default function VolunteerDashboard() {
                         {showMap && (
                             <div className="relative h-[calc(100vh-312px)] md:h-[calc(100vh-144px)] w-full">
                                 <GoogleMapsWrapper>
-                                    <GoogleMaps locations={mapLocations}/>
+                                    <GoogleMaps locations={mapLocations} mapLocationInfo={mapLocationInfo}/>
                                 </GoogleMapsWrapper>
                             </div>
                         )}
@@ -170,8 +180,8 @@ export default function VolunteerDashboard() {
                                 setShowMap(!showMap);
                             }}
                         >
-                            {showRequests && <MdMap className="!h-6 !w-6"/>}
-                            {showMap && <OpportunityIcon className="!h-6 !w-6"/>}
+                            {showRequests && <MdMap className="!h-6 !w-6" />}
+                            {showMap && <OpportunityIcon className="!h-6 !w-6" />}
                         </Button>
                     </div>
                 </div>
@@ -179,3 +189,4 @@ export default function VolunteerDashboard() {
         </div>
     );
 }
+

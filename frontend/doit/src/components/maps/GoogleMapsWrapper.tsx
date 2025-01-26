@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react";
-import { Wrapper } from "@googlemaps/react-wrapper";
+import {APIProvider} from "@vis.gl/react-google-maps";
 
 /**
  * GoogleMapsWrapper component is a wrapper that provides the Google Maps JavaScript API to its children components.
@@ -15,5 +15,5 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 export function GoogleMapsWrapper({ children }: { children: React.ReactNode }) {
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
 
-    return <Wrapper apiKey="">{children}</Wrapper>;
+    return <APIProvider apiKey={apiKey}>{children}</APIProvider>;
 }

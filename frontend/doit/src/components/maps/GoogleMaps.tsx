@@ -1,44 +1,71 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { addSingleMarkers } from "@/hooks/maps/markers";
+import { Map, AdvancedMarker, InfoWindow } from "@vis.gl/react-google-maps";
+import React, { FC, useState, useCallback } from "react";
+import { MdOutlineMapsHomeWork } from "react-icons/md";
+import { MapLocationInfo } from "@/app/dashboard/volunteer/page";
 
-// Costanti per la mappa
-const DEFAULT_CENTER = { lat: 45.51530804792321, lng: 9.235410679435955 };
+const DEFAULT_CENTER = { lat: 45.6100484, lng: 9.1490172 };
 const DEFAULT_ZOOM = 17;
 
-// Definizione dei tipi delle proprietà del componente
 interface GoogleMapsProps {
     locations: ReadonlyArray<google.maps.LatLngLiteral>;
+    mapLocationInfo: MapLocationInfo[];
 }
 
-/**
- * GoogleMaps component renders a map using the Google Maps JavaScript API.
- * It initializes the map with a default center and zoom level, and displays it inside a container.
- * Additionally, it allows adding markers to the map.
- *
- * @param {GoogleMapsProps} props - Component props, including locations for the markers.
- * @returns {JSX.Element} The rendered Google Maps component.
- */
-export const GoogleMaps: React.FC<GoogleMapsProps> = ({ locations }) => {
-    const ref = useRef<HTMLDivElement | null>(null);
+export const GoogleMaps: FC<GoogleMapsProps> = ({ locations, mapLocationInfo }) => {
+    const mapID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID!;
+    const [openInfoWindow, setOpenInfoWindow] = useState<number | null>(null);
 
-    useEffect(() => {
-        if (ref.current) {
-            const map = new window.google.maps.Map(ref.current, {
-                center: DEFAULT_CENTER,
-                zoom: DEFAULT_ZOOM,
-            });
+    const handleMarkerClick = useCallback((index: number) => {
+        console.log(`Marker ${index} clicked`);
+        setOpenInfoWindow(index);
+    }, []);
 
-            if (locations && locations.length > 0) {
-                addSingleMarkers({ locations, map });
-            }
-        }
-    }, [ref, locations]);
+    const handleInfoWindowClose = useCallback(() => {
+        console.log('Info window closed');
+        setOpenInfoWindow(null);
+    }, []);
 
     return (
-        <div className="w-full h-full">
-            <div ref={ref} className="w-full h-full rounded-2xl" />
+        <div className="w-full h-full rounded-3xl overflow-hidden">
+            <Map
+                defaultZoom={DEFAULT_ZOOM}
+                defaultCenter={DEFAULT_CENTER}
+                mapId={mapID}
+                gestureHandling="greedy"
+                disableDefaultUI={false}
+                className="w-full h-full rounded-3xl"
+            >
+                {locations.map((location, index) => (
+                    <React.Fragment key={index}>
+                        <AdvancedMarker
+                            position={location}
+                            onClick={() => handleMarkerClick(index)}
+                        >
+                            <div className="bg-primary rounded-full p-4 translate-y-1/2">
+                                <MdOutlineMapsHomeWork size={32} className="text-primary-foreground"/>
+                            </div>
+                        </AdvancedMarker>
+
+                        {openInfoWindow === index && mapLocationInfo[index] && (
+                            <InfoWindow
+                                position={location}
+                                onCloseClick={handleInfoWindowClose}
+                            >
+                                <div className="w-72 h-16">
+                                    <h4 className="text-lg font-semibold text-primary-foreground">
+                                        {mapLocationInfo[index].street}
+                                    </h4>
+                                    <h3 className="text-md font-semibold text-primary-foreground">
+                                        {mapLocationInfo[index].city}
+                                    </h3>
+                                </div>
+                            </InfoWindow>
+                        )}
+                    </React.Fragment>
+                ))}
+            </Map>
         </div>
     );
 };
