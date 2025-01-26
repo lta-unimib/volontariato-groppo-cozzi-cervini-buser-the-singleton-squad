@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.RoleInfoNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -69,7 +70,7 @@ public class VolunteerRequestController {
 
     /// Get all Organization Request by his name
     @GetMapping(value = "/all/expired/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> getAllExpiredVolunteerRequestOrganization(final HttpServletRequest request) throws RoleInfoNotFoundException {
+    public ResponseEntity<ResponseMessage> getAllExpiredVolunteerRequestOrganization(final HttpServletRequest request) throws RoleInfoNotFoundException, UnsupportedEncodingException, InterruptedException {
         String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllExpiredRequestByOrganizationEmail(email);
         return ResponseMessageUtil.createResponseSuccess("get all request by organization: " + email,
@@ -78,7 +79,7 @@ public class VolunteerRequestController {
 
     /// Get all Organization Request by his name
     @GetMapping(value = "/all/active/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws RoleInfoNotFoundException {
+    public ResponseEntity<ResponseMessage> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws RoleInfoNotFoundException, UnsupportedEncodingException, InterruptedException {
         String email = registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllActiveRequestByOrganizationEmail(email);
         return ResponseMessageUtil.createResponseSuccess("get all request by organization: " + email,

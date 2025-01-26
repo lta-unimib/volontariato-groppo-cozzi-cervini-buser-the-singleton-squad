@@ -49,8 +49,8 @@ public class VolunteerRequestAllOrganizationController {
     /// Get all Organization Request by his name
     @GetMapping(value = "/expired/{organizationName}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> getAllExpiredVolunteerRequestOrganization(final HttpServletRequest request,
-                                                                              final @PathVariable("organizationName") String organizationName){
-        this.registeredUserService.checkAndGetRoleFromRequest(request);
+                                                                              final @PathVariable("organizationName") String organizationName) throws UnsupportedEncodingException, InterruptedException {
+        this.registeredUserService.extractRoleFromRequest(request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllExpiredRequestByOrganizationName(organizationName);
         return ResponseMessageUtil.createResponseSuccess("get all request by organization: "+organizationName,
                 HttpStatus.OK, volunteerRequestList);

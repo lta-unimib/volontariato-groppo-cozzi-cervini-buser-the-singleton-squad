@@ -93,7 +93,7 @@ export function RequestForm() {
         console.log("TimeRange Updated:", [fromDateStr, toDateStr]);  // Debug: Date range aggiornato
     };
 
-    if (!initialDataLoaded && isEditing) {
+    if (!initialDataLoaded && (isEditing || isRenewing)) {
         return <div>Loading...</div>;
     }
     {console.log(""+formData.categories);}
