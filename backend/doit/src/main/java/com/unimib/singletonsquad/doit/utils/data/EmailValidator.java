@@ -1,19 +1,25 @@
 package com.unimib.singletonsquad.doit.utils.data;
 
 import java.util.regex.Pattern;
-
 public class EmailValidator {
 
-    private EmailValidator() {}
-
+    private EmailValidator(){}
+    private static final int MAX_EMAIL_LENGTH = 254; // RFC 5321
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
-            "^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z]{2,})+$",
+            "^[a-z0-9._%+-]+@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.[a-z]{2,}$",
             Pattern.CASE_INSENSITIVE
     );
+
     public static boolean isValidEmail(String email) {
-        if (email == null || email.length() < 5 || email.length() > 100)
+        if (email == null || email.length() >= MAX_EMAIL_LENGTH) {
             return false;
-        return EMAIL_PATTERN.matcher(email).matches();
+        }
+
+        String sanitizedEmail = email.trim().toLowerCase();
+        if (sanitizedEmail.isEmpty()) {
+            return false;
+        }
+
+        return EMAIL_PATTERN.matcher(sanitizedEmail).matches();
     }
 }
-

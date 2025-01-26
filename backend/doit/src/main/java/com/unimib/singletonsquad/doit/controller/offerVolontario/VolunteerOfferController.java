@@ -24,7 +24,6 @@ import java.util.List;
 public class VolunteerOfferController {
     private final VolunteerOfferService volunteerOfferService;
     private final RegisteredUserService registeredUserService;
-    ///private final VolunteerOfferAcceptService acceptService;
 
 
     /// L'UTENTE ACCETTA LA RICHIESTA DI VOLONTARIATO
@@ -55,33 +54,4 @@ public class VolunteerOfferController {
         return ResponseMessageUtil.createResponseSuccess("get all volunteer offers", HttpStatus.OK, volunteerOfferDTOS);
     }
 
-    /*
-
-    /// A ORGANIZATION ACCEPT A VOLUNTEER OFFER
-    @PostMapping(value = "/accept/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> acceptOffer(final @PathVariable Long idOffer, final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
-        String organizationEmail = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
-        this.acceptService.acceptVolunteerOffer(idOffer, organizationEmail);
-        return ResponseMessageUtil.createResponseSuccess(String.format("Accept offer %s", idOffer), HttpStatus.OK, null);
-    }
-
-    /// A ORGANIZATION REJECT A VOLUNTEER OFFER
-    @PostMapping(value = "/reject/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> rejectOffer(final @PathVariable Long idOffer, final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
-        String emailOrganization = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
-        this.acceptService.rejectVolunteerOffer(idOffer, emailOrganization);
-        return ResponseMessageUtil.createResponseSuccess(String.format("Reject offer %s", idOffer), HttpStatus.OK, null);
-    }
-
-     /*
-    /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
-    @DeleteMapping("/{idOffer}/")
-    public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable final Long idOffer,
-                                                                final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
-        UserRole role = this.registeredUserService.extractRoleFromRequest(request);
-        String email = this.registeredUserService.getUserEmailAndIsRegistered(role, request);
-        this.volunteerOfferService.removeOffer(idOffer, email);
-        return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
-    }
-     */
 }
