@@ -41,7 +41,7 @@ public interface IVolunteerRequestRepository extends JpaRepository<VolunteerRequ
 
     List<VolunteerRequest> id(Long id);
 
-    @Query("SELECT o.volunteer from VolunteerOffer  o where o.volunteerRequest.id = :idRequest")
+    @Query("SELECT o.volunteer from VolunteerOffer  o where o.volunteerRequest.id = :idRequest and o.votedByOrganization = false")
     List<Volunteer> getAllVolunteerByRequest(@Param("idRequest") Long idRequest);
 }
 

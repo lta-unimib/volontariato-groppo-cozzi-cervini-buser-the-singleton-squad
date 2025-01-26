@@ -27,12 +27,12 @@ public class FeedbackController {
     private static final UserRole volunteerRole = UserRole.VOLUNTEER;
 
     /// L'organizzazione vota il volontario
-    @PostMapping(value = "/volunteer/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseMessage> feedbackByOrganization(final @PathVariable("idOffer") Long idOffer,
+    @PostMapping(value = "/volunteer/{idRequest}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseMessage> feedbackByOrganization(final @PathVariable("idRequest") Long idRequest,
                                                                   @RequestBody FeedbackDTO feedbackDTO,
                                                                   final HttpServletRequest request) throws IllegalAccessException {
         Organization organization = (Organization) this.registeredUserService.getUserInformationAndIsRegistered(organizationRole, request);
-        this.feedbackService.setOrganizationVoteOffer(organization, idOffer,feedbackDTO.getEmail() ,feedbackDTO.getVote());
+        this.feedbackService.setOrganizationVoteOffer(organization, idRequest, feedbackDTO.getEmail() ,feedbackDTO.getVote());
         return ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);
     }
 

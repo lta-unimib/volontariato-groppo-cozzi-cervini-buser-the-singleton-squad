@@ -1,7 +1,5 @@
 package com.unimib.singletonsquad.doit.service.statistic;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.gson.JsonObject;
 import com.unimib.singletonsquad.doit.database.volunteer.VolunteerRequestDatabaseService;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import lombok.AllArgsConstructor;
