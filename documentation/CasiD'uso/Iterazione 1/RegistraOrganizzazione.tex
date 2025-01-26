@@ -1,0 +1,144 @@
+\title{RegistraOrganizzazione}
+\author{Andrea Cozzi}
+\date{Scadenza: 27 Dicembre 2024}
+
+\paragraph{Nota Introduttiva}
+\begin{itemize}
+  \item \textbf{Disciplina:} Requisiti
+  \item \textbf{Due:} 26 Dicembre, 2024 1:00 AM (GMT+1) → 27 Dicembre, 2024 7:00 PM (GMT+1)
+  \item \textbf{Is blocking:} RicercaAbbinata, SSDRegistraOrganizzazione
+  \item \textbf{Parent-task:} Casi d'Uso testuali
+  \item \textbf{Priority:} Alta
+  \item \textbf{Projects:} DoIT-1
+\end{itemize}
+
+Il caso d'uso \textbf{"Registrazione Nuova Organizzazione" (UC-002)} descrive il processo attraverso il quale una nuova organizzazione può registrarsi nella piattaforma. Questo processo è considerato di alta priorità essendo una funzionalità core del sistema, con una frequenza prevista di 20-30 registrazioni mensili.
+
+L'organizzazione inizia il processo dalla schermata iniziale dell'applicazione, dove deve scegliere se accedere come volontario o come organizzazione. Dopo aver selezionato "Organizzazione", il sistema reindirizza all'autenticazione Google, un requisito fondamentale per la registrazione.
+
+Una volta fornite le credenziali Google, il sistema verifica automaticamente se esiste già un account associato nel database. Se l'organizzazione è già registrata, viene effettuato automaticamente il login e mostrata la dashboard organizzazione. Se invece l'organizzazione non è presente nel sistema, viene mostrato un form di registrazione specifico.
+
+Il sistema importa automaticamente le informazioni base come nome, email e foto profilo dall'account Google e le precompila nel form. L'organizzazione deve quindi fornire informazioni aggiuntive come nome organizzazione, indirizzo, partita IVA, numero di telefono, descrizione, tipo di organizzazione e sito web (opzionale). Durante la compilazione, il sistema effettua validazioni in tempo reale. Se ci sono campi obbligatori mancanti o compilati in modo scorretto, il sistema impedisce il completamento della registrazione, mostrando messaggi informativi specifici.
+
+\paragraph{Informazioni Generali}
+
+\textbf{ID Caso d'Uso:} UC-002
+
+\textbf{Nome:} Registrazione Nuova Organizzazione
+
+\textbf{Attore Principale:} Organizzazione
+
+\textbf{Precondizioni:}
+\begin{itemize}
+    \item Organizzazione non registrata nel sistema
+    \item Possesso di un account Google
+    \item Dispositivo con connessione internet
+\end{itemize}
+
+\textbf{Post-condizioni:}
+\begin{itemize}
+    \item Nuovo account organizzazione creato
+    \item Organizzazione autenticata nel sistema
+    \item Profilo completo e verificato
+\end{itemize}
+
+\textbf{Priorità:} Alta
+
+\paragraph{Scenario Principale}
+
+\subparagraph{Obiettivo}
+Permettere a una nuova organizzazione di registrarsi nella piattaforma utilizzando un account Google e fornendo le informazioni necessarie.
+
+\subparagraph{Flusso Base}
+\begin{enumerate}
+\item Organizzazione apre l'applicazione
+    \begin{itemize}
+        \item Sistema: Mostra schermata iniziale
+    \end{itemize}
+\item Organizzazione seleziona "Organizzazione"
+    \begin{itemize}
+        \item Sistema: Reindirizza all'autenticazione Google
+    \end{itemize}
+\item Organizzazione esegue autenticazione con Google
+    \begin{itemize}
+        \item Sistema: Verifica esistenza account nel database
+    \end{itemize}
+\item Se l'organizzazione non esiste:
+    \begin{itemize}
+        \item Sistema: Mostra form registrazione organizzazione con:
+            \begin{itemize}
+                \item Nome organizzazione
+                \item Indirizzo
+                \item Tipo di organizzazione
+                \item Descrizione
+                \item Partita IVA (opzionale)
+                \item Sito web (opzionale)
+            \end{itemize}
+        \item Sistema: Precompila i dati importati da Google (email, foto)
+    \end{itemize}
+\item Organizzazione compila e invia form
+    \begin{itemize}
+        \item Sistema: Salva nuovo account organizzazione
+        \item Sistema: Effettua login automatico
+    \end{itemize}
+\item Sistema mostra dashboard organizzazione
+    \begin{itemize}
+        \item Gestione offerte di volontariato
+        \item Riepilogo profilo
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Scenari Alternativi}
+
+\subparagraph{Scenario: Organizzazione già registrata}
+\begin{enumerate}
+\item Dopo l'autenticazione Google, sistema rileva account esistente
+\item Sistema effettua login automatico
+\item Sistema mostra dashboard organizzazione
+\end{enumerate}
+
+\paragraph{Eccezioni e Gestione Errori}
+
+\subparagraph{Errore: Form incompleto}
+\begin{itemize}
+\item \textbf{Condizione:} Campi obbligatori mancanti
+\item \textbf{Azione:} Impossibilità a completare registrazione
+\item \textbf{Risultato:} Messaggio informativo su campi mancanti o scorretti
+\end{itemize}
+
+\subparagraph{Errore: Autenticazione Google fallita}
+\begin{itemize}
+\item \textbf{Condizione:} Problema con l'autenticazione Google
+\item \textbf{Azione:} Interruzione del processo
+\item \textbf{Risultato:} Messaggio di errore e possibilità di riprovare
+\end{itemize}
+
+\paragraph{Requisiti Speciali}
+
+\subparagraph{Requisiti Non Funzionali}
+\begin{itemize}
+\item Performance: Registrazione completabile in max 5 minuti
+\item Sicurezza: Crittografia dati sensibili
+\item Disponibilità: Sistema accessibile 99.9\% del tempo
+\end{itemize}
+
+\subparagraph{Vincoli Tecnici}
+\begin{itemize}
+\item Integrazione OAuth Google
+\item Validazione real-time
+\item Storage sicuro dati organizzazione
+\item Gestione upload documenti
+\end{itemize}
+
+\paragraph{Note Aggiuntive}
+\begin{itemize}
+\item \textbf{Frequenza:} Media (20-30 registrazioni/mese)
+\item \textbf{Criticità:} Alta (funzionalità core del sistema)
+\item \textbf{Note implementative:}
+    \begin{itemize}
+        \item Logging dettagliato errori
+        \item Sistema di notifica per amministratori
+        \item Backup automatico dati organizzazione
+        \item Verifica automatica formato dati inseriti
+    \end{itemize}
+\end{itemize}

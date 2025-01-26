@@ -1,0 +1,352 @@
+\title{Specifica Supplementare}
+\author{Matteo Cervini \and Andrea Cozzi \and Gabriele Groppo \and Daniele Buser}
+\date{Scadenza: 27 Dicembre, 2024}
+
+\maketitle
+
+\subsubsection{Nota Introduttiva}
+\begin{itemize}
+\item \textbf{Disciplina:} Requisiti
+\item \textbf{Due:} 26 Dicembre, 2024 1:00 AM (GMT+1) → 27 Dicembre, 2024 7:00 PM (GMT+1)
+\item \textbf{Priority:} Medio
+\item \textbf{Projects:} DoIT-1
+\end{itemize}
+
+\subsubsection{Requisiti Funzionali}
+
+\paragraph{Registrazione e Gestione degli Utenti}
+
+\begin{enumerate}
+    \item Gli utenti devono poter creare uno o entrambi gli account scegliendo tra i seguenti profili:
+    \begin{itemize}
+        \item Volontario singolo
+        \item Associazione o organizzazione di volontariato o beneficiario singolo
+    \end{itemize}
+    
+    \item Devono essere richieste informazioni obbligatorie per la registrazione, quali:
+    \begin{itemize}
+        \item Nome e cognome (o ragione sociale per aziende/enti)
+        \item Email e numero di telefono
+        \item Password sicura con requisiti minimi di complessità
+    \end{itemize}
+    
+    \item Ogni utente deve avere la possibilità di completare un profilo personalizzato, comprensivo di:
+    \begin{itemize}
+        \item Disponibilità orarie
+        \item Competenze specifiche
+        \item Località
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Gestione delle Richieste di Volontariato}
+
+\begin{enumerate}
+    \item I beneficiari devono poter creare richieste di supporto specificando:
+    \begin{itemize}
+        \item Categoria di aiuto
+        \item Descrizione dettagliata della necessità
+        \item Data e orario preferiti
+        \item Localizzazione geografica tramite mappa interattiva
+    \end{itemize}
+    
+    \item Le richieste devono poter essere modificate o cancellate fino a quando non vengono accettate da un volontario.
+\end{enumerate}
+
+\paragraph{Gestione delle Offerte di Volontariato}
+
+\begin{enumerate}
+    \item I volontari devono poter indicare la propria disponibilità attraverso:
+    \begin{itemize}
+        \item Calendario settimanale con fasce orarie selezionabili
+        \item Tipologia di attività offerte
+        \item Zone geografiche preferite
+    \end{itemize}
+    
+    \item Devono poter modificare o aggiornare le proprie disponibilità in qualsiasi momento.
+\end{enumerate}
+
+\paragraph{Sistema di Abbinamento (Matching)}
+
+\begin{enumerate}
+    \item La piattaforma deve includere un algoritmo di matching che:
+    \begin{itemize}
+        \item Confronti le richieste dei beneficiari con le disponibilità dei volontari
+        \item Utilizzi parametri quali categoria, localizzazione e orario per proporre abbinamenti
+    \end{itemize}
+    
+    \item Gli utenti devono ricevere notifiche per ogni proposta di abbinamento rilevante.
+\end{enumerate}
+
+\paragraph{Sistema di Messaggistica}
+
+\begin{enumerate}
+    \item Deve essere integrato un sistema di chat sicuro per consentire la comunicazione tra volontari e beneficiari.
+    
+    \item Le funzionalità principali della chat includono:
+    \begin{itemize}
+        \item Invio di messaggi testuali
+        \item Notifiche in tempo reale
+        \item Cronologia dei messaggi
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Sistema di Valutazione e Feedback}
+
+\begin{enumerate}
+    \item Dopo il completamento di un'attività, entrambe le parti devono poter lasciare una valutazione.
+    
+    \item Le recensioni devono includere:
+    \begin{itemize}
+        \item Punteggio da 1 a 5 stelle
+        \item Commento opzionale
+    \end{itemize}
+    
+    \item I punteggi devono essere visibili sui profili pubblici degli utenti.
+\end{enumerate}
+
+\paragraph{Comitato di Controllo e Validazione}
+
+\begin{enumerate}
+    \item La piattaforma deve consentire a un team dedicato di:
+    \begin{itemize}
+        \item Verificare le richieste e le offerte inserite dagli utenti
+        \item Segnalare e rimuovere contenuti inappropriati
+    \end{itemize}
+    
+    \item Deve essere previsto un sistema per ricevere e gestire segnalazioni dagli utenti.
+\end{enumerate}
+
+\paragraph{Integrazione con Social Media}
+
+\begin{enumerate}
+    \item Gli utenti devono poter condividere richieste e offerte di volontariato sui principali social network.
+\end{enumerate}
+
+\subsubsection{Requisiti Non Funzionali}
+
+\paragraph{Prestazioni}
+
+\begin{enumerate}
+    \item Il sistema deve garantire tempi di risposta inferiori a 2 secondi per il caricamento delle principali pagine e operazioni.
+    \item L'algoritmo di matching deve essere in grado di elaborare richieste e offerte in meno di 5 secondi.
+    \item Aggiornamento in tempo reale delle notifiche di chat
+\end{enumerate}
+
+\paragraph{Scalabilità}
+
+\begin{enumerate}
+    \item Deve essere possibile aumentare la capacità del sistema con l'aumento del numero di utenti.
+\end{enumerate}
+
+\paragraph{Sicurezza}
+
+\begin{enumerate}
+    \item I dati degli utenti devono essere protetti attraverso crittografia sia a riposo che in transito.
+\end{enumerate}
+
+\paragraph{Compatibilità}
+
+\begin{enumerate}
+    \item L'app deve essere compatibile con:
+    \begin{itemize}
+        \item iOS
+        \item Android
+    \end{itemize}
+    \item Se previsto un portale web, deve essere ottimizzato per i principali browser.
+\end{enumerate}
+
+\paragraph{Usabilità}
+
+\begin{enumerate}
+    \item L'interfaccia deve essere intuitiva e accessibile
+    \item Deve essere garantita un'esperienza coerente su tutti i dispositivi
+    \item Il processo di offerta deve essere completabile in pochi passaggi intuitivi
+\end{enumerate}
+
+\paragraph{Manutenibilità}
+
+\begin{enumerate}
+    \item Il codice deve essere scritto seguendo standard di programmazione modulari
+    \item Deve essere garantito il supporto per aggiornamenti regolari della piattaforma
+\end{enumerate}
+
+\paragraph{Disponibilità e Affidabilità}
+
+\begin{enumerate}
+    \item La piattaforma deve essere operativa almeno il 99,5\% del tempo su base mensile.
+\end{enumerate}
+
+\paragraph{Privacy}
+
+\begin{enumerate}
+    \item I dati personali del volontario devono essere condivisi con l'organizzazione solo dopo l'accettazione dell'offerta
+    \item Le conversazioni nella chat devono essere protette e accessibili solo alle parti coinvolte
+\end{enumerate}
+
+\subsubsection{Requisiti Hardware}
+
+\paragraph{Server e Servizi di Hosting}
+
+Il progetto DoIT utilizzerà una soluzione di hosting cloud per garantire scalabilità e affidabilità:
+
+\begin{itemize}
+    \item \textbf{Cloud Provider}: Firebase sarà utilizzato come piattaforma principale
+    \item \textbf{Database}:
+    \begin{itemize}
+        \item PostgreSQL per dati strutturati
+        \item Firestore per dati non strutturati
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Esigenze di Storage}
+
+Per la gestione dei dati, il sistema utilizzerà:
+
+\begin{itemize}
+    \item PostgreSQL per dati strutturati
+    \item Firebase Firestore per messaggistica
+    \item Firebase Storage per file utente
+\end{itemize}
+
+\subsubsection{Requisiti Software}
+
+\paragraph{Tecnologie Preferite per lo Sviluppo}
+
+\begin{itemize}
+    \item \textbf{Frontend}:
+    \begin{itemize}
+        \item HTML, CSS e TailwindCSS
+        \item TypeScript e Next.js
+    \end{itemize}
+    
+    \item \textbf{Backend}:
+    \begin{itemize}
+        \item Java con Spring Boot
+        \item Spring Security
+        \item Spring Data JPA
+        \item OpenAPI
+    \end{itemize}
+    
+    \item \textbf{Database}:
+    \begin{itemize}
+        \item PostgreSQL
+        \item Flyway
+    \end{itemize}
+    
+    \item \textbf{Tools/Utilities}:
+    \begin{itemize}
+        \item Git
+        \item Maven
+        \item npm
+        \item SonarQube
+        \item Understand
+        \item Mermaid Live e Lucidchart
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Integrazioni con Altre Piattaforme o API Esterne}
+
+\begin{itemize}
+    \item Geolocalizzazione (Google Maps o Mapbox)
+    \item Social Media (Facebook, Twitter, LinkedIn)
+\end{itemize}
+
+\subsubsection{Specifiche di Interfaccia}
+
+\paragraph{Requisiti per il Design dell'Interfaccia Utente}
+
+\begin{enumerate}
+    \item \textbf{Design Responsivo}:
+    \begin{itemize}
+        \item Interfaccia completamente responsive
+        \item Utilizzo di TailwindCSS
+    \end{itemize}
+    
+    \item \textbf{Estetica Pulita e Semplice}:
+    \begin{itemize}
+        \item Design minimale
+        \item Colori chiari e contrastanti
+        \item Interfaccia coerente
+    \end{itemize}
+    
+    \item \textbf{Navigazione Intuitiva}:
+    \begin{itemize}
+        \item Barra di navigazione chiara
+        \item Funzionalità di ricerca avanzata
+        \item Sistema di notifiche visibile
+    \end{itemize}
+    
+    \item \textbf{Iconografia Chiara}:
+    \begin{itemize}
+        \item Icone comprensibili
+        \item Stile uniforme
+    \end{itemize}
+    
+    \item \textbf{Accessibilità}:
+    \begin{itemize}
+        \item Conformità WCAG 2.1
+        \item Supporto screen reader
+        \item Font leggibili
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Linee Guida per l'Esperienza Utente (UX)}
+
+\begin{enumerate}
+    \item \textbf{Semplicità e Chiarezza}
+    \item \textbf{Flusso Intuitivo}
+    \item \textbf{Feedback Visivo e Interattivo}
+    \item \textbf{Personalizzazione}
+    \item \textbf{Chiarezza nelle Interazioni}
+    \item \textbf{Performance e Velocità}
+\end{enumerate}
+
+\subsubsection{Vincoli di Progetto}
+
+\paragraph{Budget disponibile per sviluppo e manutenzione}
+
+\begin{itemize}
+    \item Progetto universitario senza budget specifico
+    \item Sviluppo da parte di team accademico
+\end{itemize}
+
+\paragraph{Tempi di rilascio per MVP e versioni successive}
+
+\begin{itemize}
+    \item \textbf{MVP}: Completamento entro 1 mese
+    \item \textbf{Versioni successive}: Cicli mensili di aggiornamento
+\end{itemize}
+
+\subsubsection{Gestione del Rischio}
+
+\paragraph{Rischi Aggiuntivi}
+
+\begin{enumerate}
+    \item \textbf{Mancanza di partecipazione da parte degli utenti}
+    \item \textbf{Problemi di sicurezza e privacy dei dati}
+    \item \textbf{Difficoltà tecniche nell'integrazione}
+    \item \textbf{Scalabilità limitata nell'MVP}
+    \item \textbf{Ritardi nello sviluppo}
+\end{enumerate}
+
+\paragraph{Strategie per Mitigare i Rischi}
+
+\begin{enumerate}
+    \item \textbf{Strategia per l'integrazione tecnica}:
+    \begin{itemize}
+        \item Seguire guide ufficiali
+        \item Creare prototipi
+    \end{itemize}
+    
+    \item \textbf{Strategia per la scalabilità}:
+    \begin{itemize}
+        \item Architettura modulare
+        \item Load testing
+    \end{itemize}
+    
+    \item \textbf{Strategia per i ritardi}:
+    \begin{itemize}
+        \item Pianificazione agile
+        \item Valutazione risorse aggiuntive
+    \end{itemize}
+\end{enumerate}

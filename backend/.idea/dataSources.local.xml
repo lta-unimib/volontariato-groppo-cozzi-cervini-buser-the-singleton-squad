@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="IU-243.22562.218">
+    <data-source name="appdb@ep-delicate-silence-a9nepk6u.gwc.azure.neon.tech" uuid="0d702666-86a5-4041-a210-b99e7aadb19a">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="AZURE" />
+      <user-name>appdb_owner</user-name>
+      <schema-mapping />
+    </data-source>
+  </component>
+</project>

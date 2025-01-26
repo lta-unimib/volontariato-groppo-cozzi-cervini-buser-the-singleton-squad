@@ -1,0 +1,143 @@
+\title{RegistraVolontario}
+\author{Daniele Buser}
+\date{Scadenza: 27 Dicembre 2024}
+\paragraph{Nota Introduttiva}
+\begin{itemize}
+\item \textbf{Disciplina:} Requisiti
+\item \textbf{Due:} 26 Dicembre, 2024 1:00 AM (GMT+1) → 27 Dicembre, 2024 7:00 PM (GMT+1)
+\item \textbf{Is blocking:} RicercaAbbinata, SSDRegistraVolontario
+\item \textbf{Parent-task:} Casi d'Uso testuali
+\item \textbf{Priority:} Alta
+\item \textbf{Projects:} DoIT-1
+\end{itemize}
+
+Il caso d'uso \textbf{"Registrazione Nuovo Volontario" (UC-001)} descrive il processo attraverso il quale un nuovo utente può registrarsi come volontario nella piattaforma. Questo processo è considerato di alta priorità essendo una funzionalità core del sistema, con una frequenza prevista di oltre 100 registrazioni mensili.
+
+L'utente inizia il processo dalla schermata iniziale dell'applicazione, dove deve scegliere se accedere come volontario o come organizzazione. Dopo aver selezionato "Volontario", il sistema reindirizza l'utente all'autenticazione Google, un requisito fondamentale per la registrazione.
+
+Una volta fornite le credenziali Google, il sistema verifica automaticamente se esiste già un account associato a quell'utente nel database. Se l'utente è già registrato, viene effettuato automaticamente il login e mostrata la dashboard personale. Se invece l'utente non è presente nel sistema, viene mostrato un form di registrazione specifico per i volontari.
+
+Il sistema importa automaticamente le informazioni base come nome, email e foto profilo dall'account Google e le precompila nel form. L'utente deve quindi fornire informazioni aggiuntive come numero di telefono, data di nascita, città e aree di interesse. Durante la compilazione, il sistema effettua validazioni in tempo reale. Se ci sono campi obbligatori mancanti o compilati in modo scorretto, il sistema impedisce il completamento della registrazione, mostrando messaggi informativi specifici.
+
+Una volta che tutti i dati sono stati inseriti correttamente, l'utente può confermare la registrazione. Il sistema crea l'account e effettua automaticamente il login, reindirizzando l'utente alla dashboard personale dove trova opportunità consigliate e un riepilogo del proprio profilo.
+
+Il processo è stato progettato considerando requisiti non funzionali importanti: la registrazione deve essere completabile in massimo 5 minuti e tutti i dati sensibili devono essere crittografati. Dal punto di vista tecnico, il sistema implementa l'integrazione OAuth con Google, validazione real-time dei dati inseriti e garantisce uno storage sicuro dei dati personali. Per monitorare il corretto funzionamento, il sistema mantiene un logging dettagliato degli errori.
+
+Al termine del processo, il sistema garantisce tre post-condizioni essenziali: la creazione di un nuovo account volontario, l'autenticazione dell'utente nel sistema e la verifica della completezza del profilo.
+
+\paragraph{Informazioni Generali}
+\textbf{ID Caso d'Uso:} UC-001
+
+\textbf{Nome:} Registrazione Nuovo Volontario
+
+\textbf{Attore Principale:} Utente non registrato
+
+\textbf{Precondizioni:}
+\begin{itemize}
+\item Utente non registrato nel sistema come volontario
+\item Utente possiede un account Google
+\item Dispositivo con connessione internet
+\end{itemize}
+
+\textbf{Post-condizioni:}
+\begin{itemize}
+\item Nuovo account volontario creato
+\item Utente autenticato nel sistema
+\item Profilo completo e verificato
+\end{itemize}
+
+\textbf{Priorità:} Alta
+
+\paragraph{Scenario Principale}
+
+\subparagraph{Obiettivo}
+Permettere a un nuovo utente di registrarsi come volontario nella piattaforma utilizzando il proprio account Google e fornendo le informazioni necessarie.
+
+\subparagraph{Flusso Base}
+\begin{enumerate}
+\item Utente apre l'applicazione
+    \begin{itemize}
+    \item Sistema: Mostra schermata iniziale
+    \end{itemize}
+\item Utente seleziona "Volontario"
+    \begin{itemize}
+    \item Sistema: Reindirizza all'autenticazione Google
+    \end{itemize}
+\item Utente esegue autenticazione con Google
+    \begin{itemize}
+    \item Sistema: Verifica esistenza account nel database
+    \end{itemize}
+\item Se l'utente non esiste:
+    \begin{itemize}
+    \item Sistema: Mostra form registrazione volontario con:
+        \begin{itemize}
+        \item Intervallo di date per la disponibilità
+        \item Città
+        \item Aree di interesse
+        \item Descrizione volontario
+        \end{itemize}
+    \item Sistema: Precompila i dati importati da Google (nome, email, foto)
+    \end{itemize}
+\item Utente compila e invia form
+    \begin{itemize}
+    \item Sistema: Salva nuovo account volontario
+    \item Sistema: Effettua login automatico
+    \end{itemize}
+\item Sistema mostra dashboard personale
+    \begin{itemize}
+    \item Opportunità consigliate
+    \item Riepilogo profilo
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Scenari Alternativi}
+
+\subparagraph{Scenario: Utente già registrato}
+\begin{enumerate}
+\item Dopo l'autenticazione Google, sistema rileva account esistente
+\item Sistema effettua login automatico
+\item Sistema mostra dashboard personale
+\end{enumerate}
+
+\paragraph{Eccezioni e Gestione Errori}
+
+\subparagraph{Errore: Form incompleto}
+\begin{itemize}
+\item \textbf{Condizione:} Campi obbligatori mancanti
+\item \textbf{Azione:} Impossibilità a completare registrazione
+\item \textbf{Risultato:} Messaggio informativo su campi mancanti o scorretti
+\end{itemize}
+
+\subparagraph{Errore: Autenticazione Google fallita}
+\begin{itemize}
+\item \textbf{Condizione:} Problema con l'autenticazione Google
+\item \textbf{Azione:} Interruzione del processo
+\item \textbf{Risultato:} Messaggio di errore e possibilità di riprovare
+\end{itemize}
+
+\paragraph{Requisiti Speciali}
+
+\subparagraph{Requisiti Non Funzionali}
+\begin{itemize}
+\item Performance: Registrazione completabile in max 5 minuti
+\item Sicurezza: Crittografia dati sensibili
+\end{itemize}
+
+\subparagraph{Vincoli Tecnici}
+\begin{itemize}
+\item Integrazione OAuth Google
+\item Validazione real-time
+\item Storage sicuro dati personali
+\end{itemize}
+
+\paragraph{Note Aggiuntive}
+\begin{itemize}
+\item \textbf{Frequenza:} Alta (previsione 100+ registrazioni/mese)
+\item \textbf{Criticità:} Alta (funzionalità core del sistema)
+\item \textbf{Note implementative:}
+    \begin{itemize}
+    \item Logging dettagliato errori  
+    \item Verifica automatica formato dati inseriti
+    \item Backup immediato dei dati di registrazione
+    \end{itemize}
+\end{itemize}

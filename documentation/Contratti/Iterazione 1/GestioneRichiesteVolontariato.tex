@@ -1,0 +1,46 @@
+\title{ContrattoGestioneRichiesteVolontariato}
+\author{Matteo Cervini}
+\date{Scadenza: 28 Dicembre 2024}
+
+\maketitle
+
+\begin{itemize}
+  \item \textbf{Assigned:} Matteo Cervini
+  \item \textbf{Blocked by:} SSDGestioneRichiesteVolontariato
+  \item \textbf{Disciplina:} Requisiti
+  \item \textbf{Due:} 27 Dicembre, 2024 2:00 AM (GMT+1) → 28 Dicembre, 2024 7:00 PM (GMT+1)
+  \item \textbf{Parent-task:} Contratti
+  \item \textbf{Priority:} Bassa
+  \item \textbf{Projects:} DoIT-1
+  \item \textbf{Sub-tasks:} ContrattoControlloCorrettezaCampo
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent
+\paragraph*{Contratto \textbf{CO002}:} CreaRichiestaVolontariato
+
+\fbox{\begin{minipage}{\textwidth}
+  \subsubsection*{Operazione}
+  \noindent
+  \texttt{submitRequestData(date: Date, time: TimeStamp, location: Location,}\\ 
+  \texttt{category: Category, activityType: activityType,}\\ 
+  \texttt{detailedDescription: detailedRequestDescription)}
+
+  \subsubsection*{Riferimenti}
+  \noindent
+  Casi d'uso: GestioneRichiesteVolontariato
+
+  \subsubsection*{Pre-Condizioni}
+  \begin{itemize}
+    \item Tutti i campi sono validi
+    \item E' in corso la creazione di una \textbf{Request} \textit{r}
+  \end{itemize}
+
+  \subsubsection*{Post-Condizioni}
+  \begin{itemize}
+    \item E' stata creata una nuova istanza \textit{r} di \textbf{Request}
+    \item Gli attributi di \textit{r} sono stati inizializzati
+    \item \textit{r} è stata associata al SuD
+  \end{itemize}
+\end{minipage}}

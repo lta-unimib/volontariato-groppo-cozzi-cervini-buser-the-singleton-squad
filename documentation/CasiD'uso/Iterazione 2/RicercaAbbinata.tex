@@ -1,0 +1,107 @@
+\title{RicercaAbbinata}
+\author{Daniele Buser, Gabriele Groppo}
+\date{Scadenza: 11 Gennaio 2025}
+
+\maketitle
+
+\paragraph*{Informazioni di Progetto}
+\begin{itemize}
+    \item \textbf{Blocked by:} RegistraVolontario, GestioneRichiesteVolontariato, RegistraOrganizzazione, GesioneOfferteVolontariato, ControlloCorrettezzaCampi
+    \item \textbf{Disciplina:} Requisiti
+    \item \textbf{Scadenza:}  11 Gennaio, 2025 1:00 AM (GMT+1) → 11 Gennaio, 2025 7:00 PM (GMT+1)
+    \item \textbf{Parent-task:} Casi d'Uso testuali
+    \item \textbf{Priorità:} Alta
+    \item \textbf{Progetto:} DoIT-2
+\end{itemize}
+
+\begin{quote}
+\textbf{Nota:} Il caso d'uso \textbf{"RicercaAbbinata" (UC-005)} descrive il processo attraverso il quale il sistema suggerisce automaticamente opportunità di volontariato agli utenti in base al loro profilo, preferenze e disponibilità. [...] Il processo garantisce la privacy degli utenti e ottimizza le suggestioni per massimizzare la probabilità di match positivi.
+\end{quote}
+
+\paragraph{1. Informazioni Generali}
+\begin{itemize}
+    \item \textbf{ID Caso d'Uso:} UC-005
+    \item \textbf{Nome:} RicercaAbbinata
+    \item \textbf{Attore Principale:} Sistema
+\end{itemize}
+
+\subparagraph*{Stakeholder:}
+\begin{itemize}
+    \item Volontari: ricevono suggerimenti pertinenti
+    \item Organizzazioni: ottengono visibilità mirata
+\end{itemize}
+
+\subparagraph*{Precondizioni:}
+\begin{itemize}
+    \item Profilo volontario completo con preferenze
+    \item Presenza di richieste attive nel sistema
+\end{itemize}
+
+\subparagraph*{Post-condizioni:}
+\begin{itemize}
+    \item Match potenziali identificati
+    \item Match potenziali mostrati in cima alla lista del volontario
+\end{itemize}
+
+\paragraph{2. Scenario Principale}
+\subparagraph*{Obiettivo}
+Facilitare l'incontro tra domanda e offerta di volontariato attraverso un sistema automatico di matching basato su profili e preferenze
+
+\subparagraph*{Flusso Base}
+\begin{enumerate}
+    \item Sistema avvia analisi nel momento in cui il volontario accede alla sua dashboard o modifica filtri
+    \begin{itemize}
+        \item Recupera attività volontariato
+    \end{itemize}
+    \item Il sistema per ogni volontario estrae i dati utili al matching
+    \begin{itemize}
+        \item Estrae preferenze e vincoli
+        \item Identifica richieste compatibili
+    \end{itemize}
+    \item Sistema applica algoritmo matching
+    \begin{itemize}
+        \item Calcola score compatibilità
+        \item Ordina risultati per rilevanza
+    \end{itemize}
+    \item Sistema genera suggerimenti
+    \begin{itemize}
+        \item Aggiorna dashboard utente
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{3. Scenari Alternativi}
+\subparagraph*{Scenario: Nessun Match Trovato}
+\begin{enumerate}
+    \item Viene mostrata una lista non ordinata
+\end{enumerate}
+
+\paragraph{4. Eccezioni e Gestione Errori}
+\subparagraph*{Errore:}
+\begin{itemize}
+    \item \textbf{Condizione:}
+    \item \textbf{Azione:}
+    \item \textbf{Risultato:}
+\end{itemize}
+
+\paragraph{5. Requisiti Speciali}
+\subparagraph*{Requisiti Non Funzionali}
+\begin{itemize}
+    \item Performance: Analisi completata in max 1 minuto
+    \item Accuratezza: Match pertinenti >80\%
+\end{itemize}
+
+\subparagraph*{Vincoli Tecnici}
+\begin{itemize}
+    \item Rispettare \href{https://www.notion.so/Algoritmo-di-Matching-Richieste-Offerte-Volontariato-1691d07a11eb803cb189e5c7ff60d5a0?pvs=21}{algoritmo di matching}
+\end{itemize}
+
+\paragraph{6. Note Aggiuntive}
+\begin{itemize}
+    \item \textbf{Frequenza:} Per ogni accesso utente
+    \item \textbf{Criticità:} Alta
+    \item \textbf{Note implementative:}
+    \begin{itemize}
+        \item Ottimizzare query database
+        \item Logging risultati matching
+    \end{itemize}
+\end{itemize}

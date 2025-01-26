@@ -1,0 +1,66 @@
+name: SonarQube
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - feature/authentication/backend
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  SONAR_ORG: ${{ secrets.SONAR_ORG }}
+  PROJECT_KEY: lta-unimib_volontariato-groppo-cozzi-cervini-buser-the-singleton-squad
+
+jobs:
+  analyze:
+    name: Analyze Code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: 'npm'
+          cache-dependency-path: 'frontend/doit/package-lock.json'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+
+      - name: Copy Maven Dependencies
+        working-directory: backend/doit
+        run: mvn dependency:copy-dependencies
+
+      - name: Build Backend
+        working-directory: backend/doit
+        run: mvn -B verify
+
+      - name: Install Frontend Dependencies
+        working-directory: frontend/doit
+        run: npm ci
+
+      - name: Frontend Tests with Coverage
+        working-directory: frontend/doit
+        run: npm run test
+
+      - name: SonarCloud Analysis
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
