@@ -163,7 +163,7 @@ export default function VolunteerDashboard() {
                         {showRequests && renderRequestContent()}
 
                         {showMap && (
-                            <div className="relative h-[calc(100vh-312px)] md:h-[calc(100vh-144px)] w-full">
+                            <div className="relative h-[calc(100vh-312px)] md:h-[calc(100vh-146px)] w-full">
                                 <GoogleMapsWrapper>
                                     <GoogleMaps locations={mapLocations} mapLocationInfo={mapLocationInfo}/>
                                 </GoogleMapsWrapper>
