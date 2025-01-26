@@ -5,15 +5,94 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2dd4524-598c-4f81-84b9-12bba55b0cf2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/mappers/StatisticMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../backend/doit/src/main/java/com/unimib/singletonsquad/doit/mappers/StatisticMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/detailed/request/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/detailed/request/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/reviews/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/reviews/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/OrganizationProfileContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/OrganizationProfileContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/RequestSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RequestSection.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/VolunteerProfileContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VolunteerProfileContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/core/Tabs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/core/Tabs.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/core/Textarea.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/core/Textarea.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/BaseForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/BaseForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/auth/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/auth/LoginForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/auth/OrganizationForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/auth/OrganizationForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/auth/VolunteerForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/auth/VolunteerForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/availability/AvailabilityForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/availability/AvailabilityForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/availability/Calendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/availability/Calendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/availability/DatePicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/availability/DatePicker.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/availability/DateSelector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/availability/DateSelector.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/availability/TimePicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/availability/TimePicker.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/city/AddressForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/city/AddressForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/city/CityForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/city/CityForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/city/CityList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/city/CityList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/form/request/RequestForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/form/request/RequestForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/FormHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/FormHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/ProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/ProfileHeader.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/header/RequestHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/RequestHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/review/ReviewCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/review/ReviewCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/components/ButtonBack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/components/ButtonBack.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/components/ProfileActions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/components/ProfileActions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/components/ProfilePicture.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/components/ProfilePicture.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/landing/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/landing/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/landing/Hero.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/landing/Hero.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/landing/Logo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/landing/Logo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/maps/GoogleMapsWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/maps/GoogleMapsWrapper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/sidebar/AppSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sidebar/AppSidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/sidebar/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sidebar/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/sidebar/SidebarLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sidebar/SidebarLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/sidebar/Skeleton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sidebar/Skeleton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/sidebar/Tooltip.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sidebar/Tooltip.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/availability/useAvailabilityForm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/availability/useAvailabilityForm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/city/useCitySearch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/city/useCitySearch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/city/useKeyboardNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/city/useKeyboardNavigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/useFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/useFormData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/useFormFocus.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/useFormFocus.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/useFormHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/useFormHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/useFormInitialization.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/useFormInitialization.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/useFormSubmission.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/useFormSubmission.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/validator/useAddressFormValidator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/validator/useAddressFormValidator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/validator/useOrganizationFormValidator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/validator/useOrganizationFormValidator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/form/validator/useVolunteerFormValidator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/form/validator/useVolunteerFormValidator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/header/useBack.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/header/useBack.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/sidebar/useMobile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/sidebar/useMobile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useCategories.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useCategories.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useFavoriteOrganizations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useFavoriteOrganizations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useProfileData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useProfileData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useRequestsFetching.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useRequestsFetching.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hooks/useReview.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useReview.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useTheme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useTheme.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/apiResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/apiResponse.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/form/auth/loginFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/form/auth/loginFormData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/form/auth/organizationFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/form/auth/organizationFormData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/form/auth/volunteerFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/form/auth/volunteerFormData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/form/availability/availabilityFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/form/availability/availabilityFormData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/form/baseFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/form/baseFormData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/form/city/addressFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/form/city/addressFormData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/form/city/cityFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/form/city/cityFormData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/form/request/requestFormData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/form/request/requestFormData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/card/organizationCardProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/card/organizationCardProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/card/requestCardProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/card/requestCardProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/cityListProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/cityListProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/core/badgeProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/core/badgeProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/core/buttonProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/core/buttonProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/core/checkboxProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/core/checkboxProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/core/inputProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/core/inputProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/header/formHeaderProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/header/formHeaderProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/header/profileContentProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/header/profileContentProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/header/profileHeadersProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/header/profileHeadersProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/header/profilePictureProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/header/profilePictureProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/header/requestHeaderProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/header/requestHeaderProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/requestSectionProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/requestSectionProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/props/searchBarProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/props/searchBarProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/api/apiUtils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/api/apiUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/availabilityUtils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/availabilityUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/cnUtils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/cnUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/components/core/sheetUtils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/components/core/sheetUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/components/timeSlots.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/components/timeSlots.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/urlUtils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/urlUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/validation/addressFormValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/validation/addressFormValidation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/validation/registrationFormValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/validation/registrationFormValidation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/validation/requestFormValidation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/validation/requestFormValidation.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,19 +113,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.constants.ts.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/gabriele/Documents/volontariato-groppo-cozzi-cervini-buser-the-singleton-squad/frontend/doit/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.constants.ts.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "develop",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/home/gabriele/Documents/volontariato-groppo-cozzi-cervini-buser-the-singleton-squad/frontend/doit/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -67,6 +147,7 @@
       <workItem from="1737800125281" duration="5387000" />
       <workItem from="1737884631471" duration="6937000" />
       <workItem from="1737920823525" duration="2366000" />
+      <workItem from="1737930642807" duration="1935000" />
     </task>
     <servers />
   </component>

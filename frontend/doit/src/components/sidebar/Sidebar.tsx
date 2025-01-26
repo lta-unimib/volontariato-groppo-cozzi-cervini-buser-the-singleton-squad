@@ -48,23 +48,6 @@ function useSidebar() {
     return context
 }
 
-/**
- * SidebarProvider component that manages the state and behavior of a sidebar.
- * It provides context for controlling sidebar visibility, expansion, and mobile responsiveness.
- *
- * @component
- * @param {Object} props - Component props
- * @param {boolean} [props.defaultOpen=true] - Determines whether the sidebar is open by default
- * @param {boolean} [props.open] - Controlled state for whether the sidebar is open
- * @param {(open: boolean) => void} [props.onOpenChange] - Callback triggered when the sidebar's open state changes
- * @param {string} [props.className] - Additional CSS classes for the sidebar container
- * @param {React.CSSProperties} [props.style] - Inline styles for the sidebar container
- * @param {React.ReactNode} props.children - Elements inside the sidebar
- *
- * @returns {JSX.Element} The sidebar provider component
- */
-
-
 const SidebarProvider = React.forwardRef<
     HTMLDivElement,
     React.ComponentProps<"div"> & {

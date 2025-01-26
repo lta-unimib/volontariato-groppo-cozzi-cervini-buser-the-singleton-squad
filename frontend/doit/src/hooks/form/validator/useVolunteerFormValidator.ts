@@ -1,20 +1,8 @@
 import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
 import { validateEmail, validatePassword } from "@/utils/validation/registrationFormValidation";
 
-/**
- * Custom hook to validate the volunteer form data.
- *
- * @param {VolunteerFormData} formData - The data to validate from the volunteer form.
- * @param {boolean} isEditing - Flag indicating if the form is being edited or not.
- * @returns - An object containing the validation state and the validation check function.
- */
 export const useVolunteerFormValidation = (formData: VolunteerFormData, isEditing: boolean) => {
 
-    /**
-     * Validates if all required fields are provided.
-     *
-     * @returns {string[]} - Array of missing required fields.
-     */
     const validateRequiredFields = (): string[] => {
         const missingFields: string[] = [];
 

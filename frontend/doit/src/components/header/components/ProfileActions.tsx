@@ -3,11 +3,6 @@ import {MdOutlineEdit, MdOutlineDelete, MdOutlineRemove, MdOutlineRateReview} fr
 import React, {useState} from "react";
 import {ProfileActionsProps} from "@/types/props/header/profileActionsProps";
 
-/**
- * ProfileActions component renders actions based on user role and profile ownership
- *
- * @param props - Component props defining actions and context
- */
 export const ProfileActions: React.FC<ProfileActionsProps> = ({
                                                                   role,
                                                                   onSave,

@@ -8,22 +8,6 @@ import { useCategories } from "@/hooks/useCategories";
 import { VolunteerProfileContentProps } from "@/types/props/header/profileContentProps";
 import {ReviewCard} from "@/components/review/ReviewCard";
 
-/**
- * `VolunteerProfileContent` is a React component that displays detailed information about a volunteer's profile, including:
- * - Basic information such as name, role, and city.
- * - A description of the volunteer.
- * - The volunteer's preferences.
- * - Contact information (email).
- * - Availability, displayed on a calendar.
- * - Volunteer reviews and ratings.
- *
- * @param props - The component props.
- * @param {VolunteerFormData} props.volunteerProfile - The volunteer profile data to display.
- * @param {Date[]} props.selectedDays - The days the volunteer is available, to be displayed on the calendar.
- * @param {boolean} props.isAvailable - Indicates if the volunteer is available or not.
- *
- * @returns The rendered volunteer profile content.
- */
 export const VolunteerProfileContent: React.FC<VolunteerProfileContentProps> = ({
                                                                                     volunteerProfile,
                                                                                     selectedDays,

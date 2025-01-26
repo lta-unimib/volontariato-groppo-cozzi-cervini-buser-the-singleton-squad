@@ -1,16 +1,8 @@
 import { useState } from "react";
 
-/**
- * Type representing the form fields that can be focused.
- */
 type FocusFields = "street" | "number" | "city" | "postalCode" | "additionalInfo"
     | "VATNumber" | "webSite" | "email" | "password" | "volunteerCapacity";
 
-/**
- * Custom hook to manage focus states of form fields.
- *
- * @returns - An object containing the current focus state and functions to manage focus/blur on form fields.
- */
 export const useFormFocus = () => {
     const initialFocusState = {
         streetFocused: false,

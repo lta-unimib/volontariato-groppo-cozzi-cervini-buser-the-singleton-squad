@@ -1,16 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/cnUtils";
 
-/**
- * A customizable textarea component.
- *
- * This component wraps a `textarea` element with custom styles, focusing on accessibility, responsiveness, and smooth user interactions.
- * It supports various props of a standard `textarea` element, allowing full customization of its behavior and appearance.
- *
- * @param {React.ComponentProps<"textarea">} props - The properties passed to the `textarea` element. These include standard textarea attributes such as `value`, `onChange`, `placeholder`, etc.
- * @param {React.Ref} ref - A ref passed to the `textarea` element, allowing for direct manipulation of the DOM element if needed.
- * @returns {JSX.Element} The rendered `textarea` element with the applied styles.
- */
 const Textarea = React.forwardRef<
     HTMLTextAreaElement,
     React.ComponentProps<"textarea">

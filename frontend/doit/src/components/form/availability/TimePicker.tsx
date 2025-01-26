@@ -2,30 +2,13 @@ import React, { useState, useEffect } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/core/Select"
 import { Label } from "@/components/core/Label"
 
-/**
- * Props for the `TimePicker` component.
- * @param label - The label to display for the time picker.
- * @param initialTime - The initial time to pre-select (in "hh:mm AM/PM" format).
- * @param onChange - A callback function that is called when the time is changed. It passes the updated time as a string ("hh:mm AM/PM").
- */
 interface TimePickerProps {
     label: string
     initialTime?: string
     onChange?: (time: string) => void
 }
 
-/**
- * TimePicker component that allows users to select a time with hour, minute, and AM/PM.
- *
- * @param {TimePickerProps} props - The props for the `TimePicker` component.
- * @returns {JSX.Element} The rendered time picker component.
- */
 export function TimePicker({ label, initialTime, onChange }: TimePickerProps) {
-    /**
-     * Parses a time string in "hh:mm AM/PM" format and returns an object with hour, minute, and period (AM/PM).
-     * @param {string} [timeStr] - The time string to parse.
-     * @returns {Object} The parsed time object containing hour, minute, and period.
-     */
     const parseTime = (timeStr?: string) => {
         if (!timeStr) return { hour: "12", minute: "00", period: "AM" }
 
@@ -42,22 +25,11 @@ export function TimePicker({ label, initialTime, onChange }: TimePickerProps) {
     const [minute, setMinute] = useState(initialParsed.minute)
     const [period, setPeriod] = useState(initialParsed.period)
 
-    /**
-     * Effect hook to trigger the `onChange` callback whenever the hour, minute, or period changes.
-     */
     useEffect(() => {
         const formattedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')} ${period}`
         onChange?.(formattedTime)
     }, [hour, minute, period, onChange])
 
-    /**
-     * Renders a `Select` component for choosing hour, minute, or period (AM/PM).
-     * @param {string} value - The current value to be selected.
-     * @param {string[]} options - The list of available options to select from.
-     * @param {Function} onValueChange - The function to call when the value changes.
-     * @param {string} placeholder - The placeholder text for the select input.
-     * @returns The rendered `Select` component.
-     */
     const renderSelect = (
         value: string,
         options: string[],

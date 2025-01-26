@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/sidebar/Skeleton";
 import VolunteerCard from "@/components/card/VolunteerCard";
 import { VolunteerFormData } from "@/types/form/auth/volunteerFormData";
 import { Card, CardContent, CardTitle } from "@/components/core/Card";
-import {useEventVolunteers} from "@/hooks/useRequestVolunteers";
+import {useEventVolunteers} from "@/hooks/useEventVolunteers";
 
 export default function EventVolunteers() {
     const [searchQuery] = useState("");

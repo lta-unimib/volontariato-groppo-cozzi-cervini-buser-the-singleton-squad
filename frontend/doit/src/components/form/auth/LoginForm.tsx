@@ -19,16 +19,6 @@ import { SuccessResponse } from "@/types/form/baseFormData";
 import { useFormSubmission } from "@/hooks/form/useFormSubmission";
 import { LoginFormProps } from "@/types/form/auth/loginFormData";
 
-/**
- * Login form component that allows users to log in with email and password.
- *
- * This component displays a login form with fields for email and password.
- * It includes functionality to toggle the visibility of the password field and handle form submission.
- * After successful login, the user is redirected based on their role.
- *
- * @param {LoginFormProps} props - The properties passed to the component, including className and role.
- * @returns {React.ReactElement} The rendered login form.
- */
 export function LoginForm({
                               className,
                               role
@@ -49,12 +39,6 @@ export function LoginForm({
 
     const { handleSubmit: loginSubmit } = useFormSubmission("login", role);
 
-    /**
-     * Updates the form state for a specific field.
-     *
-     * @param {string} field - The name of the field to update (e.g., "email", "password").
-     * @param {string | boolean} value - The new value for the field.
-     */
     const updateFormState = (field: string, value: string | boolean) => {
         setFormState(prev => ({
             ...prev,
@@ -62,14 +46,6 @@ export function LoginForm({
         }));
     };
 
-    /**
-     * Handles the form submission for the login form.
-     *
-     * Attempts to log in the user with the provided email and password. If the login is successful, the user
-     * is redirected to the appropriate dashboard based on their role. If the login fails, an error message is returned.
-     *
-     * @returns {Promise<SuccessResponse>} A promise that resolves to a success or failure response.
-     */
     const handleSubmit = async (): Promise<SuccessResponse> => {
         try {
             const { email, password } = formState;

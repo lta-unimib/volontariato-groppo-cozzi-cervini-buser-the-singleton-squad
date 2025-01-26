@@ -1,8 +1,4 @@
-/**
- * Utility for creating sheet component variants with different sliding directions.
- * - `side` controls the position of the sheet (top, bottom, left, right).
- * - Each side has animation behavior for opening and closing.
- */
+
 import { cva } from "class-variance-authority";
 
 export const sheetVariants = cva(
