@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.domain.organization;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,9 @@ public class StatisticOrganization {
     @JsonIgnore
     private int id;
 
+    @JsonProperty("averageRating")
     private Double averageVotes;
+    @JsonProperty("totalReviews")
     private Integer totalFeedback;
     private Integer totalNumberOfParticipants;
 
