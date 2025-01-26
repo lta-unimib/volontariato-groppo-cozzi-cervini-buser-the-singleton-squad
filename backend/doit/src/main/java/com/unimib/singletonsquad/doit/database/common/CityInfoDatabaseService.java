@@ -24,6 +24,7 @@ public class CityInfoDatabaseService {
     private final CityInfoHTTPService http;
     private final Map<String, CityInfo> cityInfoMap = new HashMap<>();
 
+    ///
     public CityInfo getCityInfo(String cityName) throws UnsupportedEncodingException, InterruptedException {
         if (cityInfoMap.containsKey(cityName)) {
             return cityInfoMap.get(cityName);

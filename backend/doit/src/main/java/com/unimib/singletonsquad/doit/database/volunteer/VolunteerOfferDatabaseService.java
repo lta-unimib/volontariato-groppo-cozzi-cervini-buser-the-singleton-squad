@@ -2,6 +2,7 @@ package com.unimib.singletonsquad.doit.database.volunteer;
 
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
+import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerRequest;
 import com.unimib.singletonsquad.doit.exception.resource.RecordNotFoundGeneralException;
 import com.unimib.singletonsquad.doit.repository.IVolunteerOfferRepository;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @Transactional
 public class VolunteerOfferDatabaseService {
     private final IVolunteerOfferRepository volunteerOfferRepository;
+    private final VolunteerRequestDatabaseService volunteerRequestDatabaseService;
 
     public void saveVolunteerOffer(VolunteerOffer v){
         this.volunteerOfferRepository.save(v);
@@ -37,10 +39,13 @@ public class VolunteerOfferDatabaseService {
         volunteerOfferRepository.delete(offer);
     }
 
-    public void deleteVolunteerOffer(Long requestId, String email){
-        VolunteerOffer temp = volunteerOfferRepository.findVolunteerOfferForDeleting(email, requestId, LocalDateTime.now()).orElseThrow(
+    public void deleteVolunteerOffer(Long idOffer, String email){
+        VolunteerOffer temp = volunteerOfferRepository.findVolunteerOfferForDeleting(email, idOffer, LocalDateTime.now()).orElseThrow(
                 () -> new RecordNotFoundGeneralException("Record not found")
         );
+        VolunteerRequest volunteerRequest = temp.getVolunteerRequest();
+        volunteerRequest.setTotalParticipants(volunteerRequest.getTotalParticipants()-1);
+        volunteerRequestDatabaseService.save(volunteerRequest);
         volunteerOfferRepository.delete(temp);
     }
 

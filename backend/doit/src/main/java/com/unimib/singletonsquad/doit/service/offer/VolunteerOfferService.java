@@ -30,10 +30,11 @@ public class VolunteerOfferService {
         VolunteerRequest volunteerRequest = this.volunteerRequestDatabaseService.getRequestForAddingNewOffer(requestId);
          this.volunteerOfferDatabaseService.getVolunteerOfferCheckSubscribe(volunteer.getId(), requestId);
         VolunteerOffer volunteerOffer = OfferMapper.toOffer(volunteer, volunteerRequest);
+        int totalParticipantsUpdate = volunteerRequest.getTotalParticipants()+1;
+        volunteerRequest.setTotalParticipants(totalParticipantsUpdate);
         this.volunteerOfferDatabaseService.saveVolunteerOffer(volunteerOffer);
         this.volunteerRequestControllerService.addVolunteerOffer(volunteerRequest.getId(), volunteerOffer);
     }
-
 
 
     /// REMOVE A OFFER

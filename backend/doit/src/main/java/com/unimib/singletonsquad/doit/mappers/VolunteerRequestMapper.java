@@ -29,7 +29,7 @@ public class VolunteerRequestMapper {
         VolunteerRequest volunteerRequest = new VolunteerRequest();
         volunteerRequest.setOrganization(organization);
         volunteerRequest.setAddress(this.createNewAddress(volunteerRequestDTO.getAddress()));
-
+        volunteerRequest.setTotalParticipants(0);
         volunteerRequest.setFeedbackMap(new HashMap<>());
         volunteerRequest.setVolunteerOffers(new ArrayList<>());
         return mapCommonFiled(volunteerRequest, volunteerRequestDTO);
@@ -56,7 +56,6 @@ public class VolunteerRequestMapper {
         return volunteerRequest;
     }
 
-
     private Address createNewAddress(AddressDTO addressDTO) {
         return AddressMapper.createAddress(addressDTO);
     }
@@ -64,7 +63,6 @@ public class VolunteerRequestMapper {
     private Address updateAddress(Address address, AddressDTO addressDTO) {
         return AddressMapper.updateAddress(address, addressDTO);
     }
-
 
     public VolunteerRequestSendDTO mapToVolunteerRequestDTO(VolunteerRequest volunteerRequest) throws UnsupportedEncodingException, InterruptedException {
         VolunteerRequestSendDTO requestDTO = new VolunteerRequestSendDTO();
@@ -78,6 +76,7 @@ public class VolunteerRequestMapper {
         String[] end = extractDateTime(volunteerRequest.getEndDateTime());
         requestDTO.setStartTime(start[1]);
         requestDTO.setEndTime(end[1]);
+        requestDTO.setTotalParticipants(volunteerRequest.getTotalParticipants());
         requestDTO.setTimeRange(List.of(start[0], end[0]));
         requestDTO.setOrganization(volunteerRequest.getOrganization());
         requestDTO.setCityInfo(this.cityInfoDatabaseService.getCityInfo(requestDTO.getAddress().getCity()));

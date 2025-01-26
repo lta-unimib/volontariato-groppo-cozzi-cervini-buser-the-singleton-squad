@@ -7,7 +7,6 @@ import com.unimib.singletonsquad.doit.serializer.OrganizationNameSerializer;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
 
 @Data
@@ -26,7 +25,7 @@ public class VolunteerRequestSendDTO {
     private String endTime;
     private int volunteerCapacity;
     private CityInfo cityInfo;
+    private int totalParticipants;
     @JsonSerialize(using = OrganizationNameSerializer.class)
     private Organization organization;
-
 }

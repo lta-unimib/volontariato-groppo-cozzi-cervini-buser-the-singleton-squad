@@ -25,7 +25,7 @@ import java.util.List;
 public class VolunteerOfferController {
     private final VolunteerOfferService volunteerOfferService;
     private final RegisteredUserService registeredUserService;
-    private final VolunteerOfferAcceptService acceptService;
+    ///private final VolunteerOfferAcceptService acceptService;
 
 
     /// L'UTENTE ACCETTA LA RICHIESTA DI VOLONTARIATO
@@ -39,6 +39,7 @@ public class VolunteerOfferController {
 
     }
 
+    /*
     /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
     @DeleteMapping("/{idOffer}/")
     public ResponseEntity<ResponseMessage> deleteVolunteerOffer(@PathVariable final Long idOffer,
@@ -48,6 +49,7 @@ public class VolunteerOfferController {
         this.volunteerOfferService.removeOffer(idOffer, email);
         return ResponseMessageUtil.createResponseSuccess("volunteer offer deleted", HttpStatus.OK, null);
     }
+     */
 
     /// ORGANIZZAZION ED VOLUNTEER DECLINE A OFFER
     @DeleteMapping("/unsubscribe/{idRequest}/")
@@ -67,6 +69,7 @@ public class VolunteerOfferController {
         return ResponseMessageUtil.createResponseSuccess("get all volunteer offers", HttpStatus.OK, volunteerOfferDTOS);
     }
 
+    /*
     /// A ORGANIZATION ACCEPT A VOLUNTEER OFFER
     @PostMapping(value = "/accept/{idOffer}/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> acceptOffer(final @PathVariable Long idOffer, final HttpServletRequest request) throws IllegalAccessException, RoleInfoNotFoundException {
@@ -82,5 +85,6 @@ public class VolunteerOfferController {
         this.acceptService.rejectVolunteerOffer(idOffer, emailOrganization);
         return ResponseMessageUtil.createResponseSuccess(String.format("Reject offer %s", idOffer), HttpStatus.OK, null);
     }
+    */
 
 }

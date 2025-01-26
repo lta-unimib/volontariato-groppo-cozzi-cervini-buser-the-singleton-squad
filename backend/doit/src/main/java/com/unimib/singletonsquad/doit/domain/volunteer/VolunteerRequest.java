@@ -1,12 +1,11 @@
 package com.unimib.singletonsquad.doit.domain.volunteer;
-
+/// TODO DIVIDERE I MAPPER IN DUE SEND E RECEIVED
 import com.unimib.singletonsquad.doit.domain.common.Address;
 import com.unimib.singletonsquad.doit.domain.organization.Organization;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +32,9 @@ public class VolunteerRequest {
 
     @Column(nullable = false, name = "capacity")
     private int capacity;
+
+    @Column(nullable = false, name = "total_participants")
+    private int totalParticipants;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -64,16 +66,6 @@ public class VolunteerRequest {
     )
     private Map<VolunteerOffer, Feedback> feedbackMap = new HashMap<>(); // Excluded from serialization
 
-    // Metodo per la serializzazione personalizzata
-    public Map<String, Object> toSerializableMap() {
-        Map<String, Object> serialized = new HashMap<>();
-        serialized.put("id", this.id);
-        serialized.put("title", this.title);
-        serialized.put("detailedDescription", this.detailedDescription);
-        serialized.put("capacity", this.capacity);
-        serialized.put("address", this.address); // Puoi escludere singoli campi se necessario
-        return serialized;
-    }
 
     public void setCapacity(int capacity) {
         if (capacity <= 0) {
