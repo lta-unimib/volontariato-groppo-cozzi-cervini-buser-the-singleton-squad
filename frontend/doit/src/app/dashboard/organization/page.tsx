@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { MdOutlineAdd } from "react-icons/md";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import SearchBar from "@/components/SearchBar";
@@ -13,6 +12,7 @@ import { Button } from "@/components/core/Button";
 import { organizationMenuItems } from "@/utils/components/sidebar/organizationMenuItems";
 import { useAllRequests } from "@/hooks/useRequestsFetching";
 import { RequestSection } from "@/components/RequestSection";
+import {Skeleton} from "@/components/sidebar/Skeleton";
 
 /**
  * `OrganizationDashboard` Component.
@@ -79,8 +79,9 @@ export default function OrganizationDashboard() {
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         <div className="space-y-4">
                             {loading ? (
-                                <div className="flex mt-10 items-center justify-center h-full">
-                                    <AiOutlineLoading3Quarters className="text-4xl animate-spin" />
+                                <div className="flex flex-col gap-4 w-full animate-pulse">
+                                    <Skeleton className="h-6 w-40 rounded-md" />
+                                    <Skeleton className="w-full h-36 flex items-center justify-between rounded-lg p-4"/>
                                 </div>
                             ) : error ? (
                                 <div className="flex items-center justify-center h-full">

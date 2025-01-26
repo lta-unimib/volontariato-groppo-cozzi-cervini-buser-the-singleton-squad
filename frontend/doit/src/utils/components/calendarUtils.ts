@@ -20,7 +20,7 @@ export const calendarVariants = {
     row: "flex w-full mt-2",
     cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-transparent [&:has([aria-selected])]:bg-transparent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
     day: cn(
-        "h-9 w-9 p-0 font-normal aria-selected:opacity-100 rounded-full hover:bg-transparent"
+        "h-9 w-9 p-0 font-normal aria-selected:opacity-100 rounded-full"
     ),
     dayRangeEnd: "day-range-end",
     daySelected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground rounded-full",

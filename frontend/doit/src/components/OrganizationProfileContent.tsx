@@ -4,7 +4,8 @@ import { Card, CardContent } from "@/components/core/Card";
 import { ScrollArea } from "@/components/core/ScrollArea";
 import { ProfileContentProps } from "@/types/props/header/profileContentProps";
 import React from "react";
-import {useCategories} from "@/hooks/useCategories";
+import { useCategories } from "@/hooks/useCategories";
+import {ReviewCardMock} from "@/components/review/ReviewCard"; // Assicurati di importare la ReviewCard
 
 /**
  * Renders a detailed profile page for an organization with various sections.
@@ -17,10 +18,10 @@ import {useCategories} from "@/hooks/useCategories";
  * @returns A comprehensive organization profile view
  */
 export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
-                                                                                          organizationProfile,
-                                                                                          formatWebsiteUrl,
-                                                                                          readOnly
-                                                                                      }) => {
+                                                                              organizationProfile,
+                                                                              formatWebsiteUrl,
+                                                                              readOnly
+                                                                          }) => {
     const { categories } = useCategories();
 
     const commonCategories = categories.filter(category =>
@@ -41,7 +42,7 @@ export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
             </div>
 
             <ScrollArea className="flex-1 p-4 md:px-8">
-                <div className="lg:grid lg:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div className="space-y-4">
                         {/* About Section */}
                         <Card className="rounded-2xl">
@@ -64,7 +65,9 @@ export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                                 </div>
                             </CardContent>
                         </Card>
-
+                    </div>
+                    <div className="space-y-4">
+                        <ReviewCardMock type="organization" />
                         {/* Contact Information Section */}
                         <Card className="rounded-2xl">
                             <CardContent className="pt-6">

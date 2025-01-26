@@ -4,10 +4,10 @@ import { useState } from "react";
 import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItems";
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import { ScrollArea } from "@/components/core/ScrollArea";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import SearchBar from "@/components/SearchBar";
 import OrganizationCard from "@/components/card/OrganizationCard";
 import { useFavoriteOrganizations } from "@/hooks/useFavoriteOrganizations";
+import {Skeleton} from "@/components/sidebar/Skeleton";
 
 /**
  * `FavoriteOrganizations` Component.
@@ -66,15 +66,9 @@ export default function FavoriteOrganizations() {
                     <ScrollArea className="flex-1 p-4 pb-32 md:pb-4 md:px-8">
                         <div className="space-y-4">
                             {loading ? (
-                                <div
-                                    className="flex mt-10 items-center justify-center h-full"
-                                    aria-label="Caricamento organizzazioni"
-                                >
-                                    <AiOutlineLoading3Quarters
-                                        className="text-4xl animate-spin"
-                                        aria-hidden="true"
-                                    />
-                                    <span className="sr-only">Caricamento in corso</span>
+                                <div className="flex flex-col gap-4 w-full animate-pulse">
+                                    <Skeleton className="h-6 w-40 rounded-md" />
+                                    <Skeleton className="w-full h-28 flex items-center justify-between rounded-lg p-4"/>
                                 </div>
                             ) : error ? (
                                 <div

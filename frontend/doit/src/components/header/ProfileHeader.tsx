@@ -9,10 +9,6 @@ import { useBack } from "@/hooks/header/useBack";
 import { ProfileHeaderProps } from "@/types/props/header/profileHeadersProps";
 import { ProfileActions } from "@/components/header/components/ProfileActions";
 import {useFavoriteOrganizations} from "@/hooks/useFavoriteOrganizations";
-/*
-import { useState, useEffect } from "react";
-import { makeGetRequest } from "@/utils/api/apiUtils";
-*/
 
 /**
  * ProfileHeader component renders the profile section with dynamic actions

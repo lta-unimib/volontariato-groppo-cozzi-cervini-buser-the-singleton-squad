@@ -8,7 +8,8 @@ import { useSearchParams } from "next/navigation";
 import { RequestHeader } from "@/components/header/RequestHeader";
 import { DetailedRequestData } from "@/types/request";
 import { dateUtils } from "@/utils/components/dateUtils";
-import {formatWebsiteUrl} from "@/utils/urlUtils";
+import { formatWebsiteUrl } from "@/utils/urlUtils";
+import { ReviewCardMock } from "@/components/review/ReviewCard"; // Importa la ReviewCard
 
 /**
  * `AboutSection` Component.
@@ -36,7 +37,6 @@ const AboutSection: React.FC<{ description: string }> = ({ description }) => (
  * @returns A card with the organization's contact information.
  */
 const ContactInfoSection: React.FC<{ organization: DetailedRequestData["organization"] }> = ({ organization }) => {
-
     return (
         <Card className="rounded-2xl">
             <CardContent className="pt-6">
@@ -80,7 +80,7 @@ const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, 
                 <div className="flex justify-center">
                     <Card className="rounded-2xl w-full flex items-center justify-center">
                         <CardContent className="flex pt-6 items-center justify-center">
-                            <Calendar mode="multiple" selected={selectedDates} className="rounded-2xl p-4"/>
+                            <Calendar mode="multiple" selected={selectedDates} className="rounded-2xl p-4" />
                         </CardContent>
                     </Card>
                 </div>
@@ -93,7 +93,7 @@ const DateSection: React.FC<{ startDate: Date; endDate: Date }> = ({ startDate, 
  * `DetailedRequestContent` Component.
  *
  * This component fetches and displays the detailed information about a specific request.
- * It includes sections for about the request, contact info, and event dates.
+ * It includes sections for about the request, contact info, event dates, and reviews.
  *
  * @returns A detailed view of the request with its related information.
  */
@@ -116,6 +116,9 @@ const DetailedRequestContent = () => {
 
     const [startDate, endDate] = requestData.timeRange.map((dateStr) => new Date(dateStr));
 
+    // Aggiungi logica per controllare se la data di fine è prima di oggi
+    const isEndTimePassed = endDate < new Date();
+
     return (
         <div className="flex flex-col lg:flex-row w-full">
             <div className="w-full h-screen flex flex-col">
@@ -136,9 +139,12 @@ const DetailedRequestContent = () => {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div className="space-y-4">
                                     <AboutSection description={requestData.description} />
+                                    {isEndTimePassed && <ReviewCardMock type="request" />} {/* Mostra le recensioni solo se la data di fine è passata */}
                                     {requestData.role === "volunteer" && <ContactInfoSection organization={requestData.organization} />}
                                 </div>
-                                <DateSection startDate={startDate} endDate={endDate} />
+                                <div className="space-y-4">
+                                    <DateSection startDate={startDate} endDate={endDate} />
+                                </div>
                             </div>
                         </ScrollArea>
                     </div>

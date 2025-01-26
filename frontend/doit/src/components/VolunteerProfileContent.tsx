@@ -4,8 +4,9 @@ import { Badge } from "@/components/core/Badge";
 import { Card, CardContent } from "@/components/core/Card";
 import { ScrollArea } from "@/components/core/ScrollArea";
 import { Calendar } from "@/components/form/availability/Calendar";
-import {useCategories} from "@/hooks/useCategories";
+import { useCategories } from "@/hooks/useCategories";
 import { VolunteerProfileContentProps } from "@/types/props/header/profileContentProps";
+import {ReviewCardMock} from "@/components/review/ReviewCard";
 
 /**
  * `VolunteerProfileContent` is a React component that displays detailed information about a volunteer's profile, including:
@@ -14,6 +15,7 @@ import { VolunteerProfileContentProps } from "@/types/props/header/profileConten
  * - The volunteer's preferences.
  * - Contact information (email).
  * - Availability, displayed on a calendar.
+ * - Volunteer reviews and ratings.
  *
  * @param props - The component props.
  * @param {VolunteerFormData} props.volunteerProfile - The volunteer profile data to display.
@@ -59,6 +61,25 @@ export const VolunteerProfileContent: React.FC<VolunteerProfileContentProps> = (
                             </CardContent>
                         </Card>
 
+                        <Card className="rounded-2xl">
+                            <CardContent className="pt-6">
+                                <h3 className="text-xl font-semibold text-foreground mb-4">Availability</h3>
+                                <div className="flex justify-center">
+                                    <Card className="rounded-2xl w-full flex items-center justify-center">
+                                        <CardContent className="flex pt-6 items-center justify-center">
+                                            <Calendar
+                                                mode="multiple"
+                                                selected={selectedDays}
+                                                className="rounded-2xl p-4"
+                                            />
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+
+                    <div className="space-y-4">
                         {/* Preferences Section */}
                         <Card className="rounded-2xl">
                             <CardContent className="pt-6">
@@ -73,6 +94,9 @@ export const VolunteerProfileContent: React.FC<VolunteerProfileContentProps> = (
                             </CardContent>
                         </Card>
 
+                        {/* Volunteer Review Card */}
+                        <ReviewCardMock type={"volunteer"}/>
+
                         {/* Contact Information Section */}
                         <Card className="rounded-2xl">
                             <CardContent className="pt-6">
@@ -83,26 +107,8 @@ export const VolunteerProfileContent: React.FC<VolunteerProfileContentProps> = (
                             </CardContent>
                         </Card>
                     </div>
-
-                    {/* Availability Section */}
-                    <Card className="rounded-2xl">
-                        <CardContent className="pt-6">
-                            <h3 className="text-xl font-semibold text-foreground mb-4">Availability</h3>
-                            <div className="flex justify-center">
-                                <Card className="rounded-2xl w-full flex items-center justify-center">
-                                    <CardContent className="flex pt-6 items-center justify-center">
-                                        <Calendar
-                                            mode="multiple"
-                                            selected={selectedDays}
-                                            className="rounded-2xl p-4"
-                                        />
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </CardContent>
-                    </Card>
                 </div>
             </ScrollArea>
         </>
     );
-}
+};

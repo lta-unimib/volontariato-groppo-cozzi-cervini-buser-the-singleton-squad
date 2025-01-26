@@ -7,13 +7,13 @@ import { ScrollArea } from "@/components/core/ScrollArea";
 import { Button } from "@/components/core/Button";
 import { GoogleMapsWrapper } from "@/components/maps/GoogleMapsWrapper";
 import { GoogleMaps } from "@/components/maps/GoogleMaps";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdMap } from "react-icons/md";
 
 import { volunteerMenuItems } from "@/utils/components/sidebar/volunteerMenuItems";
 import { IconType } from "react-icons";
 import { useAllRequests, useVolunteerRequests } from '@/hooks/useRequestsFetching';
 import { RequestSection } from '@/components/RequestSection';
+import { Skeleton } from '@/components/sidebar/Skeleton';
 
 /**
  * `VolunteerDashboard` Component.
@@ -70,8 +70,9 @@ export default function VolunteerDashboard() {
 
         if (loading) {
             return (
-                <div className="flex mt-10 items-center justify-center h-full">
-                    <AiOutlineLoading3Quarters className="text-4xl animate-spin"/>
+                <div className="flex flex-col gap-4 w-full animate-pulse">
+                    <Skeleton className="h-6 w-40 rounded-md" />
+                    <Skeleton className="w-full h-28 flex items-center justify-between rounded-lg p-4"/>
                 </div>
             );
         }

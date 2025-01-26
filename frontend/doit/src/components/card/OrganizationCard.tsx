@@ -29,7 +29,6 @@ export default function OrganizationCard({ organizationData }: OrganizationCardP
         organizationData.preferences.includes(category.label)
     );
 
-    // Only render the card when loading is false
     if (loading) {
         return null;
     }
