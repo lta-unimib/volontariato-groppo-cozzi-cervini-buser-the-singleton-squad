@@ -25,7 +25,7 @@ function StarRating({ rating }: { rating: number }) {
 
 export function ReviewCard({ type, idRequest }: ReviewCardProps) {
     const { reviewData, loading, error } = useReviews(type, idRequest);
-    console.log("REVIEWDATA: "+ reviewData);
+    console.log("REVIEWDATA: "+ reviewData + "idRequest: "+ idRequest);
     if (error) {
         return (
             <Card className="w-full">
