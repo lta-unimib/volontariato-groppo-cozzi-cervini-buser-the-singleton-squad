@@ -9,13 +9,12 @@ import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessage;
 import com.unimib.singletonsquad.doit.utils.common.ResponseMessageUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.management.relation.RoleInfoNotFoundException;
 
 @RequestMapping("/feedback")
 @RestController
@@ -39,11 +38,12 @@ public class FeedbackController {
 
     /// Il volontario vota un evento
     @PostMapping(value ="/organization/{idRequest}/")
-    public ResponseEntity<ResponseMessage> feedBackByVolunteer(final HttpServletRequest request, final @RequestBody FeedbackDTO feedbackDTO,
-                                                               final @PathVariable("idRequest") Long idRequest) throws RoleInfoNotFoundException {
+    public ResponseEntity<ResponseMessage> feedBackByVolunteer(final HttpServletRequest request, final @Valid @RequestBody FeedbackDTO feedbackDTO,
+                                                               final @PathVariable("idRequest") Long idRequest){
        Volunteer volunteer = (Volunteer) this.registeredUserService.getUserInformationAndIsRegistered(volunteerRole, request);
        this.feedbackService.setVolunteerVoteRequest(volunteer,idRequest, feedbackDTO.getVote());
        return ResponseMessageUtil.createResponseSuccess("voted", HttpStatus.OK, null);
 
     }
+
 }

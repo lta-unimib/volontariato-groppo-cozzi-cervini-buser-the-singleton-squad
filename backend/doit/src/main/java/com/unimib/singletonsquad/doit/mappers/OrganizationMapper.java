@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizationMapper {
 
-    public Organization mapToOrganization(OrganizationDTO organizationDTO){
+    private OrganizationMapper() {}
+
+    /// FROM ORGANIZATION DTO --> ORGANIZATION: create a new entity
+    public static Organization mapToOrganization(OrganizationDTO organizationDTO){
         Organization organization = new Organization();
         organization.setDescription(organizationDTO.getDescription());
         organization.setName(organizationDTO.getName());
@@ -23,7 +26,8 @@ public class OrganizationMapper {
         return organization;
     }
 
-    public Organization updateOrganizationInfos(Organization organization, OrganizationDTO organizationDTO){
+    /// Update the Organization entity with Organization DTO
+    public static Organization updateOrganizationInfos(Organization organization, OrganizationDTO organizationDTO){
         organization.setDescription(organizationDTO.getDescription());
         organization.setName(organizationDTO.getName());
         organization.setWebsite(organizationDTO.getWebSite());
@@ -34,6 +38,7 @@ public class OrganizationMapper {
         return organization;
     }
 
+    /// FROM ORGANIZATION ---> ORGANIZATIONDTO
     public static OrganizationDTO mapToOrganizationDTO(Organization organization){
         OrganizationDTO organizationDTO = new OrganizationDTO();
         organizationDTO.setDescription(organization.getDescription());

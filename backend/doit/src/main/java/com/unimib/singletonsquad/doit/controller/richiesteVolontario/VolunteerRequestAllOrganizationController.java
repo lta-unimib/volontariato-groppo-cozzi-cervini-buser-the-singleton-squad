@@ -26,13 +26,14 @@ public class VolunteerRequestAllOrganizationController {
 
     private final VolunteerRequestService volunteerRequestService;
     private final RegisteredUserService registeredUserService;
+    private static final String RESPONSE_MESSAGE = "Getting all request of: ";
 
     /// Get all Organization through its email-token
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseMessage> getAllVolunteerRequestOrganization(final HttpServletRequest request) throws RoleInfoNotFoundException, UnsupportedEncodingException, InterruptedException {
         String email = this.registeredUserService.getUserEmailAndIsRegistered(UserRole.ORGANIZATION, request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationEmail(email);
-        return ResponseMessageUtil.createResponseSuccess("get all request by organization: "+email,
+        return ResponseMessageUtil.createResponseSuccess(RESPONSE_MESSAGE+email,
                 HttpStatus.OK, volunteerRequestList);
     }
 
@@ -42,7 +43,7 @@ public class VolunteerRequestAllOrganizationController {
                                                                 final @PathVariable("organizationName") String organizationName) throws UnsupportedEncodingException, InterruptedException {
         this.registeredUserService.extractRoleFromRequest(request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllRequestByOrganizationName(organizationName);
-        return ResponseMessageUtil.createResponseSuccess("get all request by organization: "+organizationName,
+        return ResponseMessageUtil.createResponseSuccess(RESPONSE_MESSAGE+organizationName,
                 HttpStatus.OK, volunteerRequestList);
     }
 
@@ -52,7 +53,7 @@ public class VolunteerRequestAllOrganizationController {
                                                                               final @PathVariable("organizationName") String organizationName) throws UnsupportedEncodingException, InterruptedException {
         this.registeredUserService.extractRoleFromRequest(request);
         List<VolunteerRequestSendDTO> volunteerRequestList = this.volunteerRequestService.getAllExpiredRequestByOrganizationName(organizationName);
-        return ResponseMessageUtil.createResponseSuccess("get all request by organization: "+organizationName,
+        return ResponseMessageUtil.createResponseSuccess(RESPONSE_MESSAGE+organizationName,
                 HttpStatus.OK, volunteerRequestList);
     }
 

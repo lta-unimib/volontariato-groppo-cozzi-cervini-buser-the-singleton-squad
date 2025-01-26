@@ -45,9 +45,10 @@ public class VolunteerOffer {
     private boolean votedByOrganization;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "feedback_id", referencedColumnName = "id")
+    @JoinColumn(name = "feedback_volunteer_id", referencedColumnName = "id")
     @JsonIgnore
     private FeedbackVolunteer feedbackVolunteer;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "feedback_organization_id", referencedColumnName = "id")
     @JsonIgnore

@@ -5,6 +5,8 @@ import com.unimib.singletonsquad.doit.dto.send.VolunteerDTO;
 import com.unimib.singletonsquad.doit.dto.send.VolunteerRequestDTO;
 import com.unimib.singletonsquad.doit.dto.send.AddressDTO;
 import com.unimib.singletonsquad.doit.domain.common.Address;
+import com.unimib.singletonsquad.doit.mappers.VolunteerDTOMapper;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,7 @@ public class VolunteerRequestSerializer {
             VolunteerRequest volunteerRequest = entry.getKey();
             List<VolunteerDTO> volunteerDTOs = new ArrayList<>();
             for (Volunteer volunteer : entry.getValue()) {
-                volunteerDTOs.add(new VolunteerDTO(volunteer.getName(), volunteer.getSurname(), volunteer.getEmail(), volunteer.getVolunteerPreferences().getCity() ,volunteer.getVolunteerPreferences(), volunteer.getDescription()));
+                volunteerDTOs.add(VolunteerDTOMapper.mapToVolunteerDTO(volunteer));
             }
             data.add(new VolunteerRequestDTO(volunteerRequest.getId(), volunteerRequest.getTitle(), volunteerRequest.getDetailedDescription(), volunteerRequest.getCapacity(), createAddress(volunteerRequest.getAddress()), volunteerDTOs));
         }

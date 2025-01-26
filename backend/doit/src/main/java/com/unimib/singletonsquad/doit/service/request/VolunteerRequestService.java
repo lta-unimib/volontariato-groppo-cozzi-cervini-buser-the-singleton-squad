@@ -24,15 +24,14 @@ public class VolunteerRequestService {
 
 
     /// DELETE VOLUNTEER REQUEST
-    public void deleteVolunteerRequest(final Long requestId, final Organization organization) throws Exception {
+    public void deleteVolunteerRequest(final Long requestId, final Organization organization) throws IllegalAccessException {
         VolunteerRequest request = this.getSpecificRequest(requestId);
         checkOrganizationRequest(request, organization);
         this.volunteerRequestDatabaseService.deleteRequestById(requestId);
     }
 
     /// UPDATE VOLUNTEER REQUEST
-    public void updateVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, final Long id, final Organization organization)
-            throws Exception {
+    public void updateVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, final Long id, final Organization organization) throws IllegalAccessException {
             VolunteerRequest request = this.getSpecificRequest(id);
             checkOrganizationRequest(request, organization);
             VolunteerRequest temp = this.volunteerRequestMapper.updateVolunteerRequest(request, volunteerRequestDTO);
@@ -40,20 +39,18 @@ public class VolunteerRequestService {
     }
 
     /// CREATE VOLUNTEER REQUEST
-    public void createVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, Organization organization)
-            throws Exception {
+    public void createVolunteerRequest(final VolunteerRequestDTO volunteerRequestDTO, Organization organization){
             VolunteerRequest temp = this.volunteerRequestMapper.createVolunteerRequest(volunteerRequestDTO, organization);
             this.volunteerRequestDatabaseService.save(temp);
     }
 
     /// ==== SUPPORT METHOD ====
-    public VolunteerRequest getSpecificRequest(Long idRequest) throws Exception {
+    public VolunteerRequest getSpecificRequest(Long idRequest){
         return this.volunteerRequestDatabaseService.getSpecificRequest(idRequest);
     }
 
     /// check id request is equal to organization email
-    private void checkOrganizationRequest(final VolunteerRequest volunteerRequest, Organization organization) throws Exception
-    {
+    private void checkOrganizationRequest(final VolunteerRequest volunteerRequest, Organization organization) throws IllegalAccessException {
         if (!organization.getEmail().equals(volunteerRequest.getOrganization().getEmail()))
             throw new IllegalAccessException("Organization email does not match");
     }
@@ -107,10 +104,9 @@ public class VolunteerRequestService {
     }
 
     /// Necessario per aggiungere una nuova OFFRTA ALLA RICHIESTA
-    public void addVolunteerOffer(Long idRequest, VolunteerOffer volunteerOffer) throws Exception{
+    public void addVolunteerOffer(Long idRequest, VolunteerOffer volunteerOffer){
         VolunteerRequest request = getSpecificRequest(idRequest);
         request.getVolunteerOffers().add(volunteerOffer);
         this.volunteerRequestDatabaseService.save(request);
-
     }
 }

@@ -6,6 +6,5 @@ import java.util.Optional;
 
 public interface IVolunteerPreferencesRepository extends JpaRepository<VolunteerPreferences, Integer> {
     Optional<VolunteerPreferences> findById(Long id);
-    boolean existsById(Long id);
     void removeVolunteerPreferencesById(Long id);
 }

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class CityInfoMapper {
 
+    private CityInfoMapper() {}
 
-    public CityInfo mapToCityInfo(CityInfoDTO cityInfoDTO){
+    public static CityInfo mapToCityInfo(CityInfoDTO cityInfoDTO){
         CityInfo cityInfo = new CityInfo();
         cityInfo.setCityName(cityInfoDTO.getCityName());
         cityInfo.setLatitude(cityInfoDTO.getLatitude());

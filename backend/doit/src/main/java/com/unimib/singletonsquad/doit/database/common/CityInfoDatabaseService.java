@@ -20,7 +20,6 @@ import java.util.Optional;
 public class CityInfoDatabaseService {
 
     private final ICityInfoRepository cityInfoRepository;
-    private final CityInfoMapper cityInfoMapper;
     private final CityInfoHTTPService http;
     private final Map<String, CityInfo> cityInfoMap = new HashMap<>();
 
@@ -33,7 +32,7 @@ public class CityInfoDatabaseService {
             if(cityInfo.isPresent())
                 return cityInfo.get();
             else
-                return this.SaveRequestAndGet(cityName);
+                return this.SaveRequestAndGetIT(cityName);
         }
     }
 
@@ -51,7 +50,7 @@ public class CityInfoDatabaseService {
 
     /// Serve per convertire i parametri della chiamata HTTP in una città
     private CityInfo createCityInfo(CityInfoDTO cityInfoDTO) {
-        return this.cityInfoMapper.mapToCityInfo(cityInfoDTO);
+        return CityInfoMapper.mapToCityInfo(cityInfoDTO);
     }
 
     private CityInfo saveDtoIntoDatabase(@NotNull final CityInfoDTO response){
@@ -59,7 +58,7 @@ public class CityInfoDatabaseService {
         return this.saveCityInfo(temp);
     }
 
-    private CityInfo SaveRequestAndGet(@NotNull final String cityName) throws UnsupportedEncodingException,
+    private CityInfo SaveRequestAndGetIT(@NotNull final String cityName) throws UnsupportedEncodingException,
             InterruptedException {
         Thread.sleep(600);
         double[] coords = this.http.getCoordinatesFromOpenCage(cityName);

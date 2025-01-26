@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,6 +24,7 @@ import java.util.Locale;
 public class VolunteerRequestMapper {
 
     private CityInfoDatabaseService cityInfoDatabaseService;
+
     public VolunteerRequest createVolunteerRequest(VolunteerRequestDTO volunteerRequestDTO, Organization organization){
         VolunteerRequest volunteerRequest = new VolunteerRequest();
         volunteerRequest.setOrganization(organization);
@@ -104,15 +104,15 @@ public class VolunteerRequestMapper {
     }
 
     private static String[] extractDateTime(LocalDateTime dateTime) {
-        String date = dateTime.toLocalDate().toString(); // Formato "yyyy-MM-dd"
+        String date = dateTime.toLocalDate().toString();
         String time = dateTime.toLocalTime().format(DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH));
         return new String[]{date, time};
     }
 
     public List<VolunteerRequestSendDTO> getRequestSendDTOList(final List<VolunteerRequest> volunteerRequest) throws UnsupportedEncodingException, InterruptedException {
         List<VolunteerRequestSendDTO> volunteerRequestDTOS = new ArrayList<>();
-        for (VolunteerRequest volunteersingle : volunteerRequest) {
-            volunteerRequestDTOS.add(mapToVolunteerRequestDTO(volunteersingle));
+        for (VolunteerRequest volunteerSingle : volunteerRequest) {
+            volunteerRequestDTOS.add(mapToVolunteerRequestDTO(volunteerSingle));
         }
         return volunteerRequestDTOS;
     }

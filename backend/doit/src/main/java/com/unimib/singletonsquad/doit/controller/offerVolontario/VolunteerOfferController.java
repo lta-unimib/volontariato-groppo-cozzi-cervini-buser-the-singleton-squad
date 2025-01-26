@@ -4,7 +4,6 @@ import com.unimib.singletonsquad.doit.domain.volunteer.Volunteer;
 import com.unimib.singletonsquad.doit.domain.volunteer.VolunteerOffer;
 import com.unimib.singletonsquad.doit.dto.received.VolunteerOfferDTO;
 import com.unimib.singletonsquad.doit.mappers.VolunteerOfferMapper;
-import com.unimib.singletonsquad.doit.service.offer.VolunteerOfferAcceptService;
 import com.unimib.singletonsquad.doit.service.offer.VolunteerOfferService;
 import com.unimib.singletonsquad.doit.service.user.RegisteredUserService;
 import com.unimib.singletonsquad.doit.utils.authentication.UserRole;
