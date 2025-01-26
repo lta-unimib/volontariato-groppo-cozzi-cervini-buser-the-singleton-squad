@@ -27,7 +27,7 @@ export function ReviewCard({ type }: ReviewCardProps) {
 
     if (error) {
         return (
-            <Card className="w-full max-w-sm">
+            <Card className="w-full">
                 <CardContent className="pt-6">
                     <p className="text-center text-destructive">Error: {error}</p>
                 </CardContent>
