@@ -10,7 +10,7 @@ interface ReviewFormData {
     totalReviews: number;
 }
 
-export const useReviews = (type: "volunteer" | "organization" | "request") => {
+export const useReviews = (type: "volunteer" | "organization" | "request", idRequest ?: string) => {
     const [reviewData, setReviewData] = useState<ReviewFormData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -22,8 +22,8 @@ export const useReviews = (type: "volunteer" | "organization" | "request") => {
         setLoading(true);
         setError(null);
         try {
-            const response = await makeGetRequest<ApiResponse>(`/reviews/${type}/`);
-
+            const response = await makeGetRequest<ApiResponse>(`/reviews/${type}/${idRequest}/`);
+            console.log("response", response);
             if (response?.status === 200 && response.data && 'averageRating' in response.data && 'totalReviews' in response.data) {
                 setReviewData(response.data as ReviewFormData);
             } else {

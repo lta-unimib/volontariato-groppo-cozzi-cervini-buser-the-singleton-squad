@@ -5,7 +5,7 @@ import { ScrollArea } from "@/components/core/ScrollArea";
 import { ProfileContentProps } from "@/types/props/header/profileContentProps";
 import React from "react";
 import { useCategories } from "@/hooks/useCategories";
-import {ReviewCardMock} from "@/components/review/ReviewCard";
+import {ReviewCard} from "@/components/review/ReviewCard";
 import {Button} from "@/components/core/Button";
 import {FaFacebook, FaInstagram, FaPlus, FaTiktok, FaXTwitter} from "react-icons/fa6";
 
@@ -69,7 +69,7 @@ export const OrganizationProfileContent: React.FC<ProfileContentProps> = ({
                         </Card>
                     </div>
                     <div className="space-y-4">
-                        <ReviewCardMock type="organization" />
+                        <ReviewCard type="organization" />
                         {/* Contact Information Section */}
                         <Card className="rounded-2xl">
                             <CardContent className="pt-6">

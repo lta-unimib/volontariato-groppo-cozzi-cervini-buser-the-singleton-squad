@@ -6,6 +6,7 @@ import { useReviews } from "@/hooks/useReview";
 
 interface ReviewCardProps {
     type: "volunteer" | "organization" | "request";
+    idRequest?: string;
 }
 
 function StarRating({ rating }: { rating: number }) {
@@ -22,8 +23,8 @@ function StarRating({ rating }: { rating: number }) {
     );
 }
 
-export function ReviewCard({ type }: ReviewCardProps) {
-    const { reviewData, loading, error } = useReviews(type);
+export function ReviewCard({ type, idRequest }: ReviewCardProps) {
+    const { reviewData, loading, error } = useReviews(type, idRequest);
     console.log("REVIEWDATA: "+ reviewData);
     if (error) {
         return (
@@ -64,40 +65,6 @@ export function ReviewCard({ type }: ReviewCardProps) {
                         </p>
                     </div>
                 )}
-            </CardContent>
-        </Card>
-    );
-}
-
-export function ReviewCardMock({ type }: ReviewCardProps) {
-    // Mock Data
-    const mockReviewData = {
-        averageRating: 2.3,
-        totalReviews: 25,
-    };
-
-    return (
-        <Card className="w-full rounded-2xl">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <h3 className="text-xl font-semibold text-foreground">
-                    Valutazione {type === "volunteer" ? "volontario" : type === "organization" ? "organizzazione" : "richiesta"}
-                </h3>
-            </CardHeader>
-            <CardContent>
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <div
-                            className="text-3xl font-bold"
-                            aria-label={`Valutazione media: ${mockReviewData.averageRating.toFixed(1)} su 5`}
-                        >
-                            {mockReviewData.averageRating.toFixed(1)}
-                        </div>
-                        <StarRating rating={Math.round(mockReviewData.averageRating)} />
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                        Basato su {mockReviewData.totalReviews} recensioni
-                    </p>
-                </div>
             </CardContent>
         </Card>
     );

@@ -1,5 +1,6 @@
 package com.unimib.singletonsquad.doit.dto.received;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -15,7 +16,8 @@ public class FeedbackDTO {
     @NotNull
     @Min(value = 1, message = "Vote must be between 1 and 5")
     @Max(value = 5, message = "Vote must be between 1 and 5")
-    Double   vote;
+    @JsonProperty("rating")
+    Double vote;
     @Email
     @Nullable
     String email;

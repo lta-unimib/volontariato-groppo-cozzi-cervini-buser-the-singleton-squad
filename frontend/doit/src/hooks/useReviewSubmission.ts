@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
 import { makePostRequest } from "@/utils/api/apiUtils";
 import { ApiResponse } from "@/types/request";
-
-export const useReviewSubmission = (type: "volunteer" | "request") => {
+//volunteer | request
+export const useReviewSubmission = (type: "volunteer" | "organization") => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
@@ -12,14 +12,14 @@ export const useReviewSubmission = (type: "volunteer" | "request") => {
             setLoading(true);
             setError(null);
             setSuccess(false);
-
+            console.log( "ID DELLA RICHIESTA DEBUG ==> "+ id);
             try {
                 const payload = { rating, ...(email ? { email } : {}) };
                 const response = await makePostRequest<ApiResponse>(
-                    `/feedback/${type}/${id}/`,
+                    `/feedback/${id}/`,
                     payload
                 );
-
+                console.log("response - FEEDBACK", response);
                 if (response?.status === 201) {
                     setSuccess(true);
                 } else {

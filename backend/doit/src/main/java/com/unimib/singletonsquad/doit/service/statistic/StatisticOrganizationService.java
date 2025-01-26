@@ -31,7 +31,7 @@ public class StatisticOrganizationService {
         StatisticOrganization temp = organization.getStatisticOrganization();
         temp.setAverageVotes(sommatoria1/sommaPartecipanti);
         temp.setTotalFeedback(temp.getTotalFeedback()+1);
-        temp.setNumeroTotalePartecipanti(sommaPartecipanti);
+        temp.setTotalNumberOfParticipants(sommaPartecipanti);
         organization.setStatisticOrganization(temp);
         organizationDatabaseService.save(organization);
     }

@@ -20,8 +20,8 @@ public class StatisticRequestService {
         Double media = (totaleVoti == 0) ? 0.0 : request.getSommaVoti() / totaleVoti;
 
         ObjectNode statistic = JsonNodeFactory.instance.objectNode();
-        statistic.put("totalVotes", totaleVoti);
-        statistic.put("averageVotes", media);
+        statistic.put("totalReviews", totaleVoti);
+        statistic.put("averageRating", media);
 
         return statistic;
     }
