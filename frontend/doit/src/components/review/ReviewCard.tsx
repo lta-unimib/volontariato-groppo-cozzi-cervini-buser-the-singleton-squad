@@ -26,6 +26,7 @@ function StarRating({ rating }: { rating: number }) {
 export function ReviewCard({ type, idRequest }: ReviewCardProps) {
     const { reviewData, loading, error } = useReviews(type, idRequest);
     console.log("REVIEWDATA: "+ reviewData + "idRequest: "+ idRequest);
+
     if (error) {
         return (
             <Card className="w-full">
@@ -56,12 +57,12 @@ export function ReviewCard({ type, idRequest }: ReviewCardProps) {
                                 className="text-3xl font-bold"
                                 aria-label={`Valutazione media`}
                             >
-                                {reviewData?.averageRating.toFixed(1)}
+                                {reviewData?.averageRating ? reviewData.averageRating.toFixed(1) : '0.0'}
                             </div>
                             <StarRating rating={Math.round(reviewData?.averageRating || 0)} />
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            Basato su {reviewData?.totalReviews} recensioni
+                            Basato su {reviewData?.totalReviews || 0} recensioni
                         </p>
                     </div>
                 )}
