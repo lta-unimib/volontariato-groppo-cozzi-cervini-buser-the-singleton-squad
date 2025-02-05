@@ -57,7 +57,7 @@ export function ReviewCard({ type, idRequest }: ReviewCardProps) {
                                 className="text-3xl font-bold"
                                 aria-label={`Valutazione media`}
                             >
-                                {reviewData?.averageRating ? reviewData.averageRating.toFixed(1) : '0.0'}
+                                {reviewData?.averageRating ? reviewData.averageRating : '0.0'}
                             </div>
                             <StarRating rating={Math.round(reviewData?.averageRating || 0)} />
                         </div>
