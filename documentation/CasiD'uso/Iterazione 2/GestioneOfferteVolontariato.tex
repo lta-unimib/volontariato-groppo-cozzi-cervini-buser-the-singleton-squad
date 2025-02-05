@@ -1,0 +1,140 @@
+\title{Gestione Offerte Volontariato}
+\author{Gabriele Groppo}
+\date{Scadenza: 11 Gennaio 2025}
+
+\paragraph{Nota Introduttiva}
+\begin{itemize}
+\item \textbf{Disciplina:} Requisiti
+\item \textbf{Due:} 11 Gennaio, 2025 1:00 AM (GMT+1) → 11 Gennaio, 2025 1:00 PM (GMT+1)
+\item \textbf{Is blocking:} RicercaAbbinata, GestioneOfferteVolontariato
+\item \textbf{Parent-task:} Casi d'Uso testuali
+\item \textbf{Priority:} Alta
+\item \textbf{Projects:} DoIT-2
+\end{itemize}
+
+Il caso d'uso \textbf{"GestioneOfferte Volontariato" (UC-004)} descrive l'interazione che c'è tra un Utente Volontario e il Sistema quando questo vuole offrire la propria disponibilità per un'attività di volontariato.
+
+L'Utente Volontario una volta effettuato l'autenticazione deve poter visualizzare nel Sistema le richieste di volontariato disponibili e deve comunicare le sue disponibilità in termini di tempo, competenze, area geografica di intervento.
+
+L'Utente Volontario può offrire la propria disponibilità solo per le attività pubblicate da Organizzazioni verificate nel sistema. Non è possibile offrirsi privatamente per attività non registrate attraverso un'Organizzazione.
+
+L'Utente Volontario deve selezionare una o più competenze tra quelle proposte dall’organizzazione e disponibilità, includendo: fasce orarie precise, e area geografica di azione.
+
+L'Utente Volontario non può offrire la propria disponibilità per più attività che si sovrappongono temporalmente. È però possibile offrirsi per più attività diverse in orari diversi nella stessa giornata.
+
+Il Sistema mostra una mappa interattiva con tutte le richieste di volontariato disponibili, permettendo all'Utente Volontario di interagire direttamente con le Organizzazioni attraverso una chat integrata nella piattaforma.
+\paragraph{Informazioni Generali}
+\textbf{ID Caso d'Uso}: UC-004 
+
+\textbf{Nome}: Gestisci Offerte Volontariato 
+\textbf{Attore Principale}: Utente Volontario
+
+\textbf{Stakeholder:}
+
+\begin{enumerate}
+    \item L’Organizzazione ha interesse nel ricevere offerte di volontariato pertinenti alle proprie richieste.
+    \item Amministratori del sistema hanno interesse nel matching tra offerte e richieste di volontariato sintomo di un corretto funzionamento dell’sistema stesso.
+\end{enumerate}
+
+\textbf{Precondizioni:}
+
+\begin{enumerate}
+    \item L'Utente Volontario ha effettuato l'accesso al sistema.
+    \item Esistono richieste di volontariato attive nel sistema.
+    \item L'Utente Volontario ha completato il proprio profilo con informazioni di base.
+\end{enumerate}
+
+\textbf{Post-condizioni:}
+
+\begin{enumerate}
+    \item L'offerta di volontariato è registrata nel sistema.
+    \item L'Organizzazione riceve una notifica della nuova partecipazione.
+    \item Viene creato un canale di chat tra Utente Volontario e Organizzazione.
+\end{enumerate}
+
+\textbf{Priorità}: Alta
+
+\paragraph{}{Scenario Principale}
+
+\subparagraph*{Obiettivo}
+L'obiettivo del caso d'uso UC-004 "Gestione Offerte Volontariato" è permettere ai volontari di offrire la propria disponibilità per le attività di volontariato pubblicate dalle organizzazioni nel sistema, assicurando un matching efficace tra le competenze/disponibilità offerte e le necessità richieste.
+
+\subparagraph*{Flusso Base}
+
+\begin{enumerate}
+    \item Il Sistema mostra all'Utente Volontario una lista con le richieste di volontariato disponibili sulla base delle sue preferenze (posizione, tipologia di volontariato, …).
+    \item L'Utente Volontario visualizza l'elenco delle richieste di volontariato filtrabili per:
+    \begin{itemize}
+        \item Tipo di supporto richiesto
+        \item Zona geografica
+        \item Data e fascia oraria
+        \item Competenze richieste
+    \end{itemize}
+    \item L'Utente Volontario seleziona una richiesta di interesse.
+    \item Il Sistema mostra i dettagli completi della richiesta selezionata.
+    \item L'Utente Volontario indica la propria disponibilità per la richiesta selezionata specificando tra le proposte dall’Organizzazione:
+    \begin{itemize}
+        \item Le fasce orarie
+        \item Il tipo specifico di supporto che intende offrire
+        \item L'area geografica in cui è disponibile ad operare
+    \end{itemize}
+    \item Il Sistema verifica la compatibilità tra disponibilità offerta e richiesta.
+    \item Il Sistema notifica l'Organizzazione della nuova offerta di volontariato.
+    \item L'Utente Volontario può iniziare una chat con l'Organizzazione per eventuali chiarimenti.
+\end{enumerate}
+
+\paragraph{section}{Scenari Alternativi}
+
+\subparagraph*{Scenario: L’utente consulta la mappa}
+\begin{enumerate}
+    \item L’utente decide di consultare le richieste di volontariato attraverso la mappa.
+    \begin{itemize}
+        \item Punto 2 scenario principale.
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Eccezioni e Gestione Errori}
+
+\subparagraph*{Errore: Connessione assente}
+\begin{itemize}
+    \item \textbf{Condizione}: Il dispositivo dell'utente perde la connessione durante l'interazione col sistema.
+    \item \textbf{Azione}: Il sistema mostra un messaggio di errore all’utente.
+    \item \textbf{Risultato}: L’inserimento dell’offerta di volontariato viene annullato.
+\end{itemize}
+
+\subparagraph*{Errore: Dati incompleti}
+\begin{itemize}
+    \item \textbf{Condizione}: Il volontario tenta di inviare l'offerta senza tutti i dati obbligatori.
+    \item \textbf{Azione}: Il sistema verifica la completezza dei campi richiesti.
+    \item \textbf{Risultato}: Vengono evidenziati i campi mancanti con richiesta di compilazione.
+\end{itemize}
+
+\subparagraph*{Eccezione: Richiesta già presa}
+\begin{itemize}
+    \item \textbf{Condizione}: Il volontario tenta di inviare l'offerta ma il server risponde che quella richiesta di volontariato è già stata soddisfatta.
+    \item \textbf{Azione}: Il sistema mostra un messaggio di errore.
+    \item \textbf{Risultato}: L’inserimento dell’offerta di volontariato viene annullato.
+\end{itemize}
+
+\paragraph{Requisiti Speciali}
+
+\subparagraph*{Requisiti Non Funzionali}
+
+\begin{itemize}
+    \item \textbf{Usabilità}: L'interfaccia deve essere intuitiva e accessibile.
+    \item \textbf{Privacy}: I dati personali del volontario sono condivisi con l'Organizzazione solo dopo l'accettazione dell'offerta.
+\end{itemize}
+
+\subparagraph*{Vincoli Tecnici}
+
+\begin{itemize}
+    \item \textbf{Performance}: Il sistema deve mostrare la mappa e le richieste entro 3 secondi.
+\end{itemize}
+
+\paragraph{Note Aggiuntive}
+
+\begin{itemize}
+    \item \textbf{Frequenza}: Il caso d’uso viene eseguito ogni volta che un utente si offre per effettuare volontariato.
+    \item \textbf{Criticità}: Alta, in quanto è una delle attività di business principali del sistema software.
+    \item \textbf{Note implementative}: Cercare di automatizzare il più possibile le operazioni di matching tra richieste e offerte in modo da non lasciare spazio ad ambiguità.
+\end{itemize}

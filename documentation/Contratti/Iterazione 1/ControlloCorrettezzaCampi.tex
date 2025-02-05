@@ -1,0 +1,44 @@
+\title{ContrattoControlloCorrettezzaCampi}
+\author{Matteo Cervini}
+\date{Scadenza: 28 Dicembre 2024}
+
+\maketitle
+
+\noindent
+\begin{itemize}
+  \item \textbf{Assigned} Matteo Cervini
+  \item \textbf{Blocked by} SSDControlloCorrettezzaCampi(att1: tipo, att2; tipo)
+  \item \textbf{Disciplina} Requisiti
+  \item \textbf{Due} 27 Dicembre, 2024 2:00 AM (GMT+1) → 28 Dicembre, 2024 7:00 PM (GMT+1)
+  \item \textbf{Parent-task} ContrattoGestioneRichiesteVolontariato
+  \item \textbf{Priority} Bassa
+  \item \textbf{Projects} DoIT-1
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent
+\paragraph{Contratto \textbf{CO02.2}:} ControllaCampi
+
+\fbox{\begin{minipage}{\textwidth}
+  \subsubsection*{Operazione}
+  \noindent
+  \texttt{checkFields()}
+
+  \subsubsection*{Riferimenti}
+  \noindent
+  Casi d'uso: ControlloCorrettezzaCampi
+
+  \subsubsection*{Pre-Condizioni}
+  \begin{itemize}
+    \item Almeno un campo non è valido
+  \end{itemize}
+
+  \subsubsection*{Post-Condizioni}
+  \begin{itemize}
+    \item Postcondizione
+    \item Tutti i campi sono validi
+    \item Eventuali campi con stile \texttt{errore} sono stati ripristinati con lo stile \texttt{default}
+    \item Eventuali messaggi di errori sui campi sono stati rimossi
+  \end{itemize}
+\end{minipage}}

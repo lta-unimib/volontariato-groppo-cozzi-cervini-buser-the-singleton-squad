@@ -1,0 +1,121 @@
+\title{GestioneRichiesteVolontariato}
+\author{Matteo Cervini}
+\date{Due: 27 Dicembre 2024}
+
+\maketitle
+
+\paragraph*{Nota Introduttiva}
+\begin{itemize}
+    \item \textbf{Disciplina:} Requisiti
+    \item \textbf{Due:} 26 Dicembre, 2024 1:00 AM (GMT+1) → 27 Dicembre, 2024 7:00 PM (GMT+1)
+    \item \textbf{Is blocking:} SSDGestioneRichiesteVolontariato, SSDControlloCorrettezzaCampi
+    \item \textbf{Parent-task:} Casi d'Uso testuali
+    \item \textbf{Priority:} Alta
+    \item \textbf{Projects:} DoIT-1
+    \end{itemize}
+
+Il caso d'uso \textbf{"GestioneRichiesteVolontariato" (UC-003)} descrive l'interazione che c'è tra l'Organizzazione e il Sistema quando questa vuole inserire un'inserzione di una richiesta di volontariato.
+
+L'Incaricato inizia il processo entrando nella schermata di autenticazione a meno che questa non sia già stata fatta. 
+
+L'incaricato una volta effettuato l'autenticazione deve poter inserire nel Sistema la proposta di volontariato e deve comunicare la data, l'orario, il luogo, la categoria, il tipo d'aiuto e infine una descrizione dettagliata di cosa sia richiesto al Volontario.
+
+Una volta inseriti tutti i campi l'Incaricato può procedere all'invio della richiesta. Il Caso d'Uso ``ControlloCorrettezzaCampi'' comunica come viene gestito il flusso alternativo nel caso in cui uno o più campi non siano validi una volta che è stata confermato l'invio della richiesta verso il Sistema.
+
+La richiesta una volta inviata non viene istantaneamente pubblicata sul Sistema, viene momentaneamente bloccata la sua pubblicazione e viene inviata tramite ticket al Comitato di Validazione e Controllo che si deve occupare di accettare o no la richiesta di Volontariato.
+
+Quando la richiesta è stata accettata allora verrà confermata la pubblicazione pubblica sul Sistema.
+
+\paragraph{Informazioni Generali}
+
+\textbf{ID Caso d'Uso:} UC-003
+\textbf{Nome:} GestioneRichiesteVolontario
+\textbf{Attore Principale:} Organizzazione
+
+\subparagraph{Pre-condizioni}
+\begin{enumerate}
+    \item L'Organizzazione che intende effettuare l'inserzione possiede i prerequisiti per poter pubblicare un'inserzione
+    \item L'Organizzazione è registrata nel Sistema
+\end{enumerate}
+
+\subparagraph{Post-condizioni}
+\begin{enumerate}
+    \item L'inserzione ha tutti i campi correttamente riempiti
+    \item L'inserzione viene memorizzata nel Sistema
+    \item L'inserzione viene inoltrata al comitato di supervisione
+    \item L'inserzione è accettata e viene pubblicata pubblicamente nel Sistema
+\end{enumerate}
+
+\paragraph{Scenario Principale}
+
+\subparagraph{Obiettivo}
+Un'Organizzazione deve poter pubblicare un'inserzione.
+
+\subparagraph{Flusso Base}
+\begin{enumerate}
+    \item L'Organizzazione effettua l'autenticazione
+    \item L'Organizzazione va nell'apposita schermata di inserimento richieste
+    \item Il Sistema mostra l'apposita schermata d'inserimento richieste
+    \item In tale pagina l'organizzazione riempie tutti gli opportuni campi del form:
+    \begin{enumerate}
+        \item Data
+        \item Orario
+        \item Luogo
+        \item Categoria
+        \item Tipologia di attività
+        \item Descrizione dettagliata di cosa è richiesto ai volontari
+        \item Capacità massima dei Volontari che si possono candidare
+    \end{enumerate}
+    \item L'Organizzazione conferma l'inserimento della richiesta
+    \item Il Sistema memorizza correttamente la richiesta
+    \item Il Sistema inoltra un ticket al Comitato di Controllo e Validazione per validare la richiesta appena memorizzata
+\end{enumerate}
+
+\textit{L'incaricato ripete i punti 2-6 fino a che non indica di aver terminato}
+
+In un secondo momento, non appena il Comitato di Controllo e Validazione ha confermato la richiesta:
+\begin{enumerate}
+    \item Questa viene ufficialmente salvata nel Sistema
+    \item Viene mostrata nell'apposita schermata tramite annuncio o tramite mappa
+    \item Un qualsiasi volontario che rispetta i pre-requisiti può inoltrare un'offerta di aiuto
+\end{enumerate}
+
+\paragraph{Scenari Alternativi}
+
+\subparagraph{Scenario: Connessione non disponibile}
+\begin{enumerate}
+    \item Al punto 1 chi ha necessità di inserire un'inserzione deve effettuare l'accesso:
+    \begin{enumerate}
+        \item L'Organizzazione è già esistente: Ci si riporta al Caso d'Uso: ``RegistraVolontario''
+        \item L'Organizzazione non è già esistente:
+        \begin{enumerate}
+            \item Il Sistema non permette l'inserimento di inserzione senza autenticazione
+            \item Un opportuno bottone per uscire dalla pagina di autenticazione è reso disponibile
+            \item L'incaricato preme il bottone
+            \item Il Caso d'Uso termina
+        \end{enumerate}
+    \end{enumerate}
+    \item Al punto 5 è presente qualche inesattezza nei form: si rimanda al Caso d'Uso: ``ControlloCorrettezzaCampi''
+    \item Al punto 8 in caso di rifiuto la gestione è rimandata all'opportuno Caso d'Uso non ancora modellato
+\end{enumerate}
+
+\paragraph{Eccezioni e Gestione Errori}
+
+\subparagraph{Errore: Form incompleto}
+\textbf{Condizione:} il form riporta irregolarità
+\textbf{Azione:} si attiva il Caso d'Uso: ``ControlloCorrettezzaCampi''
+\textbf{Risultato:} il Sistema si aspetta che l'utilizzatore sistemi le relative irregolarità, il Sistema quindi non procederà col Caso d'Uso finché queste non saranno sistemate
+
+\paragraph{Requisiti Speciali}
+
+\subparagraph{Requisiti Non Funzionali}
+\begin{itemize}
+    \item \textbf{Usabilità:} L'interfaccia deve essere intuitiva e accessibile
+    \item \textbf{Privacy:} I dati personali del volontario sono condivisi con l'Organizzazione solo dopo l'accettazione dell'offerta
+\end{itemize}
+
+\paragraph{Note Aggiuntive}
+\begin{itemize}
+    \item \textbf{Frequenza:} in base alle necessità, potenzialmente ininterrotto
+    \item \textbf{Criticità:} mancanza di connessione
+\end{itemize}

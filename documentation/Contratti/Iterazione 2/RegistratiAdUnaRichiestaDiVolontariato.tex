@@ -1,0 +1,41 @@
+\title{ContrattoRegistratiAdUnaRichiestaDiVolontariato}
+\author{Gabriel Groppo}
+\date{Scadenza: 13 Gennaio, 2025}
+
+\maketitle
+
+\begin{description}
+    \item[Assigned:] Gabriele Groppo
+    \item[Disciplina:] Requisiti
+    \item[Due:] 13 Gennaio, 2025 1:00 AM (GMT+1) → 13 Gennaio, 2025 11:00 PM (GMT+1)
+    \item[Parent-task:] Contratti
+    \item[Priority:] Bassa
+    \item[Projects:] DoIT-2
+\end{description}
+
+\subsection*{Contratto \textbf{CO03}: applyForVolunteerRequest}
+
+\fbox{\begin{minipage}{\textwidth}
+    \textbf{Operazione:} applyForVolunteerRequest(requestId: String, application JSON)
+
+    \textbf{Riferimenti:} casi d'uso: GestioneOfferteVolontariato
+
+    \subsubsection*{Pre-Condizioni:}
+    \begin{itemize}
+        \item La richiesta di volontariato identificata da \texttt{requestId} deve esistere ed essere attiva nel sistema.
+        \item I dati dell'applicazione (\texttt{application}) devono essere completi e conformi ai vincoli definiti.
+        \item Il volontario identificato in \texttt{application.volunteerId} deve essere registrato e attivo nel sistema.
+        \item E' in corso l'inserimento di una \textbf{Candidatura \textit{c}}
+    \end{itemize}
+
+    \subsubsection*{Post-Condizioni:}
+    \begin{itemize}
+        \item E' stata creata un istanza \textit{c} di \textbf{Candidatura}
+        \item Gli attributi di \textit{c} sono stati inizializzati
+        \item L'attributo di \textit{c}: candidaturaID è stato collegato ad: \texttt{applicationId}
+        \item L'istanza \textit{c} è memorizzata nel SuD
+        \item E' stata creata un istanza \textit{n} di \textbf{Notifica}
+        \item L'istanza \textit{n} è stata inviata correttamente all'\textbf{Organizazione \textit{o}}
+        \item L'istanza \textit{v} di \textbf{Volontario} ha ricevuto una callback di notifica della sua offerta
+    \end{itemize}
+\end{minipage}}
