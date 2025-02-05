@@ -54,7 +54,7 @@ export function ReviewCard({ type, idRequest }: ReviewCardProps) {
                         <div className="flex items-center justify-between">
                             <div
                                 className="text-3xl font-bold"
-                                aria-label={`Valutazione media: ${reviewData?.averageRating.toFixed(1)} su 5`}
+                                aria-label={`Valutazione media`}
                             >
                                 {reviewData?.averageRating.toFixed(1)}
                             </div>
