@@ -129,7 +129,7 @@ public class VolunteerRequestDatabaseService {
         List<VolunteerRequest> temp = this.getAllRequestOrganizationByEmail(orgEmail);
         Map< VolunteerRequest, List<Volunteer>> requestListAllEvents = new HashMap<>();
         for (VolunteerRequest volunteerRequest : temp) {
-            if(volunteerRequest.getEndDateTime().isAfter(LocalDateTime.now()))
+            if(volunteerRequest.getEndDateTime().isBefore(LocalDateTime.now()))
                 requestListAllEvents.put(volunteerRequest, getAllVolunteerByRequest(volunteerRequest.getId()));
         }
         return requestListAllEvents;
